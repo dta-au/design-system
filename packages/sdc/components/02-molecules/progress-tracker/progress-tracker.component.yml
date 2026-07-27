@@ -1,0 +1,25 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
+name: Progress tracker
+status: experimental
+description: 'Horizontal step progress tracker - a row of step markers joined by a connector line, each complete, active, or to do. Uses the progress-tracker / progress-step class language so it also styles the Drupal Webform progress-tracker output. Compact, horizontal counterpart to the vertical progress-nav.'
+props:
+  type: object
+  properties:
+    theme:
+      type: string
+      title: Theme
+      description: Theme variation (light or dark).
+      enum:
+        - light
+        - dark
+      default: light
+    steps:
+      type: array
+      title: Steps
+      description: 'Ordered steps. Each step is an object with: title (label under the marker, optional), status (complete, active, or todo), and href (optional link).'
+      items:
+        type: object
+    modifier_class:
+      type: string
+      title: Modifier class
+      description: Additional CSS classes.

@@ -1,0 +1,41 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
+name: Search Bar
+status: stable
+description: Inline search form with a text input and primary submit button.
+props:
+  type: object
+  properties:
+    theme:
+      type: string
+      enum:
+        - light
+        - dark
+    label:
+      type: string
+      title: Input label (visually hidden)
+    placeholder:
+      type: string
+      title: Input placeholder
+    button_text:
+      type: string
+      title: Submit button label
+    action:
+      type: string
+      title: Form action URL
+    method:
+      type: string
+      enum:
+        - get
+        - post
+    input_name:
+      type: string
+      title: Input name attribute
+    input_value:
+      type: string
+      title: Pre-filled input value
+    input_id:
+      type: string
+      title: Input id
+      description: Id for the input and its label. Defaults to ct-search-bar__input; override when more than one search bar renders on a page.
+    modifier_class:
+      type: string

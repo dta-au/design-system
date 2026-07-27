@@ -1,0 +1,398 @@
+{#
+/**
+ * @file
+ * digital.gov.au Search assistant component.
+ *
+ * Props:
+ * - theme: [string] Theme variation (light or dark).
+ * - vertical_spacing: [string] Vertical spacing (top, bottom, both, none).
+ * - component_id: [string] Stable identifier used to build citation anchor ids. Must be unique per instance on a page.
+ * - entries: [array] The fixture. Each entry scripts one query: its ranked results, a short teaser answer, an optional longer continuation, citations, and an owner that drives the confidence gating:
+ *   Each item contains:
+ *   - query: [string] Exact phrase a tester will type. Matched after lowercasing, trimming and collapsing whitespace.
+ *   - owner: [string] Who owns the answer. full = this corpus answers it; partial = answers part, disclose the boundary via scope; external = refer out, never answer; none = suppress the answer, show results only.
+ *   - confidence: [number] Below the component confidence_threshold the answer is suppressed; results still show.
+ *   - continuation_worthy: [boolean] When false the teaser shows with no expand control, even if a continuation exists.
+ *   - teaser: [array] Short grounded lines revealed first. Empty for external entries, which do not answer.
+ *     Each item contains:
+ *     - items [string]
+ *   - continuation: [string] Longer answer streamed when the disclosure is expanded.
+ *   - citations: [array] Zero-based indexes into results, linked as sources under the answer.
+ *     Each item contains:
+ *     - items [number]
+ *   - scope: [object] The boundary of the answer: what this corpus covers, and who owns the rest. Shown under a partial answer, and as the whole message for an external referral.
+ *   Each property contains:
+ *     - note: [string]
+ *     - refs: [array] :
+ *       Each item contains:
+ *       - label: [string]
+ *       - url: [string]
+ *   - explore: [array] Suggested follow-on prompts shown after the answer, written as properly punctuated questions. Each is a disclosure that expands in place and streams the matched scripted query's answer beneath it (matching ignores case and trailing punctuation); an item with a url renders as a link and navigates instead:
+ *     Each item contains:
+ *     - title: [string]
+ *     - url: [string]
+ *   - results: [array] :
+ *     Each item contains:
+ *     - title: [string]
+ *     - snippet: [string]
+ *     - url: [string]
+ *     - type: [string] Shown as the result tag (e.g. Policy, Standard, Design).
+ *     - audience: [string] Mandate line shown beside the tag (e.g. Mandatory for most government agencies).
+ * - fallback_results: [array] Shown for any query that does not match a scripted entry. Never make up an answer for an unmatched query:
+ *   Each item contains:
+ *   - title: [string]
+ *   - snippet: [string]
+ *   - url: [string]
+ *   - type: [string]
+ *   - audience: [string]
+ * - confidence_threshold: [number] Entries below this confidence have their answer suppressed. Defaults to 0.6.
+ * - hint: [string] Idle-state hint shown before anything is searched, e.g. suggested scripted queries.
+ * - search_label: [string]
+ * - placeholder: [string]
+ * - button_text: [string]
+ * - badge_label: [string]
+ * - referral_badge_label: [string]
+ * - generating_label: [string]
+ * - show_more_label: [string]
+ * - show_less_label: [string]
+ * - sources_label: [string]
+ * - explore_title: [string] Label for the Explore more disclosure button.
+ * - grounded_text: [string] Shown beside the badge. @count is replaced with the citation count.
+ * - suppressed_text: [string] Status shown when a low-confidence or out-of-scope answer is suppressed.
+ * - referral_text: [string] Status shown under an external referral.
+ * - fallback_text: [string] Status shown for an unmatched query.
+ * - results_summary_text: [string] Summary above the result list. @count and @query are replaced.
+ * - force_state: [string] Demo affordance. Jump straight to a state on load without typing a scripted query.
+ * - force_query: [string] Optional query to pair with a forced state.
+ * - modifier_class: [string] Additional CSS classes.
+ * - attributes: [Drupal\Core\Template\Attribute] Additional HTML attributes.
+ */
+#}
+
+{% set theme = theme in ['light', 'dark'] ? theme : 'light' %}
+{% set vertical_spacing = vertical_spacing in ['top', 'bottom', 'both', 'none'] ? vertical_spacing : null %}
+{% set force_state = force_state in ['idle', 'generating', 'teaser', 'streaming', 'expanded', 'referral', 'suppressed', 'fallback'] ? force_state : null %}
+{% set theme_class = 'ct-theme-%s'|format(theme) %}
+{% set vertical_spacing_class = vertical_spacing ? 'ct-vertical-spacing--%s'|format(vertical_spacing) : '' %}
+{% set modifier_class = '%s %s %s'|format(theme_class, vertical_spacing_class, modifier_class|default('')) %}
+
+{% set component_id = component_id|default('search-assistant') %}
+{% set confidence_threshold = confidence_threshold|default(0.6) %}
+{% set badge_label = badge_label|default('Assistant') %}
+{% set referral_badge_label = referral_badge_label|default('Not covered here') %}
+{% set generating_label = generating_label|default('Generating answer') %}
+{% set show_more_label = show_more_label|default('Show more') %}
+{% set show_less_label = show_less_label|default('Show less') %}
+{% set sources_label = sources_label|default('Sources') %}
+{% set grounded_text = grounded_text|default('Based on @count sources') %}
+{% set suppressed_text = suppressed_text|default('No confident answer for this search. Showing results only.') %}
+{% set referral_text = referral_text|default('There was no strong match for this, so no answer is shown.') %}
+{% set explore_title = explore_title|default('Explore more') %}
+{% set fallback_text = fallback_text|default('No confident answer for that search. Here are some places to start.') %}
+{% set results_summary_text = results_summary_text|default("Showing 1 – @count of @count results for '@query'") %}
+
+{% if entries is not empty %}
+  <div
+    class="dga-search-assistant {{ modifier_class -}}"
+    data-dga-search-assistant
+    data-confidence-threshold="{{ confidence_threshold }}"
+    {%- if force_state %} data-force-state="{{ force_state }}"{% endif %}
+    {%- if force_query %} data-force-query="{{ force_query }}"{% endif %}
+    {%- if attributes is defined and attributes is not null %} {{- attributes -}}{% endif %}
+  >
+    <div class="container">
+      <div class="row">
+        <div class="col-xxs-12">
+
+          {# input_id keeps the label association unique when a page also
+             renders a standalone search bar. #}
+          {% include '@molecules/search-bar/search-bar.twig' with {
+            theme: theme,
+            label: search_label|default('Search keywords'),
+            placeholder: placeholder|default("I'm looking for..."),
+            button_text: button_text|default('Search'),
+            input_id: component_id ~ '-input',
+          } only %}
+
+          {# The lookup and streaming need JavaScript; without it every state
+             stays hidden, so explain why. #}
+          <noscript>
+            {% include '@organisms/message/message.twig' with {
+              theme: theme,
+              type: 'information',
+              content: 'This search needs JavaScript to run in your browser. Please enable JavaScript and reload the page.',
+            } only %}
+          </noscript>
+
+          <div class="dga-search-assistant__body">
+            {% if hint %}
+              <p class="dga-search-assistant__hint" data-dga-search-assistant-hint>{{ hint }}</p>
+            {% endif %}
+
+            {% for entry in entries %}
+              {% set owner = entry.owner in ['full', 'partial', 'external', 'none'] ? entry.owner : 'full' %}
+              {% set entry_index = loop.index %}
+              {% set has_answer = owner in ['full', 'partial'] and entry.teaser is not empty %}
+              {% set has_continuation = entry.continuation_worthy|default(false) and entry.continuation is not empty %}
+              <div
+                class="dga-search-assistant__entry"
+                data-dga-search-assistant-entry
+                data-query="{{ entry.query }}"
+                data-owner="{{ owner }}"
+                data-confidence="{{ entry.confidence|default(0) }}"
+                {%- if has_continuation %} data-continuation-worthy="true"{% endif %}
+                hidden
+              >
+                {% if has_answer %}
+                  {% set region_id = '%s-e%d-continuation'|format(component_id, entry_index) %}
+                  <section class="dga-search-assistant__card" data-dga-search-assistant-card aria-label="Assistant answer">
+                    <div class="dga-search-assistant__card-header">
+                      <span class="dga-search-assistant__badge">{{ badge_label }}</span>
+                      <span class="dga-search-assistant__grounded">{{ grounded_text|replace({'@count': entry.citations|default([])|length}) }}</span>
+                    </div>
+
+                    <p class="dga-search-assistant__generating" aria-live="polite">
+                      <span class="dga-search-assistant__dots" aria-hidden="true"><span></span><span></span><span></span></span>
+                      {{ generating_label }}
+                    </p>
+
+                    {# Streamed text is announced once, in full, from this
+                       hidden region - the streamed elements below are not
+                       live, so partial chunks never re-announce. #}
+                    <p class="ct-visually-hidden" data-dga-search-assistant-announce aria-live="polite"></p>
+
+                    {# The full teaser is server-rendered; the JS captures the
+                       text, then streams it back in (instant under reduced
+                       motion). #}
+                    <p class="dga-search-assistant__teaser" data-dga-search-assistant-teaser>{{ entry.teaser|join(' ') }}</p>
+
+                    {% if has_continuation %}
+                      <button
+                        type="button"
+                        class="dga-search-assistant__toggle"
+                        data-dga-search-assistant-toggle
+                        data-show-more-label="{{ show_more_label }}"
+                        data-show-less-label="{{ show_less_label }}"
+                        aria-expanded="false"
+                        aria-controls="{{ region_id }}"
+                      >
+                        <span data-dga-search-assistant-toggle-label>{{ show_more_label }}</span>
+                        {# a11y #C: decorative chevron - aria-hidden so AT does not double-announce. #}
+                        <svg class="dga-search-assistant__chevron" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+                          <path fill="currentColor" d="M12 15.5a1 1 0 0 1-.7-.3l-5-5a1 1 0 0 1 1.4-1.4l4.3 4.29 4.3-4.3a1 1 0 0 1 1.4 1.42l-5 5a1 1 0 0 1-.7.29Z"/>
+                        </svg>
+                      </button>
+                      <div
+                        id="{{ region_id }}"
+                        class="dga-search-assistant__continuation"
+                        data-dga-search-assistant-continuation
+                        hidden
+                      >
+                        <p data-dga-search-assistant-continuation-text>{{ entry.continuation }}</p>
+                      </div>
+                    {% endif %}
+
+                    {% if entry.citations is not empty %}
+                      <div class="dga-search-assistant__citations">
+                        <span class="dga-search-assistant__citations-label">{{ sources_label }}</span>
+                        <ul class="dga-search-assistant__citations-list">
+                          {% for ci in entry.citations %}
+                            {% set cited = entry.results[ci] %}
+                            {% if cited %}
+                              <li>
+                                <a class="dga-search-assistant__citation" href="#{{ '%s-e%d-result-%d'|format(component_id, entry_index, ci + 1) }}">
+                                  <span class="dga-search-assistant__citation-num" aria-hidden="true">{{ ci + 1 }}</span>
+                                  {{ cited.title }}
+                                </a>
+                              </li>
+                            {% endif %}
+                          {% endfor %}
+                        </ul>
+                      </div>
+                    {% endif %}
+
+                    {% if entry.scope %}
+                      <aside class="dga-search-assistant__scope" aria-label="What this covers">
+                        <p class="dga-search-assistant__scope-note">{{ entry.scope.note }}</p>
+                        {% if entry.scope.refs is not empty %}
+                          <ul class="dga-search-assistant__scope-refs">
+                            {% for ref in entry.scope.refs %}
+                              <li>
+                                <a class="dga-search-assistant__scope-ref" href="{{ ref.url }}" rel="external">{{ ref.label }}</a>
+                              </li>
+                            {% endfor %}
+                          </ul>
+                        {% endif %}
+                      </aside>
+                    {% endif %}
+                    {% if entry.explore is not empty %}
+                      {# Explore more: suggested follow-on prompts inside the
+                         card, under a Sources-style label. Each prompt is a
+                         disclosure that expands in place, like the Show more
+                         control, and the JS streams the matched query's answer
+                         into its panel - so prompts must be scripted queries.
+                         Rows mirror the feature-link-list "Suggested prompts"
+                         look, but are buttons with panels rather than links,
+                         which that component does not render. An item with a
+                         url stays a plain link and navigates. #}
+                      <div class="dga-search-assistant__explore" data-dga-search-assistant-explore>
+                        <span class="dga-search-assistant__explore-label">{{ explore_title }}</span>
+                        <ul class="dga-search-assistant__explore-list">
+                          {% for prompt in entry.explore %}
+                            {% set prompt_panel_id = '%s-e%d-prompt-%d'|format(component_id, entry_index, loop.index) %}
+                            <li class="dga-search-assistant__prompt">
+                              {% if prompt.url %}
+                                <a class="dga-search-assistant__prompt-link" href="{{ prompt.url }}">
+                                  <span class="dga-search-assistant__prompt-icon" aria-hidden="true">
+                                    {% include '@base/icon/icon.twig' with { symbol: 'prompt-suggestion', size: 'small' } only %}
+                                  </span>
+                                  <span class="dga-search-assistant__prompt-text">{{ prompt.title }}</span>
+                                </a>
+                              {% else %}
+                                <button
+                                  type="button"
+                                  class="dga-search-assistant__prompt-toggle"
+                                  data-dga-search-assistant-prompt
+                                  data-prompt-query="{{ prompt.title }}"
+                                  aria-expanded="false"
+                                  aria-controls="{{ prompt_panel_id }}"
+                                >
+                                  <span class="dga-search-assistant__prompt-icon" aria-hidden="true">
+                                    {% include '@base/icon/icon.twig' with { symbol: 'prompt-suggestion', size: 'small' } only %}
+                                  </span>
+                                  <span class="dga-search-assistant__prompt-text">{{ prompt.title }}</span>
+                                  {# a11y #C: decorative chevron - aria-hidden so AT does not double-announce. #}
+                                  <svg class="dga-search-assistant__chevron" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path fill="currentColor" d="M12 15.5a1 1 0 0 1-.7-.3l-5-5a1 1 0 0 1 1.4-1.4l4.3 4.29 4.3-4.3a1 1 0 0 1 1.4 1.42l-5 5a1 1 0 0 1-.7.29Z"/>
+                                  </svg>
+                                </button>
+                                <div
+                                  id="{{ prompt_panel_id }}"
+                                  class="dga-search-assistant__prompt-panel"
+                                  data-dga-search-assistant-prompt-panel
+                                  hidden
+                                ></div>
+                              {% endif %}
+                            </li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                    {% endif %}
+                  </section>
+                {% endif %}
+
+                {% if owner == 'external' and entry.scope %}
+                  {# Referral: this corpus does not own the answer. The scope
+                     disclosure is the whole message, under a muted badge so it
+                     does not read as a confident answer. #}
+                  <section class="dga-search-assistant__referral" aria-label="Where to find this">
+                    <div class="dga-search-assistant__card-header">
+                      <span class="dga-search-assistant__badge dga-search-assistant__badge--referral">{{ referral_badge_label }}</span>
+                    </div>
+                    <aside class="dga-search-assistant__scope" aria-label="What this covers">
+                      <p class="dga-search-assistant__scope-note">{{ entry.scope.note }}</p>
+                      {% if entry.scope.refs is not empty %}
+                        <ul class="dga-search-assistant__scope-refs">
+                          {% for ref in entry.scope.refs %}
+                            <li>
+                              <a class="dga-search-assistant__scope-ref" href="{{ ref.url }}" rel="external">{{ ref.label }}</a>
+                            </li>
+                          {% endfor %}
+                        </ul>
+                      {% endif %}
+                    </aside>
+                    <p class="dga-search-assistant__referral-note" role="status">{{ referral_text }}</p>
+                  </section>
+                {% endif %}
+
+                {% if owner != 'external' %}
+                  <p class="dga-search-assistant__no-answer" data-dga-search-assistant-suppressed role="status" hidden>{{ suppressed_text }}</p>
+                {% endif %}
+
+                {% if entry.results is not empty %}
+                  <div class="dga-search-assistant__results">
+                    <p class="dga-search-assistant__results-summary">{{ results_summary_text|replace({'@count': entry.results|length, '@query': entry.query}) }}</p>
+                    <ul class="dga-search-assistant__results-list">
+                      {% for result in entry.results %}
+                        <li class="dga-search-assistant__result" id="{{ '%s-e%d-result-%d'|format(component_id, entry_index, loop.index) }}">
+                          {% if result.type or result.audience %}
+                            {% set result_meta %}
+                              <div class="dga-search-assistant__result-meta">
+                                {% if result.type %}
+                                  {% include '@atoms/tag/tag.twig' with {
+                                    theme: theme,
+                                    type: 'secondary',
+                                    content: result.type,
+                                  } only %}
+                                {% endif %}
+                                {% if result.audience %}
+                                  <span class="dga-search-assistant__result-audience">{{ result.audience }}</span>
+                                {% endif %}
+                              </div>
+                            {% endset %}
+                          {% else %}
+                            {% set result_meta = null %}
+                          {% endif %}
+                          {% include '@molecules/snippet/snippet.twig' with {
+                            theme: theme,
+                            title: result.title,
+                            link: { text: result.title, url: result.url },
+                            summary: result.snippet,
+                            content_middle: result_meta,
+                          } only %}
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                {% endif %}
+              </div>
+            {% endfor %}
+
+            {% if fallback_results is not empty %}
+              <div class="dga-search-assistant__entry" data-dga-search-assistant-fallback hidden>
+                <p class="dga-search-assistant__no-answer" role="status">{{ fallback_text }}</p>
+                <div class="dga-search-assistant__results">
+                  {# @query stays a placeholder here; the JS fills it with the
+                     unmatched query at search time. #}
+                  <p class="dga-search-assistant__results-summary" data-dga-search-assistant-fallback-summary>{{ results_summary_text|replace({'@count': fallback_results|length}) }}</p>
+                  <ul class="dga-search-assistant__results-list">
+                    {% for result in fallback_results %}
+                      <li class="dga-search-assistant__result">
+                        {% if result.type or result.audience %}
+                          {% set result_meta %}
+                            <div class="dga-search-assistant__result-meta">
+                              {% if result.type %}
+                                {% include '@atoms/tag/tag.twig' with {
+                                  theme: theme,
+                                  type: 'secondary',
+                                  content: result.type,
+                                } only %}
+                              {% endif %}
+                              {% if result.audience %}
+                                <span class="dga-search-assistant__result-audience">{{ result.audience }}</span>
+                              {% endif %}
+                            </div>
+                          {% endset %}
+                        {% else %}
+                          {% set result_meta = null %}
+                        {% endif %}
+                        {% include '@molecules/snippet/snippet.twig' with {
+                          theme: theme,
+                          title: result.title,
+                          link: { text: result.title, url: result.url },
+                          summary: result.snippet,
+                          content_middle: result_meta,
+                        } only %}
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>
+            {% endif %}
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}

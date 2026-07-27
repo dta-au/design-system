@@ -1,0 +1,89 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as Stories from './search-assistant.stories';
+
+<Meta of={Stories} />
+
+# Search assistant
+
+Search that returns a short, grounded assistant answer above the ranked results, with progressive disclosure and confidence gating.
+
+> **Note:** Search assistant is currently a proof of concept; the corresponding technical solution design is under development. The demos on this page run on scripted content, so only the suggested queries return answers.
+
+<Canvas of={Stories.Interactive} />
+
+The design question is not "can we generate an answer" but "when should we, and how should the answer admit its limits". Each state below exists because a familiar failure of search assistants – the confident wrong answer, the unverifiable claim, the answer from the wrong authority – has a UI pattern that prevents it.
+
+## When to use
+
+- search over a defined corpus, where a direct answer saves the user reading several results
+- where answers can be grounded in citable sources that appear on the page
+- where parts of the answer space belong to other authorities, so boundary and referral handling matter
+
+## When not to use
+
+- a plain result list already serves the task – the answer card earns its place only when synthesis adds something
+- answers cannot be grounded in citable sources – without citations the card is just unverifiable text
+- the user needs the source document itself (legal text, a form, a full policy) – summarising it adds risk, not value
+
+## The owner model
+
+The structural finding behind the component: a single corpus rarely owns the whole answer to a real question. It may state the policy position while the process mechanics, the how-to, or the security rules live with another authority. So every answer carries an `owner`, and the owner decides which state renders:
+
+- **full** – this corpus answers it. Show a grounded answer.
+- **partial** – it answers part. Show the answer *and* disclose the boundary, pointing at who owns the rest.
+- **external** – it does not own the answer. Never fabricate one; refer to the authoritative source.
+- **none** – nothing here answers it. Suppress the answer and show results only.
+
+## Scoped answers – the scope disclosure
+
+<Canvas of={Stories.ScopeBoundary} />
+
+The scope disclosure is displayed under a partial answer, informing the user of the boundary of the answer: one sentence on what this corpus covers and what it does not, then links to the authoritative sources that own the rest. It renders as a bespoke aside for now, but it is really an instance of the **Message** pattern (information type) – the same severity-typed notice the Decision tool composes for its outcomes – and should compose the Message component when it is promoted beyond proof of concept.
+
+It fires on *confident* answers, not just uncertain ones. That is deliberate: the well-cited but partial answer is the real risk. An answer drawn accurately from the hosting policy still misleads if it lets the reader assume the certification and security rules live in the same place. The disclosure keeps a true answer from implying more authority than it has.
+
+## Referral – when the answer lives elsewhere
+
+<Canvas of={Stories.Referral} />
+
+When the corpus does not own the answer at all, the assistant refuses to synthesise one – even when retrieval returns a plausible-looking match, which it will: the top result for an out-of-scope question is often fluent and wrong. Instead the card becomes the scope disclosure alone, under a deliberately muted badge – not the brand colour – so it cannot be mistaken for a confident answer.
+
+## Suppression and fallback – honesty over fluency
+
+<Canvas of={Stories.SuppressedAndFallback} />
+
+Two states where no answer shows at all. **Suppressed**: the query is out of scope or below the `confidence_threshold`, so a status line says results are shown without an answer. **Fallback**: nothing matched, so a status line offers starting points. Both exist for the same reason – an assistant that answers everything trains users to trust it nowhere. Declining visibly is what makes the answers that do appear credible.
+
+## Teaser and continuation – progressive disclosure
+
+The answer arrives in two layers. The **teaser** is a few short grounded lines – enough to resolve most queries. The **continuation** is the longer answer, streamed only when the user asks for it via a real button with `aria-expanded` ("Show more"). Answers flag `continuation_worthy`; an answer with nothing more to add shows the teaser with no expand control, rather than padding itself to fill the pattern.
+
+The streamed reveal and the brief **generating** state make it legible that a machine is composing an answer rather than fetching a stored page. Under `prefers-reduced-motion` all text appears instantly.
+
+## Citations – grounding on display
+
+Every answer declares its evidence: a "Based on N sources" line in the header, and a numbered source list that anchors to the ranked results below the card. Citations point only at results actually on the page, so a reader can check any claim without leaving the search. An answer that cannot cite from its own results should not render – that is what the gating enforces.
+
+## Explore more – suggested follow-on prompts
+
+An answer should open the corpus up, not close the conversation. The **Explore more** block sits inside the answer card below Sources, with the same divider treatment, and offers follow-on prompts written as properly punctuated questions. Each prompt is a disclosure: activating it expands in place, like the Show more control, and streams that query's answer beneath the prompt without leaving the current answer. Prompts are authored per answer and only ever point at queries the assistant can actually resolve – never suggest a question that would land on the fallback. The rows mirror the Feature link list's Suggested prompts variant, with prompt text styled like query text in the input field – regular weight, body colour – because a prompt is a suggested new search, not a link to a page.
+
+## Accessibility
+
+- the disclosure is a real `<button>` with `aria-expanded` and `aria-controls` over the continuation region
+- streamed text is announced once, in full, from a visually-hidden `aria-live="polite"` region per card; the visibly streaming elements are not live regions, so partial chunks never re-announce
+- suppression, referral and fallback notices use `role="status"`
+- the chevron is decorative (`aria-hidden`); the toggle's text label carries the state
+- `prefers-reduced-motion` disables the dots, the chevron transition and the streamed reveal
+
+## Do
+
+- ground every teaser line in a source the results actually contain
+- set `owner` honestly – the disclosure only builds trust if it appears when it should
+- keep teasers short enough that the fold is a choice, not a chore
+
+## Don't
+
+- publish an answer the corpus cannot cite – use referral or suppression
+- soften a scope note into marketing ("we cover most of this") – name the boundary and who owns the rest
+- reuse the assistant badge styling for referral – the muted badge is the signal that no answer is being made

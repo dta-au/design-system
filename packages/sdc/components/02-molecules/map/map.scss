@@ -1,0 +1,45 @@
+//
+// CivicTheme Map component styles.
+//
+
+.ct-map {
+  $root: &;
+
+  &#{$root}--with-background {
+    padding-left: var(--ct-map-space-horizontal);
+    padding-right: var(--ct-map-space-horizontal);
+  }
+
+  // Nested in a parent column: band padding collapses to a panel inset.
+  &#{$root}--with-background#{$root}--not-contained {
+    padding: ct-spacing(3);
+  }
+
+  #{$root}__canvas {
+    position: relative;
+    height: 0;
+    overflow: hidden;
+    padding: 0 0 var(--ct-map-padding-bottom) 0;
+  }
+
+  #{$root}__iframe {
+    position: absolute;
+  }
+
+  #{$root}__link {
+    display: inline-block;
+    margin-top: ct-spacing(2);
+    margin-bottom: ct-spacing(2);
+  }
+
+  @include ct-component-theme($root) using($root, $theme) {
+    // Nested in a column: the panel takes the surface colour, not the section
+    // band colour, so it reads as a card rather than a squeezed band.
+    &#{$root}--with-background#{$root}--not-contained {
+      @include ct-component-property($root, $theme, surface, background-color);
+    }
+    &#{$root}--with-background {
+      @include ct-component-property($root, $theme, wrapper, background-color);
+    }
+  }
+}

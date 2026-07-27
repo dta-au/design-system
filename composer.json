@@ -1,0 +1,27 @@
+{
+    "name": "civictheme/uikit",
+    "description": "CivicTheme UI Kit with Storybook integration",
+    "type": "library",
+    "license": "GPL-2.0-or-later",
+    "homepage": "https://github.com/civictheme/uikit",
+    "support": {
+        "issues": "https://github.com/civictheme/uikit/issues",
+        "source": "https://github.com/civictheme/uikit"
+    },
+    "require": {
+        "php": ">=8.2"
+    },
+    "require-dev": {
+        "twig/twig": "^3.16.0",
+        "vincentlanglet/twig-cs-fixer": "^3.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "symfony/runtime": true
+        }
+    },
+    "scripts": {
+        "lint": "vendor/bin/twig-cs-fixer --no-cache",
+        "lint-fix": "vendor/bin/twig-cs-fixer --no-cache --fix"
+    }
+}

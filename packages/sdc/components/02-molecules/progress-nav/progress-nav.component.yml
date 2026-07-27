@@ -1,0 +1,47 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
+name: Progress nav
+status: experimental
+description: 'Vertical task-list progress navigation for multi-step flows. Each step shows a status marker (todo, in-progress, completed, saved, error, cannot-start-yet) following the GOV.UK task-list accessibility pattern. Ghost-to-solid visual language, 1px stroke.'
+props:
+  type: object
+  properties:
+    theme:
+      type: string
+      title: Theme
+      description: Theme variation (light or dark).
+      enum:
+        - light
+        - dark
+      default: light
+    heading:
+      type: string
+      title: Heading
+      description: Visible label above the step list.
+      default: Progress
+    id_prefix:
+      type: string
+      title: ID prefix
+      description: Prefix for generating unique status element ids. Must be unique per page when used more than once.
+      default: progress-nav
+    current_step:
+      type: integer
+      title: Current step
+      description: The 1-based index of the current step. Used with total_steps to render a structured counter.
+    total_steps:
+      type: integer
+      title: Total steps
+      description: Total number of steps. Used with current_step.
+    progress_summary:
+      type: string
+      title: Progress summary
+      description: 'Freeform summary override, e.g. "2 of 7 steps completed". Rendered instead of the structured counter when provided. Set to false to hide the summary entirely.'
+    steps:
+      type: array
+      title: Steps
+      description: 'Ordered list of steps. Each step is an object with: title (required); url (optional, omit for non-navigable steps); status (completed, saved, in-progress, error, todo, or cannot-start-yet); is_active (boolean); progress_text (optional meta string); hint (optional text below the title); sub_step (optional level-2 sub-step object { title, url, status, progress_text }, shown only when the parent is active).'
+      items:
+        type: object
+    modifier_class:
+      type: string
+      title: Modifier class
+      description: Additional CSS classes.

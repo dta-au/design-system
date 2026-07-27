@@ -1,0 +1,100 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
+name: Tabs
+status: stable
+description: Component for tabbed content
+props:
+  type: object
+  properties:
+    theme:
+      type: string
+      title: Theme
+      description: Theme variation (light or dark).
+      enum:
+        - light
+        - dark
+    variant:
+      type: string
+      title: Variant
+      description: Tab bar style. "underline" renders plain text labels on a shared baseline rule, with the active tab bold and marked by a short accent underline in the primary colour. The default renders bordered tab buttons with rounded top corners.
+      enum:
+        - default
+        - underline
+    vertical_spacing:
+      type: string
+      title: Vertical Spacing
+      description: Vertical spacing for the tabs (none, top, bottom, both).
+      enum:
+        - none
+        - top
+        - bottom
+        - both
+    modifier_class:
+      type: string
+      title: Modifier Class
+      description: Additional CSS classes.
+    collapse_mobile:
+      type: boolean
+      title: Collapse on mobile
+      description: Links-only - collapse the tab bar into a Details disclosure below the m breakpoint.
+    collapse_label:
+      type: string
+      title: Collapse Label
+      description: Fallback summary label for the mobile disclosure when no link is active (default 'Filters').
+    aria_current:
+      type: string
+      title: Aria Current
+      description: Value of aria-current on the active link. Defaults to 'page' in links-only mode (each tab is a separate URL) and 'true' when panels are supplied.
+    panels:
+      type: array
+      title: Panels
+      description: Tab panels.
+      items:
+        type: object
+        properties:
+          title:
+            type: string
+            title: Title
+            description: Panel title.
+          content:
+            type: string
+            title: Content
+            description: Panel content.
+          id:
+            type: string
+            title: ID
+            description: Panel ID.
+          is_selected:
+            type: boolean
+            title: Selected
+            description: Whether the panel is selected.
+    links:
+      type: array
+      title: Links
+      description: Optional links (if not provided - will be generated from panels).
+      items:
+        type: object
+        properties:
+          text:
+            type: string
+            title: Text
+            description: Link text.
+          url:
+            type: string
+            title: URL
+            description: Link URL.
+          is_active:
+            type: boolean
+            title: Active
+            description: Links-only - marks the current tab (adds the selected class, aria-current, and the disclosure summary label).
+          count:
+            type: [string, number]
+            title: Count
+            description: Optional result count rendered in brackets after the label (e.g. facet counts). Omit to render the label alone.
+          modifier_class:
+            type: string
+            title: Modifier Class
+            description: Additional CSS classes.
+          attributes:
+            type: object
+            title: Attributes
+            description: Additional HTML attributes.

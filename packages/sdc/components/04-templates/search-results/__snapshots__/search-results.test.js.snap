@@ -1,0 +1,3916 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Search Results Template applies modifier_class 1`] = `
+<div>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+
+
+
+  <div
+    class="ct-page ct-theme-light custom-class"
+  >
+    
+  
+    <a
+      aria-hidden="true"
+      id="top"
+      tab-index="-1"
+    />
+    
+
+      
+
+
+  
+  
+    <main
+      id="main-content"
+      tabindex="-1"
+    >
+      
+              
+    
+          
+
+
+
+
+
+
+  
+      <div
+        class="ct-layout ct-layout--no-top-left ct-layout--no-top-right ct-layout--no-bottom-left ct-layout--no-bottom-right ct-vertical-spacing--both"
+      >
+        
+              
+    
+        <div
+          class="ct-layout__inner container-fluid"
+        >
+          
+                        
+          <section
+            class="ct-layout__main"
+          >
+                
+            <div
+              class="ct-search-results ct-search-results--left-content ct-theme-light"
+            >
+              
+                  
+    
+            </div>
+            
+  
+          </section>
+          
+              
+      
+      
+      
+          
+        </div>
+        
+
+                
+      </div>
+      
+      
+    </main>
+    
+
+      
+
+  
+      
+    <div
+      class="ct-back-to-top "
+      data-component-name="back-to-top"
+      data-scrollspy=""
+      data-scrollspy-offset="400"
+    >
+      
+  
+
+  
+      <a
+        _keys="data-skip-to-target"
+        class="ct-button ct-theme-light  ct-button--link ct-button--regular   ct-back-to-top__button"
+        data-component-name="button"
+        data-skip-to-target=""
+        href="#top"
+        role="button"
+      >
+        <span
+          class="ct-text-icon__text"
+        >
+          <span
+            class="ct-visually-hidden"
+          >
+            Return focus to the top of the page
+          </span>
+          <svg
+            aria-hidden="true"
+            class="ct-icon"
+            height="24"
+            role="img"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            
+
+            <path
+              d="M17.7102 11.29L12.7102 6.29C12.6151 6.19896 12.5029 6.1276 12.3802 6.08C12.1367 5.97999 11.8636 5.97999 11.6202 6.08C11.4974 6.1276 11.3853 6.19896 11.2902 6.29L6.29019 11.29C6.19695 11.3832 6.12299 11.4939 6.07253 11.6158C6.02207 11.7376 5.99609 11.8681 5.99609 12C5.99609 12.2663 6.10188 12.5217 6.29019 12.71C6.47849 12.8983 6.73388 13.0041 7.00019 13.0041C7.26649 13.0041 7.52188 12.8983 7.71019 12.71L11.0002 9.41V17C11.0002 17.2652 11.1055 17.5196 11.2931 17.7071C11.4806 17.8946 11.735 18 12.0002 18C12.2654 18 12.5198 17.8946 12.7073 17.7071C12.8948 17.5196 13.0002 17.2652 13.0002 17V9.41L16.2902 12.71C16.3831 12.8037 16.4937 12.8781 16.6156 12.9289C16.7375 12.9797 16.8682 13.0058 17.0002 13.0058C17.1322 13.0058 17.2629 12.9797 17.3848 12.9289C17.5066 12.8781 17.6172 12.8037 17.7102 12.71C17.8039 12.617 17.8783 12.5064 17.9291 12.3846C17.9798 12.2627 18.006 12.132 18.006 12C18.006 11.868 17.9798 11.7373 17.9291 11.6154C17.8783 11.4936 17.8039 11.383 17.7102 11.29Z"
+            />
+            
+
+          </svg>
+          
+
+        </span>
+      </a>
+      
+
+    </div>
+    
+  
+  </div>
+  
+
+
+
+
+
+
+
+
+</div>
+`;
+
+exports[`Search Results Template applies theme class 1`] = `
+<div>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+
+
+
+  <div
+    class="ct-page ct-theme-dark "
+  >
+    
+  
+    <a
+      aria-hidden="true"
+      id="top"
+      tab-index="-1"
+    />
+    
+
+      
+
+
+  
+  
+    <main
+      id="main-content"
+      tabindex="-1"
+    >
+      
+              
+    
+          
+
+
+
+
+
+
+  
+      <div
+        class="ct-layout ct-layout--no-top-left ct-layout--no-top-right ct-layout--no-bottom-left ct-layout--no-bottom-right ct-vertical-spacing--both"
+      >
+        
+              
+    
+        <div
+          class="ct-layout__inner container-fluid"
+        >
+          
+                        
+          <section
+            class="ct-layout__main"
+          >
+                
+            <div
+              class="ct-search-results ct-search-results--left-content ct-theme-dark"
+            >
+              
+                  
+    
+            </div>
+            
+  
+          </section>
+          
+              
+      
+      
+      
+          
+        </div>
+        
+
+                
+      </div>
+      
+      
+    </main>
+    
+
+      
+
+  
+      
+    <div
+      class="ct-back-to-top "
+      data-component-name="back-to-top"
+      data-scrollspy=""
+      data-scrollspy-offset="400"
+    >
+      
+  
+
+  
+      <a
+        _keys="data-skip-to-target"
+        class="ct-button ct-theme-light  ct-button--link ct-button--regular   ct-back-to-top__button"
+        data-component-name="button"
+        data-skip-to-target=""
+        href="#top"
+        role="button"
+      >
+        <span
+          class="ct-text-icon__text"
+        >
+          <span
+            class="ct-visually-hidden"
+          >
+            Return focus to the top of the page
+          </span>
+          <svg
+            aria-hidden="true"
+            class="ct-icon"
+            height="24"
+            role="img"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            
+
+            <path
+              d="M17.7102 11.29L12.7102 6.29C12.6151 6.19896 12.5029 6.1276 12.3802 6.08C12.1367 5.97999 11.8636 5.97999 11.6202 6.08C11.4974 6.1276 11.3853 6.19896 11.2902 6.29L6.29019 11.29C6.19695 11.3832 6.12299 11.4939 6.07253 11.6158C6.02207 11.7376 5.99609 11.8681 5.99609 12C5.99609 12.2663 6.10188 12.5217 6.29019 12.71C6.47849 12.8983 6.73388 13.0041 7.00019 13.0041C7.26649 13.0041 7.52188 12.8983 7.71019 12.71L11.0002 9.41V17C11.0002 17.2652 11.1055 17.5196 11.2931 17.7071C11.4806 17.8946 11.735 18 12.0002 18C12.2654 18 12.5198 17.8946 12.7073 17.7071C12.8948 17.5196 13.0002 17.2652 13.0002 17V9.41L16.2902 12.71C16.3831 12.8037 16.4937 12.8781 16.6156 12.9289C16.7375 12.9797 16.8682 13.0058 17.0002 13.0058C17.1322 13.0058 17.2629 12.9797 17.3848 12.9289C17.5066 12.8781 17.6172 12.8037 17.7102 12.71C17.8039 12.617 17.8783 12.5064 17.9291 12.3846C17.9798 12.2627 18.006 12.132 18.006 12C18.006 11.868 17.9798 11.7373 17.9291 11.6154C17.8783 11.4936 17.8039 11.383 17.7102 11.29Z"
+            />
+            
+
+          </svg>
+          
+
+        </span>
+      </a>
+      
+
+    </div>
+    
+  
+  </div>
+  
+
+
+
+
+
+
+
+
+</div>
+`;
+
+exports[`Search Results Template renders date_range filter type 1`] = `
+<div>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+
+
+
+  <div
+    class="ct-page ct-theme-light "
+  >
+    
+  
+    <a
+      aria-hidden="true"
+      id="top"
+      tab-index="-1"
+    />
+    
+
+      
+
+
+  
+  
+    <main
+      id="main-content"
+      tabindex="-1"
+    >
+      
+              
+    
+          
+
+
+
+
+
+
+  
+      <div
+        class="ct-layout ct-layout--no-top-right ct-layout--no-bottom-left ct-layout--no-bottom-right ct-vertical-spacing--both"
+      >
+        
+              
+    
+        <div
+          class="ct-layout__inner container"
+        >
+          
+                        
+          <section
+            class="ct-layout__main"
+          >
+                
+            <div
+              class="ct-search-results ct-search-results--left-content ct-theme-light"
+            >
+              
+                  
+    
+            </div>
+            
+  
+          </section>
+          
+              
+                        
+          <aside
+            class="ct-layout__sidebar_top_left"
+          >
+                
+    
+            <div
+              class="ct-search-results ct-search-results--left ct-theme-light"
+              data-collapsible=""
+              data-collapsible-collapsed=""
+              data-responsive="<l"
+            >
+              
+            
+              <button
+                class="ct-link ct-theme-light ct-search-results__filter-toggle"
+                data-collapsible-trigger=""
+                type="button"
+              >
+                Filters
+                <svg
+                  aria-hidden="true"
+                  class="ct-icon ct-collapsible__icon"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M18.6072 8.38619C18.3583 8.13884 18.0217 8 17.6709 8C17.32 8 16.9834 8.13884 16.7346 8.38619L11.9668 13.0876L7.26542 8.38619C7.01659 8.13884 6.67999 8 6.32913 8C5.97827 8 5.64167 8.13884 5.39284 8.38619C5.26836 8.50965 5.16956 8.65654 5.10214 8.81838C5.03471 8.98022 5 9.1538 5 9.32912C5 9.50445 5.03471 9.67803 5.10214 9.83987C5.16956 10.0017 5.26836 10.1486 5.39284 10.2721L11.0239 15.9031C11.1473 16.0276 11.2942 16.1264 11.4561 16.1938C11.6179 16.2612 11.7915 16.2959 11.9668 16.2959C12.1421 16.2959 12.3157 16.2612 12.4775 16.1938C12.6394 16.1264 12.7863 16.0276 12.9097 15.9031L18.6072 10.2721C18.7316 10.1486 18.8304 10.0017 18.8979 9.83987C18.9653 9.67803 19 9.50445 19 9.32912C19 9.1538 18.9653 8.98022 18.8979 8.81838C18.8304 8.65654 18.7316 8.50965 18.6072 8.38619Z"
+                  />
+                </svg>
+              </button>
+              
+      
+              <div
+                class="ct-search-results__filter-groups"
+                data-collapsible-panel=""
+              >
+                
+        
+                <form
+                  class="ct-search-results__filters"
+                  method="get"
+                >
+                  
+          
+                                  
+                  <div
+                    class="ct-search-results__filter-group"
+                    data-collapsible=""
+                    data-collapsible-collapsed=""
+                    data-collapsible-trigger-wide=""
+                  >
+                    
+              
+                    <h3
+                      class="ct-search-results__filter-group__heading"
+                    >
+                      
+                
+                      <button
+                        aria-expanded="false"
+                        class="ct-search-results__filter-group__trigger"
+                        data-collapsible-trigger=""
+                        type="button"
+                      >
+                        Date range
+                      </button>
+                      
+              
+                    </h3>
+                    
+              
+                    <div
+                      aria-hidden="true"
+                      class="ct-search-results__filter-group__panel"
+                      data-collapsible-panel=""
+                    >
+                      
+                
+                      <fieldset
+                        class="ct-search-results__filter-group__fieldset"
+                      >
+                        
+                  
+                        <legend
+                          class="ct-visually-hidden"
+                        >
+                          Date range
+                        </legend>
+                        
+                                      
+                        <div
+                          class="ct-search-results__filter-date-range"
+                        >
+                          
+                      
+                          <label
+                            class="ct-label ct-label--small ct-theme-light"
+                            for="ct-srl-1-from"
+                          >
+                            From
+                          </label>
+                          
+                      
+                          <input
+                            class="ct-textfield ct-theme-light ct-search-results__filter-date"
+                            id="ct-srl-1-from"
+                            name="date[from]"
+                            type="date"
+                          />
+                          
+                      
+                          <label
+                            class="ct-label ct-label--small ct-theme-light"
+                            for="ct-srl-1-to"
+                          >
+                            To
+                          </label>
+                          
+                      
+                          <input
+                            class="ct-textfield ct-theme-light ct-search-results__filter-date"
+                            id="ct-srl-1-to"
+                            name="date[to]"
+                            type="date"
+                          />
+                          
+                    
+                        </div>
+                        
+                                  
+                      </fieldset>
+                      
+              
+                    </div>
+                    
+            
+                  </div>
+                  
+          
+          
+          
+                  <div
+                    class="ct-search-results__filter-actions"
+                  >
+                    
+            
+
+  
+                    <button
+                      _keys="type"
+                      class="ct-button ct-theme-light ct-button--primary ct-button--button ct-button--regular   ct-search-results__filter-apply"
+                      data-component-name="button"
+                      type="submit"
+                    >
+                      
+      
+                      <span
+                        class="ct-text-icon__text"
+                      >
+                        Apply 
+                      </span>
+                      <span
+                        class="ct-text-icon__group"
+                      >
+                        <span
+                          class="ct-text-icon__text"
+                        >
+                          filters
+                        </span>
+                         
+                        <svg
+                          aria-hidden="true"
+                          class="ct-icon ct-button__icon"
+                          height="24"
+                          role="img"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          
+
+                          <path
+                            d="M14.72 8.79L10.43 13.09L8.78 11.44C8.69036 11.3353 8.58004 11.2503 8.45597 11.1903C8.33191 11.1303 8.19678 11.0965 8.05906 11.0912C7.92134 11.0859 7.78401 11.1091 7.65568 11.1594C7.52736 11.2096 7.41081 11.2859 7.31335 11.3833C7.2159 11.4808 7.13964 11.5974 7.08937 11.7257C7.03909 11.854 7.01589 11.9913 7.02121 12.1291C7.02653 12.2668 7.06026 12.4019 7.12028 12.526C7.1803 12.65 7.26532 12.7604 7.37 12.85L9.72 15.21C9.81344 15.3027 9.92426 15.376 10.0461 15.4258C10.1679 15.4755 10.2984 15.5008 10.43 15.5C10.6923 15.4989 10.9437 15.3947 11.13 15.21L16.13 10.21C16.2237 10.117 16.2981 10.0064 16.3489 9.88458C16.3997 9.76272 16.4258 9.63201 16.4258 9.5C16.4258 9.36799 16.3997 9.23728 16.3489 9.11542C16.2981 8.99356 16.2237 8.88296 16.13 8.79C15.9426 8.60375 15.6892 8.49921 15.425 8.49921C15.1608 8.49921 14.9074 8.60375 14.72 8.79ZM12 2C10.0222 2 8.08879 2.58649 6.4443 3.6853C4.79981 4.78412 3.51809 6.3459 2.76121 8.17317C2.00433 10.0004 1.8063 12.0111 2.19215 13.9509C2.578 15.8907 3.53041 17.6725 4.92894 19.0711C6.32746 20.4696 8.10929 21.422 10.0491 21.8079C11.9889 22.1937 13.9996 21.9957 15.8268 21.2388C17.6541 20.4819 19.2159 19.2002 20.3147 17.5557C21.4135 15.9112 22 13.9778 22 12C22 10.6868 21.7413 9.38642 21.2388 8.17317C20.7363 6.95991 19.9997 5.85752 19.0711 4.92893C18.1425 4.00035 17.0401 3.26375 15.8268 2.7612C14.6136 2.25866 13.3132 2 12 2ZM12 20C10.4178 20 8.87104 19.5308 7.55544 18.6518C6.23985 17.7727 5.21447 16.5233 4.60897 15.0615C4.00347 13.5997 3.84504 11.9911 4.15372 10.4393C4.4624 8.88743 5.22433 7.46197 6.34315 6.34315C7.46197 5.22433 8.88743 4.4624 10.4393 4.15372C11.9911 3.84504 13.5997 4.00346 15.0615 4.60896C16.5233 5.21447 17.7727 6.23984 18.6518 7.55544C19.5308 8.87103 20 10.4177 20 12C20 14.1217 19.1572 16.1566 17.6569 17.6569C16.1566 19.1571 14.1217 20 12 20Z"
+                          />
+                          
+
+                        </svg>
+                        
+
+                      </span>
+                    </button>
+                    
+            
+
+  
+                    <button
+                      class="ct-button ct-theme-light ct-button--tertiary ct-button--button ct-button--regular   ct-search-results__filter-clear"
+                      data-component-name="button"
+                    >
+                      
+      
+                      <span
+                        class="ct-text-icon__text"
+                      >
+                        Clear 
+                      </span>
+                      <span
+                        class="ct-text-icon__group"
+                      >
+                        <span
+                          class="ct-text-icon__text"
+                        >
+                          filters
+                        </span>
+                         
+                        <svg
+                          aria-hidden="true"
+                          class="ct-icon ct-button__icon"
+                          height="24"
+                          role="img"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          
+
+                          <path
+                            d="M13.4099 11.9999L19.7099 5.70994C19.8982 5.52164 20.004 5.26624 20.004 4.99994C20.004 4.73364 19.8982 4.47825 19.7099 4.28994C19.5216 4.10164 19.2662 3.99585 18.9999 3.99585C18.7336 3.99585 18.4782 4.10164 18.2899 4.28994L11.9999 10.5899L5.70994 4.28994C5.52164 4.10164 5.26624 3.99585 4.99994 3.99585C4.73364 3.99585 4.47824 4.10164 4.28994 4.28994C4.10164 4.47825 3.99585 4.73364 3.99585 4.99994C3.99585 5.26624 4.10164 5.52164 4.28994 5.70994L10.5899 11.9999L4.28994 18.2899C4.19621 18.3829 4.12182 18.4935 4.07105 18.6154C4.02028 18.7372 3.99414 18.8679 3.99414 18.9999C3.99414 19.132 4.02028 19.2627 4.07105 19.3845C4.12182 19.5064 4.19621 19.617 4.28994 19.7099C4.3829 19.8037 4.4935 19.8781 4.61536 19.9288C4.73722 19.9796 4.86793 20.0057 4.99994 20.0057C5.13195 20.0057 5.26266 19.9796 5.38452 19.9288C5.50638 19.8781 5.61698 19.8037 5.70994 19.7099L11.9999 13.4099L18.2899 19.7099C18.3829 19.8037 18.4935 19.8781 18.6154 19.9288C18.7372 19.9796 18.8679 20.0057 18.9999 20.0057C19.132 20.0057 19.2627 19.9796 19.3845 19.9288C19.5064 19.8781 19.617 19.8037 19.7099 19.7099C19.8037 19.617 19.8781 19.5064 19.9288 19.3845C19.9796 19.2627 20.0057 19.132 20.0057 18.9999C20.0057 18.8679 19.9796 18.7372 19.9288 18.6154C19.8781 18.4935 19.8037 18.3829 19.7099 18.2899L13.4099 11.9999Z"
+                          />
+                          
+
+                        </svg>
+                        
+
+                      </span>
+                    </button>
+                    
+          
+                  </div>
+                  
+        
+                </form>
+                
+      
+              </div>
+              
+    
+            </div>
+            
+  
+          </aside>
+          
+              
+      
+      
+          
+        </div>
+        
+
+                
+      </div>
+      
+      
+    </main>
+    
+
+      
+
+  
+      
+    <div
+      class="ct-back-to-top "
+      data-component-name="back-to-top"
+      data-scrollspy=""
+      data-scrollspy-offset="400"
+    >
+      
+  
+
+  
+      <a
+        _keys="data-skip-to-target"
+        class="ct-button ct-theme-light  ct-button--link ct-button--regular   ct-back-to-top__button"
+        data-component-name="button"
+        data-skip-to-target=""
+        href="#top"
+        role="button"
+      >
+        <span
+          class="ct-text-icon__text"
+        >
+          <span
+            class="ct-visually-hidden"
+          >
+            Return focus to the top of the page
+          </span>
+          <svg
+            aria-hidden="true"
+            class="ct-icon"
+            height="24"
+            role="img"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            
+
+            <path
+              d="M17.7102 11.29L12.7102 6.29C12.6151 6.19896 12.5029 6.1276 12.3802 6.08C12.1367 5.97999 11.8636 5.97999 11.6202 6.08C11.4974 6.1276 11.3853 6.19896 11.2902 6.29L6.29019 11.29C6.19695 11.3832 6.12299 11.4939 6.07253 11.6158C6.02207 11.7376 5.99609 11.8681 5.99609 12C5.99609 12.2663 6.10188 12.5217 6.29019 12.71C6.47849 12.8983 6.73388 13.0041 7.00019 13.0041C7.26649 13.0041 7.52188 12.8983 7.71019 12.71L11.0002 9.41V17C11.0002 17.2652 11.1055 17.5196 11.2931 17.7071C11.4806 17.8946 11.735 18 12.0002 18C12.2654 18 12.5198 17.8946 12.7073 17.7071C12.8948 17.5196 13.0002 17.2652 13.0002 17V9.41L16.2902 12.71C16.3831 12.8037 16.4937 12.8781 16.6156 12.9289C16.7375 12.9797 16.8682 13.0058 17.0002 13.0058C17.1322 13.0058 17.2629 12.9797 17.3848 12.9289C17.5066 12.8781 17.6172 12.8037 17.7102 12.71C17.8039 12.617 17.8783 12.5064 17.9291 12.3846C17.9798 12.2627 18.006 12.132 18.006 12C18.006 11.868 17.9798 11.7373 17.9291 11.6154C17.8783 11.4936 17.8039 11.383 17.7102 11.29Z"
+            />
+            
+
+          </svg>
+          
+
+        </span>
+      </a>
+      
+
+    </div>
+    
+  
+  </div>
+  
+
+
+
+
+
+
+
+
+</div>
+`;
+
+exports[`Search Results Template renders horizontal layout with filter toggle 1`] = `
+<div>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+                                
+                  
+  
+  
+  
+
+
+
+  <div
+    class="ct-page ct-theme-light "
+  >
+    
+  
+    <a
+      aria-hidden="true"
+      id="top"
+      tab-index="-1"
+    />
+    
+
+      
+
+
+  
+  
+    <main
+      id="main-content"
+      tabindex="-1"
+    >
+      
+              
+    
+          
+
+
+
+
+
+
+  
+      <div
+        class="ct-layout ct-layout--no-top-left ct-layout--no-top-right ct-layout--no-bottom-left ct-layout--no-bottom-right ct-vertical-spacing--both"
+      >
+        
+              
+    
+        <div
+          class="ct-layout__inner container-fluid"
+        >
+          
+                        
+          <section
+            class="ct-layout__main"
+          >
+                
+            <div
+              class="ct-search-results ct-search-results--horizontal ct-theme-light"
+            >
+              
+      
+      
+              
+        
+              <div
+                class="ct-search-results__mobile-filters"
+                data-collapsible=""
+                data-collapsible-collapsed=""
+                data-responsive="<m"
+              >
+                
+          
+                <div
+                  class="container"
+                >
+                  
+            
+                  <button
+                    class="ct-link ct-theme-light ct-search-results__filter-toggle"
+                    data-collapsible-trigger=""
+                    type="button"
+                  >
+                    Filters
+                    <svg
+                      aria-hidden="true"
+                      class="ct-icon ct-collapsible__icon"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M18.6072 8.38619C18.3583 8.13884 18.0217 8 17.6709 8C17.32 8 16.9834 8.13884 16.7346 8.38619L11.9668 13.0876L7.26542 8.38619C7.01659 8.13884 6.67999 8 6.32913 8C5.97827 8 5.64167 8.13884 5.39284 8.38619C5.26836 8.50965 5.16956 8.65654 5.10214 8.81838C5.03471 8.98022 5 9.1538 5 9.32912C5 9.50445 5.03471 9.67803 5.10214 9.83987C5.16956 10.0017 5.26836 10.1486 5.39284 10.2721L11.0239 15.9031C11.1473 16.0276 11.2942 16.1264 11.4561 16.1938C11.6179 16.2612 11.7915 16.2959 11.9668 16.2959C12.1421 16.2959 12.3157 16.2612 12.4775 16.1938C12.6394 16.1264 12.7863 16.0276 12.9097 15.9031L18.6072 10.2721C18.7316 10.1486 18.8304 10.0017 18.8979 9.83987C18.9653 9.67803 19 9.50445 19 9.32912C19 9.1538 18.9653 8.98022 18.8979 8.81838C18.8304 8.65654 18.7316 8.50965 18.6072 8.38619Z"
+                      />
+                    </svg>
+                  </button>
+                  
+          
+                </div>
+                
+          
+                <div
+                  class="ct-search-results__filter-groups"
+                  data-collapsible-panel=""
+                >
+                  
+            
+                  <div
+                    class="container"
+                  >
+                    
+              
+                    <form
+                      class="ct-search-results__filters"
+                      method="get"
+                    >
+                      
+                
+                                                    
+                      <div
+                        class="ct-search-results__filter-group"
+                        data-collapsible=""
+                        data-collapsible-collapsed=""
+                        data-collapsible-trigger-wide=""
+                      >
+                        
+                    
+                        <h3
+                          class="ct-search-results__filter-group__heading"
+                        >
+                          
+                      
+                          <button
+                            aria-expanded="false"
+                            class="ct-search-results__filter-group__trigger"
+                            data-collapsible-trigger=""
+                            type="button"
+                          >
+                            Topic
+                          </button>
+                          
+                    
+                        </h3>
+                        
+                    
+                        <div
+                          aria-hidden="true"
+                          class="ct-search-results__filter-group__panel"
+                          data-collapsible-panel=""
+                        >
+                          
+                      
+                          <fieldset
+                            class="ct-search-results__filter-group__fieldset"
+                          >
+                            
+                        
+                            <legend
+                              class="ct-visually-hidden"
+                            >
+                              Topic
+                            </legend>
+                            
+                                                                                                          
+                            <div
+                              class="ct-search-results__filter-option"
+                            >
+                              
+                                                              
+
+  
+                              <input
+                                class="ct-checkbox ct-theme-light"
+                                id="ct-srm-1-1"
+                                name="topic[]"
+                                type="checkbox"
+                                value="planning"
+                              />
+                              
+      
+
+
+                              <label
+                                class="ct-label ct-theme-light ct-label--small  ct-checkbox__label"
+                                for="ct-srm-1-1"
+                              >
+                                Planning
+                              </label>
+                                                                                                                            
+
+  
+  
+  
+    
+                              <span
+                                _keys="aria-hidden"
+                                aria-hidden="true"
+                                class="ct-tag ct-theme-light ct-tag--secondary    ct-search-results__filter-option-count"
+                              >
+                                    14  
+                              </span>
+                              
+                                                          
+                            </div>
+                            
+                                                                                  
+                            <div
+                              class="ct-search-results__filter-option"
+                            >
+                              
+                                                              
+
+  
+                              <input
+                                class="ct-checkbox ct-theme-light"
+                                id="ct-srm-1-2"
+                                name="topic[]"
+                                type="checkbox"
+                                value="environment"
+                              />
+                              
+      
+
+
+                              <label
+                                class="ct-label ct-theme-light ct-label--small  ct-checkbox__label"
+                                for="ct-srm-1-2"
+                              >
+                                Environment
+                              </label>
+                                                                                                                            
+
+  
+  
+  
+    
+                              <span
+                                _keys="aria-hidden"
+                                aria-hidden="true"
+                                class="ct-tag ct-theme-light ct-tag--secondary    ct-search-results__filter-option-count"
+                              >
+                                    8  
+                              </span>
+                              
+                                                          
+                            </div>
+                            
+                                                                        
+                          </fieldset>
+                          
+                    
+                        </div>
+                        
+                  
+                      </div>
+                      
+                                                    
+                      <div
+                        class="ct-search-results__filter-group"
+                        data-collapsible=""
+                        data-collapsible-collapsed=""
+                        data-collapsible-trigger-wide=""
+                      >
+                        
+                    
+                        <h3
+                          class="ct-search-results__filter-group__heading"
+                        >
+                          
+                      
+                          <button
+                            aria-expanded="false"
+                            class="ct-search-results__filter-group__trigger"
+                            data-collapsible-trigger=""
+                            type="button"
+                          >
+                            Content type
+                          </button>
+                          
+                    
+                        </h3>
+                        
+                    
+                        <div
+                          aria-hidden="true"
+                          class="ct-search-results__filter-group__panel"
+                          data-collapsible-panel=""
+                        >
+                          
+                      
+                          <fieldset
+                            class="ct-search-results__filter-group__fieldset"
+                          >
+                            
+                        
+                            <legend
+                              class="ct-visually-hidden"
+                            >
+                              Content type
+                            </legend>
+                            
+                                                                                                          
+                            <div
+                              class="ct-search-results__filter-option"
+                            >
+                              
+                                                              
+
+  
+                              <input
+                                class="ct-radio ct-theme-light"
+                                id="ct-srm-2-1"
+                                name="type"
+                                type="radio"
+                                value="news"
+                              />
+                              
+      
+
+
+                              <label
+                                class="ct-label ct-theme-light ct-label--small  ct-radio__label"
+                                for="ct-srm-2-1"
+                              >
+                                News
+                              </label>
+                                                                                                                        
+                            </div>
+                            
+                                                                                  
+                            <div
+                              class="ct-search-results__filter-option"
+                            >
+                              
+                                                              
+
+  
+                              <input
+                                class="ct-radio ct-theme-light"
+                                id="ct-srm-2-2"
+                                name="type"
+                                type="radio"
+                                value="events"
+                              />
+                              
+      
+
+
+                              <label
+                                class="ct-label ct-theme-light ct-label--small  ct-radio__label"
+                                for="ct-srm-2-2"
+                              >
+                                Events
+                              </label>
+                                                                                                                        
+                            </div>
+                            
+                                                                        
+                          </fieldset>
+                          
+                    
+                        </div>
+                        
+                  
+                      </div>
+                      
+                
+                                                    
+                      <div
+                        class="ct-search-results__filter-group"
+                        data-collapsible=""
+                        data-collapsible-collapsed=""
+                        data-collapsible-trigger-wide=""
+                      >
+                        
+                    
+                        <h3
+                          class="ct-search-results__filter-group__heading"
+                        >
+                          
+                      
+                          <button
+                            aria-expanded="false"
+                            class="ct-search-results__filter-group__trigger"
+                            data-collapsible-trigger=""
+                            type="button"
+                          >
+                            Sort by
+                          </button>
+                          
+                    
+                        </h3>
+                        
+                    
+                        <div
+                          aria-hidden="true"
+                          class="ct-search-results__filter-group__panel"
+                          data-collapsible-panel=""
+                        >
+                          
+                      
+                          <fieldset
+                            class="ct-search-results__filter-group__fieldset"
+                          >
+                            
+                        
+                            <legend
+                              class="ct-visually-hidden"
+                            >
+                              Sort by
+                            </legend>
+                            
+                                                                                                          
+                            <div
+                              class="ct-search-results__filter-option"
+                            >
+                              
+                                                              
+
+  
+                              <input
+                                class="ct-radio ct-theme-light"
+                                id="ct-srms-sort-1-1"
+                                name="sort"
+                                type="radio"
+                                value="relevance"
+                              />
+                              
+      
+
+
+                              <label
+                                class="ct-label ct-theme-light ct-label--small  ct-radio__label"
+                                for="ct-srms-sort-1-1"
+                              >
+                                Most relevant
+                              </label>
+                                                                                                                        
+                            </div>
+                            
+                                                                                  
+                            <div
+                              class="ct-search-results__filter-option"
+                            >
+                              
+                                                              
+
+  
+                              <input
+                                class="ct-radio ct-theme-light"
+                                id="ct-srms-sort-1-2"
+                                name="sort"
+                                type="radio"
+                                value="date-desc"
+                              />
+                              
+      
+
+
+                              <label
+                                class="ct-label ct-theme-light ct-label--small  ct-radio__label"
+                                for="ct-srms-sort-1-2"
+                              >
+                                Newest first
+                              </label>
+                                                                                                                        
+                            </div>
+                            
+                                                                        
+                          </fieldset>
+                          
+                    
+                        </div>
+                        
+                  
+                      </div>
+                      
+                
+                
+                      <div
+                        class="ct-search-results__filter-actions"
+                      >
+                        
+                  
+
+  
+                        <button
+                          _keys="type"
+                          class="ct-button ct-theme-light ct-button--primary ct-button--button ct-button--regular   ct-search-results__filter-apply"
+                          data-component-name="button"
+                          type="submit"
+                        >
+                          
+      
+                          <span
+                            class="ct-text-icon__text"
+                          >
+                            Apply 
+                          </span>
+                          <span
+                            class="ct-text-icon__group"
+                          >
+                            <span
+                              class="ct-text-icon__text"
+                            >
+                              filters
+                            </span>
+                             
+                            <svg
+                              aria-hidden="true"
+                              class="ct-icon ct-button__icon"
+                              height="24"
+                              role="img"
+                              viewBox="0 0 24 24"
+                              width="24"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              
+
+                              <path
+                                d="M14.72 8.79L10.43 13.09L8.78 11.44C8.69036 11.3353 8.58004 11.2503 8.45597 11.1903C8.33191 11.1303 8.19678 11.0965 8.05906 11.0912C7.92134 11.0859 7.78401 11.1091 7.65568 11.1594C7.52736 11.2096 7.41081 11.2859 7.31335 11.3833C7.2159 11.4808 7.13964 11.5974 7.08937 11.7257C7.03909 11.854 7.01589 11.9913 7.02121 12.1291C7.02653 12.2668 7.06026 12.4019 7.12028 12.526C7.1803 12.65 7.26532 12.7604 7.37 12.85L9.72 15.21C9.81344 15.3027 9.92426 15.376 10.0461 15.4258C10.1679 15.4755 10.2984 15.5008 10.43 15.5C10.6923 15.4989 10.9437 15.3947 11.13 15.21L16.13 10.21C16.2237 10.117 16.2981 10.0064 16.3489 9.88458C16.3997 9.76272 16.4258 9.63201 16.4258 9.5C16.4258 9.36799 16.3997 9.23728 16.3489 9.11542C16.2981 8.99356 16.2237 8.88296 16.13 8.79C15.9426 8.60375 15.6892 8.49921 15.425 8.49921C15.1608 8.49921 14.9074 8.60375 14.72 8.79ZM12 2C10.0222 2 8.08879 2.58649 6.4443 3.6853C4.79981 4.78412 3.51809 6.3459 2.76121 8.17317C2.00433 10.0004 1.8063 12.0111 2.19215 13.9509C2.578 15.8907 3.53041 17.6725 4.92894 19.0711C6.32746 20.4696 8.10929 21.422 10.0491 21.8079C11.9889 22.1937 13.9996 21.9957 15.8268 21.2388C17.6541 20.4819 19.2159 19.2002 20.3147 17.5557C21.4135 15.9112 22 13.9778 22 12C22 10.6868 21.7413 9.38642 21.2388 8.17317C20.7363 6.95991 19.9997 5.85752 19.0711 4.92893C18.1425 4.00035 17.0401 3.26375 15.8268 2.7612C14.6136 2.25866 13.3132 2 12 2ZM12 20C10.4178 20 8.87104 19.5308 7.55544 18.6518C6.23985 17.7727 5.21447 16.5233 4.60897 15.0615C4.00347 13.5997 3.84504 11.9911 4.15372 10.4393C4.4624 8.88743 5.22433 7.46197 6.34315 6.34315C7.46197 5.22433 8.88743 4.4624 10.4393 4.15372C11.9911 3.84504 13.5997 4.00346 15.0615 4.60896C16.5233 5.21447 17.7727 6.23984 18.6518 7.55544C19.5308 8.87103 20 10.4177 20 12C20 14.1217 19.1572 16.1566 17.6569 17.6569C16.1566 19.1571 14.1217 20 12 20Z"
+                              />
+                              
+
+                            </svg>
+                            
+
+                          </span>
+                        </button>
+                        
+                  
+
+  
+                        <button
+                          class="ct-button ct-theme-light ct-button--tertiary ct-button--button ct-button--regular   ct-search-results__filter-clear"
+                          data-component-name="button"
+                        >
+                          
+      
+                          <span
+                            class="ct-text-icon__text"
+                          >
+                            Clear 
+                          </span>
+                          <span
+                            class="ct-text-icon__group"
+                          >
+                            <span
+                              class="ct-text-icon__text"
+                            >
+                              filters
+                            </span>
+                             
+                            <svg
+                              aria-hidden="true"
+                              class="ct-icon ct-button__icon"
+                              height="24"
+                              role="img"
+                              viewBox="0 0 24 24"
+                              width="24"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              
+
+                              <path
+                                d="M13.4099 11.9999L19.7099 5.70994C19.8982 5.52164 20.004 5.26624 20.004 4.99994C20.004 4.73364 19.8982 4.47825 19.7099 4.28994C19.5216 4.10164 19.2662 3.99585 18.9999 3.99585C18.7336 3.99585 18.4782 4.10164 18.2899 4.28994L11.9999 10.5899L5.70994 4.28994C5.52164 4.10164 5.26624 3.99585 4.99994 3.99585C4.73364 3.99585 4.47824 4.10164 4.28994 4.28994C4.10164 4.47825 3.99585 4.73364 3.99585 4.99994C3.99585 5.26624 4.10164 5.52164 4.28994 5.70994L10.5899 11.9999L4.28994 18.2899C4.19621 18.3829 4.12182 18.4935 4.07105 18.6154C4.02028 18.7372 3.99414 18.8679 3.99414 18.9999C3.99414 19.132 4.02028 19.2627 4.07105 19.3845C4.12182 19.5064 4.19621 19.617 4.28994 19.7099C4.3829 19.8037 4.4935 19.8781 4.61536 19.9288C4.73722 19.9796 4.86793 20.0057 4.99994 20.0057C5.13195 20.0057 5.26266 19.9796 5.38452 19.9288C5.50638 19.8781 5.61698 19.8037 5.70994 19.7099L11.9999 13.4099L18.2899 19.7099C18.3829 19.8037 18.4935 19.8781 18.6154 19.9288C18.7372 19.9796 18.8679 20.0057 18.9999 20.0057C19.132 20.0057 19.2627 19.9796 19.3845 19.9288C19.5064 19.8781 19.617 19.8037 19.7099 19.7099C19.8037 19.617 19.8781 19.5064 19.9288 19.3845C19.9796 19.2627 20.0057 19.132 20.0057 18.9999C20.0057 18.8679 19.9796 18.7372 19.9288 18.6154C19.8781 18.4935 19.8037 18.3829 19.7099 18.2899L13.4099 11.9999Z"
+                              />
+                              
+
+                            </svg>
+                            
+
+                          </span>
+                        </button>
+                        
+                
+                      </div>
+                      
+              
+                    </form>
+                    
+            
+                  </div>
+                  
+          
+                </div>
+                
+        
+              </div>
+              
+
+        
+        
+        
+        
+              <div
+                class="ct-search-results__desktop-filters"
+              >
+                
+          
+                <div
+                  class="container"
+                >
+                  
+            
+
+  
+  
+                  <div
+                    class="ct-group-filter ct-theme-light  "
+                    data-component-name="ct-group-filter"
+                  >
+                    
+    
+                    <div
+                      class="ct-group-filter__filter-controls"
+                      data-group-filter-element=""
+                    >
+                      
+            
+                      <div
+                        class="row"
+                      >
+                        
+        
+                        <div
+                          class="col-xxs-12"
+                        >
+                          
+          
+          
+                                                                                                                              
+                                                                
+                          
+                          <form
+                            _keys="method"
+                            method="get"
+                          >
+                            
+            
+            
+                            <div
+                              class="row row--no-wrap ct-group-filter__row"
+                            >
+                              
+              
+                              <div
+                                class="col col--no-grow"
+                              >
+                                
+                
+                                <div
+                                  class="ct-flex-row-align-middle"
+                                >
+                                  
+                                      
+                                  <div
+                                    class="ct-group-filter__title"
+                                  >
+                                    Filter results by:
+                                  </div>
+                                  
+                                  
+                                </div>
+                                
+              
+                              </div>
+                              
+
+              
+                              <div
+                                class="col"
+                              >
+                                
+                
+                                <div
+                                  class="ct-flex-row-align-middle"
+                                >
+                                  
+                  
+
+  
+                                  <ul
+                                    _keys="data-group-filter-filters"
+                                    class="ct-item-list ct-item-list--horizontal ct-item-list--large  ct-group-filter__filters"
+                                    data-group-filter-filters=""
+                                  >
+                                    
+                  
+                                    <li
+                                      class="ct-item-list__item"
+                                    >
+                                                      
+
+  
+                                      <div
+                                        class="ct-popover ct-theme-light "
+                                        data-collapsible=""
+                                        data-collapsible-collapsed=""
+                                        data-collapsible-duration="250"
+                                        data-collapsible-group="ct-group-filter--group-search-results"
+                                      >
+                                        
+    
+                                        <a
+                                          _keys="data-collapsible-trigger tabindex"
+                                          class="ct-link ct-theme-light     ct-popover__link"
+                                          data-collapsible-trigger=""
+                                          tabindex="0"
+                                        >
+                                          <span
+                                            class="ct-text-icon__text"
+                                          >
+                                            Topic
+                                          </span>
+                                        </a>
+                                        
+    
+                                        <div
+                                          class="ct-popover__content"
+                                          data-collapsible-panel=""
+                                        >
+                                          
+      
+                                          <div
+                                            class="ct-popover__content__inner"
+                                          >
+                                            
+
+                          
+                                          
+                                            <div
+                                              class="ct-search-results__filter-option"
+                                            >
+                                              
+                          
+
+  
+                                              <input
+                                                class="ct-checkbox ct-theme-light"
+                                                id="ct-srh-1-1"
+                                                name="topic[]"
+                                                type="checkbox"
+                                                value="planning"
+                                              />
+                                              
+      
+
+
+                                              <label
+                                                class="ct-label ct-theme-light ct-label--small  ct-checkbox__label"
+                                                for="ct-srh-1-1"
+                                              >
+                                                Planning
+                                              </label>
+                                                                                      
+
+  
+  
+  
+    
+                                              <span
+                                                _keys="aria-hidden"
+                                                aria-hidden="true"
+                                                class="ct-tag ct-theme-light ct-tag--secondary    ct-search-results__filter-option-count"
+                                              >
+                                                    14  
+                                              </span>
+                                              
+                      
+                                            </div>
+                                            
+                            
+                                            <div
+                                              class="ct-search-results__filter-option"
+                                            >
+                                              
+                          
+
+  
+                                              <input
+                                                class="ct-checkbox ct-theme-light"
+                                                id="ct-srh-1-2"
+                                                name="topic[]"
+                                                type="checkbox"
+                                                value="environment"
+                                              />
+                                              
+      
+
+
+                                              <label
+                                                class="ct-label ct-theme-light ct-label--small  ct-checkbox__label"
+                                                for="ct-srh-1-2"
+                                              >
+                                                Environment
+                                              </label>
+                                                                                      
+
+  
+  
+  
+    
+                                              <span
+                                                _keys="aria-hidden"
+                                                aria-hidden="true"
+                                                class="ct-tag ct-theme-light ct-tag--secondary    ct-search-results__filter-option-count"
+                                              >
+                                                    8  
+                                              </span>
+                                              
+                      
+                                            </div>
+                                            
+                  
+                                
+                                          </div>
+                                          
+    
+                                        </div>
+                                        
+  
+                                      </div>
+                                      
+              
+                                    </li>
+                                    
+                        
+                                    <li
+                                      class="ct-item-list__item"
+                                    >
+                                                      
+
+  
+                                      <div
+                                        class="ct-popover ct-theme-light "
+                                        data-collapsible=""
+                                        data-collapsible-collapsed=""
+                                        data-collapsible-duration="250"
+                                        data-collapsible-group="ct-group-filter--group-search-results"
+                                      >
+                                        
+    
+                                        <a
+                                          _keys="data-collapsible-trigger tabindex"
+                                          class="ct-link ct-theme-light     ct-popover__link"
+                                          data-collapsible-trigger=""
+                                          tabindex="0"
+                                        >
+                                          <span
+                                            class="ct-text-icon__text"
+                                          >
+                                            Content type
+                                          </span>
+                                        </a>
+                                        
+    
+                                        <div
+                                          class="ct-popover__content"
+                                          data-collapsible-panel=""
+                                        >
+                                          
+      
+                                          <div
+                                            class="ct-popover__content__inner"
+                                          >
+                                            
+
+                          
+                                          
+                                            <div
+                                              class="ct-search-results__filter-option"
+                                            >
+                                              
+                          
+
+  
+                                              <input
+                                                class="ct-radio ct-theme-light"
+                                                id="ct-srh-2-1"
+                                                name="type"
+                                                type="radio"
+                                                value="news"
+                                              />
+                                              
+      
+
+
+                                              <label
+                                                class="ct-label ct-theme-light ct-label--small  ct-radio__label"
+                                                for="ct-srh-2-1"
+                                              >
+                                                News
+                                              </label>
+                                                                                  
+                                            </div>
+                                            
+                            
+                                            <div
+                                              class="ct-search-results__filter-option"
+                                            >
+                                              
+                          
+
+  
+                                              <input
+                                                class="ct-radio ct-theme-light"
+                                                id="ct-srh-2-2"
+                                                name="type"
+                                                type="radio"
+                                                value="events"
+                                              />
+                                              
+      
+
+
+                                              <label
+                                                class="ct-label ct-theme-light ct-label--small  ct-radio__label"
+                                                for="ct-srh-2-2"
+                                              >
+                                                Events
+                                              </label>
+                                                                                  
+                                            </div>
+                                            
+                  
+                                
+                                          </div>
+                                          
+    
+                                        </div>
+                                        
+  
+                                      </div>
+                                      
+              
+                                    </li>
+                                    
+            
+                                  </ul>
+                                  
+                
+                                </div>
+                                
+              
+                              </div>
+                              
+
+                              
+                              <div
+                                class="col col--no-grow"
+                              >
+                                
+                  
+                                <div
+                                  class="ct-flex-row-align-middle"
+                                >
+                                  
+                    
+
+  
+                                  <ul
+                                    class="ct-item-list ct-item-list--horizontal ct-item-list--large  ct-group-filter__sort-filters"
+                                  >
+                                    
+                  
+                                    <li
+                                      class="ct-item-list__item"
+                                    >
+                                                      
+
+  
+                                      <div
+                                        class="ct-popover ct-theme-light "
+                                        data-collapsible=""
+                                        data-collapsible-collapsed=""
+                                        data-collapsible-duration="250"
+                                        data-collapsible-group="ct-group-filter--group-search-results"
+                                      >
+                                        
+    
+                                        <a
+                                          _keys="data-collapsible-trigger tabindex"
+                                          class="ct-link ct-theme-light     ct-popover__link"
+                                          data-collapsible-trigger=""
+                                          tabindex="0"
+                                        >
+                                          <span
+                                            class="ct-text-icon__text"
+                                          >
+                                            Sort by
+                                          </span>
+                                        </a>
+                                        
+    
+                                        <div
+                                          class="ct-popover__content"
+                                          data-collapsible-panel=""
+                                        >
+                                          
+      
+                                          <div
+                                            class="ct-popover__content__inner"
+                                          >
+                                            
+
+                          
+                                          
+                                            <div
+                                              class="ct-search-results__filter-option"
+                                            >
+                                              
+                          
+
+  
+                                              <input
+                                                class="ct-radio ct-theme-light"
+                                                id="ct-srhs-1-1"
+                                                name="sort"
+                                                type="radio"
+                                                value="relevance"
+                                              />
+                                              
+      
+
+
+                                              <label
+                                                class="ct-label ct-theme-light ct-label--small  ct-radio__label"
+                                                for="ct-srhs-1-1"
+                                              >
+                                                Most relevant
+                                              </label>
+                                                                                  
+                                            </div>
+                                            
+                            
+                                            <div
+                                              class="ct-search-results__filter-option"
+                                            >
+                                              
+                          
+
+  
+                                              <input
+                                                class="ct-radio ct-theme-light"
+                                                id="ct-srhs-1-2"
+                                                name="sort"
+                                                type="radio"
+                                                value="date-desc"
+                                              />
+                                              
+      
+
+
+                                              <label
+                                                class="ct-label ct-theme-light ct-label--small  ct-radio__label"
+                                                for="ct-srhs-1-2"
+                                              >
+                                                Newest first
+                                              </label>
+                                                                                  
+                                            </div>
+                                            
+                  
+                                
+                                          </div>
+                                          
+    
+                                        </div>
+                                        
+  
+                                      </div>
+                                      
+              
+                                    </li>
+                                    
+            
+                                  </ul>
+                                  
+                  
+                                </div>
+                                
+                
+                              </div>
+                              
+              
+              
+                              <div
+                                class="col col--no-grow"
+                              >
+                                
+                
+                                <div
+                                  class="ct-flex-row-align-middle"
+                                >
+                                  
+                  
+
+  
+                                  <button
+                                    _keys="type"
+                                    class="ct-button ct-theme-light ct-button--primary ct-button--button ct-button--small   ct-group-filter__submit"
+                                    data-component-name="button"
+                                    type="submit"
+                                  >
+                                    
+      
+                                    <span
+                                      class="ct-text-icon__text"
+                                    >
+                                      Apply 
+                                    </span>
+                                    <span
+                                      class="ct-text-icon__group"
+                                    >
+                                      <span
+                                        class="ct-text-icon__text"
+                                      >
+                                        filters
+                                      </span>
+                                       
+                                      <svg
+                                        aria-hidden="true"
+                                        class="ct-icon ct-button__icon"
+                                        height="24"
+                                        role="img"
+                                        viewBox="0 0 24 24"
+                                        width="24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        
+
+                                        <path
+                                          d="M14.72 8.79L10.43 13.09L8.78 11.44C8.69036 11.3353 8.58004 11.2503 8.45597 11.1903C8.33191 11.1303 8.19678 11.0965 8.05906 11.0912C7.92134 11.0859 7.78401 11.1091 7.65568 11.1594C7.52736 11.2096 7.41081 11.2859 7.31335 11.3833C7.2159 11.4808 7.13964 11.5974 7.08937 11.7257C7.03909 11.854 7.01589 11.9913 7.02121 12.1291C7.02653 12.2668 7.06026 12.4019 7.12028 12.526C7.1803 12.65 7.26532 12.7604 7.37 12.85L9.72 15.21C9.81344 15.3027 9.92426 15.376 10.0461 15.4258C10.1679 15.4755 10.2984 15.5008 10.43 15.5C10.6923 15.4989 10.9437 15.3947 11.13 15.21L16.13 10.21C16.2237 10.117 16.2981 10.0064 16.3489 9.88458C16.3997 9.76272 16.4258 9.63201 16.4258 9.5C16.4258 9.36799 16.3997 9.23728 16.3489 9.11542C16.2981 8.99356 16.2237 8.88296 16.13 8.79C15.9426 8.60375 15.6892 8.49921 15.425 8.49921C15.1608 8.49921 14.9074 8.60375 14.72 8.79ZM12 2C10.0222 2 8.08879 2.58649 6.4443 3.6853C4.79981 4.78412 3.51809 6.3459 2.76121 8.17317C2.00433 10.0004 1.8063 12.0111 2.19215 13.9509C2.578 15.8907 3.53041 17.6725 4.92894 19.0711C6.32746 20.4696 8.10929 21.422 10.0491 21.8079C11.9889 22.1937 13.9996 21.9957 15.8268 21.2388C17.6541 20.4819 19.2159 19.2002 20.3147 17.5557C21.4135 15.9112 22 13.9778 22 12C22 10.6868 21.7413 9.38642 21.2388 8.17317C20.7363 6.95991 19.9997 5.85752 19.0711 4.92893C18.1425 4.00035 17.0401 3.26375 15.8268 2.7612C14.6136 2.25866 13.3132 2 12 2ZM12 20C10.4178 20 8.87104 19.5308 7.55544 18.6518C6.23985 17.7727 5.21447 16.5233 4.60897 15.0615C4.00347 13.5997 3.84504 11.9911 4.15372 10.4393C4.4624 8.88743 5.22433 7.46197 6.34315 6.34315C7.46197 5.22433 8.88743 4.4624 10.4393 4.15372C11.9911 3.84504 13.5997 4.00346 15.0615 4.60896C16.5233 5.21447 17.7727 6.23984 18.6518 7.55544C19.5308 8.87103 20 10.4177 20 12C20 14.1217 19.1572 16.1566 17.6569 17.6569C16.1566 19.1571 14.1217 20 12 20Z"
+                                        />
+                                        
+
+                                      </svg>
+                                      
+
+                                    </span>
+                                  </button>
+                                  
+                
+                                </div>
+                                
+              
+                              </div>
+                              
+            
+                            </div>
+                            
+
+            
+                          
+                          </form>
+                          
+                      
+                                                  
+                        </div>
+                        
+      
+                      </div>
+                      
+          
+                    </div>
+                    
+
+      
+                  </div>
+                  
+          
+                </div>
+                
+        
+              </div>
+              
+      
+      
+              <div
+                class="container"
+              >
+                
+        
+                <div
+                  class="row"
+                >
+                  
+          
+                  <div
+                    class="col-xxs-12"
+                  >
+                    
+                  
+          
+                  </div>
+                  
+        
+                </div>
+                
+      
+              </div>
+              
+    
+            </div>
+            
+  
+          </section>
+          
+              
+      
+      
+      
+          
+        </div>
+        
+
+                
+      </div>
+      
+      
+    </main>
+    
+
+      
+
+  
+      
+    <div
+      class="ct-back-to-top "
+      data-component-name="back-to-top"
+      data-scrollspy=""
+      data-scrollspy-offset="400"
+    >
+      
+  
+
+  
+      <a
+        _keys="data-skip-to-target"
+        class="ct-button ct-theme-light  ct-button--link ct-button--regular   ct-back-to-top__button"
+        data-component-name="button"
+        data-skip-to-target=""
+        href="#top"
+        role="button"
+      >
+        <span
+          class="ct-text-icon__text"
+        >
+          <span
+            class="ct-visually-hidden"
+          >
+            Return focus to the top of the page
+          </span>
+          <svg
+            aria-hidden="true"
+            class="ct-icon"
+            height="24"
+            role="img"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            
+
+            <path
+              d="M17.7102 11.29L12.7102 6.29C12.6151 6.19896 12.5029 6.1276 12.3802 6.08C12.1367 5.97999 11.8636 5.97999 11.6202 6.08C11.4974 6.1276 11.3853 6.19896 11.2902 6.29L6.29019 11.29C6.19695 11.3832 6.12299 11.4939 6.07253 11.6158C6.02207 11.7376 5.99609 11.8681 5.99609 12C5.99609 12.2663 6.10188 12.5217 6.29019 12.71C6.47849 12.8983 6.73388 13.0041 7.00019 13.0041C7.26649 13.0041 7.52188 12.8983 7.71019 12.71L11.0002 9.41V17C11.0002 17.2652 11.1055 17.5196 11.2931 17.7071C11.4806 17.8946 11.735 18 12.0002 18C12.2654 18 12.5198 17.8946 12.7073 17.7071C12.8948 17.5196 13.0002 17.2652 13.0002 17V9.41L16.2902 12.71C16.3831 12.8037 16.4937 12.8781 16.6156 12.9289C16.7375 12.9797 16.8682 13.0058 17.0002 13.0058C17.1322 13.0058 17.2629 12.9797 17.3848 12.9289C17.5066 12.8781 17.6172 12.8037 17.7102 12.71C17.8039 12.617 17.8783 12.5064 17.9291 12.3846C17.9798 12.2627 18.006 12.132 18.006 12C18.006 11.868 17.9798 11.7373 17.9291 11.6154C17.8783 11.4936 17.8039 11.383 17.7102 11.29Z"
+            />
+            
+
+          </svg>
+          
+
+        </span>
+      </a>
+      
+
+    </div>
+    
+  
+  </div>
+  
+
+
+</div>
+`;
+
+exports[`Search Results Template renders left layout filters in sidebar 1`] = `
+<div>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+
+
+
+  <div
+    class="ct-page ct-theme-light "
+  >
+    
+  
+    <a
+      aria-hidden="true"
+      id="top"
+      tab-index="-1"
+    />
+    
+
+      
+
+
+  
+  
+    <main
+      id="main-content"
+      tabindex="-1"
+    >
+      
+              
+    
+          
+
+
+
+
+
+
+  
+      <div
+        class="ct-layout ct-layout--no-top-right ct-layout--no-bottom-left ct-layout--no-bottom-right ct-vertical-spacing--both"
+      >
+        
+              
+    
+        <div
+          class="ct-layout__inner container"
+        >
+          
+                        
+          <section
+            class="ct-layout__main"
+          >
+                
+            <div
+              class="ct-search-results ct-search-results--left-content ct-theme-light"
+            >
+              
+                  
+    
+            </div>
+            
+  
+          </section>
+          
+              
+                        
+          <aside
+            class="ct-layout__sidebar_top_left"
+          >
+                
+    
+            <div
+              class="ct-search-results ct-search-results--left ct-theme-light"
+              data-collapsible=""
+              data-collapsible-collapsed=""
+              data-responsive="<l"
+            >
+              
+            
+              <button
+                class="ct-link ct-theme-light ct-search-results__filter-toggle"
+                data-collapsible-trigger=""
+                type="button"
+              >
+                Filters
+                <svg
+                  aria-hidden="true"
+                  class="ct-icon ct-collapsible__icon"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M18.6072 8.38619C18.3583 8.13884 18.0217 8 17.6709 8C17.32 8 16.9834 8.13884 16.7346 8.38619L11.9668 13.0876L7.26542 8.38619C7.01659 8.13884 6.67999 8 6.32913 8C5.97827 8 5.64167 8.13884 5.39284 8.38619C5.26836 8.50965 5.16956 8.65654 5.10214 8.81838C5.03471 8.98022 5 9.1538 5 9.32912C5 9.50445 5.03471 9.67803 5.10214 9.83987C5.16956 10.0017 5.26836 10.1486 5.39284 10.2721L11.0239 15.9031C11.1473 16.0276 11.2942 16.1264 11.4561 16.1938C11.6179 16.2612 11.7915 16.2959 11.9668 16.2959C12.1421 16.2959 12.3157 16.2612 12.4775 16.1938C12.6394 16.1264 12.7863 16.0276 12.9097 15.9031L18.6072 10.2721C18.7316 10.1486 18.8304 10.0017 18.8979 9.83987C18.9653 9.67803 19 9.50445 19 9.32912C19 9.1538 18.9653 8.98022 18.8979 8.81838C18.8304 8.65654 18.7316 8.50965 18.6072 8.38619Z"
+                  />
+                </svg>
+              </button>
+              
+      
+              <div
+                class="ct-search-results__filter-groups"
+                data-collapsible-panel=""
+              >
+                
+        
+                <form
+                  class="ct-search-results__filters"
+                  method="get"
+                >
+                  
+          
+                                  
+                  <div
+                    class="ct-search-results__filter-group"
+                    data-collapsible=""
+                    data-collapsible-collapsed=""
+                    data-collapsible-trigger-wide=""
+                  >
+                    
+              
+                    <h3
+                      class="ct-search-results__filter-group__heading"
+                    >
+                      
+                
+                      <button
+                        aria-expanded="false"
+                        class="ct-search-results__filter-group__trigger"
+                        data-collapsible-trigger=""
+                        type="button"
+                      >
+                        Topic
+                      </button>
+                      
+              
+                    </h3>
+                    
+              
+                    <div
+                      aria-hidden="true"
+                      class="ct-search-results__filter-group__panel"
+                      data-collapsible-panel=""
+                    >
+                      
+                
+                      <fieldset
+                        class="ct-search-results__filter-group__fieldset"
+                      >
+                        
+                  
+                        <legend
+                          class="ct-visually-hidden"
+                        >
+                          Topic
+                        </legend>
+                        
+                                                                                  
+                        <div
+                          class="ct-search-results__filter-option"
+                        >
+                          
+                                                  
+
+  
+                          <input
+                            class="ct-checkbox ct-theme-light"
+                            id="ct-srl-1-1"
+                            name="topic[]"
+                            type="checkbox"
+                            value="planning"
+                          />
+                          
+      
+
+
+                          <label
+                            class="ct-label ct-theme-light ct-label--small  ct-checkbox__label"
+                            for="ct-srl-1-1"
+                          >
+                            Planning
+                          </label>
+                                                                                                      
+
+  
+  
+  
+    
+                          <span
+                            _keys="aria-hidden"
+                            aria-hidden="true"
+                            class="ct-tag ct-theme-light ct-tag--secondary    ct-search-results__filter-option-count"
+                          >
+                                14  
+                          </span>
+                          
+                                              
+                        </div>
+                        
+                                                                
+                        <div
+                          class="ct-search-results__filter-option"
+                        >
+                          
+                                                  
+
+  
+                          <input
+                            class="ct-checkbox ct-theme-light"
+                            id="ct-srl-1-2"
+                            name="topic[]"
+                            type="checkbox"
+                            value="environment"
+                          />
+                          
+      
+
+
+                          <label
+                            class="ct-label ct-theme-light ct-label--small  ct-checkbox__label"
+                            for="ct-srl-1-2"
+                          >
+                            Environment
+                          </label>
+                                                                                                      
+
+  
+  
+  
+    
+                          <span
+                            _keys="aria-hidden"
+                            aria-hidden="true"
+                            class="ct-tag ct-theme-light ct-tag--secondary    ct-search-results__filter-option-count"
+                          >
+                                8  
+                          </span>
+                          
+                                              
+                        </div>
+                        
+                                                      
+                      </fieldset>
+                      
+              
+                    </div>
+                    
+            
+                  </div>
+                  
+                                  
+                  <div
+                    class="ct-search-results__filter-group"
+                    data-collapsible=""
+                    data-collapsible-collapsed=""
+                    data-collapsible-trigger-wide=""
+                  >
+                    
+              
+                    <h3
+                      class="ct-search-results__filter-group__heading"
+                    >
+                      
+                
+                      <button
+                        aria-expanded="false"
+                        class="ct-search-results__filter-group__trigger"
+                        data-collapsible-trigger=""
+                        type="button"
+                      >
+                        Content type
+                      </button>
+                      
+              
+                    </h3>
+                    
+              
+                    <div
+                      aria-hidden="true"
+                      class="ct-search-results__filter-group__panel"
+                      data-collapsible-panel=""
+                    >
+                      
+                
+                      <fieldset
+                        class="ct-search-results__filter-group__fieldset"
+                      >
+                        
+                  
+                        <legend
+                          class="ct-visually-hidden"
+                        >
+                          Content type
+                        </legend>
+                        
+                                                                                  
+                        <div
+                          class="ct-search-results__filter-option"
+                        >
+                          
+                                                  
+
+  
+                          <input
+                            class="ct-radio ct-theme-light"
+                            id="ct-srl-2-1"
+                            name="type"
+                            type="radio"
+                            value="news"
+                          />
+                          
+      
+
+
+                          <label
+                            class="ct-label ct-theme-light ct-label--small  ct-radio__label"
+                            for="ct-srl-2-1"
+                          >
+                            News
+                          </label>
+                                                                                                  
+                        </div>
+                        
+                                                                
+                        <div
+                          class="ct-search-results__filter-option"
+                        >
+                          
+                                                  
+
+  
+                          <input
+                            class="ct-radio ct-theme-light"
+                            id="ct-srl-2-2"
+                            name="type"
+                            type="radio"
+                            value="events"
+                          />
+                          
+      
+
+
+                          <label
+                            class="ct-label ct-theme-light ct-label--small  ct-radio__label"
+                            for="ct-srl-2-2"
+                          >
+                            Events
+                          </label>
+                                                                                                  
+                        </div>
+                        
+                                                      
+                      </fieldset>
+                      
+              
+                    </div>
+                    
+            
+                  </div>
+                  
+          
+          
+          
+                  <div
+                    class="ct-search-results__filter-actions"
+                  >
+                    
+            
+
+  
+                    <button
+                      _keys="type"
+                      class="ct-button ct-theme-light ct-button--primary ct-button--button ct-button--regular   ct-search-results__filter-apply"
+                      data-component-name="button"
+                      type="submit"
+                    >
+                      
+      
+                      <span
+                        class="ct-text-icon__text"
+                      >
+                        Apply 
+                      </span>
+                      <span
+                        class="ct-text-icon__group"
+                      >
+                        <span
+                          class="ct-text-icon__text"
+                        >
+                          filters
+                        </span>
+                         
+                        <svg
+                          aria-hidden="true"
+                          class="ct-icon ct-button__icon"
+                          height="24"
+                          role="img"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          
+
+                          <path
+                            d="M14.72 8.79L10.43 13.09L8.78 11.44C8.69036 11.3353 8.58004 11.2503 8.45597 11.1903C8.33191 11.1303 8.19678 11.0965 8.05906 11.0912C7.92134 11.0859 7.78401 11.1091 7.65568 11.1594C7.52736 11.2096 7.41081 11.2859 7.31335 11.3833C7.2159 11.4808 7.13964 11.5974 7.08937 11.7257C7.03909 11.854 7.01589 11.9913 7.02121 12.1291C7.02653 12.2668 7.06026 12.4019 7.12028 12.526C7.1803 12.65 7.26532 12.7604 7.37 12.85L9.72 15.21C9.81344 15.3027 9.92426 15.376 10.0461 15.4258C10.1679 15.4755 10.2984 15.5008 10.43 15.5C10.6923 15.4989 10.9437 15.3947 11.13 15.21L16.13 10.21C16.2237 10.117 16.2981 10.0064 16.3489 9.88458C16.3997 9.76272 16.4258 9.63201 16.4258 9.5C16.4258 9.36799 16.3997 9.23728 16.3489 9.11542C16.2981 8.99356 16.2237 8.88296 16.13 8.79C15.9426 8.60375 15.6892 8.49921 15.425 8.49921C15.1608 8.49921 14.9074 8.60375 14.72 8.79ZM12 2C10.0222 2 8.08879 2.58649 6.4443 3.6853C4.79981 4.78412 3.51809 6.3459 2.76121 8.17317C2.00433 10.0004 1.8063 12.0111 2.19215 13.9509C2.578 15.8907 3.53041 17.6725 4.92894 19.0711C6.32746 20.4696 8.10929 21.422 10.0491 21.8079C11.9889 22.1937 13.9996 21.9957 15.8268 21.2388C17.6541 20.4819 19.2159 19.2002 20.3147 17.5557C21.4135 15.9112 22 13.9778 22 12C22 10.6868 21.7413 9.38642 21.2388 8.17317C20.7363 6.95991 19.9997 5.85752 19.0711 4.92893C18.1425 4.00035 17.0401 3.26375 15.8268 2.7612C14.6136 2.25866 13.3132 2 12 2ZM12 20C10.4178 20 8.87104 19.5308 7.55544 18.6518C6.23985 17.7727 5.21447 16.5233 4.60897 15.0615C4.00347 13.5997 3.84504 11.9911 4.15372 10.4393C4.4624 8.88743 5.22433 7.46197 6.34315 6.34315C7.46197 5.22433 8.88743 4.4624 10.4393 4.15372C11.9911 3.84504 13.5997 4.00346 15.0615 4.60896C16.5233 5.21447 17.7727 6.23984 18.6518 7.55544C19.5308 8.87103 20 10.4177 20 12C20 14.1217 19.1572 16.1566 17.6569 17.6569C16.1566 19.1571 14.1217 20 12 20Z"
+                          />
+                          
+
+                        </svg>
+                        
+
+                      </span>
+                    </button>
+                    
+            
+
+  
+                    <button
+                      class="ct-button ct-theme-light ct-button--tertiary ct-button--button ct-button--regular   ct-search-results__filter-clear"
+                      data-component-name="button"
+                    >
+                      
+      
+                      <span
+                        class="ct-text-icon__text"
+                      >
+                        Clear 
+                      </span>
+                      <span
+                        class="ct-text-icon__group"
+                      >
+                        <span
+                          class="ct-text-icon__text"
+                        >
+                          filters
+                        </span>
+                         
+                        <svg
+                          aria-hidden="true"
+                          class="ct-icon ct-button__icon"
+                          height="24"
+                          role="img"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          
+
+                          <path
+                            d="M13.4099 11.9999L19.7099 5.70994C19.8982 5.52164 20.004 5.26624 20.004 4.99994C20.004 4.73364 19.8982 4.47825 19.7099 4.28994C19.5216 4.10164 19.2662 3.99585 18.9999 3.99585C18.7336 3.99585 18.4782 4.10164 18.2899 4.28994L11.9999 10.5899L5.70994 4.28994C5.52164 4.10164 5.26624 3.99585 4.99994 3.99585C4.73364 3.99585 4.47824 4.10164 4.28994 4.28994C4.10164 4.47825 3.99585 4.73364 3.99585 4.99994C3.99585 5.26624 4.10164 5.52164 4.28994 5.70994L10.5899 11.9999L4.28994 18.2899C4.19621 18.3829 4.12182 18.4935 4.07105 18.6154C4.02028 18.7372 3.99414 18.8679 3.99414 18.9999C3.99414 19.132 4.02028 19.2627 4.07105 19.3845C4.12182 19.5064 4.19621 19.617 4.28994 19.7099C4.3829 19.8037 4.4935 19.8781 4.61536 19.9288C4.73722 19.9796 4.86793 20.0057 4.99994 20.0057C5.13195 20.0057 5.26266 19.9796 5.38452 19.9288C5.50638 19.8781 5.61698 19.8037 5.70994 19.7099L11.9999 13.4099L18.2899 19.7099C18.3829 19.8037 18.4935 19.8781 18.6154 19.9288C18.7372 19.9796 18.8679 20.0057 18.9999 20.0057C19.132 20.0057 19.2627 19.9796 19.3845 19.9288C19.5064 19.8781 19.617 19.8037 19.7099 19.7099C19.8037 19.617 19.8781 19.5064 19.9288 19.3845C19.9796 19.2627 20.0057 19.132 20.0057 18.9999C20.0057 18.8679 19.9796 18.7372 19.9288 18.6154C19.8781 18.4935 19.8037 18.3829 19.7099 18.2899L13.4099 11.9999Z"
+                          />
+                          
+
+                        </svg>
+                        
+
+                      </span>
+                    </button>
+                    
+          
+                  </div>
+                  
+        
+                </form>
+                
+      
+              </div>
+              
+    
+            </div>
+            
+  
+          </aside>
+          
+              
+      
+      
+          
+        </div>
+        
+
+                
+      </div>
+      
+      
+    </main>
+    
+
+      
+
+  
+      
+    <div
+      class="ct-back-to-top "
+      data-component-name="back-to-top"
+      data-scrollspy=""
+      data-scrollspy-offset="400"
+    >
+      
+  
+
+  
+      <a
+        _keys="data-skip-to-target"
+        class="ct-button ct-theme-light  ct-button--link ct-button--regular   ct-back-to-top__button"
+        data-component-name="button"
+        data-skip-to-target=""
+        href="#top"
+        role="button"
+      >
+        <span
+          class="ct-text-icon__text"
+        >
+          <span
+            class="ct-visually-hidden"
+          >
+            Return focus to the top of the page
+          </span>
+          <svg
+            aria-hidden="true"
+            class="ct-icon"
+            height="24"
+            role="img"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            
+
+            <path
+              d="M17.7102 11.29L12.7102 6.29C12.6151 6.19896 12.5029 6.1276 12.3802 6.08C12.1367 5.97999 11.8636 5.97999 11.6202 6.08C11.4974 6.1276 11.3853 6.19896 11.2902 6.29L6.29019 11.29C6.19695 11.3832 6.12299 11.4939 6.07253 11.6158C6.02207 11.7376 5.99609 11.8681 5.99609 12C5.99609 12.2663 6.10188 12.5217 6.29019 12.71C6.47849 12.8983 6.73388 13.0041 7.00019 13.0041C7.26649 13.0041 7.52188 12.8983 7.71019 12.71L11.0002 9.41V17C11.0002 17.2652 11.1055 17.5196 11.2931 17.7071C11.4806 17.8946 11.735 18 12.0002 18C12.2654 18 12.5198 17.8946 12.7073 17.7071C12.8948 17.5196 13.0002 17.2652 13.0002 17V9.41L16.2902 12.71C16.3831 12.8037 16.4937 12.8781 16.6156 12.9289C16.7375 12.9797 16.8682 13.0058 17.0002 13.0058C17.1322 13.0058 17.2629 12.9797 17.3848 12.9289C17.5066 12.8781 17.6172 12.8037 17.7102 12.71C17.8039 12.617 17.8783 12.5064 17.9291 12.3846C17.9798 12.2627 18.006 12.132 18.006 12C18.006 11.868 17.9798 11.7373 17.9291 11.6154C17.8783 11.4936 17.8039 11.383 17.7102 11.29Z"
+            />
+            
+
+          </svg>
+          
+
+        </span>
+      </a>
+      
+
+    </div>
+    
+  
+  </div>
+  
+
+
+
+
+
+
+
+
+</div>
+`;
+
+exports[`Search Results Template renders pagination slot 1`] = `
+<div>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+
+
+
+  <div
+    class="ct-page ct-theme-light "
+  >
+    
+  
+    <a
+      aria-hidden="true"
+      id="top"
+      tab-index="-1"
+    />
+    
+
+      
+
+
+  
+  
+    <main
+      id="main-content"
+      tabindex="-1"
+    >
+      
+              
+    
+          
+
+
+
+
+
+
+  
+      <div
+        class="ct-layout ct-layout--no-top-left ct-layout--no-top-right ct-layout--no-bottom-left ct-layout--no-bottom-right ct-vertical-spacing--both"
+      >
+        
+              
+    
+        <div
+          class="ct-layout__inner container-fluid"
+        >
+          
+                        
+          <section
+            class="ct-layout__main"
+          >
+                
+            <div
+              class="ct-search-results ct-search-results--left-content ct-theme-light"
+            >
+              
+                      
+              <div
+                class="ct-search-results__pagination"
+              >
+                <nav
+                  class="ct-pagination"
+                >
+                  Pagination
+                </nav>
+              </div>
+              
+  
+    
+            </div>
+            
+  
+          </section>
+          
+              
+      
+      
+      
+          
+        </div>
+        
+
+                
+      </div>
+      
+      
+    </main>
+    
+
+      
+
+  
+      
+    <div
+      class="ct-back-to-top "
+      data-component-name="back-to-top"
+      data-scrollspy=""
+      data-scrollspy-offset="400"
+    >
+      
+  
+
+  
+      <a
+        _keys="data-skip-to-target"
+        class="ct-button ct-theme-light  ct-button--link ct-button--regular   ct-back-to-top__button"
+        data-component-name="button"
+        data-skip-to-target=""
+        href="#top"
+        role="button"
+      >
+        <span
+          class="ct-text-icon__text"
+        >
+          <span
+            class="ct-visually-hidden"
+          >
+            Return focus to the top of the page
+          </span>
+          <svg
+            aria-hidden="true"
+            class="ct-icon"
+            height="24"
+            role="img"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            
+
+            <path
+              d="M17.7102 11.29L12.7102 6.29C12.6151 6.19896 12.5029 6.1276 12.3802 6.08C12.1367 5.97999 11.8636 5.97999 11.6202 6.08C11.4974 6.1276 11.3853 6.19896 11.2902 6.29L6.29019 11.29C6.19695 11.3832 6.12299 11.4939 6.07253 11.6158C6.02207 11.7376 5.99609 11.8681 5.99609 12C5.99609 12.2663 6.10188 12.5217 6.29019 12.71C6.47849 12.8983 6.73388 13.0041 7.00019 13.0041C7.26649 13.0041 7.52188 12.8983 7.71019 12.71L11.0002 9.41V17C11.0002 17.2652 11.1055 17.5196 11.2931 17.7071C11.4806 17.8946 11.735 18 12.0002 18C12.2654 18 12.5198 17.8946 12.7073 17.7071C12.8948 17.5196 13.0002 17.2652 13.0002 17V9.41L16.2902 12.71C16.3831 12.8037 16.4937 12.8781 16.6156 12.9289C16.7375 12.9797 16.8682 13.0058 17.0002 13.0058C17.1322 13.0058 17.2629 12.9797 17.3848 12.9289C17.5066 12.8781 17.6172 12.8037 17.7102 12.71C17.8039 12.617 17.8783 12.5064 17.9291 12.3846C17.9798 12.2627 18.006 12.132 18.006 12C18.006 11.868 17.9798 11.7373 17.9291 11.6154C17.8783 11.4936 17.8039 11.383 17.7102 11.29Z"
+            />
+            
+
+          </svg>
+          
+
+        </span>
+      </a>
+      
+
+    </div>
+    
+  
+  </div>
+  
+
+
+
+
+
+
+
+
+</div>
+`;
+
+exports[`Search Results Template renders results list 1`] = `
+<div>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+
+
+
+  <div
+    class="ct-page ct-theme-light "
+  >
+    
+  
+    <a
+      aria-hidden="true"
+      id="top"
+      tab-index="-1"
+    />
+    
+
+      
+
+
+  
+  
+    <main
+      id="main-content"
+      tabindex="-1"
+    >
+      
+              
+    
+          
+
+
+
+
+
+
+  
+      <div
+        class="ct-layout ct-layout--no-top-left ct-layout--no-top-right ct-layout--no-bottom-left ct-layout--no-bottom-right ct-vertical-spacing--both"
+      >
+        
+              
+    
+        <div
+          class="ct-layout__inner container-fluid"
+        >
+          
+                        
+          <section
+            class="ct-layout__main"
+          >
+                
+            <div
+              class="ct-search-results ct-search-results--left-content ct-theme-light"
+            >
+              
+                  
+              <div
+                class="ct-search-results__summary"
+              >
+                Showing 1–2 of 2 results
+              </div>
+              
+        
+              <ul
+                class="ct-search-results__list"
+              >
+                
+              
+                <li
+                  class="ct-search-results__result"
+                >
+                  
+          
+
+
+  
+                  <div
+                    class="ct-snippet ct-theme-light "
+                  >
+                    
+          
+                    <div
+                      class="ct-snippet__content"
+                    >
+                      
+                          
+                                          
+                      <div
+                        class="ct-snippet__title"
+                      >
+                                                      
+                        <a
+                          class="ct-snippet__title-link"
+                          href="http://example.com/first"
+                        >
+                          First result title
+                        </a>
+                        
+                          
+                      </div>
+                      
+                  
+                          
+                              
+
+
+                      <div
+                        class="ct-paragraph ct-theme-light ct-paragraph--regular ct-paragraph--no-margin ct-snippet__summary"
+                      >
+                        First result description.
+                      </div>
+                                        
+                          
+                                
+                    </div>
+                    
+      
+                  </div>
+                  
+        
+                </li>
+                
+              
+                <li
+                  class="ct-search-results__result"
+                >
+                  
+          
+
+
+  
+                  <div
+                    class="ct-snippet ct-theme-light "
+                  >
+                    
+          
+                    <div
+                      class="ct-snippet__content"
+                    >
+                      
+                          
+                                          
+                      <div
+                        class="ct-snippet__title"
+                      >
+                                                      
+                        <a
+                          class="ct-snippet__title-link"
+                          href="http://example.com/second"
+                        >
+                          Second result title
+                        </a>
+                        
+                          
+                      </div>
+                      
+                  
+                          
+                              
+
+
+                      <div
+                        class="ct-paragraph ct-theme-light ct-paragraph--regular ct-paragraph--no-margin ct-snippet__summary"
+                      >
+                        Second result description.
+                      </div>
+                                        
+                          
+                                
+                    </div>
+                    
+      
+                  </div>
+                  
+        
+                </li>
+                
+          
+              </ul>
+              
+    
+    
+            </div>
+            
+  
+          </section>
+          
+              
+      
+      
+      
+          
+        </div>
+        
+
+                
+      </div>
+      
+      
+    </main>
+    
+
+      
+
+  
+      
+    <div
+      class="ct-back-to-top "
+      data-component-name="back-to-top"
+      data-scrollspy=""
+      data-scrollspy-offset="400"
+    >
+      
+  
+
+  
+      <a
+        _keys="data-skip-to-target"
+        class="ct-button ct-theme-light  ct-button--link ct-button--regular   ct-back-to-top__button"
+        data-component-name="button"
+        data-skip-to-target=""
+        href="#top"
+        role="button"
+      >
+        <span
+          class="ct-text-icon__text"
+        >
+          <span
+            class="ct-visually-hidden"
+          >
+            Return focus to the top of the page
+          </span>
+          <svg
+            aria-hidden="true"
+            class="ct-icon"
+            height="24"
+            role="img"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            
+
+            <path
+              d="M17.7102 11.29L12.7102 6.29C12.6151 6.19896 12.5029 6.1276 12.3802 6.08C12.1367 5.97999 11.8636 5.97999 11.6202 6.08C11.4974 6.1276 11.3853 6.19896 11.2902 6.29L6.29019 11.29C6.19695 11.3832 6.12299 11.4939 6.07253 11.6158C6.02207 11.7376 5.99609 11.8681 5.99609 12C5.99609 12.2663 6.10188 12.5217 6.29019 12.71C6.47849 12.8983 6.73388 13.0041 7.00019 13.0041C7.26649 13.0041 7.52188 12.8983 7.71019 12.71L11.0002 9.41V17C11.0002 17.2652 11.1055 17.5196 11.2931 17.7071C11.4806 17.8946 11.735 18 12.0002 18C12.2654 18 12.5198 17.8946 12.7073 17.7071C12.8948 17.5196 13.0002 17.2652 13.0002 17V9.41L16.2902 12.71C16.3831 12.8037 16.4937 12.8781 16.6156 12.9289C16.7375 12.9797 16.8682 13.0058 17.0002 13.0058C17.1322 13.0058 17.2629 12.9797 17.3848 12.9289C17.5066 12.8781 17.6172 12.8037 17.7102 12.71C17.8039 12.617 17.8783 12.5064 17.9291 12.3846C17.9798 12.2627 18.006 12.132 18.006 12C18.006 11.868 17.9798 11.7373 17.9291 11.6154C17.8783 11.4936 17.8039 11.383 17.7102 11.29Z"
+            />
+            
+
+          </svg>
+          
+
+        </span>
+      </a>
+      
+
+    </div>
+    
+  
+  </div>
+  
+
+
+
+
+
+
+
+
+</div>
+`;
+
+exports[`Search Results Template renders search slot 1`] = `
+<div>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+
+
+
+  <div
+    class="ct-page ct-theme-light "
+  >
+    
+  
+    <a
+      aria-hidden="true"
+      id="top"
+      tab-index="-1"
+    />
+    
+
+      
+
+
+  
+  
+    <main
+      id="main-content"
+      tabindex="-1"
+    >
+      
+              
+    
+          
+
+
+
+
+
+
+  
+      <div
+        class="ct-layout ct-layout--no-top-left ct-layout--no-top-right ct-layout--no-bottom-left ct-layout--no-bottom-right ct-vertical-spacing--both"
+      >
+        
+              
+    
+        <div
+          class="ct-layout__inner container-fluid"
+        >
+          
+                        
+          <section
+            class="ct-layout__main"
+          >
+                
+            <div
+              class="ct-search-results ct-search-results--left-content ct-theme-light"
+            >
+              
+              
+              <div
+                class="ct-search-results__search"
+              >
+                <form
+                  class="ct-search-bar"
+                >
+                  Search form
+                </form>
+              </div>
+              
+                  
+    
+            </div>
+            
+  
+          </section>
+          
+              
+      
+      
+      
+          
+        </div>
+        
+
+                
+      </div>
+      
+      
+    </main>
+    
+
+      
+
+  
+      
+    <div
+      class="ct-back-to-top "
+      data-component-name="back-to-top"
+      data-scrollspy=""
+      data-scrollspy-offset="400"
+    >
+      
+  
+
+  
+      <a
+        _keys="data-skip-to-target"
+        class="ct-button ct-theme-light  ct-button--link ct-button--regular   ct-back-to-top__button"
+        data-component-name="button"
+        data-skip-to-target=""
+        href="#top"
+        role="button"
+      >
+        <span
+          class="ct-text-icon__text"
+        >
+          <span
+            class="ct-visually-hidden"
+          >
+            Return focus to the top of the page
+          </span>
+          <svg
+            aria-hidden="true"
+            class="ct-icon"
+            height="24"
+            role="img"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            
+
+            <path
+              d="M17.7102 11.29L12.7102 6.29C12.6151 6.19896 12.5029 6.1276 12.3802 6.08C12.1367 5.97999 11.8636 5.97999 11.6202 6.08C11.4974 6.1276 11.3853 6.19896 11.2902 6.29L6.29019 11.29C6.19695 11.3832 6.12299 11.4939 6.07253 11.6158C6.02207 11.7376 5.99609 11.8681 5.99609 12C5.99609 12.2663 6.10188 12.5217 6.29019 12.71C6.47849 12.8983 6.73388 13.0041 7.00019 13.0041C7.26649 13.0041 7.52188 12.8983 7.71019 12.71L11.0002 9.41V17C11.0002 17.2652 11.1055 17.5196 11.2931 17.7071C11.4806 17.8946 11.735 18 12.0002 18C12.2654 18 12.5198 17.8946 12.7073 17.7071C12.8948 17.5196 13.0002 17.2652 13.0002 17V9.41L16.2902 12.71C16.3831 12.8037 16.4937 12.8781 16.6156 12.9289C16.7375 12.9797 16.8682 13.0058 17.0002 13.0058C17.1322 13.0058 17.2629 12.9797 17.3848 12.9289C17.5066 12.8781 17.6172 12.8037 17.7102 12.71C17.8039 12.617 17.8783 12.5064 17.9291 12.3846C17.9798 12.2627 18.006 12.132 18.006 12C18.006 11.868 17.9798 11.7373 17.9291 11.6154C17.8783 11.4936 17.8039 11.383 17.7102 11.29Z"
+            />
+            
+
+          </svg>
+          
+
+        </span>
+      </a>
+      
+
+    </div>
+    
+  
+  </div>
+  
+
+
+
+
+
+
+
+
+</div>
+`;
+
+exports[`Search Results Template renders with attributes 1`] = `
+<div>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+
+
+
+  <div
+    class="ct-page ct-theme-light "
+    data-test="value"
+  >
+    
+  
+    <a
+      aria-hidden="true"
+      id="top"
+      tab-index="-1"
+    />
+    
+
+      
+
+
+  
+  
+    <main
+      id="main-content"
+      tabindex="-1"
+    >
+      
+              
+    
+          
+
+
+
+
+
+
+  
+      <div
+        class="ct-layout ct-layout--no-top-left ct-layout--no-top-right ct-layout--no-bottom-left ct-layout--no-bottom-right ct-vertical-spacing--both"
+      >
+        
+              
+    
+        <div
+          class="ct-layout__inner container-fluid"
+        >
+          
+                        
+          <section
+            class="ct-layout__main"
+          >
+                
+            <div
+              class="ct-search-results ct-search-results--left-content ct-theme-light"
+            >
+              
+                  
+    
+            </div>
+            
+  
+          </section>
+          
+              
+      
+      
+      
+          
+        </div>
+        
+
+                
+      </div>
+      
+      
+    </main>
+    
+
+      
+
+  
+      
+    <div
+      class="ct-back-to-top "
+      data-component-name="back-to-top"
+      data-scrollspy=""
+      data-scrollspy-offset="400"
+    >
+      
+  
+
+  
+      <a
+        _keys="data-skip-to-target"
+        class="ct-button ct-theme-light  ct-button--link ct-button--regular   ct-back-to-top__button"
+        data-component-name="button"
+        data-skip-to-target=""
+        href="#top"
+        role="button"
+      >
+        <span
+          class="ct-text-icon__text"
+        >
+          <span
+            class="ct-visually-hidden"
+          >
+            Return focus to the top of the page
+          </span>
+          <svg
+            aria-hidden="true"
+            class="ct-icon"
+            height="24"
+            role="img"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            
+
+            <path
+              d="M17.7102 11.29L12.7102 6.29C12.6151 6.19896 12.5029 6.1276 12.3802 6.08C12.1367 5.97999 11.8636 5.97999 11.6202 6.08C11.4974 6.1276 11.3853 6.19896 11.2902 6.29L6.29019 11.29C6.19695 11.3832 6.12299 11.4939 6.07253 11.6158C6.02207 11.7376 5.99609 11.8681 5.99609 12C5.99609 12.2663 6.10188 12.5217 6.29019 12.71C6.47849 12.8983 6.73388 13.0041 7.00019 13.0041C7.26649 13.0041 7.52188 12.8983 7.71019 12.71L11.0002 9.41V17C11.0002 17.2652 11.1055 17.5196 11.2931 17.7071C11.4806 17.8946 11.735 18 12.0002 18C12.2654 18 12.5198 17.8946 12.7073 17.7071C12.8948 17.5196 13.0002 17.2652 13.0002 17V9.41L16.2902 12.71C16.3831 12.8037 16.4937 12.8781 16.6156 12.9289C16.7375 12.9797 16.8682 13.0058 17.0002 13.0058C17.1322 13.0058 17.2629 12.9797 17.3848 12.9289C17.5066 12.8781 17.6172 12.8037 17.7102 12.71C17.8039 12.617 17.8783 12.5064 17.9291 12.3846C17.9798 12.2627 18.006 12.132 18.006 12C18.006 11.868 17.9798 11.7373 17.9291 11.6154C17.8783 11.4936 17.8039 11.383 17.7102 11.29Z"
+            />
+            
+
+          </svg>
+          
+
+        </span>
+      </a>
+      
+
+    </div>
+    
+  
+  </div>
+  
+
+
+
+
+
+
+
+
+</div>
+`;
+
+exports[`Search Results Template renders with default props 1`] = `
+<div>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+
+
+
+  <div
+    class="ct-page ct-theme-light "
+  >
+    
+  
+    <a
+      aria-hidden="true"
+      id="top"
+      tab-index="-1"
+    />
+    
+
+      
+
+
+  
+  
+    <main
+      id="main-content"
+      tabindex="-1"
+    >
+      
+              
+    
+          
+
+
+
+
+
+
+  
+      <div
+        class="ct-layout ct-layout--no-top-left ct-layout--no-top-right ct-layout--no-bottom-left ct-layout--no-bottom-right ct-vertical-spacing--both"
+      >
+        
+              
+    
+        <div
+          class="ct-layout__inner container-fluid"
+        >
+          
+                        
+          <section
+            class="ct-layout__main"
+          >
+                
+            <div
+              class="ct-search-results ct-search-results--left-content ct-theme-light"
+            >
+              
+                  
+    
+            </div>
+            
+  
+          </section>
+          
+              
+      
+      
+      
+          
+        </div>
+        
+
+                
+      </div>
+      
+      
+    </main>
+    
+
+      
+
+  
+      
+    <div
+      class="ct-back-to-top "
+      data-component-name="back-to-top"
+      data-scrollspy=""
+      data-scrollspy-offset="400"
+    >
+      
+  
+
+  
+      <a
+        _keys="data-skip-to-target"
+        class="ct-button ct-theme-light  ct-button--link ct-button--regular   ct-back-to-top__button"
+        data-component-name="button"
+        data-skip-to-target=""
+        href="#top"
+        role="button"
+      >
+        <span
+          class="ct-text-icon__text"
+        >
+          <span
+            class="ct-visually-hidden"
+          >
+            Return focus to the top of the page
+          </span>
+          <svg
+            aria-hidden="true"
+            class="ct-icon"
+            height="24"
+            role="img"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            
+
+            <path
+              d="M17.7102 11.29L12.7102 6.29C12.6151 6.19896 12.5029 6.1276 12.3802 6.08C12.1367 5.97999 11.8636 5.97999 11.6202 6.08C11.4974 6.1276 11.3853 6.19896 11.2902 6.29L6.29019 11.29C6.19695 11.3832 6.12299 11.4939 6.07253 11.6158C6.02207 11.7376 5.99609 11.8681 5.99609 12C5.99609 12.2663 6.10188 12.5217 6.29019 12.71C6.47849 12.8983 6.73388 13.0041 7.00019 13.0041C7.26649 13.0041 7.52188 12.8983 7.71019 12.71L11.0002 9.41V17C11.0002 17.2652 11.1055 17.5196 11.2931 17.7071C11.4806 17.8946 11.735 18 12.0002 18C12.2654 18 12.5198 17.8946 12.7073 17.7071C12.8948 17.5196 13.0002 17.2652 13.0002 17V9.41L16.2902 12.71C16.3831 12.8037 16.4937 12.8781 16.6156 12.9289C16.7375 12.9797 16.8682 13.0058 17.0002 13.0058C17.1322 13.0058 17.2629 12.9797 17.3848 12.9289C17.5066 12.8781 17.6172 12.8037 17.7102 12.71C17.8039 12.617 17.8783 12.5064 17.9291 12.3846C17.9798 12.2627 18.006 12.132 18.006 12C18.006 11.868 17.9798 11.7373 17.9291 11.6154C17.8783 11.4936 17.8039 11.383 17.7102 11.29Z"
+            />
+            
+
+          </svg>
+          
+
+        </span>
+      </a>
+      
+
+    </div>
+    
+  
+  </div>
+  
+
+
+
+
+
+
+
+
+</div>
+`;
+
+exports[`Search Results Template renders without filters: no sidebar, results visible 1`] = `
+<div>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+
+
+
+  <div
+    class="ct-page ct-theme-light "
+  >
+    
+  
+    <a
+      aria-hidden="true"
+      id="top"
+      tab-index="-1"
+    />
+    
+
+      
+
+
+  
+  
+    <main
+      id="main-content"
+      tabindex="-1"
+    >
+      
+              
+    
+          
+
+
+
+
+
+
+  
+      <div
+        class="ct-layout ct-layout--no-top-left ct-layout--no-top-right ct-layout--no-bottom-left ct-layout--no-bottom-right ct-vertical-spacing--both"
+      >
+        
+              
+    
+        <div
+          class="ct-layout__inner container-fluid"
+        >
+          
+                        
+          <section
+            class="ct-layout__main"
+          >
+                
+            <div
+              class="ct-search-results ct-search-results--left-content ct-theme-light"
+            >
+              
+                    
+              <ul
+                class="ct-search-results__list"
+              >
+                
+              
+                <li
+                  class="ct-search-results__result"
+                >
+                  
+          
+
+
+  
+                  <div
+                    class="ct-snippet ct-theme-light "
+                  >
+                    
+          
+                    <div
+                      class="ct-snippet__content"
+                    >
+                      
+                          
+                                          
+                      <div
+                        class="ct-snippet__title"
+                      >
+                                                      
+                        <a
+                          class="ct-snippet__title-link"
+                          href="http://example.com/first"
+                        >
+                          First result title
+                        </a>
+                        
+                          
+                      </div>
+                      
+                  
+                          
+                              
+
+
+                      <div
+                        class="ct-paragraph ct-theme-light ct-paragraph--regular ct-paragraph--no-margin ct-snippet__summary"
+                      >
+                        First result description.
+                      </div>
+                                        
+                          
+                                
+                    </div>
+                    
+      
+                  </div>
+                  
+        
+                </li>
+                
+              
+                <li
+                  class="ct-search-results__result"
+                >
+                  
+          
+
+
+  
+                  <div
+                    class="ct-snippet ct-theme-light "
+                  >
+                    
+          
+                    <div
+                      class="ct-snippet__content"
+                    >
+                      
+                          
+                                          
+                      <div
+                        class="ct-snippet__title"
+                      >
+                                                      
+                        <a
+                          class="ct-snippet__title-link"
+                          href="http://example.com/second"
+                        >
+                          Second result title
+                        </a>
+                        
+                          
+                      </div>
+                      
+                  
+                          
+                              
+
+
+                      <div
+                        class="ct-paragraph ct-theme-light ct-paragraph--regular ct-paragraph--no-margin ct-snippet__summary"
+                      >
+                        Second result description.
+                      </div>
+                                        
+                          
+                                
+                    </div>
+                    
+      
+                  </div>
+                  
+        
+                </li>
+                
+          
+              </ul>
+              
+    
+    
+            </div>
+            
+  
+          </section>
+          
+              
+      
+      
+      
+          
+        </div>
+        
+
+                
+      </div>
+      
+      
+    </main>
+    
+
+      
+
+  
+      
+    <div
+      class="ct-back-to-top "
+      data-component-name="back-to-top"
+      data-scrollspy=""
+      data-scrollspy-offset="400"
+    >
+      
+  
+
+  
+      <a
+        _keys="data-skip-to-target"
+        class="ct-button ct-theme-light  ct-button--link ct-button--regular   ct-back-to-top__button"
+        data-component-name="button"
+        data-skip-to-target=""
+        href="#top"
+        role="button"
+      >
+        <span
+          class="ct-text-icon__text"
+        >
+          <span
+            class="ct-visually-hidden"
+          >
+            Return focus to the top of the page
+          </span>
+          <svg
+            aria-hidden="true"
+            class="ct-icon"
+            height="24"
+            role="img"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            
+
+            <path
+              d="M17.7102 11.29L12.7102 6.29C12.6151 6.19896 12.5029 6.1276 12.3802 6.08C12.1367 5.97999 11.8636 5.97999 11.6202 6.08C11.4974 6.1276 11.3853 6.19896 11.2902 6.29L6.29019 11.29C6.19695 11.3832 6.12299 11.4939 6.07253 11.6158C6.02207 11.7376 5.99609 11.8681 5.99609 12C5.99609 12.2663 6.10188 12.5217 6.29019 12.71C6.47849 12.8983 6.73388 13.0041 7.00019 13.0041C7.26649 13.0041 7.52188 12.8983 7.71019 12.71L11.0002 9.41V17C11.0002 17.2652 11.1055 17.5196 11.2931 17.7071C11.4806 17.8946 11.735 18 12.0002 18C12.2654 18 12.5198 17.8946 12.7073 17.7071C12.8948 17.5196 13.0002 17.2652 13.0002 17V9.41L16.2902 12.71C16.3831 12.8037 16.4937 12.8781 16.6156 12.9289C16.7375 12.9797 16.8682 13.0058 17.0002 13.0058C17.1322 13.0058 17.2629 12.9797 17.3848 12.9289C17.5066 12.8781 17.6172 12.8037 17.7102 12.71C17.8039 12.617 17.8783 12.5064 17.9291 12.3846C17.9798 12.2627 18.006 12.132 18.006 12C18.006 11.868 17.9798 11.7373 17.9291 11.6154C17.8783 11.4936 17.8039 11.383 17.7102 11.29Z"
+            />
+            
+
+          </svg>
+          
+
+        </span>
+      </a>
+      
+
+    </div>
+    
+  
+  </div>
+  
+
+
+
+
+
+
+
+
+</div>
+`;

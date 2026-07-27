@@ -1,0 +1,23 @@
+//
+// CivicTheme Webform component styles.
+//
+
+.ct-webform {
+  $root: &;
+
+  // Nested in a parent column: the surface panel needs its own inset.
+  &#{$root}--with-background#{$root}--not-contained {
+    padding: ct-spacing(3);
+  }
+
+  @include ct-component-theme($root) using($root, $theme) {
+    // Nested in a column: the panel takes the surface colour, not the section
+    // band colour, so it reads as a card rather than a squeezed band.
+    &#{$root}--with-background#{$root}--not-contained {
+      @include ct-component-property($root, $theme, surface, background-color);
+    }
+    &#{$root}--with-background {
+      @include ct-component-property($root, $theme, background-color);
+    }
+  }
+}

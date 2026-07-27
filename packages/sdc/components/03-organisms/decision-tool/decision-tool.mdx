@@ -1,0 +1,134 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as Stories from './decision-tool.stories';
+
+<Meta of={Stories} />
+
+# Decision tool
+
+A decision tool asks a short branching set of questions and shows a tailored outcome with a reference code. The whole flow runs in the browser – the answers never leave the device.
+
+<Canvas of={Stories.Default} />
+
+<Controls of={Stories.Default} />
+
+Use it for client-side eligibility checks and guided decisions where the user needs a result they can carry into a separate, confidential process. The reference code is the seam: it is random and reveals nothing about the answers, so a leaked code is meaningless.
+
+## When to use
+
+- a short check that routes the user to one of a few outcomes based on their answers
+- the result needs to move into a separate process – a confidential form, a phone call, a registration – without re-keying the answers
+- the answers are sensitive and must not be transmitted or stored server-side
+
+## When not to use
+
+- you need to keep the answers – use a **Webform** instead
+- there is a single question with one answer – ask it inline
+- the outcome needs a server-side lookup or calculation – this component is client-side only
+
+## How it works
+
+The tool takes a `question_set` (steps and outcomes) as a prop and renders one step at a time. Each chosen option can branch to a specific next step (or to the result) and can add `flags`. When the flow reaches the result, the first outcome whose `when` condition matches the accumulated flags is shown, with an opaque reference code and an optional call to action. Branching means the number of steps varies by path, so the progress indicator shows completed and current steps only – it never implies a fixed "step 3 of 5".
+
+## Writing good questions
+
+The quality of a decision tool is mostly the quality of its questions. Two rules carry most of the weight.
+
+**Ask a neutral question; keep the threshold in the options.** Don't fold a policy threshold into a yes/no. Say a check routes on a project's cost:
+
+> ✗ "Is your project's total cost $30 million or more?" – Yes / No
+
+Ask what the user actually knows, and offer factual bands:
+
+> ✓ "What is your project's total cost?"
+> - Under $10 million
+> - $10 million to under $30 million
+> - $30 million or more
+
+The yes/no version makes the user classify themselves against a number and quietly signals which answer is the "wrong" one. The banded version asks a plain factual question and lets the option logic – its `flags` and `next` – own the threshold. When policy moves the threshold, you edit the options, not the question, and the branching follows.
+
+**One idea per step, in plain language.** Keep each step to a single decision. Avoid double-barrelled questions ("Are you a member *and* available on weekdays?"), negatives ("Which of these do you *not* have?"), and jargon. Write the options as the answers a person would actually give, and let `flags` translate them into the criteria your outcomes test. Keeping the wording user-facing and the logic in the data is what lets one `question_set` drive any check.
+
+## Answer options: list or card
+
+`option_style` controls how options are presented.
+
+- **list** (default) – a plain radio or checkbox list. The whole label is the click target, with a light hover. Use for most questions.
+- **card** – a selectable card where the whole card is the click target, with a strong selected state. Use when options carry a supporting description or need more visual weight.
+
+<Canvas of={Stories.Cards} />
+
+## The reference code
+
+At the end the tool generates a short reference code, for example `QBV0-4JER-3`. It is built to be said aloud, written down, and re-typed into another system without errors.
+
+- **A restricted base32 alphabet.** The code uses the digits `0–9` and letters `A–Z` with `I`, `L`, `O` and `U` removed. Base32 packs more entropy into each character than hex, so the code stays short; dropping the four ambiguous letters removes the characters people confuse with `1` and `0` and avoids spelling out accidental words. This is the Crockford base32 convention.
+- **A check character.** The final character is a check symbol computed over the rest of the code (Crockford's modulo-37 scheme). A receiving system can validate it before accepting the code, catching the single-character slips and digit transpositions that happen when a code is re-keyed or read over the phone. The check character is integrity, not security – it detects honest mistakes, it does not stop a determined forger.
+- **Opaque by design.** The code comes from `crypto.getRandomValues` and encodes nothing about the answers. It is a claim ticket – it lets a separate, trusted system look the case up – not a carrier of the data itself. That is why a leaked code reveals nothing.
+
+Because the code is random, a fresh one is minted on every completion. If you persist it, persist the whole `detail`, not just the code.
+
+## Privacy by design
+
+The privacy model is the point of the component, not a setting on it.
+
+- **Nothing is transmitted.** The flow issues no `fetch`, `XHR`, `WebSocket` or form submission, and the outcome is chosen entirely in the browser from the accumulated flags. The answers exist only in the page's memory, for the length of the session.
+- **The URL is never touched.** No answer, outcome or code is written to the query string or hash, so the state cannot leak through a shared or logged URL.
+- **No analytics.** The component makes no `dataLayer` push or analytics call. If a host page needs to record that a check finished, it listens for the completion event and decides that itself, under its own consent rules.
+- **Persistence is opt-in and tab-scoped.** By default nothing is stored. Set `storage_key` and the completion `detail` is written to `sessionStorage` – scoped to the tab and cleared when it closes – not `localStorage`. This is the deliberate seam for handing the result to a separate page on the same origin without a server round-trip.
+
+Some hardening lives on the host, not the component: a restrictive `Referrer-Policy`, and keeping third-party analytics off the pages that carry the check. Those are server or theme configuration, out of scope here, but they complete the picture.
+
+## Consuming the result: Drupal and beyond
+
+The completion seam is deliberately thin and framework-neutral, so the same component drops into a Drupal site, a static page, or a single-page app.
+
+On completion the component dispatches a bubbling event on its root element:
+
+- **Event:** `civictheme:decision-tool:complete`
+- **detail:** `{ questionSetId, outcomeId, flags, referenceCode }`
+
+Any host listens for it:
+
+```js
+document.addEventListener('civictheme:decision-tool:complete', (e) => {
+  const { referenceCode } = e.detail;
+  // carry referenceCode wherever the user goes next.
+});
+```
+
+**System-agnostic forms.** The event plus the opt-in `sessionStorage` write are plain web-platform features – no framework required. A static page can stash the code and read it on the next page; a single-page app can route to its confidential form and prefill from `detail`.
+
+**Drupal.** The component is Drupal-agnostic SDC, vendored by a sub-theme. The intended pattern for the confidential follow-up is a Drupal **Webform** on the same site with a hidden field, prefilled by a small theme behaviour that reads `sessionStorage[storage_key]` (or listens for the event) and sets the field's value. The user's answers never enter Drupal – only the opaque reference code does, which is exactly what the privacy model wants. Authoring the `question_set` (as config, a paragraph, or JSON) and wiring the Webform prefill are downstream sub-theme work, not part of this component.
+
+**Extending it.** The branching, flags and outcome matching are data, not code, so most variation is just a new `question_set`. Beyond that, the natural extension points are new outcome severities, a richer results summary, or a different reference-code scheme. Keep new behaviour behind the same event seam so every host – Drupal or not – consumes it the same way.
+
+## Accessibility
+
+- each step is a fieldset and legend radio or checkbox group
+- focus moves to the question on navigation and to the result on completion
+- step and result changes are announced through an `aria-live` region
+- the progress indicator marks completed steps with a check, not colour alone, and the current step with `aria-current`
+- severity is carried by the outcome Message's icon and heading, never by colour alone
+
+## Do
+
+- keep question sets short – three to six steps
+- ask neutral questions with factual options; keep thresholds in the option logic
+- write outcomes that tell the user exactly what to do next
+- put a when-less catch-all outcome last so there is always a result
+
+## Don't
+
+- use it to collect data – it deliberately cannot submit
+- encode answers into the reference code – it is random by design
+- add analytics or transmit answers from inside the flow
+- rely on colour alone to signal an outcome's severity
+
+## Related components
+
+- **Message** – renders each outcome, keyed to severity.
+- **Webform** – the confidential form that consumes the reference code.
+
+## Related patterns
+
+- **Progress indicator** – showing a user's position in a multi-step flow.

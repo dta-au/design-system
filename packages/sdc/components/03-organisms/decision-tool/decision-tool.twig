@@ -1,0 +1,346 @@
+{#
+/**
+ * @file
+ * digital.gov.au Decision tool component.
+ *
+ * Props:
+ * - theme: [string] Theme variation (light or dark).
+ * - heading_level: [integer] Heading level for question titles; the summary heading renders one level below.
+ * - vertical_spacing: [string] Vertical spacing (top, bottom, both, none).
+ * - option_style: [string] How answer options are presented. "list" is a plain radio/checkbox list; "card" is a selectable card; "link-card" is a card that advances on click with no Next button (single-choice routing steps).
+ * - progress_style: [string] "tracker" shows horizontal step markers (the progress-tracker); "bar" shows a simple filled bar with a "Step N" / "Complete" label.
+ * - show_summary: [boolean] Show the "what you have answered" review of previous answers, each with a Change link. On by default.
+ * - summary_label: [string] Heading for the answer summary.
+ * - change_label: [string] Label for the per-answer Change links.
+ * - show_progress: [boolean] Show the horizontal step progress indicator. When unset, it is shown automatically for question sets with three or more steps.
+ * - question_set: [object] The branching questionnaire definition. Rendered to HTML server-side; the JS reads the flow from that markup, so nothing about the answers is transmitted.
+ *   Each property contains:
+ *   - id: [string] Stable identifier echoed back in the completion event as questionSetId. Must be unique per instance on a page.
+ *   - title: [string] Heading shown above the questions.
+ *   - intro: [string] Introductory text shown above the questions.
+ *   - steps: [array] Ordered question steps. One shows at a time; per-option next drives branching:
+ *     Each item contains:
+ *     - id: [string]
+ *     - question: [string]
+ *     - help: [string]
+ *     - type: [string] single renders radios; multiple renders checkboxes.
+ *     - option_style: [string] Per-step override of the component option_style (list, card, or link-card).
+ *     - next: [string] Default next step id, or "result". Used when the chosen option has no next of its own.
+ *     - options: [array] :
+ *       Each item contains:
+ *       - id: [string]
+ *       - label: [string]
+ *       - description: [string] Optional supporting line, shown under the label (most useful with the card and link-card option styles).
+ *       - icon: [string] Optional CivicTheme icon name, shown on link-card options.
+ *       - value: [string] Defaults to the option id when omitted.
+ *       - next: [string] Next step id or "result" for this option (single-choice branching).
+ *       - flags: [array] Criterion ids added to the accumulated flag set when this option is chosen.
+ *         Each item contains:
+ *         - items [string]
+ *   - outcomes: [array] Candidate results. The first whose when-condition matches the accumulated flags is shown; place a when-less catch-all last:
+ *     Each item contains:
+ *     - id: [string]
+ *     - when: [object] Match condition over accumulated flags. all = every listed flag present; any = at least one present. Omit or leave empty for a catch-all.
+ *   Each property contains:
+ *       - all: [array]
+ *         Each item contains:
+ *         - items [string]
+ *       - any: [array]
+ *         Each item contains:
+ *         - items [string]
+ *     - heading: [string]
+ *     - body: [string]
+ *     - more_link: [object] Optional inline "find out more" link shown after the body.
+ *   Each property contains:
+ *       - text: [string]
+ *       - href: [string]
+ *     - severity: [string] Maps to the Message component type, which supplies a colour and a non-colour icon cue.
+ *     - cta: [object]
+ *   Each property contains:
+ *       - label: [string]
+ *       - href: [string]
+ * - storage_key: [string] Opt-in. When set, the completion detail is written to sessionStorage under this key as JSON. Off by default; nothing is persisted otherwise.
+ * - back_label: [string]
+ * - next_label: [string]
+ * - submit_label: [string]
+ * - restart_label: [string]
+ * - reference_label: [string]
+ * - copy_label: [string]
+ * - progress_label: [string]
+ * - modifier_class: [string] Additional CSS classes.
+ * - attributes: [Drupal\Core\Template\Attribute] Additional HTML attributes.
+ */
+#}
+
+{% set heading_level = heading_level in [2, 3, 4, 5, 6] ? heading_level : 2 %}
+
+{% set theme = theme in ['light', 'dark'] ? theme : 'light' %}
+{% set vertical_spacing = vertical_spacing in ['top', 'bottom', 'both', 'none'] ? vertical_spacing : null %}
+{% set option_style = option_style in ['list', 'card', 'link-card'] ? option_style : 'list' %}
+{% set progress_style = progress_style in ['tracker', 'bar'] ? progress_style : 'tracker' %}
+{% set theme_class = 'ct-theme-%s'|format(theme) %}
+{% set vertical_spacing_class = vertical_spacing ? 'ct-vertical-spacing--%s'|format(vertical_spacing) : '' %}
+{% set modifier_class = '%s %s %s'|format(theme_class, vertical_spacing_class, modifier_class|default('')) %}
+
+{% set back_label = back_label|default('Back') %}
+{% set next_label = next_label|default('Next') %}
+{% set submit_label = submit_label|default('See result') %}
+{% set restart_label = restart_label|default('Start again') %}
+{% set reference_label = reference_label|default('Your reference code') %}
+{% set copy_label = copy_label|default('Copy code') %}
+{% set progress_label = progress_label|default('Your progress') %}
+{% set summary_label = summary_label|default('What you have answered') %}
+{% set change_label = change_label|default('Change') %}
+{% set show_summary = show_summary is defined ? show_summary : true %}
+
+{% set qs = question_set|default({}) %}
+{% set base_id = (qs.id|default('decision-tool'))|replace({' ': '-'}) %}
+{% set status_id = '%s__status'|format(base_id) %}
+{% set show_progress = show_progress is defined ? show_progress : (qs.steps|default([])|length >= 3) %}
+
+{% if qs.steps is not empty and qs.outcomes is not empty %}
+  <div
+    class="dga-decision-tool {{ modifier_class -}}"
+    data-dga-decision-tool
+    data-dga-decision-tool-id="{{ qs.id|default('decision-tool') }}"
+    {%- if storage_key %} data-dga-decision-tool-storage-key="{{ storage_key }}"{% endif %}
+    {%- if attributes is defined and attributes is not null %} {{- attributes -}}{% endif %}
+  >
+    <div class="container">
+      <div class="row">
+        <div class="col-xxs-12">
+
+          {% if qs.title or qs.intro %}
+            <div class="dga-decision-tool__intro">
+              {% if qs.title %}
+                {% include 'civictheme:heading' with {
+                  content: qs.title,
+                  level: heading_level,
+                  theme: theme,
+                  modifier_class: 'dga-decision-tool__title',
+                } only %}
+              {% endif %}
+              {% if qs.intro %}
+                {% include 'civictheme:paragraph' with {
+                  content: qs.intro,
+                  theme: theme,
+                  modifier_class: 'dga-decision-tool__intro-text',
+                } only %}
+              {% endif %}
+            </div>
+          {% endif %}
+
+          {# No-JS path: the flow needs JavaScript, so every step stays hidden
+             (server-rendered with `hidden`) and this notice explains why. #}
+          <noscript>
+            {% include 'civictheme:message' with {
+              theme: theme,
+              type: 'information',
+              content: 'This decision tool needs JavaScript to run in your browser. Please enable JavaScript and reload the page.',
+            } only %}
+          </noscript>
+
+          {# aria-live region: announces step position and completion to AT. #}
+          <p
+            class="dga-decision-tool__status ct-visually-hidden"
+            id="{{ status_id }}"
+            data-dga-decision-tool-status
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+          ></p>
+
+          {# Progress indicator. "tracker" composes the progress-tracker molecule
+             (the include bundles its styles); "bar" is a simple filled bar built
+             by the JS. Either way the JS fills it from the visited path. Hidden
+             until JS enhances. #}
+          {% if show_progress %}
+            <div class="dga-decision-tool__progress" data-dga-decision-tool-progress data-progress-style="{{ progress_style }}" hidden>
+              {% if progress_style != 'bar' %}
+                {% include 'civictheme:progress-tracker' with {
+                  theme: theme,
+                  steps: [],
+                } only %}
+              {% endif %}
+            </div>
+          {% endif %}
+
+          <div class="dga-decision-tool__steps" data-dga-decision-tool-steps>
+            {% for step in qs.steps %}
+              {% set step_type = step.type in ['single', 'multiple'] ? step.type : 'single' %}
+              {% set input_type = step_type == 'multiple' ? 'checkbox' : 'radio' %}
+              {% set step_style = (step.option_style|default(option_style)) %}
+              {% set step_style = step_style in ['list', 'card', 'link-card'] ? step_style : 'list' %}
+              {# link-card auto-advances on selection, so it is single-choice only. #}
+              {% set step_style = (step_style == 'link-card' and step_type == 'multiple') ? 'card' : step_style %}
+              {% set step_uid = '%s__step-%s'|format(base_id, step.id) %}
+              {% set help_id = '%s__help'|format(step_uid) %}
+              <fieldset
+                class="dga-decision-tool__step"
+                data-dga-decision-tool-step
+                data-step-id="{{ step.id }}"
+                data-step-type="{{ step_type }}"
+                data-step-option-style="{{ step_style }}"
+                {%- if step.next %} data-default-next="{{ step.next }}"{% endif %}
+                {%- if step.help %} aria-describedby="{{ help_id }}"{% endif %}
+                hidden
+              >
+                <legend class="dga-decision-tool__question">
+                  <span class="dga-decision-tool__question-text" data-dga-decision-tool-step-heading tabindex="-1">{{ step.question }}</span>
+                </legend>
+                {% if step.help %}
+                  <p class="dga-decision-tool__help" id="{{ help_id }}">{{ step.help }}</p>
+                {% endif %}
+                <div class="dga-decision-tool__options dga-decision-tool__options--{{ step_style }}">
+                  {% for option in step.options %}
+                    {% set opt_id = '%s__opt-%s'|format(step_uid, option.id) %}
+                    <label class="dga-decision-tool__option" for="{{ opt_id }}">
+                      <input
+                        class="dga-decision-tool__option-input"
+                        type="{{ input_type }}"
+                        name="{{ step_uid }}"
+                        id="{{ opt_id }}"
+                        value="{{ option.value|default(option.id) }}"
+                        data-dga-decision-tool-option
+                        {%- if option.next %} data-next="{{ option.next }}"{% endif %}
+                        {%- if option.flags %} data-flags="{{ option.flags|join(',') }}"{% endif %}
+                      >
+                      {% if step_style == 'link-card' and option.icon %}
+                        <span class="dga-decision-tool__option-icon" aria-hidden="true">
+                          {% include 'civictheme:icon' with { symbol: option.icon, size: 'regular' } only %}
+                        </span>
+                      {% endif %}
+                      <span class="dga-decision-tool__option-body">
+                        <span class="dga-decision-tool__option-label">{{ option.label }}</span>
+                        {% if option.description %}
+                          <span class="dga-decision-tool__option-description">{{ option.description }}</span>
+                        {% endif %}
+                      </span>
+                      {% if step_style == 'link-card' %}
+                        <span class="dga-decision-tool__option-arrow" aria-hidden="true">→</span>
+                      {% endif %}
+                    </label>
+                  {% endfor %}
+                </div>
+              </fieldset>
+            {% endfor %}
+          </div>
+
+          <div class="dga-decision-tool__nav" data-dga-decision-tool-nav hidden>
+            <span class="dga-decision-tool__nav-back" data-dga-decision-tool-back hidden>
+              {% include 'civictheme:button' with {
+                theme: theme,
+                kind: 'button',
+                type: 'tertiary',
+                text: back_label,
+                modifier_class: 'dga-decision-tool__back-button',
+              } only %}
+            </span>
+            <span class="dga-decision-tool__nav-advance" data-dga-decision-tool-advance-next>
+              {% include 'civictheme:button' with {
+                theme: theme,
+                kind: 'button',
+                type: 'primary',
+                text: next_label,
+              } only %}
+            </span>
+            <span class="dga-decision-tool__nav-advance" data-dga-decision-tool-advance-submit hidden>
+              {% include 'civictheme:button' with {
+                theme: theme,
+                kind: 'button',
+                type: 'primary',
+                text: submit_label,
+              } only %}
+            </span>
+          </div>
+
+          <div class="dga-decision-tool__result" data-dga-decision-tool-result hidden>
+            {% for outcome in qs.outcomes %}
+              {% set severity = outcome.severity in ['info', 'success', 'warning', 'error'] ? outcome.severity : 'info' %}
+              {% set message_type = severity == 'info' ? 'information' : severity %}
+              {% set when = outcome.when|default({}) %}
+              {% set when_all = when.all is defined ? when.all|join(',') : '' %}
+              {% set when_any = when.any is defined ? when.any|join(',') : '' %}
+              {% set code_id = '%s__code-%s'|format(base_id, outcome.id) %}
+              <div
+                class="dga-decision-tool__outcome"
+                data-dga-decision-tool-outcome
+                data-outcome-id="{{ outcome.id }}"
+                data-when-all="{{ when_all }}"
+                data-when-any="{{ when_any }}"
+                hidden
+              >
+                {% include 'civictheme:message' with {
+                  theme: theme,
+                  type: message_type,
+                  with_background: true,
+                  title: outcome.heading,
+                  content: outcome.body,
+                } only %}
+
+                {% if outcome.more_link is defined and outcome.more_link.href is defined and outcome.more_link.href %}
+                  <p class="dga-decision-tool__more-link">
+                    {% include 'civictheme:button' with {
+                      theme: theme,
+                      kind: 'link',
+                      type: 'tertiary',
+                      text: outcome.more_link.text|default('Find out more'),
+                      url: outcome.more_link.href,
+                    } only %}
+                  </p>
+                {% endif %}
+
+                <div class="dga-decision-tool__reference">
+                  <span class="dga-decision-tool__reference-label" id="{{ code_id }}-label">{{ reference_label }}</span>
+                  <code class="dga-decision-tool__code" data-dga-decision-tool-code aria-labelledby="{{ code_id }}-label"></code>
+                  <span class="dga-decision-tool__reference-copy" data-dga-decision-tool-copy>
+                    {% include 'civictheme:button' with {
+                      theme: theme,
+                      kind: 'button',
+                      type: 'secondary',
+                      size: 'small',
+                      text: copy_label,
+                    } only %}
+                  </span>
+                </div>
+
+                {% if outcome.cta is defined and outcome.cta.href is defined and outcome.cta.href %}
+                  <div class="dga-decision-tool__cta">
+                    {% include 'civictheme:button' with {
+                      theme: theme,
+                      kind: 'link',
+                      type: 'primary',
+                      text: outcome.cta.label|default('Continue'),
+                      url: outcome.cta.href,
+                    } only %}
+                  </div>
+                {% endif %}
+              </div>
+            {% endfor %}
+
+            <div class="dga-decision-tool__restart" data-dga-decision-tool-restart>
+              {% include 'civictheme:button' with {
+                theme: theme,
+                kind: 'button',
+                type: 'tertiary',
+                size: 'small',
+                text: restart_label,
+              } only %}
+            </div>
+          </div>
+
+          {# "What you have answered": filled by the JS with each prior answer
+             and a Change link that jumps back to that step. Sits after the
+             question during the flow, and after the result on completion. #}
+          {% if show_summary %}
+            <div class="dga-decision-tool__summary" data-dga-decision-tool-summary data-change-label="{{ change_label }}" hidden>
+              <h{{ heading_level + 1 }} class="dga-decision-tool__summary-heading">{{ summary_label }}</h{{ heading_level + 1 }}>
+              <ol class="dga-decision-tool__summary-list" data-dga-decision-tool-summary-list></ol>
+            </div>
+          {% endif %}
+
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}

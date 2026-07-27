@@ -1,0 +1,14 @@
+{/* Editorial body is shared with the design library – edit ./callout.md, not this file. */}
+
+import { Meta, Canvas, Controls, Markdown } from '@storybook/addon-docs/blocks';
+import * as Stories from './callout.stories';
+import body from './callout.md?raw';
+
+<Meta of={Stories} />
+
+# Callout
+
+<Canvas of={Stories.Callout} />
+<Controls of={Stories.Callout} />
+
+<Markdown>{body.replace(/^---[\s\S]*?---\s*/, '')}</Markdown>

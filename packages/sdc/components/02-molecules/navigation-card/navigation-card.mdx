@@ -1,0 +1,39 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as Stories from './navigation-card.stories';
+
+<Meta of={Stories} />
+
+# Navigation card
+
+A card that points to another page, pairing a title link with a short summary and an optional image or icon. The whole card is the click target.
+
+<Canvas of={Stories.NavigationCard} />
+
+<Controls of={Stories.NavigationCard} />
+
+## When to use
+
+- a grid or list of destinations, each needing a title and a line or two of explanation
+- landing pages and section indexes, where the summary helps people choose where to go
+
+## When not to use
+
+- a bare list of links with no summary – use the **Link card** and **Link list** instead
+- a single standalone call to action – use a button or plain link
+
+## Variants
+
+- **default** – the directional arrow sits in the bottom corner of the card, below the summary
+- **index** (`variant: 'index'`) – the arrow moves inline to the end of the title, and a divider rule separates the title from the summary
+
+Both keep the whole card as the click target; the variant changes where the arrow sits, not how the card behaves. Use **index** for dense, text-only listings where the arrow reads better attached to the title than floating below the summary.
+
+<Canvas of={Stories.NavigationCardIndex} />
+
+The index divider takes the standard border token, so it follows the active theme. The variant sets no colour or surface of its own – a consuming theme controls those through `$ct-navigation-card-*`.
+
+## Accessibility
+
+- the whole card is a single link; the directional arrow is decorative (`aria-hidden`) in both variants, so assistive tech announces the title, not the icon
+- on the index variant the arrow is grouped with the last word of the title in a nowrap span, so it cannot wrap onto a line of its own
+- `is_title_click` narrows the target to the title alone; neither variant renders the arrow in that state

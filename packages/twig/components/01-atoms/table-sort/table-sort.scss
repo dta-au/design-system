@@ -1,0 +1,65 @@
+// Sort button styles. Applied when the DgaTableSort behavior enhances a `.ct-table--sortable` table.
+// Buttons are injected into <th> cells by JS — styles are global-scoped since
+// we're enhancing existing CivicTheme tables, not a component-owned element.
+
+.ct-basic-content table,
+.table-container table,
+.ct-table {
+  th {
+    &:has(> .ct-sort-btn) {
+      padding: ct-spacing(1.5) ct-spacing(3);
+    }
+  }
+}
+
+.ct-sort-btn {
+  display: flex;
+  align-items: center;
+  gap: ct-spacing(1);
+  width: 100%;
+  padding: ct-spacing(1) 0;
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &:focus-visible {
+    @include ct-outline();
+    @include ct-outline-border();
+  }
+
+  // SVG sort indicator — injected by JS, sized to scale with text.
+  svg {
+    flex-shrink: 0;
+    margin-left: auto;
+
+    // Dim the up/down icon when the column is unsorted.
+    [aria-sort='none'] & {
+      opacity: 0.4;
+    }
+  }
+}
+
+// .ct-sort-btn is injected as a child of <th> and is never the themed root,
+// so ct-component-theme() (which targets &.ct-theme-*) cannot be used here.
+// The parent selector is the correct pattern for descendant-only theming.
+.ct-theme-dark .ct-sort-btn:focus-visible {
+  @include ct-outline(true);
+}
+
+// Screen-reader-only utility for the aria-live status region.
+.ct-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

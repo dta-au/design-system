@@ -1,0 +1,14 @@
+{/* Editorial body is shared with the design library – edit ./iframe.md, not this file. */}
+
+import { Meta, Canvas, Controls, Markdown } from '@storybook/addon-docs/blocks';
+import * as Stories from './iframe.stories';
+import body from './iframe.md?raw';
+
+<Meta of={Stories} />
+
+# iFrame
+
+<Canvas of={Stories.Iframe} />
+<Controls of={Stories.Iframe} />
+
+<Markdown>{body.replace(/^---[\s\S]*?---\s*/, '')}</Markdown>

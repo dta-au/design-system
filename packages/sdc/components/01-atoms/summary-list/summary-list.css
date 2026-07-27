@@ -1,0 +1,126 @@
+/**
+ * This file was automatically generated. Please run `npm run dist` to update.
+ */
+
+.ct-summary-list {
+  margin: 0;
+  padding: 0;
+}
+.ct-summary-list .ct-summary-list__row {
+  display: flex;
+  flex-wrap: wrap;
+  border-bottom: 0.0625rem solid transparent;
+  padding: 1rem 0;
+  gap: 0.5rem;
+}
+.ct-summary-list .ct-summary-list__row:last-child {
+  border-bottom: none;
+}
+@media (min-width: 768px) {
+  .ct-summary-list .ct-summary-list__row {
+    flex-wrap: nowrap;
+    gap: 0;
+  }
+}
+.ct-summary-list .ct-summary-list__row[hidden] {
+  display: none;
+}
+.ct-summary-list--no-border .ct-summary-list__row {
+  border-bottom: none;
+  padding: 0.5rem 0;
+}
+.ct-summary-list .ct-summary-list__key {
+  font-size: var(--ct-typography-label-regular-font-size);
+  line-height: var(--ct-typography-label-regular-line-height);
+  font-family: var(--ct-typography-label-regular-font-name);
+  font-weight: var(--ct-typography-label-regular-font-weight);
+  letter-spacing: var(--ct-typography-label-regular-letter-spacing);
+  flex: 0 0 100%;
+  margin: 0;
+}
+.ct-summary-list .ct-summary-list__key > p {
+  font-size: var(--ct-typography-label-regular-font-size);
+  line-height: var(--ct-typography-label-regular-line-height);
+  font-family: var(--ct-typography-label-regular-font-name);
+  font-weight: var(--ct-typography-label-regular-font-weight);
+  letter-spacing: var(--ct-typography-label-regular-letter-spacing);
+}
+@media (min-width: 768px) {
+  .ct-summary-list .ct-summary-list__key {
+    flex: 0 0 30%;
+    padding-right: 1rem;
+  }
+}
+.ct-summary-list .ct-summary-list__value {
+  font-size: var(--ct-typography-text-regular-font-size);
+  line-height: var(--ct-typography-text-regular-line-height);
+  font-family: var(--ct-typography-text-regular-font-name);
+  font-weight: var(--ct-typography-text-regular-font-weight);
+  letter-spacing: var(--ct-typography-text-regular-letter-spacing);
+  flex: 1;
+  margin: 0;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+.ct-summary-list .ct-summary-list__value > p {
+  font-size: var(--ct-typography-text-regular-font-size);
+  line-height: var(--ct-typography-text-regular-line-height);
+  font-family: var(--ct-typography-text-regular-font-name);
+  font-weight: var(--ct-typography-text-regular-font-weight);
+  letter-spacing: var(--ct-typography-text-regular-letter-spacing);
+}
+@media (min-width: 768px) {
+  .ct-summary-list .ct-summary-list__value {
+    flex: 1 1 auto;
+  }
+}
+.ct-summary-list .ct-summary-list__actions {
+  margin: 0;
+  flex: 0 0 auto;
+}
+@media (min-width: 768px) {
+  .ct-summary-list .ct-summary-list__actions {
+    text-align: right;
+    padding-left: 1rem;
+  }
+}
+.ct-summary-list .ct-summary-list__action-link {
+  font-size: var(--ct-typography-label-regular-font-size);
+  line-height: var(--ct-typography-label-regular-line-height);
+  font-family: var(--ct-typography-label-regular-font-name);
+  font-weight: var(--ct-typography-label-regular-font-weight);
+  letter-spacing: var(--ct-typography-label-regular-letter-spacing);
+}
+.ct-summary-list .ct-summary-list__action-link:hover {
+  text-decoration: none;
+}
+.ct-summary-list.ct-theme-light .ct-summary-list__row {
+  border-color: var(--ct-summary-list-light-row-border-color);
+}
+.ct-summary-list.ct-theme-light .ct-summary-list__key {
+  color: var(--ct-summary-list-light-key-color);
+}
+.ct-summary-list.ct-theme-light .ct-summary-list__value {
+  color: var(--ct-summary-list-light-value-color);
+}
+.ct-summary-list.ct-theme-light .ct-summary-list__action-link {
+  color: var(--ct-summary-list-light-action-color);
+}
+.ct-summary-list.ct-theme-light .ct-summary-list__action-link:hover {
+  color: var(--ct-summary-list-light-action-hover-color);
+}
+.ct-summary-list.ct-theme-dark .ct-summary-list__row {
+  border-color: var(--ct-summary-list-dark-row-border-color);
+}
+.ct-summary-list.ct-theme-dark .ct-summary-list__key {
+  color: var(--ct-summary-list-dark-key-color);
+}
+.ct-summary-list.ct-theme-dark .ct-summary-list__value {
+  color: var(--ct-summary-list-dark-value-color);
+}
+.ct-summary-list.ct-theme-dark .ct-summary-list__action-link {
+  color: var(--ct-summary-list-dark-action-color);
+}
+.ct-summary-list.ct-theme-dark .ct-summary-list__action-link:hover {
+  color: var(--ct-summary-list-dark-action-hover-color);
+}

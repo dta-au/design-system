@@ -1,0 +1,225 @@
+//
+// CivicTheme Tabs component styles.
+//
+
+.ct-tabs {
+  $root: &;
+
+  #{$root}__links {
+    border-bottom-style: solid;
+    border-bottom-width: ct-particle(0.125);
+
+    .ct-link {
+      @include ct-typography('label-regular');
+
+      & {
+        margin-bottom: -1 * ct-particle(0.125);
+        outline-offset: -1 * ct-particle(0.375);
+        display: block;
+        padding: ct-spacing(1) ct-spacing(2);
+        border-radius: var(--ct-tabs-link-border-radius) var(--ct-tabs-link-border-radius) 0 0;
+        border: solid ct-particle(0.125);
+      }
+
+      @include ct-breakpoint(m) {
+        padding: ct-spacing(1.5) ct-spacing(2);
+      }
+
+      // Stronger active indicator (global): bolder label and a thicker bottom
+      // border that reads as an underline. Geometry only; colour is themed below.
+      &#{$root}__tab--selected {
+        font-weight: 700;
+        border-bottom-width: ct-particle(0.25);
+        margin-bottom: -1 * ct-particle(0.25);
+      }
+    }
+  }
+
+  // Optional per-tab count. Regular weight so it stays secondary to a bold
+  // selected label.
+  #{$root}__count {
+    font-weight: 400;
+  }
+
+  .ct-tabs__panels {
+    margin-top: ct-spacing(3);
+  }
+
+  .ct-tabs__panels__panel {
+    display: none;
+
+    &.ct-tabs__panel--selected {
+      display: block;
+    }
+  }
+
+  // Mobile Details disclosure (collapse_mobile). Below m the bar collapses into a
+  // <details>; at and above m the wrapper is transparent (display: contents) so the
+  // links flow as the normal horizontal bar and the summary is hidden.
+  #{$root}__disclosure {
+    @include ct-breakpoint(m) {
+      display: contents;
+    }
+  }
+
+  #{$root}__disclosure__summary {
+    @include ct-typography('label-regular');
+
+    display: flex;
+    align-items: center;
+    gap: ct-spacing(1);
+    padding: ct-spacing(2) ct-spacing(2.5);
+    cursor: pointer;
+    list-style: none;
+    border-style: solid;
+    border-width: ct-particle(0.125);
+
+    // Remove the native disclosure triangle.
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    @include ct-breakpoint(m) {
+      display: none;
+    }
+  }
+
+  #{$root}__disclosure__icon,
+  #{$root}__disclosure__chevron {
+    display: inline-flex;
+    flex: 0 0 auto;
+
+    .ct-icon {
+      @include ct-icon-size();
+    }
+  }
+
+  #{$root}__disclosure__label {
+    flex: 1 1 0;
+    min-width: 0;
+    text-align: left;
+  }
+
+  #{$root}__disclosure__chevron {
+    transition: transform 0.2s;
+  }
+
+  #{$root}__disclosure[open] #{$root}__disclosure__chevron {
+    transform: rotate(180deg);
+  }
+
+  // underline variant: plain text labels on the shared baseline rule. The active,
+  // hovered, and focused tab is marked by an accent bottom border - not a text
+  // underline or focus outline - mirroring the primary navigation pattern.
+  // Strips the default's per-tab box border, pill background, and rounded corners.
+  // Geometry only; the accent colour is themed below. Higher specificity than the
+  // base .ct-link block, so it wins for both resting and selected tabs.
+  &#{$root}--underline {
+    #{$root}__links .ct-link {
+      // No text-decoration underline in any state; the bottom border is the only indicator.
+      @include ct-link-no-decoration();
+
+      & {
+        // Horizontal padding widens the underline past the label and spaces the
+        // tabs (no item gap), matching the navigation menu behaviour.
+        padding: ct-spacing(1) ct-spacing(2);
+        border: 0;
+        border-bottom-style: solid;
+
+        // Hairline baseline on every link so a wrapped row keeps its own rule.
+        border-bottom-width: ct-particle(0.125);
+        border-radius: 0;
+        margin-bottom: -1 * ct-particle(0.125);
+      }
+
+      // Focus shows the accent bottom border (themed below), not the outline ring.
+      &:focus-visible {
+        outline: none;
+      }
+
+      // Thicker accent for hover, focus, and the current tab. Negative margin
+      // tracks the width so the bottom edge stays on the baseline.
+      &:is(:hover, :focus-visible),
+      &#{$root}__tab--selected {
+        border-bottom-width: ct-particle(0.375);
+        margin-bottom: -1 * ct-particle(0.375);
+      }
+
+      @include ct-breakpoint(m) {
+        padding: ct-spacing(1.5) ct-spacing(2);
+      }
+    }
+  }
+
+  // collapse_mobile: below m the links stack full width with squared corners and a
+  // larger touch target. Scoped to the modifier so default tabs are unaffected, and
+  // placed after the base .ct-link block so source order resolves the specificity tie.
+  &#{$root}--collapse-mobile {
+    @include ct-breakpoint-upto(m) {
+      #{$root}__links .ct-item-list__item {
+        flex: 0 0 100%;
+      }
+
+      #{$root}__links .ct-link {
+        padding: ct-spacing(2) ct-spacing(2.5);
+        border-radius: 0;
+      }
+    }
+  }
+
+  @include ct-component-theme($root) using($root, $theme) {
+    #{$root}__links {
+      border-bottom-color: ct-component-var($root, $theme, links, stripe, border-color);
+    }
+
+    .ct-link {
+      @include ct-component-property($root, $theme, links, background-color);
+      @include ct-component-property($root, $theme, links, border-color);
+
+      border-bottom-color: ct-component-var($root, $theme, links, stripe, border-color);
+
+      &#{$root}__tab--selected {
+        @include ct-component-property($root, $theme, links, active, background-color);
+        @include ct-component-property($root, $theme, links, active, border-color);
+
+        // Underline in the active colour rather than blending into the strip.
+        border-bottom-color: ct-component-var($root, $theme, links, active, border-color);
+      }
+    }
+
+    // underline variant: no box background; the active label carries a short
+    // accent underline in the primary interaction colour instead of the
+    // default's subtle border-light active border. `&` keeps the modifier on
+    // the themed root element (compound), not a descendant of it.
+    &#{$root}--underline #{$root}__links {
+      // Light hairline baseline under the whole bar (the shared default stripe
+      // colour resolves to currentColor here, so set it explicitly).
+      border-bottom-color: ct-component-var($root, $theme, links, underline, stripe, border-color);
+
+      .ct-link {
+        background-color: transparent;
+
+        // Each link carries the baseline colour so a wrapped row keeps its own
+        // rule - the container border only draws under the last row.
+        border-bottom-color: ct-component-var($root, $theme, links, underline, stripe, border-color);
+
+        // Hover, focus, and the current tab all share the accent bottom border.
+        &:is(:hover, :focus-visible),
+        &#{$root}__tab--selected {
+          background-color: transparent;
+          border-bottom-color: ct-component-var($root, $theme, links, underline, border-color);
+        }
+      }
+    }
+
+    #{$root}__disclosure__summary {
+      @include ct-component-property($root, $theme, links, background-color);
+      @include ct-component-property($root, $theme, links, border-color);
+    }
+
+    #{$root}__panels {
+      @include ct-component-property($root, $theme, panel, background-color);
+      @include ct-component-property($root, $theme, panel, border-color);
+    }
+  }
+}

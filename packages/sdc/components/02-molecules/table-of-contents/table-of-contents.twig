@@ -1,0 +1,91 @@
+{#
+/**
+ * @file
+ * CivicTheme Table of Contents component.
+ *
+ * Props:
+ * - theme: [string] Theme variation (light or dark).
+ * - heading_level: [integer] Heading level for the title.
+ * - is_contained: [boolean] Whether to wrap the content in a container.
+ * - title: [string] Link title.
+ * - position: [string] TOC position relative to the content it lists.
+ * - min_level: [integer] Shallowest heading level to list (2 = h2). Used to build the anchor selector for client-side generation when anchor_selector is not set.
+ * - max_level: [integer] Deepest heading level to list (3 = down to h3). Nested __links are rendered to this depth and no deeper. Used to build the anchor selector for client-side generation when anchor_selector is not set.
+ * - anchor_selector: [string] Explicit CSS selector for headings to include (e.g. 'h2, h3'). Overrides min_level/max_level for client-side generation when set.
+ * - scope_selector: [string] CSS selector for the content area to generate the TOC from (client-side generation).
+ * - exclude_selector: [string] CSS selector list of headings to exclude from client-side generation (e.g. '.no-toc, #intro'). Individual headings can also opt out with a data-toc-exclude attribute.
+ * - modifier_class: [string] Additional CSS classes.
+ * - attributes: [Drupal\Core\Template\Attribute] Additional HTML attributes.
+ *
+ * Slots:
+ * - links: Table of contents links. Each item has title, url and an optional children array of the same shape for nested levels.
+ * - content: Content (only displays when links are not provided).
+ *
+ * Blocks:
+ * - content_block
+ */
+#}
+
+{% set heading_level = heading_level in [2, 3, 4, 5, 6] ? heading_level : 2 %}
+
+{% import _self as toc %}
+
+{% macro render_links(links, is_child) %}
+  {% import _self as toc %}
+  {% if links is not empty %}
+    {% set list_class = is_child ? 'ct-table-of-contents__links ct-table-of-contents__links--child' : 'ct-table-of-contents__links' %}
+    <ul class="{{ list_class }}">
+      {% for link in links %}
+        <li class="ct-table-of-contents__link-item">
+          <a class="ct-table-of-contents__link" href="{{ link.url }}">{{ link.title }}</a>
+          {% if link.children is defined and link.children is not empty %}
+            {{ toc.render_links(link.children, true) }}
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endmacro %}
+
+{% set is_contained = is_contained is not same as(false) %}
+
+{% if links is not empty or scope_selector is not empty %}
+  {% if is_contained %}
+  <div class="container">
+    <div class="row">
+      <div class="col-xxs-12">
+        {% endif %}
+        {% if links %}
+          {% set theme_class = 'ct-theme-%s'|format(theme|default('light')) %}
+          {% set position_class = 'ct-table-of-contents--position-%s'|format(position|default('before')) %}
+          {% set not_contained_class = not is_contained ? 'ct-table-of-contents--not-contained' : '' %}
+          {% set modifier_class = '%s %s %s %s'|format(theme_class, position_class, not_contained_class, modifier_class|default('')) %}
+
+          <div class="ct-table-of-contents {{ modifier_class }}" {% if attributes is defined and attributes is not null %}{{- attributes -}}{% endif %}>
+            {% if title %}
+              <h{{ heading_level }} class="ct-table-of-contents__title">{{ title }}</h{{ heading_level }}>
+            {% endif %}
+            {{ toc.render_links(links, false) }}
+          </div>
+        {% else %}
+          <div
+            data-table-of-contents-theme="{{ theme }}"
+            data-table-of-contents-title="{{ title }}"
+            data-table-of-contents-min-level="{{ min_level }}"
+            data-table-of-contents-max-level="{{ max_level }}"
+            data-table-of-contents-anchor-selector="{{ anchor_selector }}"
+            data-table-of-contents-anchor-scope-selector="{{ scope_selector }}"
+            data-table-of-contents-exclude-selector="{{ exclude_selector }}"
+            data-table-of-contents-position="{{ position }}"
+          >
+            {%- block content_block -%}
+              {{- content -}}
+            {%- endblock -%}
+          </div>
+        {% endif %}
+        {% if is_contained %}
+      </div>
+    </div>
+  </div>
+  {% endif %}
+{% endif %}

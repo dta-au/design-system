@@ -1,0 +1,182 @@
+{#
+/**
+ * @file
+ * digital.gov.au Step by Step Nav component.
+ *
+ * Props:
+ * - theme: [string] Theme variation (light or dark).
+ * - is_contained: [boolean] Whether to wrap the content in a container.
+ * - size: [string] Component size. Small is intended for use in a sidebar.
+ * - heading_level: [integer] HTML heading level for step titles (2–6). Default 2.
+ * - show_step: [integer] 1-based index of the step to open on initial load.
+ * - highlight_step: [integer] 1-based index of the step to visually highlight as the active step (e.g. the current page's step).
+ * - with_background: [boolean] Whether to display with a background.
+ * - vertical_spacing: [string] Vertical spacing position (top, bottom, both, none).
+ * - modifier_class: [string] Additional CSS classes.
+ * - steps: [array] Array of step objects:
+ *   Each item contains:
+ *   - title: [string] Step heading text.
+ *   - number: [integer] Display number for the step badge. Falls back to loop index if absent. Ignored when logic is set.
+ *   - logic: [string] Replaces the step number with a logic word ('and' or 'or').
+ *   - optional: [boolean] Whether this step is optional. Convey optionality in the step's text content.
+ *   - contents: [array] Step body content items:
+ *     Each item contains:
+ *     - type: [string] Content type (paragraph, list, substep, heading).
+ *     - text: [string] Used for type=paragraph and type=heading.
+ *     - style: [string] Used for type=list. 'choice' adds bullets and indent.
+ *     - optional: [boolean] Used for type=substep. Marks the substep as optional.
+ *     - contents: [array] Used for type=list (link items) and type=substep (nested content):
+ *       Each item contains:
+ *       - type: [string] Nested content type (paragraph, list, heading). Used inside substep.
+ *       - text: [string] Link label, connector text, or heading text.
+ *       - href: [string] Link destination. If absent the item renders as a text connector.
+ *       - context: [string] Extra detail shown after the link, typically a fee or time estimate.
+ *       - active: [boolean] Highlights this link as the current page.
+ *       - style: [string] List style inside a substep ('choice').
+ * - attributes: [Drupal\Core\Template\Attribute] Additional HTML attributes.
+ */
+#}
+
+{% set theme = theme in ['light', 'dark'] ? theme : 'light' %}
+{% set size = size in ['default', 'small'] ? size : 'default' %}
+{% set heading_level = heading_level in [2, 3, 4, 5, 6] ? heading_level : 2 %}
+
+{% set is_contained = is_contained is not same as(false) %}
+{% set theme_class = 'ct-theme-%s'|format(theme) %}
+{% set size_class = size != 'default' ? 'ct-step-by-step-nav--%s'|format(size) : '' %}
+{% set with_background_class = with_background ? 'ct-step-by-step-nav--with-background' : '' %}
+{% set not_contained_class = not is_contained ? 'ct-step-by-step-nav--not-contained' : '' %}
+{% set vertical_spacing_class = vertical_spacing in ['top', 'bottom', 'both', 'none'] ? 'ct-vertical-spacing-inset--%s'|format(vertical_spacing) : '' %}
+{% set modifier_class = '%s %s %s %s %s %s'|format(theme_class, size_class, with_background_class, not_contained_class, vertical_spacing_class, modifier_class|default('')) %}
+
+{% if steps is not empty %}
+  <div class="ct-step-by-step-nav {{ modifier_class -}}"
+    data-step-by-step-nav
+    {% if show_step is defined and show_step is not null and show_step is not empty %}data-step-by-step-show-step="{{ show_step }}"{% endif %}
+    {% if attributes is defined and attributes is not null %}{{- attributes -}}{% endif %}>
+    {% if is_contained %}
+    <div class="container">
+      <div class="row">
+        <div class="col-xxs-12 col-l-9 col-xl-8">
+          {% endif %}
+          <ol class="ct-step-by-step-nav__steps">
+            {% for step in steps %}
+              {% if step.title is not empty %}
+                {% set step_index = loop.index %}
+                {% set is_highlighted = highlight_step is defined and highlight_step is not null and step_index == highlight_step %}
+                {% set is_expanded = show_step is defined and show_step is not null and step_index == show_step %}
+                {% set step_id = 'ct-step-by-step-nav-step-%s'|format(step_index) %}
+                {% set btn_id = 'ct-step-by-step-nav-btn-%s'|format(step_index) %}
+
+                {% set step_classes = 'ct-step-by-step-nav__step' %}
+                {% if is_highlighted %}{% set step_classes = '%s ct-step-by-step-nav__step--active'|format(step_classes) %}{% endif %}
+                {% if step.optional %}{% set step_classes = '%s ct-step-by-step-nav__step--optional'|format(step_classes) %}{% endif %}
+                {% if step.logic in ['and', 'or'] %}{% set step_classes = '%s ct-step-by-step-nav__step--logic'|format(step_classes) %}{% endif %}
+
+                <li class="{{ step_classes }}"
+                  data-collapsible
+                  {% if not is_expanded %}data-collapsible-collapsed{% endif %}
+                  data-collapsible-duration="250">
+                  <div class="ct-step-by-step-nav__step__header">
+                    <div class="ct-step-by-step-nav__step__number{% if step.logic in ['and', 'or'] %} ct-step-by-step-nav__step__number--logic{% endif %}" aria-hidden="true">
+                      <span class="ct-step-by-step-nav__step__number__inner">
+                        {%- if step.logic in ['and', 'or'] -%}
+                          {{ step.logic }}
+                        {%- elseif step.number is defined and step.number is not null -%}
+                          {{ step.number }}
+                        {%- else -%}
+                          {{ step_index }}
+                        {%- endif -%}
+                      </span>
+                    </div>
+
+                    <h{{ heading_level }} class="ct-step-by-step-nav__step__title">
+                      <button
+                        id="{{ btn_id }}"
+                        class="ct-step-by-step-nav__step__title__button"
+                        data-collapsible-trigger
+                        aria-expanded="{{ is_expanded ? 'true' : 'false' }}"
+                        aria-controls="{{ step_id }}">
+                        {{- step.title -}}
+                      </button>
+                    </h{{ heading_level }}>
+                  </div>
+
+                  <div
+                    id="{{ step_id }}"
+                    class="ct-step-by-step-nav__step__panel"
+                    role="region"
+                    aria-labelledby="{{ btn_id }}"
+                    data-collapsible-panel>
+                    <div class="ct-step-by-step-nav__step__panel__inner">
+                      {% if step.contents is not empty %}
+                        {% for item in step.contents %}
+
+                          {% if item.type == 'paragraph' and item.text is not empty %}
+                            <p class="ct-step-by-step-nav__step__panel__paragraph">{{ item.text }}</p>
+
+                          {% elseif item.type == 'list' and item.contents is not empty %}
+                            <ul class="ct-step-by-step-nav__step__panel__list{% if item.style == 'choice' %} ct-step-by-step-nav__step__panel__list--choice{% endif %}">
+                              {% for link_item in item.contents %}
+                                <li class="ct-step-by-step-nav__step__panel__list__item{% if link_item.active %} ct-step-by-step-nav__step__panel__list__item--active{% endif %}">
+                                  {% if link_item.href is not empty %}
+                                    <a href="{{ link_item.href }}" class="ct-step-by-step-nav__step__panel__list__link{% if link_item.active %} ct-step-by-step-nav__step__panel__list__link--active{% endif %}"{% if link_item.active %} aria-current="page"{% endif %}>
+                                      {{- link_item.text -}}
+                                    </a>
+                                    {% if link_item.context is not empty %}
+                                      <span class="ct-step-by-step-nav__step__panel__list__context">{{ link_item.context }}</span>
+                                    {% endif %}
+                                  {% elseif link_item.text is not empty %}
+                                    <span class="ct-step-by-step-nav__step__panel__list__connector">{{ link_item.text }}</span>
+                                  {% endif %}
+                                </li>
+                              {% endfor %}
+                            </ul>
+
+                          {% elseif item.type == 'substep' and item.contents is not empty %}
+                            <div class="ct-step-by-step-nav__substep{% if item.optional %} ct-step-by-step-nav__substep--optional{% endif %}">
+                              {% for sub_item in item.contents %}
+                                {% if sub_item.type == 'heading' and sub_item.text is not empty %}
+                                  <h{{ heading_level + 1 }} class="ct-step-by-step-nav__substep__heading">{{ sub_item.text }}</h{{ heading_level + 1 }}>
+                                {% elseif sub_item.type == 'paragraph' and sub_item.text is not empty %}
+                                  <p class="ct-step-by-step-nav__step__panel__paragraph">{{ sub_item.text }}</p>
+                                {% elseif sub_item.type == 'list' and sub_item.contents is not empty %}
+                                  <ul class="ct-step-by-step-nav__step__panel__list{% if sub_item.style == 'choice' %} ct-step-by-step-nav__step__panel__list--choice{% endif %}">
+                                    {% for sub_link in sub_item.contents %}
+                                      <li class="ct-step-by-step-nav__step__panel__list__item{% if sub_link.active %} ct-step-by-step-nav__step__panel__list__item--active{% endif %}">
+                                        {% if sub_link.href is not empty %}
+                                          <a href="{{ sub_link.href }}" class="ct-step-by-step-nav__step__panel__list__link{% if sub_link.active %} ct-step-by-step-nav__step__panel__list__link--active{% endif %}"{% if sub_link.active %} aria-current="page"{% endif %}>
+                                            {{- sub_link.text -}}
+                                          </a>
+                                          {% if sub_link.context is not empty %}
+                                            <span class="ct-step-by-step-nav__step__panel__list__context">{{ sub_link.context }}</span>
+                                          {% endif %}
+                                        {% elseif sub_link.text is not empty %}
+                                          <span class="ct-step-by-step-nav__step__panel__list__connector">{{ sub_link.text }}</span>
+                                        {% endif %}
+                                      </li>
+                                    {% endfor %}
+                                  </ul>
+                                {% endif %}
+                              {% endfor %}
+                            </div>
+
+                          {% elseif item.type == 'heading' and item.text is not empty %}
+                            <h{{ heading_level + 1 }} class="ct-step-by-step-nav__step__panel__heading">{{ item.text }}</h{{ heading_level + 1 }}>
+
+                          {% endif %}
+                        {% endfor %}
+                      {% endif %}
+                    </div>
+                  </div>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ol>
+          {% if is_contained %}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+{% endif %}

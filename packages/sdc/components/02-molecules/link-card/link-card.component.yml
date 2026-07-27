@@ -1,0 +1,67 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
+name: Link Card
+status: stable
+description: A single link rendered as a compact, shaded card. One card represents one list item; the group heading and layout are managed by a separate organism. A digital.gov.au extension of the CivicTheme card family.
+props:
+  type: object
+  properties:
+    theme:
+      type: string
+      title: Theme
+      description: Theme variation (light or dark).
+      enum:
+        - light
+        - dark
+    heading_level:
+      type: integer
+      title: Heading level
+      description: Optional heading level for the title. Unset keeps the plain element.
+      enum:
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+    variant:
+      type: string
+      title: Variant
+      description: Card type. "download" marks a downloadable file, shows a download icon, and renders the optional file extension and size. Otherwise the card shows a directional arrow (internal or external).
+      enum:
+        - default
+        - download
+    is_secured:
+      type: boolean
+      title: Secured
+      description: Marks a secured/gated resource. Adds a padlock icon beside the type icon and a visually-hidden "(secured)" notice. Orthogonal to variant, so a download can also be secured. Not recommended on external links - the destination owns its own authentication.
+    title:
+      type: string
+      title: Title
+      description: Link text, rendered in label weight.
+    url:
+      type: string
+      title: URL
+      description: Link URL. The whole card is the link target. Optional when the card is deactivated.
+    file_extension:
+      type: string
+      title: File extension
+      description: File extension label shown after the title on the download variant, e.g. "PDF". Ignored on other variants.
+    file_size:
+      type: string
+      title: File size
+      description: File size label shown after the title on the download variant, e.g. "1.2 MB". Ignored on other variants.
+    is_external:
+      type: boolean
+      title: External
+      description: Whether the link is external.
+    is_new_window:
+      type: boolean
+      title: New window
+      description: Whether to open the link in a new window.
+    is_deactivated:
+      type: boolean
+      title: Deactivated
+      description: Render the card in a non-interactive, deactivated state with no link target. Used for secured resources that are locked until the user signs in.
+    modifier_class:
+      type: string
+      title: Modifier classes
+      description: Additional CSS classes.

@@ -1,0 +1,234 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
+name: Search assistant
+status: experimental
+description: 'Search that returns a short grounded assistant answer above the ranked results, with progressive disclosure and confidence gating. Proof of concept: answers render from scripted entries supplied as props while the corresponding technical solution design is under development. Tests whether an assistant that states what it does NOT own helps more than one that answers confidently from a single corpus.'
+props:
+  type: object
+  required:
+    - entries
+  properties:
+    theme:
+      type: string
+      title: Theme
+      description: Theme variation (light or dark).
+      enum:
+        - light
+        - dark
+      default: light
+    vertical_spacing:
+      type: string
+      title: Vertical spacing
+      description: Vertical spacing (top, bottom, both, none).
+      enum:
+        - top
+        - bottom
+        - both
+        - none
+    component_id:
+      type: string
+      title: Component ID
+      description: Stable identifier used to build citation anchor ids. Must be unique per instance on a page.
+    entries:
+      type: array
+      title: Scripted entries
+      description: 'The fixture. Each entry scripts one query: its ranked results, a short teaser answer, an optional longer continuation, citations, and an owner that drives the confidence gating.'
+      items:
+        type: object
+        required:
+          - query
+        properties:
+          query:
+            type: string
+            title: Query
+            description: Exact phrase a tester will type. Matched after lowercasing, trimming and collapsing whitespace.
+          owner:
+            type: string
+            title: Owner
+            description: 'Who owns the answer. full = this corpus answers it; partial = answers part, disclose the boundary via scope; external = refer out, never answer; none = suppress the answer, show results only.'
+            enum:
+              - full
+              - partial
+              - external
+              - none
+            default: full
+          confidence:
+            type: number
+            title: Confidence
+            description: Below the component confidence_threshold the answer is suppressed; results still show.
+          continuation_worthy:
+            type: boolean
+            title: Continuation worthy
+            description: When false the teaser shows with no expand control, even if a continuation exists.
+          teaser:
+            type: array
+            title: Teaser
+            description: Short grounded lines revealed first. Empty for external entries, which do not answer.
+            items:
+              type: string
+          continuation:
+            type: string
+            title: Continuation
+            description: Longer answer streamed when the disclosure is expanded.
+          citations:
+            type: array
+            title: Citations
+            description: Zero-based indexes into results, linked as sources under the answer.
+            items:
+              type: number
+          scope:
+            type: object
+            title: Scope
+            description: 'The boundary of the answer: what this corpus covers, and who owns the rest. Shown under a partial answer, and as the whole message for an external referral.'
+            properties:
+              note:
+                type: string
+                title: Note
+              refs:
+                type: array
+                title: References
+                items:
+                  type: object
+                  required:
+                    - label
+                    - url
+                  properties:
+                    label:
+                      type: string
+                    url:
+                      type: string
+          explore:
+            type: array
+            title: Explore more prompts
+            description: 'Suggested follow-on prompts shown after the answer, written as properly punctuated questions. Each is a disclosure that expands in place and streams the matched scripted query''s answer beneath it (matching ignores case and trailing punctuation); an item with a url renders as a link and navigates instead.'
+            items:
+              type: object
+              required:
+                - title
+              properties:
+                title:
+                  type: string
+                url:
+                  type: string
+          results:
+            type: array
+            title: Results
+            items:
+              type: object
+              required:
+                - title
+                - url
+              properties:
+                title:
+                  type: string
+                snippet:
+                  type: string
+                url:
+                  type: string
+                type:
+                  type: string
+                  title: Content type
+                  description: Shown as the result tag (e.g. Policy, Standard, Design).
+                audience:
+                  type: string
+                  title: Audience
+                  description: Mandate line shown beside the tag (e.g. Mandatory for most government agencies).
+    fallback_results:
+      type: array
+      title: Fallback results
+      description: Shown for any query that does not match a scripted entry. Never make up an answer for an unmatched query.
+      items:
+        type: object
+        required:
+          - title
+          - url
+        properties:
+          title:
+            type: string
+          snippet:
+            type: string
+          url:
+            type: string
+          type:
+            type: string
+          audience:
+            type: string
+    confidence_threshold:
+      type: number
+      title: Confidence threshold
+      description: Entries below this confidence have their answer suppressed. Defaults to 0.6.
+    hint:
+      type: string
+      title: Hint
+      description: Idle-state hint shown before anything is searched, e.g. suggested scripted queries.
+    search_label:
+      type: string
+      title: Search label
+    placeholder:
+      type: string
+      title: Placeholder
+    button_text:
+      type: string
+      title: Button text
+    badge_label:
+      type: string
+      title: Badge label
+    referral_badge_label:
+      type: string
+      title: Referral badge label
+    generating_label:
+      type: string
+      title: Generating label
+    show_more_label:
+      type: string
+      title: Show more label
+    show_less_label:
+      type: string
+      title: Show less label
+    sources_label:
+      type: string
+      title: Sources label
+    explore_title:
+      type: string
+      title: Explore more label
+      description: Label for the Explore more disclosure button.
+    grounded_text:
+      type: string
+      title: Grounded text
+      description: Shown beside the badge. @count is replaced with the citation count.
+    suppressed_text:
+      type: string
+      title: Suppressed text
+      description: Status shown when a low-confidence or out-of-scope answer is suppressed.
+    referral_text:
+      type: string
+      title: Referral text
+      description: Status shown under an external referral.
+    fallback_text:
+      type: string
+      title: Fallback text
+      description: Status shown for an unmatched query.
+    results_summary_text:
+      type: string
+      title: Results summary text
+      description: Summary above the result list. @count and @query are replaced.
+    force_state:
+      type: string
+      title: Force state
+      description: Demo affordance. Jump straight to a state on load without typing a scripted query.
+      enum:
+        - idle
+        - generating
+        - teaser
+        - streaming
+        - expanded
+        - referral
+        - suppressed
+        - fallback
+    force_query:
+      type: string
+      title: Force query
+      description: Optional query to pair with a forced state.
+    modifier_class:
+      type: string
+      title: Modifier class
+      description: Additional CSS classes.

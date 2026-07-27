@@ -1,0 +1,184 @@
+name: Release
+
+# Tag-push release hub for the DTA design system.
+#
+# Push a v-prefixed tag (e.g. v1.0.0) and this workflow:
+#   1. derives the npm version and dist-tag from the tag,
+#   2. publishes @dta-au/designsystem-sdc and @dta-au/designsystem-twig with provenance,
+#   3. (current line only) builds and deploys the SDC Storybook to GitHub Pages,
+#   4. (current line only) notifies the docs repo via repository_dispatch.
+#
+# Versioning: plain semver, no prerelease suffix, so consumer range pins
+# resolve. LATEST_LINE owns the npm `latest` dist-tag and the published
+# Storybook; other lines publish under maintenance-<line>. The 1.0 line starts
+# at the design-system rename, decoupled from the upstream CivicTheme base.
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+# id-token: write is required for npm provenance AND for the Pages deploy.
+permissions:
+  contents: read
+  id-token: write
+  pages: write
+
+env:
+  # The release line that owns the npm `latest` dist-tag and the live Storybook.
+  # Bump this when the current line moves on.
+  LATEST_LINE: '1.0'
+  NODE_VERSION: '24'
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  # Pre-publish gate: generate SBOMs and fail on high+ fixable vulnerabilities.
+  sbom:
+    uses: ./.github/workflows/sbom.yml
+    permissions:
+      contents: read
+    with:
+      version: ${{ github.ref_name }}
+
+  publish:
+    needs: sbom
+    runs-on: ubuntu-latest
+    # Bound to the npm trusted-publisher (OIDC) config for both packages.
+    environment: npm-publish
+    outputs:
+      version: ${{ steps.meta.outputs.version }}
+      npm_tag: ${{ steps.meta.outputs.npm_tag }}
+      is_latest: ${{ steps.meta.outputs.is_latest }}
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: 'https://registry.npmjs.org'
+          scope: '@dta-au'
+          cache: 'npm'
+
+      - name: Derive version and dist-tag from tag
+        id: meta
+        run: |
+          set -euo pipefail
+          VERSION="${GITHUB_REF_NAME#v}"
+          LINE="${VERSION%.*}"            # 1.13.2 -> 1.13
+          if [ "$LINE" = "${LATEST_LINE}" ]; then
+            NPM_TAG=latest
+            IS_LATEST=true
+          else
+            NPM_TAG="maintenance-${LINE}"
+            IS_LATEST=false
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "npm_tag=$NPM_TAG" >> "$GITHUB_OUTPUT"
+          echo "is_latest=$IS_LATEST" >> "$GITHUB_OUTPUT"
+          echo "Publishing $VERSION with dist-tag $NPM_TAG (latest line: $LATEST_LINE)"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Set workspace versions from tag
+        run: |
+          npm version "${{ steps.meta.outputs.version }}" \
+            --no-git-tag-version --allow-same-version \
+            --workspace=packages/sdc
+          npm version "${{ steps.meta.outputs.version }}" \
+            --no-git-tag-version --allow-same-version \
+            --workspace=packages/twig
+
+      - name: Build distributables
+        run: npm run dist
+
+      # Trusted publishing (OIDC): no token env - npm mints credentials from the
+      # workflow identity (repo + release.yml + npm-publish environment).
+      - name: Publish @dta-au/designsystem-sdc
+        working-directory: packages/sdc
+        run: npm publish --provenance --access public --tag "${{ steps.meta.outputs.npm_tag }}"
+
+      - name: Publish @dta-au/designsystem-twig
+        working-directory: packages/twig
+        run: npm publish --provenance --access public --tag "${{ steps.meta.outputs.npm_tag }}"
+
+  storybook:
+    # Only the current line owns the single Pages site; maintenance-line tags
+    # publish to npm and notify docs but do not overwrite the live Storybook.
+    needs: publish
+    if: needs.publish.outputs.is_latest == 'true'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build SDC Storybook
+        run: npm run build-storybook --workspace=packages/sdc
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: packages/sdc/storybook-static
+
+      - name: Deploy to GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@v5
+
+  attach-sbom:
+    # Nothing else creates the GitHub release object (release-drafter is
+    # config-only), so create it if missing. --clobber keeps re-runs idempotent.
+    needs: [sbom, publish]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/download-artifact@v8
+        with:
+          name: sboms
+          path: .logs/sbom
+
+      - name: Attach SBOMs to the GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          TAG="${GITHUB_REF_NAME}"
+          gh release view "$TAG" >/dev/null 2>&1 \
+            || gh release create "$TAG" --verify-tag --generate-notes
+          gh release upload "$TAG" .logs/sbom/*.cdx.json --clobber
+
+  notify-docs:
+    # Only the current line drives the docs site: a maintenance-line release
+    # must not dispatch and downgrade the docs pin.
+    needs: publish
+    if: needs.publish.outputs.is_latest == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dispatch uikit-released to dga-dl
+        # version + package are authoritative; the receiver installs the named
+        # package at that version, so a package rename never strands the pin.
+        env:
+          DISPATCH_PAT: ${{ secrets.DISPATCH_PAT }}
+          VERSION: ${{ needs.publish.outputs.version }}
+          NPM_TAG: ${{ needs.publish.outputs.npm_tag }}
+        run: |
+          curl -sSfL -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${DISPATCH_PAT}" \
+            -H "X-GitHub-Api-Version: 2026-03-10" \
+            https://api.github.com/repos/JamesFehon-DTA/dga-dl/dispatches \
+            -d "{\"event_type\":\"uikit-released\",\"client_payload\":{\"version\":\"${VERSION}\",\"npm_tag\":\"${NPM_TAG}\",\"package\":\"@dta-au/designsystem-twig\"}}"

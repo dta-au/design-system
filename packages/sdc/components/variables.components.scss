@@ -1,0 +1,328 @@
+//
+// Custom components variables overrides.
+//
+// CivicTheme variables can be found in components/00-base/_variables.components.scss
+//
+// stylelint-disable scss/dollar-variable-pattern
+
+//
+// Basic content measure (digital.gov.au).
+//
+// Reading measure and wrapping for prose, applied by the ct-content mixin and
+// the typography component. Static values referenced directly - not themed,
+// so no custom-property indirection. Ported from the AGA theme.
+//
+$dga-basic-content-heading-text-wrap: balance;
+$dga-basic-content-heading-higher-max-width: 40ch;
+$dga-basic-content-heading-lower-max-width: 55ch;
+$dga-basic-content-p-text-wrap: pretty;
+$dga-basic-content-p-max-width: 75ch;
+$dga-basic-content-blockquote-p-text-wrap: balance;
+$dga-basic-content-blockquote-p-max-width: 40ch;
+$dga-basic-content-blockquote-cite-text-wrap: balance;
+$dga-basic-content-blockquote-cite-max-width: 70ch;
+
+//
+// Surface (digital.gov.au).
+//
+// A panel colour sitting between the page surface (background-light #fdfdfd)
+// and the section band (background #e6e9eb). Components that present as a
+// self-contained panel (with_background variants) take this, so a panel is
+// distinguishable from both the page and a full-width band.
+//
+$dga-color-light-surface: #f2f4f5;
+
+// One step above dark background #003a4f, below background-light #0d4458.
+$dga-color-dark-surface: #073f53;
+
+//
+// Attachment (digital.gov.au).
+//
+// with_background fills the file card with the surface token, so the card is
+// the panel and stays flush with its container. Upstream instead bands the
+// with-background root around an inset page-coloured card, which reads as a
+// thick background-coloured border.
+//
+$ct-attachment-light-wrapper-background-color: $dga-color-light-surface !default;
+$ct-attachment-light-background-color: ct-color-light('background-light') !default;
+$ct-attachment-dark-wrapper-background-color: $dga-color-dark-surface !default;
+$ct-attachment-dark-background-color: ct-color-dark('background') !default;
+
+//
+// Link Card (digital.gov.au).
+//
+// A shaded card from the card family: same elevation as navigation-card but
+// one background step darker (navigation-card uses background-light/background).
+//
+$ct-link-card-border-radius: 0 !default;
+$ct-link-card-light-background-color: ct-color-light('background') !default;
+$ct-link-card-light-hover-background-color: ct-color-light('background-light') !default;
+$ct-link-card-light-link-color: ct-color-light('body') !default;
+$ct-link-card-light-link-hover-color: ct-color-light('interaction-background') !default;
+$ct-link-card-light-deactivated-link-color: ct-color-light('body') !default;
+$ct-link-card-dark-background-color: ct-color-dark('background-dark') !default;
+$ct-link-card-dark-hover-background-color: ct-color-dark('background-light') !default;
+$ct-link-card-dark-link-color: ct-color-dark('body') !default;
+$ct-link-card-dark-link-hover-color: ct-color-dark('interaction-background') !default;
+$ct-link-card-dark-deactivated-link-color: ct-color-dark('body') !default;
+
+//
+// Navigation Card (digital.gov.au).
+//
+// Divider rule between title and summary on the "index" variant. Upstream
+// navigation-card has no divider, so this is declared here rather than in
+// 00-base. Uses the same border token as the card's hover outline.
+//
+$ct-navigation-card-light-divider-border-color: ct-color-light('border') !default;
+$ct-navigation-card-dark-divider-border-color: ct-color-dark('border') !default;
+
+//
+// Link List (digital.gov.au).
+//
+// Geometry + border colour for the "connected" variant, where cards form one
+// rounded, bordered group. Cards stay flat; the list owns the grouping.
+//
+$ct-link-list-connected-border-radius: $ct-border-radius !default;
+$ct-link-list-light-connected-border-color: ct-color-light('border') !default;
+$ct-link-list-dark-connected-border-color: ct-color-dark('border') !default;
+
+//
+// Search Results (digital.gov.au).
+//
+// search-results.scss references these via ct-component-property but never
+// defined them, so every --ct-search-results-*-* custom property resolved to
+// undefined and the text inherited black — fine on light, fails contrast on
+// dark. Triggers and the filter label are heading-style controls; the results
+// summary is body text; group dividers use the border token.
+//
+$ct-search-results-light-filter-trigger-color: ct-color-light('heading') !default;
+$ct-search-results-light-filter-trigger-background-color: transparent !default;
+$ct-search-results-light-filter-border-color: ct-color-light('border') !default;
+$ct-search-results-light-summary-color: ct-color-light('body') !default;
+$ct-search-results-dark-filter-trigger-color: ct-color-dark('heading') !default;
+$ct-search-results-dark-filter-trigger-background-color: transparent !default;
+$ct-search-results-dark-filter-border-color: ct-color-dark('border') !default;
+$ct-search-results-dark-summary-color: ct-color-dark('body') !default;
+
+//
+// Search Bar (digital.gov.au).
+//
+// Same omission as Search Results: search-bar.scss references these via
+// ct-component-property but never defined them, so the input text, fill and
+// border inherited black — invisible/illegible on the dark theme. Values mirror
+// the base input atom ($ct-input-*), with the standard interaction-focus outline.
+//
+$ct-search-bar-light-input-color: ct-color-light('body') !default;
+$ct-search-bar-light-input-background-color: ct-color-light('background-light') !default;
+$ct-search-bar-light-input-border-color: ct-color-light('border') !default;
+$ct-search-bar-light-input-focus-border-color: ct-color-light('interaction-background') !default;
+$ct-search-bar-light-input-focus-outline-color: ct-color-light('interaction-focus') !default;
+$ct-search-bar-dark-input-color: ct-color-dark('body') !default;
+$ct-search-bar-dark-input-background-color: ct-color-dark('background-dark') !default;
+$ct-search-bar-dark-input-border-color: ct-color-dark('border-light') !default;
+$ct-search-bar-dark-input-focus-border-color: ct-color-dark('interaction-background') !default;
+$ct-search-bar-dark-input-focus-outline-color: ct-color-dark('interaction-focus') !default;
+
+//
+// Table of Contents (digital.gov.au override).
+//
+// The upstream resting stripe defaults to border-light, which resolves to
+// ~#e6e9eb and is near-invisible on the light link background. Re-point it to
+// the standard (darker) border token so the resting stripe reads on light.
+// The dark mirror keeps border-light, which is the lighter border token on the
+// dark palette and stays visible on the dark link surface. Consuming themes can
+// still remap either token. Hover stripes are unchanged (highlight).
+//
+$ct-table-of-contents-light-link-stripe-background-color: ct-color-light('border') !default;
+$ct-table-of-contents-dark-link-stripe-background-color: ct-color-dark('border-light') !default;
+
+//
+// Tabs (digital.gov.au) - default variant baseline stripe.
+//
+// The base component references links/stripe/border-color for both the links
+// container baseline rule and each resting tab's bottom border, but the
+// variable is defined nowhere, so it falls back to currentColor (black). Point
+// it at the standard border token: a visible hairline the active tab's
+// border-light underline reads against (see the "active colour rather than
+// blending into the strip" note in tabs.scss).
+//
+$ct-tabs-light-links-stripe-border-color: ct-color-light('border') !default;
+$ct-tabs-dark-links-stripe-border-color: ct-color-dark('border') !default;
+
+//
+// Tabs (digital.gov.au underline variant).
+//
+// The underline variant marks the active tab with a short accent bar in the
+// primary interaction colour, distinct from the default variant's subtle
+// border-light active border.
+//
+$ct-tabs-light-links-underline-border-color: ct-color-light('interaction-background') !default;
+$ct-tabs-dark-links-underline-border-color: ct-color-dark('interaction-background') !default;
+
+// Baseline hairline under the whole bar.
+$ct-tabs-light-links-underline-stripe-border-color: ct-color-light('border') !default;
+$ct-tabs-dark-links-underline-stripe-border-color: ct-color-dark('border') !default;
+
+//
+// Summary List (digital.gov.au).
+//
+// summary-list.scss consumes these via ct-component-property but they were
+// never defined, so all text inherited black on both themes. Keys are
+// heading-style labels, values are body text, actions mirror the link atom.
+//
+$ct-summary-list-light-row-border-color: ct-color-light('border') !default;
+$ct-summary-list-light-key-color: ct-color-light('heading') !default;
+$ct-summary-list-light-value-color: ct-color-light('body') !default;
+$ct-summary-list-light-action-color: ct-color-light('interaction-background') !default;
+$ct-summary-list-light-action-hover-color: ct-color-light('interaction-hover-background') !default;
+$ct-summary-list-dark-row-border-color: ct-color-dark('border') !default;
+$ct-summary-list-dark-key-color: ct-color-dark('heading') !default;
+$ct-summary-list-dark-value-color: ct-color-dark('body') !default;
+$ct-summary-list-dark-action-color: ct-color-dark('interaction-background') !default;
+$ct-summary-list-dark-action-hover-color: ct-color-dark('interaction-hover-background') !default;
+
+//
+// Feature Link List (digital.gov.au).
+//
+// Same omission as Summary List. The with_background panel takes the surface
+// token (see Surface above); links and icons mirror the link atom; the hover
+// fill on the plain variant uses the section band so it reads against the
+// page surface (the with_background variant hard-codes its own hover fill).
+//
+$ct-feature-link-list-light-color: ct-color-light('body') !default;
+$ct-feature-link-list-light-background-color: $dga-color-light-surface !default;
+$ct-feature-link-list-light-item-border-color: ct-color-light('border') !default;
+$ct-feature-link-list-light-link-color: ct-color-light('interaction-background') !default;
+$ct-feature-link-list-light-link-hover-color: ct-color-light('interaction-hover-background') !default;
+$ct-feature-link-list-light-link-hover-background-color: ct-color-light('background') !default;
+$ct-feature-link-list-light-description-color: ct-color-light('body') !default;
+$ct-feature-link-list-light-icon-color: ct-color-light('interaction-background') !default;
+$ct-feature-link-list-light-icon-hover-color: ct-color-light('interaction-hover-background') !default;
+$ct-feature-link-list-dark-color: ct-color-dark('body') !default;
+$ct-feature-link-list-dark-background-color: $dga-color-dark-surface !default;
+$ct-feature-link-list-dark-item-border-color: ct-color-dark('border') !default;
+$ct-feature-link-list-dark-link-color: ct-color-dark('interaction-background') !default;
+$ct-feature-link-list-dark-link-hover-color: ct-color-dark('interaction-hover-background') !default;
+$ct-feature-link-list-dark-link-hover-background-color: ct-color-dark('background') !default;
+$ct-feature-link-list-dark-description-color: ct-color-dark('body') !default;
+$ct-feature-link-list-dark-icon-color: ct-color-dark('interaction-background') !default;
+$ct-feature-link-list-dark-icon-hover-color: ct-color-dark('interaction-hover-background') !default;
+
+//
+// Filterable Table (digital.gov.au).
+//
+// Same omission. Filter labels are heading-style controls, the results
+// summary is body text (both mirror Search Results above), the clear button
+// mirrors the link atom, and with_background takes the surface token.
+//
+$ct-filterable-table-light-background-color: $dga-color-light-surface !default;
+$ct-filterable-table-light-filter-label-color: ct-color-light('heading') !default;
+$ct-filterable-table-light-results-color: ct-color-light('body') !default;
+$ct-filterable-table-light-clear-btn-color: ct-color-light('interaction-background') !default;
+$ct-filterable-table-light-clear-btn-hover-color: ct-color-light('interaction-hover-background') !default;
+$ct-filterable-table-dark-background-color: $dga-color-dark-surface !default;
+$ct-filterable-table-dark-filter-label-color: ct-color-dark('heading') !default;
+$ct-filterable-table-dark-results-color: ct-color-dark('body') !default;
+$ct-filterable-table-dark-clear-btn-color: ct-color-dark('interaction-background') !default;
+$ct-filterable-table-dark-clear-btn-hover-color: ct-color-dark('interaction-hover-background') !default;
+
+//
+// Step by Step Nav (digital.gov.au).
+//
+// Same omission. Spine, separators and substep rules use the border token;
+// number badges sit on the page surface with a body-coloured ring and the
+// active badge inverts to body/background (the drawer-sub-menu-item-active
+// pairing); links mirror the link atom with the standard body active state;
+// the toggle and collapsible chevron mirror the accordion icon;
+// with_background takes the surface token.
+//
+$ct-step-by-step-nav-light-background-color: $dga-color-light-surface !default;
+$ct-step-by-step-nav-light-color: ct-color-light('body') !default;
+$ct-step-by-step-nav-light-toggle-color: ct-color-light('interaction-background') !default;
+$ct-step-by-step-nav-light-icon-color: ct-color-light('interaction-background') !default;
+$ct-step-by-step-nav-light-separator-border-color: ct-color-light('border') !default;
+$ct-step-by-step-nav-light-line-background-color: ct-color-light('border') !default;
+$ct-step-by-step-nav-light-number-background-color: ct-color-light('background-light') !default;
+$ct-step-by-step-nav-light-number-border-color: ct-color-light('body') !default;
+$ct-step-by-step-nav-light-number-active-background-color: ct-color-light('body') !default;
+$ct-step-by-step-nav-light-number-active-color: ct-color-light('background') !default;
+$ct-step-by-step-nav-light-active-connector-background-color: ct-color-light('body') !default;
+$ct-step-by-step-nav-light-link-color: ct-color-light('interaction-background') !default;
+$ct-step-by-step-nav-light-link-active-color: ct-color-light('body') !default;
+$ct-step-by-step-nav-light-substep-border-color: ct-color-light('border') !default;
+$ct-step-by-step-nav-dark-background-color: $dga-color-dark-surface !default;
+$ct-step-by-step-nav-dark-color: ct-color-dark('body') !default;
+$ct-step-by-step-nav-dark-toggle-color: ct-color-dark('interaction-background') !default;
+$ct-step-by-step-nav-dark-icon-color: ct-color-dark('interaction-background') !default;
+$ct-step-by-step-nav-dark-separator-border-color: ct-color-dark('border') !default;
+$ct-step-by-step-nav-dark-line-background-color: ct-color-dark('border') !default;
+$ct-step-by-step-nav-dark-number-background-color: ct-color-dark('background') !default;
+$ct-step-by-step-nav-dark-number-border-color: ct-color-dark('body') !default;
+$ct-step-by-step-nav-dark-number-active-background-color: ct-color-dark('body') !default;
+$ct-step-by-step-nav-dark-number-active-color: ct-color-dark('background') !default;
+$ct-step-by-step-nav-dark-active-connector-background-color: ct-color-dark('body') !default;
+$ct-step-by-step-nav-dark-link-color: ct-color-dark('interaction-background') !default;
+$ct-step-by-step-nav-dark-link-active-color: ct-color-dark('body') !default;
+$ct-step-by-step-nav-dark-substep-border-color: ct-color-dark('border') !default;
+
+//
+// Accordion (digital.gov.au).
+//
+// Upstream's dark band (wrapper) token is background-dark - the page colour -
+// so the dark with_background band is invisible. Point it at the section-band
+// token, matching promo/slider/list dark bands.
+//
+$ct-accordion-dark-wrapper-background-color: ct-color-dark('background') !default;
+
+//
+// Surface fills for nested with_background components (digital.gov.au).
+//
+// A component with with_background: true and is_contained: false is a panel
+// inside a column, not a page band - it takes the surface token attachment's
+// wrapper uses, so all nested panels share one colour regardless of what the
+// component's full-width band colour is.
+//
+$ct-accordion-light-surface-background-color: $dga-color-light-surface !default;
+$ct-accordion-dark-surface-background-color: $dga-color-dark-surface !default;
+$ct-basic-content-light-surface-background-color: $dga-color-light-surface !default;
+$ct-basic-content-dark-surface-background-color: $dga-color-dark-surface !default;
+$ct-map-light-surface-background-color: $dga-color-light-surface !default;
+$ct-map-dark-surface-background-color: $dga-color-dark-surface !default;
+$ct-list-light-surface-background-color: $dga-color-light-surface !default;
+$ct-list-dark-surface-background-color: $dga-color-dark-surface !default;
+$ct-promo-light-surface-background-color: $dga-color-light-surface !default;
+$ct-promo-dark-surface-background-color: $dga-color-dark-surface !default;
+$ct-webform-light-surface-background-color: $dga-color-light-surface !default;
+$ct-webform-dark-surface-background-color: $dga-color-dark-surface !default;
+
+//
+// Slider (digital.gov.au).
+//
+// Slides are cards, so they take the surface token everywhere (upstream fills
+// them with the section-band colour, which reads darker than the panels around
+// them). Nested, the slider follows the accordion treatment: root on the page
+// background, slides carry the surface - so no root surface tokens here.
+//
+$ct-slider-light-slide-background-color: $dga-color-light-surface !default;
+$ct-slider-dark-slide-background-color: $dga-color-dark-surface !default;
+
+//
+// List (digital.gov.au).
+//
+// Upstream list.scss borrows accordion's space-horizontal tokens for its
+// with_background band padding. Give list its own pair (same values) so the
+// two components are not coupled.
+//
+$ct-list-space-horizontal: ct-spacing(3) !default;
+$ct-list-space-horizontal-desktop: ct-spacing(7) !default;
+
+//
+// Navigation (digital.gov.au).
+//
+// The drawer active-trail item consumes a text colour alongside the upstream
+// active-trail background (interaction-background, defined in 00-base), but
+// the colour half of the pair was never defined and inherited black - broken
+// on both themes. Pair with interaction-text, as chip and tag do.
+//
+$ct-navigation-light-drawer-menu-item-active-trail-color: ct-color-light('interaction-text') !default;
+$ct-navigation-dark-drawer-menu-item-active-trail-color: ct-color-dark('interaction-text') !default;

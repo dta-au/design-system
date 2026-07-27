@@ -1,0 +1,58 @@
+/**
+ * This file was automatically generated. Please run `npm run dist` to update.
+ */
+
+.ct-basic-content table th:has(> .ct-sort-btn),
+.table-container table th:has(> .ct-sort-btn),
+.ct-table th:has(> .ct-sort-btn) {
+  padding: 0.75rem 1.5rem;
+}
+
+.ct-sort-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.5rem 0;
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.ct-sort-btn:focus-visible {
+  outline-offset: var(--ct-outline-offset);
+  outline-width: var(--ct-outline-width);
+  outline-style: solid;
+  outline-color: var(--ct-outline-light);
+  border-radius: var(--ct-outline-border-radius);
+}
+.ct-sort-btn svg {
+  flex-shrink: 0;
+  margin-left: auto;
+}
+[aria-sort=none] .ct-sort-btn svg {
+  opacity: 0.4;
+}
+
+.ct-theme-dark .ct-sort-btn:focus-visible {
+  outline-offset: var(--ct-outline-offset);
+  outline-width: var(--ct-outline-width);
+  outline-style: solid;
+  outline-color: var(--ct-outline-dark);
+}
+
+.ct-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

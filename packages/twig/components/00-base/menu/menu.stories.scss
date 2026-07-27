@@ -1,0 +1,9 @@
+//
+// CivicTheme Menu component story styles.
+//
+// (Intentionally empty.) The previous `.ct-menu__item--active-trail ::after {
+// content: ' (A)' }` active marker was unscoped, so it rendered a literal
+// "(A)" on every active menu item across the whole Storybook - navigation,
+// header and page menus included - via the shared `::after`. The Menu story
+// has no active-trail item, so the marker did nothing here anyway. Active
+// state is already shown by the link border-bottom in navigation.

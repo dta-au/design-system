@@ -1,0 +1,149 @@
+{
+  "$schema": "http://cyclonedx.org/schema/bom-1.5.schema.json",
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:d07d664d-b1f5-44e1-acde-7233fbe1f060",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-07-04T10:52:43.014Z",
+    "lifecycles": [
+      {
+        "phase": "pre-build"
+      }
+    ],
+    "tools": [
+      {
+        "vendor": "npm",
+        "name": "cli",
+        "version": "10.9.7"
+      }
+    ],
+    "component": {
+      "bom-ref": "@civictheme/uikit@1.13.0",
+      "type": "library",
+      "name": "civictheme-uikit",
+      "version": "1.13.0",
+      "scope": "required",
+      "description": "CivicTheme UI Kit with Storybook integration",
+      "purl": "pkg:npm/%40civictheme/uikit@1.13.0",
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": ""
+        },
+        {
+          "name": "cdx:npm:package:private",
+          "value": "true"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/civictheme/uikit.git"
+        },
+        {
+          "type": "website",
+          "url": "https://github.com/civictheme/uikit"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/civictheme/uikit"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "GPL-2.0-or-later"
+          }
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "bom-ref": "@popperjs/core@2.11.8",
+      "type": "library",
+      "name": "@popperjs/core",
+      "version": "2.11.8",
+      "scope": "required",
+      "purl": "pkg:npm/%40popperjs/core@2.11.8",
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/@popperjs/core"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/@popperjs/core/-/core-2.11.8.tgz"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "3f5b2dd1a92c0ab9fdb06661a7c18c63006742c6ef016b19017e38a1734dbcb1c6a8039ca15c668d98a886cb7043b4aa2a76d1e3b6a474d8beba57960fcfa0e8"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "@dta-au/designsystem-sdc@1.14.0",
+      "type": "library",
+      "name": "sdc",
+      "version": "1.14.0",
+      "scope": "required",
+      "description": "CivicTheme UI Kit for Single Directory Components (Drupal)",
+      "purl": "pkg:npm/%40dta-au/civictheme-uikit@1.14.0",
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "packages/sdc"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/dta-au/design-system.git"
+        },
+        {
+          "type": "website",
+          "url": "https://github.com/dta-au/design-system"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/dta-au/design-system/issues"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "GPL-2.0-or-later"
+          }
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "@civictheme/uikit@1.13.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "@popperjs/core@2.11.8",
+      "dependsOn": []
+    },
+    {
+      "ref": "@dta-au/designsystem-sdc@1.14.0",
+      "dependsOn": [
+        "@popperjs/core@2.11.8"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+name: Filterable Table
+status: stable
+description: Editor-configured component that targets an existing on-page table or definition list by element ID and progressively enhances it with per-column filter controls. For a table, set ct-table--sortable on the table element to independently enable MOJ-style column sorting; for a definition list, set target_type to list and have each row carry data-filter-col-N attributes.
+props:
+  type: object
+  required:
+    - table_id
+    - columns
+  properties:
+    table_id:
+      type: string
+      title: Target Element ID
+      description: The HTML id attribute of the target table or definition list on this page.
+    target_type:
+      type: string
+      title: Target Type
+      description: Whether the controls filter a table (cell text by column index) or a definition list (data-filter-col-N attributes on each row). Defaults to table; a <dl> target is also auto-detected.
+      enum:
+        - table
+        - list
+    columns:
+      type: array
+      title: Column Configuration
+      description: Per-column filter and label settings. Order matches table column order (left to right).
+      items:
+        type: object
+        required:
+          - label
+          - filter_type
+        properties:
+          label:
+            type: string
+            title: Column Label
+            description: Column heading text displayed above the filter control.
+          filter_type:
+            type: string
+            title: Filter Type
+            description: Type of filter control to display for this column.
+            enum:
+              - text
+              - select
+              - none
+    theme:
+      type: string
+      title: Theme
+      description: Theme variation (light or dark).
+      enum:
+        - light
+        - dark
+    heading_level:
+      type: integer
+      title: Heading level
+      description: Heading level for the title.
+      enum:
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+    is_contained:
+      type: boolean
+      title: Contained
+      description: Whether to wrap the content in a container.
+      default: true
+    vertical_spacing:
+      type: string
+      title: Vertical Spacing
+      description: Vertical spacing (top, bottom, both, or none).
+      enum:
+        - top
+        - bottom
+        - both
+        - none
+    with_background:
+      type: boolean
+      title: With Background
+      description: Whether to display with a themed background colour.
+    title:
+      type: string
+      title: Title
+      description: Optional heading displayed above the filter controls.
+    modifier_class:
+      type: string
+      title: Modifier Class
+      description: Additional CSS classes.

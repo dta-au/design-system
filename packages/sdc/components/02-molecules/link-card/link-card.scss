@@ -1,0 +1,122 @@
+//
+// digital.gov.au Link Card component styles.
+//
+
+.ct-link-card {
+  $root: &;
+
+  & {
+    // Flat list row: no resting shadow, square corners (border-radius token
+    // defaults to 0). The AGA design reads as a row, not an elevated card.
+    // No overflow: hidden - it would clip the inner link's focus ring.
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: var(--ct-link-card-border-radius);
+  }
+
+  // Raise a focused card above adjacent siblings so its focus ring paints on
+  // top, rather than being covered by the next card when they sit flush (the
+  // connected list variant, where cards butt together with no gap).
+  &:focus-within {
+    z-index: 1;
+  }
+
+  #{$root}__link {
+    @include ct-typography('label-regular');
+    @include ct-link-no-decoration();
+
+    display: flex;
+    align-items: center;
+    gap: ct-spacing(1);
+    padding: ct-spacing(3);
+
+    &:focus-visible {
+      @include ct-outline();
+    }
+  }
+
+  #{$root}__title {
+    // Transparent 1px border at rest so the hover underline adds no layout
+    // shift. Colour comes from currentColor (below), so it always tracks the
+    // title's hover colour.
+    border-bottom: ct-particle(0.0625) solid transparent;
+
+    // Opt-in heading_level variant: the title inherits the link typography,
+    // so cancel the bare-tag heading styles and margins on the h form.
+    font: inherit;
+    margin: 0;
+    max-width: none;
+    text-wrap: initial;
+  }
+
+  // Meta inherits the resting link colour; the hover rule restyles only
+  // __title, so the file extension/size stay at rest colour.
+  #{$root}__meta {
+    @include ct-typography('label-small');
+  }
+
+  #{$root}__icon {
+    display: inline-flex;
+    flex-shrink: 0;
+  }
+
+  // Trailing indicators (optional padlock + the type icon) pin to the far edge
+  // as one group, regardless of how many items precede them (title, or title +
+  // extension + size on the download variant).
+  #{$root}__indicators {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: ct-spacing(1);
+    margin-left: auto;
+  }
+
+  // Interactive cards underline the title on hover/active/focus (colour +
+  // background shift come from the theme block). focus-within gives keyboard
+  // users the same affordance as pointer hover, not just the focus outline.
+  // Deactivated cards stay at rest.
+  &:not(#{$root}--deactivated) {
+    &:hover,
+    &:active,
+    &:focus-within {
+      #{$root}__title {
+        border-bottom-color: currentcolor;
+      }
+    }
+  }
+
+  // Deactivated: non-interactive, no hover affordance. The padlock stays.
+  &--deactivated {
+    #{$root}__link {
+      cursor: default;
+    }
+  }
+
+  @include ct-component-theme($root) using($root, $theme) {
+    @include ct-component-property($root, $theme, background-color);
+
+    #{$root}__link {
+      @include ct-component-property($root, $theme, link, color);
+    }
+
+    &:not(#{$root}--deactivated) {
+      &:hover,
+      &:active,
+      &:focus-within {
+        @include ct-component-property($root, $theme, hover, background-color);
+
+        #{$root}__title {
+          @include ct-component-property($root, $theme, link, hover, color);
+        }
+      }
+    }
+
+    &#{$root}--deactivated {
+      #{$root}__link,
+      #{$root}__link:hover {
+        @include ct-component-property($root, $theme, deactivated, link, color);
+      }
+    }
+  }
+}

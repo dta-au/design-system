@@ -1,0 +1,229 @@
+//
+// digital.gov.au Page Template component story styles.
+//
+// Story-only chrome layered onto the Page template: account controls, the
+// cross-government site nav, and the mobile site switcher. Icons are CSS-masked
+// SVGs because an icon cannot live in civictheme:menu's item.title (it is reused
+// as the link title attribute); see the per-rule comments below.
+//
+
+.story-account-nav {
+  $story-account-icon-size: 1.25rem;
+
+  // Signed-in trigger (has children): account icon before the username.
+  // Inline-block, not flex: text-icon emits a multi-word label as two sibling
+  // spans (it groups the last word with the caret), and a flex link turns those
+  // into flex items - putting the row gap between the two words and centring
+  // two unequal-height boxes so their baselines disagree. Plain inline would
+  // fix that but makes the base secondary-nav padding-block inert, collapsing
+  // the row; inline-block keeps the padding and leaves the spans inline.
+  .ct-menu__item--has-children > .ct-link {
+    display: inline-block;
+
+    &::before {
+      content: '';
+      display: inline-block;
+      vertical-align: middle;
+      width: $story-account-icon-size;
+      height: $story-account-icon-size;
+      margin-right: 0.5rem;
+      background-color: currentcolor;
+      mask: url('#{$ct-assets-directory}icons/account.svg') center / contain no-repeat;
+    }
+  }
+
+  // Anonymous "Log in" (top-level, no children): login icon after the text.
+  // Inline-block for the same reason as the signed-in trigger above.
+  .ct-menu--level-0 > .ct-menu__item:not(.ct-menu__item--has-children) > .ct-link {
+    display: inline-block;
+
+    &::after {
+      content: '';
+      display: inline-block;
+      vertical-align: middle;
+      width: $story-account-icon-size;
+      height: $story-account-icon-size;
+      margin-left: 0.5rem;
+      background-color: currentcolor;
+      mask: url('#{$ct-assets-directory}icons/login.svg') center / contain no-repeat;
+    }
+  }
+}
+
+// "Return to digital.gov.au" back-link (PageWithSiteBackLink story): heavier
+// label weight with a left-arrow icon before it. Same CSS-mask approach as the
+// account icons - the arrow can't live in the menu item.title.
+.story-site-back {
+  .ct-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+
+    &::before {
+      content: '';
+      flex: 0 0 auto;
+      width: 1.25rem;
+      height: 1.25rem;
+      background-color: currentcolor;
+      mask: url('#{$ct-assets-directory}icons/left-arrow.svg') center / contain no-repeat;
+    }
+  }
+}
+
+// Signed-in dropdown panel. CivicTheme's dropdown is built for a multi-column
+// mega-menu: the panel gets bottom-heavy padding (1rem 2rem 2rem) and its rows
+// sit inline, which looks unbalanced around the two short account links. Even
+// the panel padding out and lay each link as its own full-width row. The panel
+// selector matches the base depth plus .story-account-nav, so it wins cleanly.
+.story-account-nav {
+  // Extra .ct-navigation on the compound outweighs the base rule, which has the
+  // same class count and loads after this stylesheet (a tie would lose to it).
+  &.ct-navigation.ct-navigation--dropdown .ct-navigation__items .ct-navigation__has-dropdown .ct-menu__sub-menu__wrapper--level-1 .ct-menu__sub-menu.ct-menu--level-1 {
+    padding: 0.5rem 1rem;
+  }
+
+  .ct-menu__sub-menu .ct-menu__item__link {
+    display: block;
+    padding-block: 0.5rem;
+  }
+}
+
+// Header bottom row (account controls). The base header sets this slot to
+// display:flex but leaves it flex-start; right-align the actions like AGA's
+// account block (mirrors __content-middle3). Above it, a full-container-width
+// keyline separates the row from the branding above - desktop only, where the
+// bottom row exists. Only the account / back-link stories populate this row.
+.ct-header__bottom {
+  .ct-header__content-bottom1 {
+    justify-content: flex-end;
+  }
+
+  @include ct-breakpoint(m) {
+    .container {
+      padding-block: 0.25rem;
+      border-top: 1px solid var(--ct-color-light-border-light);
+    }
+  }
+}
+
+// Mobile site switcher (Page* stories, shown below m; the desktop row covers m
+// and up). The "digital.gov.au" trigger sits at the bottom and the sibling-site
+// panel opens upward - column-reverse renders the panel above the trigger, and
+// the core collapsible behaviour animates it open. No bespoke JS.
+.story-site-switcher {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-start;
+
+  &__trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  &__list {
+    margin: 0;
+    padding: 0 0 0.5rem;
+    list-style: none;
+  }
+
+  &__link {
+    display: inline-block;
+    padding: 0.25rem 0;
+  }
+}
+
+// Generic pages place only the (desktop-hidden) mobile switcher in the bottom
+// row; suppress the account-stories desktop keyline when no nav is present.
+.ct-header__bottom:not(:has(.ct-navigation)) {
+  @include ct-breakpoint(m) {
+    .container {
+      padding-top: 0;
+      border-top: 0;
+    }
+  }
+}
+
+// Primary-menu header (PageWithDropdownMenu): the search form sits right of the
+// logo on the branding row, capped so it does not stretch the row.
+.ct-search-form.story-header-search {
+  width: 18rem;
+  max-width: 100%;
+}
+
+// The primary menu takes the full-width bottom bar. Left-align it, undoing the
+// account row's right-alignment for this nav only.
+.ct-header__bottom .ct-header__content-bottom1:has(.ct-primary-navigation) {
+  justify-content: flex-start;
+}
+
+// Drop the bottom-bar padding for the menu row so the active-item underline
+// sits flush with the header's bottom edge (AGA treatment). Keep the top
+// padding for the keyline above the menu.
+.ct-header__bottom:has(.ct-primary-navigation) {
+  // Bottom-slot (Multiline) drawer: the mega-menu panel opens flush against the
+  // menu bar. The default top offset (ct-spacing(2)) only makes sense for the
+  // middle-row drawer, where it clears the branding row.
+  --ct-navigation-drawer-top-offset: 0;
+
+  @include ct-breakpoint(m) {
+    .container {
+      padding-bottom: 0;
+    }
+  }
+
+  // Keep each label on one line; don't shrink items until their text breaks.
+  .ct-menu--level-0 > .ct-menu__item--level-0 {
+    flex-shrink: 0;
+
+    > .ct-menu__item__link {
+      white-space: nowrap;
+    }
+  }
+}
+
+// Switch the desktop menu at L, not M. The seven-item bar needs the L container
+// (896px) - at M (720px) it overflows - so below L the bottom bar is hidden and
+// the middle-row hamburger takes over. In a sub-theme this is the
+// $ct-header-desktop-menu-breakpoint: 'l' variable; scoped here to the variant.
+.ct-header:has(.ct-primary-navigation) {
+  // Horizontal drawer bar: hidden below L, shown at L+.
+  .ct-navigation--drawer .ct-navigation__items {
+    @include ct-breakpoint(m) {
+      display: none;
+    }
+
+    @include ct-breakpoint(l) {
+      display: flex;
+    }
+  }
+
+  // Hamburger trigger + its panel: visible below L, hidden at L+.
+  .ct-mobile-navigation-trigger,
+  .ct-mobile-navigation {
+    @include ct-breakpoint(m) {
+      display: block;
+    }
+
+    @include ct-breakpoint(l) {
+      display: none;
+    }
+  }
+}
+
+
+// Site switcher inside the mobile drawer: align it with the drawer's menu
+// items, and give the panel room to expand upward above the trigger.
+.ct-mobile-navigation__content_bottom {
+  .story-site-switcher {
+    padding: ct-spacing(2) ct-spacing(4);
+  }
+}

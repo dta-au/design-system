@@ -1,0 +1,453 @@
+//
+// digital.gov.au Search assistant component styles.
+//
+
+.dga-search-assistant {
+  $root: &;
+
+  // Design-system body type (font family + scale). Without this the component's
+  // own text falls back to the browser serif default.
+  @include ct-typography('text-regular');
+
+  display: block;
+  max-width: ct-particle(92); // 46rem, matched to a comfortable reading measure.
+  color: var(--ct-color-text, #1c1c1c);
+
+  // Scoped border-box: CivicTheme only sets it on grid columns, so padded
+  // full-width children (the answer card) would otherwise overflow.
+  &,
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  &__body {
+    margin-top: var(--ct-spacing-300, 1.5rem);
+  }
+
+  &__hint {
+    @include ct-typography('text-small');
+
+    margin: 0 0 var(--ct-spacing-250, 1.25rem);
+    color: var(--ct-color-text-light, #525252);
+  }
+
+  &__no-answer {
+    @include ct-typography('text-small');
+
+    margin: 0 0 var(--ct-spacing-250, 1.25rem);
+    padding: var(--ct-spacing-150, 0.75rem) var(--ct-spacing-200, 1rem);
+    border-left: 4px solid var(--ct-color-neutral-500, #6b6f5e);
+    border-radius: 0 4px 4px 0;
+    background: var(--ct-color-neutral-100, #f6f6f2);
+    color: var(--ct-color-text, #33342d);
+  }
+
+  // -- Answer card ---------------------------------------------------------
+  &__card,
+  &__referral {
+    padding: var(--ct-spacing-250, 1.25rem) var(--ct-spacing-300, 1.5rem) var(--ct-spacing-300, 1.5rem);
+    border: 1px solid var(--ct-color-neutral-300, #b6b8ab);
+    border-radius: 4px;
+    background: var(--ct-color-background, #fff);
+    margin-bottom: var(--ct-spacing-400, 2rem);
+  }
+
+  &__card {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  }
+
+  &__card-header {
+    display: flex;
+    align-items: center;
+    gap: var(--ct-spacing-150, 0.75rem);
+    margin-bottom: var(--ct-spacing-150, 0.75rem);
+  }
+
+  &__badge {
+    @include ct-typography('label-small');
+
+    padding: ct-particle(0.5) ct-particle(1.375);
+    border-radius: 3px;
+    color: var(--ct-color-background, #fff);
+    background: var(--ct-color-interactive, #14375f);
+
+    // Referral: a muted badge, not the brand colour, so it does not read as a
+    // confident answer.
+    &--referral {
+      background: var(--ct-color-neutral-500, #6b6f5e);
+    }
+  }
+
+  &__grounded {
+    @include ct-typography('text-small');
+
+    color: var(--ct-color-text-light, #525252);
+  }
+
+  &__generating {
+    display: none;
+    align-items: center;
+    gap: var(--ct-spacing-100, 0.5rem);
+    margin: var(--ct-spacing-100, 0.5rem) 0;
+    color: var(--ct-color-text, #33342d);
+  }
+
+  &__dots {
+    display: inline-flex;
+    gap: ct-particle(0.5);
+
+    span {
+      width: ct-particle(1);
+      height: ct-particle(1);
+      border-radius: 50%;
+      background: var(--ct-color-interactive, #14375f);
+      animation: dga-search-assistant-pulse 1.1s infinite ease-in-out both;
+
+      &:nth-child(1) {
+        animation-delay: -0.24s;
+      }
+
+      &:nth-child(2) {
+        animation-delay: -0.12s;
+      }
+    }
+  }
+
+  // The generating phase shows only the generating row; every other phase
+  // hides it and shows the answer. Driven by data-phase from the JS.
+  &__card[data-phase='generating'] {
+    #{$root}__generating {
+      display: flex;
+    }
+
+    #{$root}__teaser,
+    #{$root}__toggle,
+    #{$root}__continuation,
+    #{$root}__citations,
+    #{$root}__scope,
+    #{$root}__explore {
+      display: none;
+    }
+  }
+
+  &__teaser {
+    margin: 0;
+    color: var(--ct-color-text, #1c1c1c);
+
+    // Reserve height so the streaming teaser does not jump the layout much.
+    min-height: 4.5em;
+  }
+
+  &__toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: ct-particle(0.5);
+    margin-top: var(--ct-spacing-200, 1rem);
+    padding: ct-particle(1) ct-particle(0.5);
+    border: 0;
+    background: none;
+    color: var(--ct-color-interactive, #14375f);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+
+    &:hover {
+      color: var(--ct-color-interactive-hover, #0c2440);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--ct-color-interactive-focus, #0052cc);
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+  }
+
+  &__chevron {
+    transition: transform 0.2s ease;
+  }
+
+  &__toggle[aria-expanded='true'] #{$root}__chevron {
+    transform: rotate(180deg);
+  }
+
+  &__continuation {
+    margin-top: var(--ct-spacing-150, 0.75rem);
+    padding-top: var(--ct-spacing-150, 0.75rem);
+    border-top: 1px solid var(--ct-color-neutral-200, #e2e3dc);
+
+    p {
+      margin: 0;
+      color: var(--ct-color-text, #33342d);
+    }
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  // -- Citations -----------------------------------------------------------
+  &__citations {
+    margin-top: var(--ct-spacing-250, 1.25rem);
+    padding-top: var(--ct-spacing-200, 1rem);
+    border-top: 1px solid var(--ct-color-neutral-200, #e2e3dc);
+  }
+
+  &__citations-label {
+    @include ct-typography('label-small');
+
+    display: block;
+    margin-bottom: var(--ct-spacing-100, 0.5rem);
+    color: var(--ct-color-text-light, #525252);
+  }
+
+  &__citations-list {
+    display: flex;
+    flex-direction: column;
+    gap: ct-particle(1);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__citation {
+    @include ct-typography('text-small');
+
+    display: inline-flex;
+    align-items: baseline;
+    gap: var(--ct-spacing-100, 0.5rem);
+    color: var(--ct-color-interactive, #14375f);
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--ct-color-interactive-focus, #0052cc);
+      outline-offset: 2px;
+    }
+  }
+
+  &__citation-num {
+    @include ct-typography('label-small');
+
+    flex: 0 0 auto;
+    width: ct-particle(2.75);
+    height: ct-particle(2.75);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: var(--ct-color-background, #fff);
+    background: var(--ct-color-interactive, #14375f);
+  }
+
+  // -- Scope disclosure ----------------------------------------------------
+  // A left-ruled aside that names the boundary of an answer and links the
+  // authoritative sources elsewhere. Used both as a footnote under a partial
+  // answer and as the whole message in a referral.
+  &__scope {
+    margin-top: var(--ct-spacing-250, 1.25rem);
+    padding: var(--ct-spacing-150, 0.75rem) var(--ct-spacing-200, 1rem);
+    border-left: 4px solid var(--ct-color-neutral-500, #6b6f5e);
+    border-radius: 0 3px 3px 0;
+    background: var(--ct-color-neutral-100, #f4f4f0);
+  }
+
+  &__scope-note {
+    @include ct-typography('text-small');
+
+    margin: 0 0 var(--ct-spacing-100, 0.5rem);
+    color: var(--ct-color-text, #33342d);
+  }
+
+  &__scope-refs {
+    display: flex;
+    flex-direction: column;
+    gap: ct-particle(0.75);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__scope-ref {
+    @include ct-typography('text-small');
+
+    color: var(--ct-color-interactive, #14375f);
+  }
+
+  &__referral #{$root}__scope {
+    margin-top: 0;
+  }
+
+  &__referral-note {
+    @include ct-typography('text-small');
+
+    margin: var(--ct-spacing-150, 0.75rem) 0 0;
+    color: var(--ct-color-text-light, #525252);
+  }
+
+  // -- Explore more --------------------------------------------------------
+  // Follow-on prompts inside the card, under a Sources-style label. Rows
+  // mirror the feature-link-list "Suggested prompts" look, but each prompt is
+  // a disclosure that expands in place and streams its answer into a panel.
+  &__explore {
+    margin-top: var(--ct-spacing-250, 1.25rem);
+    padding-top: var(--ct-spacing-200, 1rem);
+    border-top: 1px solid var(--ct-color-neutral-200, #e2e3dc);
+  }
+
+  &__explore-label {
+    @include ct-typography('label-small');
+
+    display: block;
+    margin-bottom: var(--ct-spacing-100, 0.5rem);
+    color: var(--ct-color-text-light, #525252);
+  }
+
+  &__explore-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__prompt {
+    border-top: 1px solid var(--ct-color-neutral-200, #e2e3dc);
+
+    &:last-child {
+      border-bottom: 1px solid var(--ct-color-neutral-200, #e2e3dc);
+    }
+  }
+
+  &__prompt-toggle,
+  &__prompt-link {
+    display: flex;
+    align-items: center;
+    gap: var(--ct-spacing-150, 0.75rem);
+    width: 100%;
+    padding: var(--ct-spacing-150, 0.75rem) var(--ct-spacing-100, 0.5rem);
+    border: 0;
+    background: none;
+    font: inherit;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+
+    &:hover #{$root}__prompt-text,
+    &:focus-visible #{$root}__prompt-text {
+      text-decoration: underline;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--ct-color-interactive-focus, #0052cc);
+      outline-offset: 2px;
+    }
+  }
+
+  &__prompt-icon {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    color: var(--ct-color-interactive, #14375f);
+  }
+
+  // A prompt is a suggested new search, so it reads like query text in the
+  // input field - regular weight, body colour - not like a bold link title.
+  &__prompt-text {
+    @include ct-typography('text-regular');
+
+    flex: 1 1 0;
+    min-width: 0;
+    color: var(--ct-color-text, #1c1c1c);
+  }
+
+  &__prompt-toggle[aria-expanded='true'] #{$root}__chevron {
+    transform: rotate(180deg);
+  }
+
+  // The streamed in-place answer, aligned with the prompt text past the icon.
+  &__prompt-panel {
+    @include ct-typography('text-small');
+
+    padding: 0 var(--ct-spacing-100, 0.5rem) var(--ct-spacing-150, 0.75rem) var(--ct-spacing-500, 2.5rem);
+    color: var(--ct-color-text, #1c1c1c);
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  // -- Results -------------------------------------------------------------
+  &__results-summary {
+    @include ct-typography('text-small');
+
+    margin: 0 0 var(--ct-spacing-200, 1rem);
+    color: var(--ct-color-text-light, #525252);
+  }
+
+  &__results-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__result {
+    margin-bottom: var(--ct-spacing-300, 1.5rem);
+  }
+
+  &__result-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--ct-spacing-100, 0.5rem) var(--ct-spacing-150, 0.75rem);
+    margin: ct-particle(0.75) 0 ct-particle(1);
+  }
+
+  &__result-audience {
+    @include ct-typography('text-small');
+
+    color: var(--ct-color-text-light, #525252);
+  }
+
+  // -- Dark theme ----------------------------------------------------------
+  // The card and results keep their light surfaces; page-level text flips.
+  &.ct-theme-dark,
+  .ct-theme-dark & {
+    color: var(--ct-color-text-on-dark, #fff);
+
+    #{$root}__hint {
+      color: var(--ct-color-text-on-dark, #f4f4f4);
+    }
+  }
+
+  // Respect reduced motion: no pulsing dots, no chevron transition. The JS
+  // separately reveals streamed text instantly.
+  @media (prefers-reduced-motion: reduce) {
+    #{$root}__dots span {
+      animation: none;
+      opacity: 0.8;
+    }
+
+    #{$root}__chevron {
+      transition: none;
+    }
+  }
+}
+
+@keyframes dga-search-assistant-pulse {
+  0%,
+  80%,
+  100% {
+    transform: scale(0.6);
+    opacity: 0.4;
+  }
+
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

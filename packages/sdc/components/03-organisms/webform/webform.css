@@ -1,0 +1,19 @@
+/**
+ * This file was automatically generated. Please run `npm run dist` to update.
+ */
+
+.ct-webform.ct-webform--with-background.ct-webform--not-contained {
+  padding: 1.5rem;
+}
+.ct-webform.ct-theme-light.ct-webform--with-background.ct-webform--not-contained {
+  background-color: var(--ct-webform-light-surface-background-color);
+}
+.ct-webform.ct-theme-light.ct-webform--with-background {
+  background-color: var(--ct-webform-light-background-color);
+}
+.ct-webform.ct-theme-dark.ct-webform--with-background.ct-webform--not-contained {
+  background-color: var(--ct-webform-dark-surface-background-color);
+}
+.ct-webform.ct-theme-dark.ct-webform--with-background {
+  background-color: var(--ct-webform-dark-background-color);
+}

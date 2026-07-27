@@ -1,0 +1,55 @@
+{#
+/**
+ * @file
+ * digital.gov.au Summary List component.
+ *
+ * Props:
+ * - theme: [string]
+ * - no_border: [boolean]
+ * - id: [string] Optional id on the <dl>, e.g. so a filterable-table control set can target it.
+ * - items: [array] :
+ *   Each item contains:
+ *   - key: [string]
+ *   - value: [string]
+ *   - action_url: [string]
+ *   - action_text: [string]
+ *   - filter_values: [array] Optional per-column filterable values (order matches the filterable-table columns). When set, the row carries data-filter-row plus data-filter-col-N attributes.
+ *     Each item contains:
+ *     - items [string]
+ * - modifier_class: [string]
+ * - attributes: [Drupal\Core\Template\Attribute] Additional HTML attributes.
+ */
+#}
+
+{% set theme = theme in ['light', 'dark'] ? theme : 'light' %}
+{% set theme_class = 'ct-theme-%s'|format(theme) %}
+{% set no_border_class = no_border ? 'ct-summary-list--no-border' : '' %}
+{% set modifier_class = '%s %s %s'|format(theme_class, no_border_class, modifier_class|default('')) %}
+
+{% if items is not empty %}
+  <dl
+    class="ct-summary-list {{ modifier_class|trim }}"
+    data-component-name="ct-summary-list"
+    {%- if id is not empty %} id="{{ id }}"{% endif %}
+    {%- if attributes is defined and attributes is not null %} {{- attributes -}}{% endif %}
+  >
+    {% for item in items %}
+      {% if item.key is not empty and item.value is not empty %}
+        <div
+          class="ct-summary-list__row"
+          {%- if item.filter_values is not empty %} data-filter-row{% for filter_value in item.filter_values %} data-filter-col-{{ loop.index0 }}="{{ filter_value }}"{% endfor %}{% endif %}
+        >
+          <dt class="ct-summary-list__key">{{ item.key }}</dt>
+          <dd class="ct-summary-list__value">{{ item.value }}</dd>
+          {% if item.action_url is not empty %}
+            <dd class="ct-summary-list__actions">
+              <a href="{{ item.action_url }}" class="ct-summary-list__action-link">
+                {{- item.action_text|default('Change') -}}
+              </a>
+            </dd>
+          {% endif %}
+        </div>
+      {% endif %}
+    {% endfor %}
+  </dl>
+{% endif %}

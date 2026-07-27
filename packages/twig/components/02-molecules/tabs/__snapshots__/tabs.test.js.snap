@@ -1,0 +1,953 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tabs Component aria_current can be overridden 1`] = `
+<div>
+  
+
+
+
+
+
+    
+        
+  <div
+    class="ct-tabs ct-theme-light    "
+    data-tabs-panel=""
+  >
+    
+    
+                
+
+  
+    <ul
+      class="ct-item-list ct-item-list--horizontal ct-item-list--regular ct-item-list--no-gap ct-tabs__links"
+    >
+      
+                  
+      <li
+        class="ct-item-list__item"
+      >
+                        
+        <a
+          aria-current="true"
+          class="ct-link ct-theme-light     ct-tabs__tab--selected"
+          data-tabs-tab=""
+          href="#all"
+        >
+          <span
+            class="ct-text-icon__text"
+          >
+            All
+          </span>
+        </a>
+          
+      </li>
+      
+            
+    </ul>
+    
+    
+    
+      
+  </div>
+  
+
+</div>
+`;
+
+exports[`Tabs Component collapse_mobile summary falls back to collapse_label when no link is active 1`] = `
+<div>
+  
+
+
+
+
+
+    
+          
+        
+  <div
+    class="ct-tabs ct-theme-light   ct-tabs--collapse-mobile "
+    data-tabs-panel=""
+  >
+    
+    
+          
+            
+    <details
+      class="ct-tabs__disclosure"
+      data-tabs-disclosure=""
+      open=""
+    >
+      
+        
+      <summary
+        class="ct-tabs__disclosure__summary"
+      >
+        
+          
+        <span
+          aria-hidden="true"
+          class="ct-tabs__disclosure__icon"
+        >
+          <svg
+            aria-hidden="true"
+            class="ct-icon"
+            fill="currentColor"
+            height="24"
+            viewBox="0 -960 960 960"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M440-160q-17 0-28.5-11.5T400-200v-240L168-736q-15-20-4.5-42t36.5-22h560q26 0 36.5 22t-4.5 42L560-440v240q0 17-11.5 28.5T520-160h-80Zm40-308 198-252H282l198 252Zm0 0Z"
+            />
+          </svg>
+        </span>
+        
+          
+        <span
+          class="ct-tabs__disclosure__label"
+        >
+          Filters
+        </span>
+        
+          
+        <span
+          aria-hidden="true"
+          class="ct-tabs__disclosure__chevron"
+        >
+          <svg
+            aria-hidden="true"
+            class="ct-icon"
+            fill="currentColor"
+            height="24"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M18.6072 8.38619C18.3583 8.13884 18.0217 8 17.6709 8C17.32 8 16.9834 8.13884 16.7346 8.38619L11.9668 13.0876L7.26542 8.38619C7.01659 8.13884 6.67999 8 6.32913 8C5.97827 8 5.64167 8.13884 5.39284 8.38619C5.26836 8.50965 5.16956 8.65654 5.10214 8.81838C5.03471 8.98022 5 9.1538 5 9.32912C5 9.50445 5.03471 9.67803 5.10214 9.83987C5.16956 10.0017 5.26836 10.1486 5.39284 10.2721L11.0239 15.9031C11.1473 16.0276 11.2942 16.1264 11.4561 16.1938C11.6179 16.2612 11.7915 16.2959 11.9668 16.2959C12.1421 16.2959 12.3157 16.2612 12.4775 16.1938C12.6394 16.1264 12.7863 16.0276 12.9097 15.9031L18.6072 10.2721C18.7316 10.1486 18.8304 10.0017 18.8979 9.83987C18.9653 9.67803 19 9.50445 19 9.32912C19 9.1538 18.9653 8.98022 18.8979 8.81838C18.8304 8.65654 18.7316 8.50965 18.6072 8.38619Z"
+            />
+          </svg>
+        </span>
+        
+        
+      </summary>
+      
+              
+
+  
+      <ul
+        class="ct-item-list ct-item-list--horizontal ct-item-list--regular ct-item-list--no-gap ct-tabs__links"
+      >
+        
+                  
+        <li
+          class="ct-item-list__item"
+        >
+                          
+          <a
+            class="ct-link ct-theme-light"
+            data-tabs-tab=""
+            href="#all"
+          >
+            <span
+              class="ct-text-icon__text"
+            >
+              All
+            </span>
+          </a>
+            
+        </li>
+        
+                        
+        <li
+          class="ct-item-list__item"
+        >
+                          
+          <a
+            class="ct-link ct-theme-light"
+            data-tabs-tab=""
+            href="#platform"
+          >
+            <span
+              class="ct-text-icon__text"
+            >
+              Platform
+            </span>
+          </a>
+            
+        </li>
+        
+            
+      </ul>
+      
+    
+      
+    </details>
+    
+    
+      
+  </div>
+  
+
+</div>
+`;
+
+exports[`Tabs Component collapse_mobile wraps links in a Details disclosure with the active label 1`] = `
+<div>
+  
+
+
+
+
+
+    
+          
+        
+  <div
+    class="ct-tabs ct-theme-light   ct-tabs--collapse-mobile "
+    data-tabs-panel=""
+  >
+    
+    
+          
+            
+    <details
+      class="ct-tabs__disclosure"
+      data-tabs-disclosure=""
+      open=""
+    >
+      
+        
+      <summary
+        class="ct-tabs__disclosure__summary"
+      >
+        
+          
+        <span
+          aria-hidden="true"
+          class="ct-tabs__disclosure__icon"
+        >
+          <svg
+            aria-hidden="true"
+            class="ct-icon"
+            fill="currentColor"
+            height="24"
+            viewBox="0 -960 960 960"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M440-160q-17 0-28.5-11.5T400-200v-240L168-736q-15-20-4.5-42t36.5-22h560q26 0 36.5 22t-4.5 42L560-440v240q0 17-11.5 28.5T520-160h-80Zm40-308 198-252H282l198 252Zm0 0Z"
+            />
+          </svg>
+        </span>
+        
+          
+        <span
+          class="ct-tabs__disclosure__label"
+        >
+          All
+        </span>
+        
+          
+        <span
+          aria-hidden="true"
+          class="ct-tabs__disclosure__chevron"
+        >
+          <svg
+            aria-hidden="true"
+            class="ct-icon"
+            fill="currentColor"
+            height="24"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M18.6072 8.38619C18.3583 8.13884 18.0217 8 17.6709 8C17.32 8 16.9834 8.13884 16.7346 8.38619L11.9668 13.0876L7.26542 8.38619C7.01659 8.13884 6.67999 8 6.32913 8C5.97827 8 5.64167 8.13884 5.39284 8.38619C5.26836 8.50965 5.16956 8.65654 5.10214 8.81838C5.03471 8.98022 5 9.1538 5 9.32912C5 9.50445 5.03471 9.67803 5.10214 9.83987C5.16956 10.0017 5.26836 10.1486 5.39284 10.2721L11.0239 15.9031C11.1473 16.0276 11.2942 16.1264 11.4561 16.1938C11.6179 16.2612 11.7915 16.2959 11.9668 16.2959C12.1421 16.2959 12.3157 16.2612 12.4775 16.1938C12.6394 16.1264 12.7863 16.0276 12.9097 15.9031L18.6072 10.2721C18.7316 10.1486 18.8304 10.0017 18.8979 9.83987C18.9653 9.67803 19 9.50445 19 9.32912C19 9.1538 18.9653 8.98022 18.8979 8.81838C18.8304 8.65654 18.7316 8.50965 18.6072 8.38619Z"
+            />
+          </svg>
+        </span>
+        
+        
+      </summary>
+      
+              
+
+  
+      <ul
+        class="ct-item-list ct-item-list--horizontal ct-item-list--regular ct-item-list--no-gap ct-tabs__links"
+      >
+        
+                  
+        <li
+          class="ct-item-list__item"
+        >
+                          
+          <a
+            aria-current="page"
+            class="ct-link ct-theme-light     ct-tabs__tab--selected"
+            data-tabs-tab=""
+            href="#all"
+          >
+            <span
+              class="ct-text-icon__text"
+            >
+              All
+            </span>
+          </a>
+            
+        </li>
+        
+                        
+        <li
+          class="ct-item-list__item"
+        >
+                          
+          <a
+            class="ct-link ct-theme-light"
+            data-tabs-tab=""
+            href="#platform"
+          >
+            <span
+              class="ct-text-icon__text"
+            >
+              Platform
+            </span>
+          </a>
+            
+        </li>
+        
+            
+      </ul>
+      
+    
+      
+    </details>
+    
+    
+      
+  </div>
+  
+
+</div>
+`;
+
+exports[`Tabs Component does not render the disclosure without collapse_mobile 1`] = `
+<div>
+  
+
+
+
+
+
+    
+          
+        
+  <div
+    class="ct-tabs ct-theme-light    "
+    data-tabs-panel=""
+  >
+    
+    
+                
+
+  
+    <ul
+      class="ct-item-list ct-item-list--horizontal ct-item-list--regular ct-item-list--no-gap ct-tabs__links"
+    >
+      
+                  
+      <li
+        class="ct-item-list__item"
+      >
+                        
+        <a
+          aria-current="page"
+          class="ct-link ct-theme-light     ct-tabs__tab--selected"
+          data-tabs-tab=""
+          href="#all"
+        >
+          <span
+            class="ct-text-icon__text"
+          >
+            All
+          </span>
+        </a>
+          
+      </li>
+      
+                        
+      <li
+        class="ct-item-list__item"
+      >
+                        
+        <a
+          class="ct-link ct-theme-light"
+          data-tabs-tab=""
+          href="#platform"
+        >
+          <span
+            class="ct-text-icon__text"
+          >
+            Platform
+          </span>
+        </a>
+          
+      </li>
+      
+            
+    </ul>
+    
+    
+    
+      
+  </div>
+  
+
+</div>
+`;
+
+exports[`Tabs Component does not render when panels are empty 1`] = `
+<div>
+  
+
+
+
+
+
+
+</div>
+`;
+
+exports[`Tabs Component marks the active link via is_active (links-only) 1`] = `
+<div>
+  
+
+
+
+
+
+    
+          
+        
+  <div
+    class="ct-tabs ct-theme-light    "
+    data-tabs-panel=""
+  >
+    
+    
+                
+
+  
+    <ul
+      class="ct-item-list ct-item-list--horizontal ct-item-list--regular ct-item-list--no-gap ct-tabs__links"
+    >
+      
+                  
+      <li
+        class="ct-item-list__item"
+      >
+                        
+        <a
+          aria-current="page"
+          class="ct-link ct-theme-light     ct-tabs__tab--selected"
+          data-tabs-tab=""
+          href="#all"
+        >
+          <span
+            class="ct-text-icon__text"
+          >
+            All
+          </span>
+        </a>
+          
+      </li>
+      
+                        
+      <li
+        class="ct-item-list__item"
+      >
+                        
+        <a
+          class="ct-link ct-theme-light"
+          data-tabs-tab=""
+          href="#platform"
+        >
+          <span
+            class="ct-text-icon__text"
+          >
+            Platform
+          </span>
+        </a>
+          
+      </li>
+      
+            
+    </ul>
+    
+    
+    
+      
+  </div>
+  
+
+</div>
+`;
+
+exports[`Tabs Component renders an optional count inside the link, omitting it when absent 1`] = `
+<div>
+  
+
+
+
+
+
+    
+          
+          
+        
+  <div
+    class="ct-tabs ct-theme-light    "
+    data-tabs-panel=""
+  >
+    
+    
+                
+
+  
+    <ul
+      class="ct-item-list ct-item-list--horizontal ct-item-list--regular ct-item-list--no-gap ct-tabs__links"
+    >
+      
+                  
+      <li
+        class="ct-item-list__item"
+      >
+                        
+        <a
+          aria-current="page"
+          class="ct-link ct-theme-light     ct-tabs__tab--selected"
+          data-tabs-tab=""
+          href="#all"
+        >
+          <span
+            class="ct-text-icon__text"
+          >
+            All 
+            <span
+              class="ct-tabs__count"
+            >
+              (128)
+            </span>
+          </span>
+        </a>
+          
+      </li>
+      
+                        
+      <li
+        class="ct-item-list__item"
+      >
+                        
+        <a
+          class="ct-link ct-theme-light"
+          data-tabs-tab=""
+          href="#pattern"
+        >
+          <span
+            class="ct-text-icon__text"
+          >
+            Pattern 
+            <span
+              class="ct-tabs__count"
+            >
+              (0)
+            </span>
+          </span>
+        </a>
+          
+      </li>
+      
+                        
+      <li
+        class="ct-item-list__item"
+      >
+                        
+        <a
+          class="ct-link ct-theme-light"
+          data-tabs-tab=""
+          href="#community"
+        >
+          <span
+            class="ct-text-icon__text"
+          >
+            Community
+          </span>
+        </a>
+          
+      </li>
+      
+            
+    </ul>
+    
+    
+    
+      
+  </div>
+  
+
+</div>
+`;
+
+exports[`Tabs Component renders with generated links from panels 1`] = `
+<div>
+  
+
+
+
+
+                        
+    
+          
+        
+  <div
+    class="ct-tabs ct-theme-light    "
+    data-tabs-panel=""
+  >
+    
+    
+                
+
+  
+    <ul
+      class="ct-item-list ct-item-list--horizontal ct-item-list--regular ct-item-list--no-gap ct-tabs__links"
+    >
+      
+                  
+      <li
+        class="ct-item-list__item"
+      >
+                        
+        <a
+          _keys="role id aria-controls"
+          aria-controls="tab1"
+          class="ct-link ct-theme-light"
+          data-tabs-tab=""
+          href="#tab1-tab"
+          id="tab1-tab"
+          role="tab"
+        >
+          <span
+            class="ct-text-icon__text"
+          >
+            Tab 1
+          </span>
+        </a>
+          
+      </li>
+      
+                        
+      <li
+        class="ct-item-list__item"
+      >
+                        
+        <a
+          _keys="role id aria-controls"
+          aria-controls="tab2"
+          class="ct-link ct-theme-light"
+          data-tabs-tab=""
+          href="#tab2-tab"
+          id="tab2-tab"
+          role="tab"
+        >
+          <span
+            class="ct-text-icon__text"
+          >
+            Tab 2
+          </span>
+        </a>
+          
+      </li>
+      
+            
+    </ul>
+    
+    
+    
+          
+    <div
+      class="ct-tabs__panels"
+    >
+      
+                              
+      <div
+        aria-labelledby="tab1-tab"
+        class="ct-tabs__panels__panel selected"
+        data-tabs-panel=""
+        id="tab1"
+        role="tabpanel"
+      >
+        
+              Content for Tab 1
+            
+      </div>
+      
+                                        
+      <div
+        aria-labelledby="tab2-tab"
+        class="ct-tabs__panels__panel "
+        data-tabs-panel=""
+        id="tab2"
+        role="tabpanel"
+      >
+        
+              Content for Tab 2
+            
+      </div>
+      
+                        
+    </div>
+    
+      
+  </div>
+  
+
+</div>
+`;
+
+exports[`Tabs Component renders with optional attributes 1`] = `
+<div>
+  
+
+
+
+
+                        
+    
+          
+        
+  <div
+    class="ct-tabs ct-theme-dark  ct-vertical-spacing--both  custom-class"
+    data-tabs-panel=""
+    data-test="true"
+  >
+    
+    
+                
+
+  
+    <ul
+      class="ct-item-list ct-item-list--horizontal ct-item-list--regular ct-item-list--no-gap ct-tabs__links"
+    >
+      
+                  
+      <li
+        class="ct-item-list__item"
+      >
+                        
+        <a
+          _keys="role id aria-controls"
+          aria-controls="tab1"
+          class="ct-link ct-theme-dark"
+          data-tabs-tab=""
+          href="#tab1-tab"
+          id="tab1-tab"
+          role="tab"
+        >
+          <span
+            class="ct-text-icon__text"
+          >
+            Tab 1
+          </span>
+        </a>
+          
+      </li>
+      
+                        
+      <li
+        class="ct-item-list__item"
+      >
+                        
+        <a
+          _keys="role id aria-controls"
+          aria-controls="tab2"
+          class="ct-link ct-theme-dark"
+          data-tabs-tab=""
+          href="#tab2-tab"
+          id="tab2-tab"
+          role="tab"
+        >
+          <span
+            class="ct-text-icon__text"
+          >
+            Tab 2
+          </span>
+        </a>
+          
+      </li>
+      
+            
+    </ul>
+    
+    
+    
+          
+    <div
+      class="ct-tabs__panels"
+    >
+      
+                              
+      <div
+        aria-labelledby="tab1-tab"
+        class="ct-tabs__panels__panel selected"
+        data-tabs-panel=""
+        id="tab1"
+        role="tabpanel"
+      >
+        
+              Content for Tab 1
+            
+      </div>
+      
+                                        
+      <div
+        aria-labelledby="tab2-tab"
+        class="ct-tabs__panels__panel "
+        data-tabs-panel=""
+        id="tab2"
+        role="tabpanel"
+      >
+        
+              Content for Tab 2
+            
+      </div>
+      
+                        
+    </div>
+    
+      
+  </div>
+  
+
+</div>
+`;
+
+exports[`Tabs Component renders with required attributes 1`] = `
+<div>
+  
+
+
+
+
+                        
+    
+          
+        
+  <div
+    class="ct-tabs ct-theme-light    "
+    data-tabs-panel=""
+  >
+    
+    
+                
+
+  
+    <ul
+      class="ct-item-list ct-item-list--horizontal ct-item-list--regular ct-item-list--no-gap ct-tabs__links"
+    >
+      
+                  
+      <li
+        class="ct-item-list__item"
+      >
+                        
+        <a
+          _keys="role id aria-controls"
+          aria-controls="tab1"
+          class="ct-link ct-theme-light"
+          data-tabs-tab=""
+          href="#tab1-tab"
+          id="tab1-tab"
+          role="tab"
+        >
+          <span
+            class="ct-text-icon__text"
+          >
+            Tab 1
+          </span>
+        </a>
+          
+      </li>
+      
+                        
+      <li
+        class="ct-item-list__item"
+      >
+                        
+        <a
+          _keys="role id aria-controls"
+          aria-controls="tab2"
+          class="ct-link ct-theme-light"
+          data-tabs-tab=""
+          href="#tab2-tab"
+          id="tab2-tab"
+          role="tab"
+        >
+          <span
+            class="ct-text-icon__text"
+          >
+            Tab 2
+          </span>
+        </a>
+          
+      </li>
+      
+            
+    </ul>
+    
+    
+    
+          
+    <div
+      class="ct-tabs__panels"
+    >
+      
+                              
+      <div
+        aria-labelledby="tab1-tab"
+        class="ct-tabs__panels__panel selected"
+        data-tabs-panel=""
+        id="tab1"
+        role="tabpanel"
+      >
+        
+              Content for Tab 1
+            
+      </div>
+      
+                                        
+      <div
+        aria-labelledby="tab2-tab"
+        class="ct-tabs__panels__panel "
+        data-tabs-panel=""
+        id="tab2"
+        role="tabpanel"
+      >
+        
+              Content for Tab 2
+            
+      </div>
+      
+                        
+    </div>
+    
+      
+  </div>
+  
+
+</div>
+`;

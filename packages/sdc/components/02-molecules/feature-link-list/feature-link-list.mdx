@@ -1,0 +1,14 @@
+{/* Editorial body is shared with the design library – edit ./feature-link-list.md, not this file. */}
+
+import { Meta, Canvas, Controls, Markdown } from '@storybook/addon-docs/blocks';
+import * as Stories from './feature-link-list.stories';
+import body from './feature-link-list.md?raw';
+
+<Meta of={Stories} />
+
+# Feature link list
+
+<Canvas of={Stories.FeatureLinkList} />
+<Controls of={Stories.FeatureLinkList} />
+
+<Markdown>{body.replace(/^---[\s\S]*?---\s*/, '')}</Markdown>

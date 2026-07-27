@@ -1,0 +1,372 @@
+/**
+ * This file was automatically generated. Please run `npm run dist` to update.
+ */
+
+@charset "UTF-8";
+.ct-step-by-step-nav.ct-step-by-step-nav--with-background {
+  padding: 1.5rem;
+}
+.ct-step-by-step-nav.ct-step-by-step-nav--with-background.ct-step-by-step-nav--not-contained {
+  border-style: solid;
+  border-width: 0.0625rem;
+}
+.ct-step-by-step-nav.ct-step-by-step-nav--with-background.ct-step-by-step-nav--not-contained .ct-step-by-step-nav__step:first-child .ct-step-by-step-nav__step__header {
+  border-top: 0;
+}
+.ct-step-by-step-nav .ct-step-by-step-nav__toggle {
+  text-align: right;
+  margin-bottom: 1rem;
+}
+.ct-step-by-step-nav .ct-step-by-step-nav__toggle__button {
+  font-size: var(--ct-typography-label-regular-font-size);
+  line-height: var(--ct-typography-label-regular-line-height);
+  font-family: var(--ct-typography-label-regular-font-name);
+  font-weight: var(--ct-typography-label-regular-font-weight);
+  letter-spacing: var(--ct-typography-label-regular-letter-spacing);
+  appearance: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+}
+.ct-step-by-step-nav .ct-step-by-step-nav__toggle__button:focus-visible {
+  outline: 0.125rem solid;
+  outline-offset: 0.125rem;
+}
+.ct-step-by-step-nav .ct-step-by-step-nav__steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.ct-step-by-step-nav .ct-step-by-step-nav__step {
+  position: relative;
+  padding-left: 3.5rem;
+  padding-bottom: 1rem;
+}
+.ct-step-by-step-nav .ct-step-by-step-nav__step::before {
+  content: "";
+  position: absolute;
+  left: 1rem;
+  top: 0;
+  bottom: 0;
+  width: 0.03125rem;
+}
+.ct-step-by-step-nav .ct-step-by-step-nav__step:first-child::before {
+  top: 0.75rem;
+}
+.ct-step-by-step-nav .ct-step-by-step-nav__step:last-child::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0.5rem;
+  width: 1rem;
+  height: 0.03125rem;
+}
+.ct-step-by-step-nav .ct-step-by-step-nav__step__number {
+  position: absolute;
+  left: 0;
+  top: 0.75rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: 0.03125rem solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+.ct-step-by-step-nav .ct-step-by-step-nav__step__header {
+  border-top: 0.03125rem solid;
+}
+.ct-step-by-step-nav .ct-step-by-step-nav__step__number--logic {
+  border: none;
+}
+.ct-step-by-step-nav .ct-step-by-step-nav__step__number__inner {
+  font-size: var(--ct-typography-label-regular-font-size);
+  line-height: var(--ct-typography-label-regular-line-height);
+  font-family: var(--ct-typography-label-regular-font-name);
+  font-weight: var(--ct-typography-label-regular-font-weight);
+  letter-spacing: var(--ct-typography-label-regular-letter-spacing);
+}
+.ct-step-by-step-nav .ct-step-by-step-nav__step__title {
+  margin: 0;
+  padding: 0;
+  max-width: none;
+}
+.ct-step-by-step-nav .ct-step-by-step-nav__step__title__button {
+  font-size: var(--ct-typography-heading-5-font-size);
+  line-height: var(--ct-typography-heading-5-line-height);
+  font-family: var(--ct-typography-heading-5-font-name);
+  font-weight: var(--ct-typography-heading-5-font-weight);
+  letter-spacing: var(--ct-typography-heading-5-letter-spacing);
+  appearance: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  text-align: left;
+  width: 100%;
+  padding: 1rem 0;
+}
+.ct-step-by-step-nav .ct-step-by-step-nav__step__title__button:focus-visible {
+  outline: 0.125rem solid;
+  outline-offset: 0.125rem;
+}
+.ct-step-by-step-nav .ct-step-by-step-nav__step__panel__inner {
+  padding-bottom: 1rem;
+}
+.ct-step-by-step-nav .ct-step-by-step-nav__step__panel__paragraph {
+  font-size: var(--ct-typography-text-regular-font-size);
+  line-height: var(--ct-typography-text-regular-line-height);
+  font-family: var(--ct-typography-text-regular-font-name);
+  font-weight: var(--ct-typography-text-regular-font-weight);
+  letter-spacing: var(--ct-typography-text-regular-letter-spacing);
+  margin: 0 0 1rem;
+}
+.ct-step-by-step-nav .ct-step-by-step-nav__step__panel__paragraph:last-child {
+  margin-bottom: 0;
+}
+.ct-step-by-step-nav .ct-step-by-step-nav__step__panel__paragraph + .ct-step-by-step-nav__step__panel__list {
+  margin-top: -0.3125rem;
+}
+.ct-step-by-step-nav .ct-step-by-step-nav__step__panel__heading {
+  font-size: var(--ct-typography-heading-6-font-size);
+  line-height: var(--ct-typography-heading-6-line-height);
+  font-family: var(--ct-typography-heading-6-font-name);
+  font-weight: var(--ct-typography-heading-6-font-weight);
+  letter-spacing: var(--ct-typography-heading-6-letter-spacing);
+  margin: 1rem 0 0.5rem;
+}
+.ct-step-by-step-nav .ct-step-by-step-nav__step__panel__list {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+}
+.ct-step-by-step-nav .ct-step-by-step-nav__step__panel__list.ct-step-by-step-nav__step__panel__list--choice {
+  list-style: disc;
+  padding-left: 1.5rem;
+}
+.ct-step-by-step-nav .ct-step-by-step-nav__step__panel__list:last-child {
+  margin-bottom: 0;
+}
+.ct-step-by-step-nav .ct-step-by-step-nav__step__panel__list__item {
+  position: relative;
+  margin-bottom: 0.5rem;
+}
+.ct-step-by-step-nav .ct-step-by-step-nav__step__panel__list__item:last-child {
+  margin-bottom: 0;
+}
+.ct-step-by-step-nav .ct-step-by-step-nav__step__panel__list__item--active::before {
+  content: "";
+  position: absolute;
+  top: 0.75em;
+  left: calc(-3.5rem + 1rem);
+  width: 1.75rem;
+  height: 0.03125rem;
+}
+.ct-step-by-step-nav .ct-step-by-step-nav__step__panel__list__link {
+  font-size: var(--ct-typography-text-regular-font-size);
+  line-height: var(--ct-typography-text-regular-line-height);
+  font-family: var(--ct-typography-text-regular-font-name);
+  font-weight: var(--ct-typography-text-regular-font-weight);
+  letter-spacing: var(--ct-typography-text-regular-letter-spacing);
+}
+.ct-step-by-step-nav .ct-step-by-step-nav__step__panel__list__link--active {
+  font-weight: bold;
+}
+.ct-step-by-step-nav .ct-step-by-step-nav__step__panel__list__context {
+  font-size: var(--ct-typography-text-small-font-size);
+  line-height: var(--ct-typography-text-small-line-height);
+  font-family: var(--ct-typography-text-small-font-name);
+  font-weight: var(--ct-typography-text-small-font-weight);
+  letter-spacing: var(--ct-typography-text-small-letter-spacing);
+  display: inline;
+}
+.ct-step-by-step-nav .ct-step-by-step-nav__step__panel__list__context::before {
+  content: " – ";
+}
+.ct-step-by-step-nav .ct-step-by-step-nav__step__panel__list__connector {
+  font-size: var(--ct-typography-text-small-font-size);
+  line-height: var(--ct-typography-text-small-line-height);
+  font-family: var(--ct-typography-text-small-font-name);
+  font-weight: var(--ct-typography-text-small-font-weight);
+  letter-spacing: var(--ct-typography-text-small-letter-spacing);
+  display: block;
+}
+.ct-step-by-step-nav .ct-step-by-step-nav__substep {
+  border-left: 0.125rem solid;
+  margin: 0.5rem 0 1rem;
+  padding-left: 1rem;
+}
+.ct-step-by-step-nav .ct-step-by-step-nav__substep__heading {
+  font-size: var(--ct-typography-heading-6-font-size);
+  line-height: var(--ct-typography-heading-6-line-height);
+  font-family: var(--ct-typography-heading-6-font-name);
+  font-weight: var(--ct-typography-heading-6-font-weight);
+  letter-spacing: var(--ct-typography-heading-6-letter-spacing);
+  margin: 0 0 0.5rem;
+}
+@media (min-width: 768px) {
+  .ct-step-by-step-nav.ct-step-by-step-nav--small .ct-step-by-step-nav__step {
+    padding-left: 3rem;
+  }
+  .ct-step-by-step-nav.ct-step-by-step-nav--small .ct-step-by-step-nav__step::before {
+    left: 0.75rem;
+  }
+  .ct-step-by-step-nav.ct-step-by-step-nav--small .ct-step-by-step-nav__step:first-child::before {
+    top: 0.5rem;
+  }
+  .ct-step-by-step-nav.ct-step-by-step-nav--small .ct-step-by-step-nav__step:last-child::after {
+    left: 0.375rem;
+    width: 0.75rem;
+  }
+  .ct-step-by-step-nav.ct-step-by-step-nav--small .ct-step-by-step-nav__step__panel__list__item--active::before {
+    left: calc(-3rem + 0.75rem);
+  }
+  .ct-step-by-step-nav.ct-step-by-step-nav--small .ct-step-by-step-nav__step__number {
+    width: 1.5rem;
+    height: 1.5rem;
+    top: 0.5rem;
+  }
+  .ct-step-by-step-nav.ct-step-by-step-nav--small .ct-step-by-step-nav__step__title__button {
+    font-size: var(--ct-typography-heading-6-font-size);
+    line-height: var(--ct-typography-heading-6-line-height);
+    font-family: var(--ct-typography-heading-6-font-name);
+    font-weight: var(--ct-typography-heading-6-font-weight);
+    letter-spacing: var(--ct-typography-heading-6-letter-spacing);
+    padding: 0.75rem 0;
+  }
+  .ct-step-by-step-nav.ct-step-by-step-nav--small .ct-step-by-step-nav__step__panel__inner {
+    padding-bottom: 0.75rem;
+  }
+}
+.ct-step-by-step-nav.ct-theme-light {
+  color: var(--ct-step-by-step-nav-light-color);
+}
+.ct-step-by-step-nav.ct-theme-light.ct-step-by-step-nav--with-background {
+  background-color: var(--ct-step-by-step-nav-light-background-color);
+}
+.ct-step-by-step-nav.ct-theme-light.ct-step-by-step-nav--with-background.ct-step-by-step-nav--not-contained {
+  border-color: var(--ct-step-by-step-nav-light-separator-border-color);
+}
+.ct-step-by-step-nav.ct-theme-light .ct-step-by-step-nav__toggle__button {
+  color: var(--ct-step-by-step-nav-light-toggle-color);
+}
+.ct-step-by-step-nav.ct-theme-light .ct-step-by-step-nav__step__header {
+  border-color: var(--ct-step-by-step-nav-light-separator-border-color);
+}
+.ct-step-by-step-nav.ct-theme-light .ct-step-by-step-nav__step::before {
+  background-color: var(--ct-step-by-step-nav-light-line-background-color);
+}
+.ct-step-by-step-nav.ct-theme-light .ct-step-by-step-nav__step:last-child::after {
+  background-color: var(--ct-step-by-step-nav-light-line-background-color);
+}
+.ct-step-by-step-nav.ct-theme-light .ct-step-by-step-nav__step__title__button {
+  color: var(--ct-step-by-step-nav-light-color);
+}
+.ct-step-by-step-nav.ct-theme-light .ct-step-by-step-nav__step__title__button .ct-collapsible__icon {
+  color: var(--ct-step-by-step-nav-light-icon-color);
+}
+.ct-step-by-step-nav.ct-theme-light .ct-step-by-step-nav__step__title__button:focus-visible {
+  outline-offset: var(--ct-outline-offset);
+  outline-width: var(--ct-outline-width);
+  outline-style: solid;
+  outline-color: var(--ct-outline-light);
+}
+.ct-step-by-step-nav.ct-theme-light .ct-step-by-step-nav__toggle__button:focus-visible {
+  outline-offset: var(--ct-outline-offset);
+  outline-width: var(--ct-outline-width);
+  outline-style: solid;
+  outline-color: var(--ct-outline-light);
+}
+.ct-step-by-step-nav.ct-theme-light .ct-step-by-step-nav__step__number {
+  background-color: var(--ct-step-by-step-nav-light-number-background-color);
+  border-color: var(--ct-step-by-step-nav-light-number-border-color);
+}
+.ct-step-by-step-nav.ct-theme-light .ct-step-by-step-nav__step__number--logic {
+  border-color: transparent;
+}
+.ct-step-by-step-nav.ct-theme-light .ct-step-by-step-nav__step--active .ct-step-by-step-nav__step__number {
+  background-color: var(--ct-step-by-step-nav-light-number-active-background-color);
+  color: var(--ct-step-by-step-nav-light-number-active-color);
+  border-color: transparent;
+}
+.ct-step-by-step-nav.ct-theme-light .ct-step-by-step-nav__step__panel__list__item--active::before {
+  background-color: var(--ct-step-by-step-nav-light-active-connector-background-color);
+}
+.ct-step-by-step-nav.ct-theme-light .ct-step-by-step-nav__step__panel__list__link {
+  color: var(--ct-step-by-step-nav-light-link-color);
+}
+.ct-step-by-step-nav.ct-theme-light .ct-step-by-step-nav__step__panel__list__link--active {
+  color: var(--ct-step-by-step-nav-light-link-active-color);
+}
+.ct-step-by-step-nav.ct-theme-light .ct-step-by-step-nav__substep {
+  border-color: var(--ct-step-by-step-nav-light-substep-border-color);
+}
+.ct-step-by-step-nav.ct-theme-dark {
+  color: var(--ct-step-by-step-nav-dark-color);
+}
+.ct-step-by-step-nav.ct-theme-dark.ct-step-by-step-nav--with-background {
+  background-color: var(--ct-step-by-step-nav-dark-background-color);
+}
+.ct-step-by-step-nav.ct-theme-dark.ct-step-by-step-nav--with-background.ct-step-by-step-nav--not-contained {
+  border-color: var(--ct-step-by-step-nav-dark-separator-border-color);
+}
+.ct-step-by-step-nav.ct-theme-dark .ct-step-by-step-nav__toggle__button {
+  color: var(--ct-step-by-step-nav-dark-toggle-color);
+}
+.ct-step-by-step-nav.ct-theme-dark .ct-step-by-step-nav__step__header {
+  border-color: var(--ct-step-by-step-nav-dark-separator-border-color);
+}
+.ct-step-by-step-nav.ct-theme-dark .ct-step-by-step-nav__step::before {
+  background-color: var(--ct-step-by-step-nav-dark-line-background-color);
+}
+.ct-step-by-step-nav.ct-theme-dark .ct-step-by-step-nav__step:last-child::after {
+  background-color: var(--ct-step-by-step-nav-dark-line-background-color);
+}
+.ct-step-by-step-nav.ct-theme-dark .ct-step-by-step-nav__step__title__button {
+  color: var(--ct-step-by-step-nav-dark-color);
+}
+.ct-step-by-step-nav.ct-theme-dark .ct-step-by-step-nav__step__title__button .ct-collapsible__icon {
+  color: var(--ct-step-by-step-nav-dark-icon-color);
+}
+.ct-step-by-step-nav.ct-theme-dark .ct-step-by-step-nav__step__title__button:focus-visible {
+  outline-offset: var(--ct-outline-offset);
+  outline-width: var(--ct-outline-width);
+  outline-style: solid;
+  outline-color: var(--ct-outline-dark);
+}
+.ct-step-by-step-nav.ct-theme-dark .ct-step-by-step-nav__toggle__button:focus-visible {
+  outline-offset: var(--ct-outline-offset);
+  outline-width: var(--ct-outline-width);
+  outline-style: solid;
+  outline-color: var(--ct-outline-dark);
+}
+.ct-step-by-step-nav.ct-theme-dark .ct-step-by-step-nav__step__number {
+  background-color: var(--ct-step-by-step-nav-dark-number-background-color);
+  border-color: var(--ct-step-by-step-nav-dark-number-border-color);
+}
+.ct-step-by-step-nav.ct-theme-dark .ct-step-by-step-nav__step__number--logic {
+  border-color: transparent;
+}
+.ct-step-by-step-nav.ct-theme-dark .ct-step-by-step-nav__step--active .ct-step-by-step-nav__step__number {
+  background-color: var(--ct-step-by-step-nav-dark-number-active-background-color);
+  color: var(--ct-step-by-step-nav-dark-number-active-color);
+  border-color: transparent;
+}
+.ct-step-by-step-nav.ct-theme-dark .ct-step-by-step-nav__step__panel__list__item--active::before {
+  background-color: var(--ct-step-by-step-nav-dark-active-connector-background-color);
+}
+.ct-step-by-step-nav.ct-theme-dark .ct-step-by-step-nav__step__panel__list__link {
+  color: var(--ct-step-by-step-nav-dark-link-color);
+}
+.ct-step-by-step-nav.ct-theme-dark .ct-step-by-step-nav__step__panel__list__link--active {
+  color: var(--ct-step-by-step-nav-dark-link-active-color);
+}
+.ct-step-by-step-nav.ct-theme-dark .ct-step-by-step-nav__substep {
+  border-color: var(--ct-step-by-step-nav-dark-substep-border-color);
+}

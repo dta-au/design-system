@@ -1,0 +1,42 @@
+{/* Editorial guidance aligned with the digital.gov.au design library (dga-dl /src/content/foundations/typography). */}
+
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as Stories from './fonts.stories';
+
+<Meta of={Stories} />
+
+# Fonts
+
+Three families, each registered under a key in `$ct-fonts` and reachable from SCSS with `ct-font('key')`.
+
+<Canvas of={Stories.Fonts} />
+
+## Families
+
+- **Arimo – `primary`.** Body copy, labels, and every text style. A neutral grotesque that is metric-compatible with Arial, so the system fallback occupies the same space while the web font loads and there is no reflow on swap.
+- **Archivo – `secondary`.** Headings and display type. A tighter, higher-contrast grotesque that holds its shape at large sizes and gives headings a distinct voice without a second typeface personality fighting the body text.
+- **Geist Mono – `mono`.** `code`, `kbd`, `samp`, and `pre`. Reserve it for code and technical identifiers, not for UI text that happens to need alignment.
+
+Archivo is registered but the type ramp still points every heading at `primary`. The AGA theme restates `$ct-typography` to run headings on `secondary` with letter-spacing zeroed; the UIKit has not made that switch yet, so headings render in Arimo until it does.
+
+## Hosting
+
+All three are self-hosted as single variable `woff2` files under the theme's assets, licensed under the SIL Open Font License. Registering all three keys is also what removes CivicTheme's upstream `@import` of Lexend and Public Sans from Google Fonts – an unset key leaves that cross-origin request in the stylesheet even when nothing uses the face.
+
+## Weights
+
+Arimo and Geist Mono span `400`–`700`; Archivo spans `100`–`900`. Weights outside a family's range clamp to its nearest end, so the `thin` and `black` rows above are synthetic for the first two. The type styles use Regular `400` for body text, SemiBold `600` for labels, and Bold `700` for headings. See [Typography](?path=/docs/base-typography--docs) for how weights map to each style.
+
+## Why this stack over Lexend or Inter
+
+**Arimo's fallback is free.** Arimo shares Arial's advance widths, and Arial or a metric clone is present on effectively every device. Text is laid out correctly before the woff2 arrives and does not shift when it does. Neither Lexend nor Inter has a metric-compatible system face, so both need `size-adjust` tuning to get close, and neither lands exactly.
+
+**One file, not four.** Each family here is a single variable woff2 covering its whole weight range. CivicTheme's stock Lexend is four static weights fetched from `fonts.googleapis.com`, which is both more requests and a third-party dependency on the critical render path – not something an Australian government site should carry when self-hosting is this cheap.
+
+**Lexend's tracking costs horizontal space.** It is a wide face with generous default spacing, designed around reading-proficiency research rather than dense interface work. That trade reads well in long-form prose and badly in tables, forms, and navigation, which is most of what this kit renders. Its reading-speed claims also rest on a narrow evidence base that has not been replicated independently.
+
+**Inter is the house style of everything else.** It is a strong UI face and the technical argument against it is thin. The argument is identity: Inter is the default of most modern product interfaces, so a government service set in it inherits a SaaS-dashboard read rather than its own. Archivo over Arimo gives the same clarity with a voice that is specific to this system.
+
+**Neither has a monospace companion.** There is no Lexend Mono, and Inter's mono sibling is a separate project with different proportions. Geist Mono ships disambiguated `0`/`O` and `1`/`l`/`I`, which matters when the content is reference numbers, ABNs, and case IDs.
+
+The trade-off: Lexend's oversized apertures and loose spacing genuinely help some readers with low reading proficiency, and Arimo does not replicate that. The mitigation is the rest of the type system – generous line height, capped measure, and respecting the user's font-size setting – rather than the family itself.

@@ -1,0 +1,20 @@
+//
+// Style for Storybook.
+//
+// This file replaces normal CSS to allow resolving of variables and mixins in
+// stories CSS.
+//
+// stylelint-disable scss/at-import-partial-extension
+@import '00-base/variables';
+@import '00-base/**/storybook.stories.scss';
+@import '00-base/**/!(*storybook*).stories.scss';
+@import '01-atoms/**/*.stories.scss';
+@import '02-molecules/**/*.stories.scss';
+@import '03-organisms/**/*.stories.scss';
+@import '04-templates/**/*.stories.scss';
+@import '05-pages/**/*.stories.scss';
+
+// Re-emit @font-face here so self-hosted fonts load in Storybook. This file is
+// compiled with $ct-assets-directory set to the Storybook asset path (/assets/),
+// whereas the base stylesheet bakes the Drupal path, which 404s under Storybook.
+@include ct-font-include(_ct-font-map-all());

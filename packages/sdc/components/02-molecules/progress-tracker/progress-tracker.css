@@ -1,0 +1,158 @@
+/**
+ * This file was automatically generated. Please run `npm run dist` to update.
+ */
+
+.progress-tracker {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.progress-step {
+  position: relative;
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  flex-direction: column;
+  align-items: self-start;
+  text-align: center;
+}
+.progress-step:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  top: 1rem;
+  left: 0;
+  z-index: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--ct-color-neutral-400, #c6c6c6);
+}
+.progress-step.is-complete:not(:last-child)::before {
+  background: var(--ct-color-interactive, #00698f);
+}
+
+.progress-step__link {
+  display: flex;
+  flex-direction: column;
+  align-items: self-start;
+  color: inherit;
+  text-decoration: none;
+}
+.progress-step__link:focus-visible {
+  outline: 2px solid var(--ct-color-interactive-focus, #00698f);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.progress-marker {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: 2px solid var(--ct-color-neutral-400, #c6c6c6);
+  border-radius: 50%;
+  background: var(--ct-color-background, #fff);
+  color: var(--ct-color-text-light, #767676);
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.progress-marker__icon {
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 2.5px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.progress-text {
+  display: block;
+  margin-top: var(--ct-spacing-100, 0.5rem);
+}
+
+.progress-title {
+  font-size: var(--ct-typography-text-small-font-size);
+  line-height: var(--ct-typography-text-small-line-height);
+  font-family: var(--ct-typography-text-small-font-name);
+  font-weight: var(--ct-typography-text-small-font-weight);
+  letter-spacing: var(--ct-typography-text-small-letter-spacing);
+  color: var(--ct-color-text-light, #767676);
+}
+
+.progress-step.is-complete .progress-marker {
+  border-color: var(--ct-color-interactive, #00698f);
+  background: var(--ct-color-interactive, #00698f);
+  color: var(--ct-color-text-on-dark, #fff);
+}
+.progress-step.is-complete .progress-title {
+  color: var(--ct-color-text, #1a1a1a);
+}
+
+.progress-step.is-active .progress-marker {
+  border-color: var(--ct-color-interactive, #00698f);
+  color: var(--ct-color-interactive, #00698f);
+  box-shadow: 0 0 0 4px var(--ct-color-neutral-100, #f4f4f4);
+}
+.progress-step.is-active .progress-title {
+  color: var(--ct-color-interactive, #00698f);
+  font-weight: 600;
+}
+
+.ct-theme-dark .progress-tracker .progress-step:not(:last-child)::before,
+.progress-tracker.ct-theme-dark .progress-step:not(:last-child)::before {
+  background: var(--ct-color-neutral-700, #333);
+}
+.ct-theme-dark .progress-tracker .progress-step.is-complete:not(:last-child)::before,
+.progress-tracker.ct-theme-dark .progress-step.is-complete:not(:last-child)::before {
+  background: var(--ct-color-interactive, #61daff);
+}
+.ct-theme-dark .progress-tracker .progress-marker,
+.progress-tracker.ct-theme-dark .progress-marker {
+  border-color: var(--ct-color-neutral-600, #6f6f6f);
+  background: var(--ct-color-background-dark, #1c1c1c);
+  color: var(--ct-color-neutral-400, #a0a0a0);
+}
+.ct-theme-dark .progress-tracker .progress-title,
+.progress-tracker.ct-theme-dark .progress-title {
+  color: var(--ct-color-neutral-400, #a0a0a0);
+}
+.ct-theme-dark .progress-tracker .progress-step.is-complete .progress-marker,
+.progress-tracker.ct-theme-dark .progress-step.is-complete .progress-marker {
+  border-color: var(--ct-color-interactive, #61daff);
+  background: var(--ct-color-interactive, #61daff);
+  color: var(--ct-color-text, #1a1a1a);
+}
+.ct-theme-dark .progress-tracker .progress-step.is-complete .progress-title,
+.progress-tracker.ct-theme-dark .progress-step.is-complete .progress-title {
+  color: var(--ct-color-text-on-dark, #f0f0f0);
+}
+.ct-theme-dark .progress-tracker .progress-step.is-active .progress-marker,
+.progress-tracker.ct-theme-dark .progress-step.is-active .progress-marker {
+  border-color: var(--ct-color-interactive, #61daff);
+  color: var(--ct-color-interactive, #61daff);
+  box-shadow: 0 0 0 4px var(--ct-color-neutral-800, #2c2c2c);
+}
+.ct-theme-dark .progress-tracker .progress-step.is-active .progress-title,
+.progress-tracker.ct-theme-dark .progress-step.is-active .progress-title {
+  color: var(--ct-color-interactive, #61daff);
+}
+
+@media (forced-colors: active) {
+  .progress-step.is-complete .progress-marker {
+    background: SelectedItem;
+    color: SelectedItemText;
+  }
+  .progress-step.is-active .progress-marker {
+    outline: 2px solid Highlight;
+  }
+  .progress-step__link:focus-visible {
+    outline-color: Highlight;
+  }
+}

@@ -1,0 +1,14 @@
+//
+// Monospace typography.
+//
+// Binds the 'mono' font (registered in $ct-fonts) to code-like elements. Kept in
+// its own base partial - not an edit to typography.scss - so it is globbed into
+// the base stylesheet across every build path (SDC, the twig derivative, and a
+// sub-theme's combined build) while leaving the upstream typography.scss intact.
+
+code,
+kbd,
+samp,
+pre {
+  font-family: ct-font('mono');
+}

@@ -1,0 +1,67 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
+name: Feature Link List
+status: stable
+description: A compact list of navigational links with optional descriptions and directional icons. Suitable for sidebars and in-page navigation panels.
+props:
+  type: object
+  properties:
+    theme:
+      type: string
+      enum:
+        - light
+        - dark
+    heading_level:
+      type: integer
+      title: Heading level
+      description: Heading level for the title.
+      enum:
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+    vertical_spacing:
+      type: string
+      enum:
+        - top
+        - bottom
+        - both
+        - none
+    with_background:
+      type: boolean
+    is_contained:
+      type: boolean
+      title: Contained
+      description: Whether to wrap the content in a container.
+      default: true
+    title:
+      type: string
+      title: Section heading
+    icon_leading:
+      type: boolean
+      title: Render icon at the start of each item
+    icon_leading_symbol:
+      type: string
+      title: Default icon symbol used when icon_leading is true
+    items:
+      type: array
+      items:
+        type: object
+        required:
+          - title
+          - url
+        properties:
+          title:
+            type: string
+          description:
+            type: string
+          url:
+            type: string
+          icon:
+            type: string
+          is_external:
+            type: boolean
+          is_new_window:
+            type: boolean
+    modifier_class:
+      type: string

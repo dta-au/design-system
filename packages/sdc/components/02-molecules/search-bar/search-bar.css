@@ -1,0 +1,57 @@
+/**
+ * This file was automatically generated. Please run `npm run dist` to update.
+ */
+
+.ct-search-bar {
+  display: flex;
+  gap: 0.5rem;
+  align-items: stretch;
+}
+.ct-search-bar__input {
+  appearance: none;
+  margin: 0;
+  font-size: var(--ct-typography-label-small-font-size);
+  line-height: var(--ct-typography-label-small-line-height);
+  font-family: var(--ct-typography-label-small-font-name);
+  font-weight: var(--ct-typography-label-small-font-weight);
+  letter-spacing: var(--ct-typography-label-small-letter-spacing);
+  flex: 1 1 auto;
+  min-width: 0;
+  border-style: solid;
+  border-width: 0.0625rem;
+  border-radius: var(--ct-textfield-border-radius);
+  padding: 0.8125rem 1rem;
+  box-sizing: border-box;
+}
+.ct-search-bar__input:focus-visible {
+  outline-style: solid;
+  outline-width: var(--ct-textfield-outline-width);
+  outline-offset: var(--ct-textfield-outline-offset);
+}
+.ct-search-bar__button {
+  flex: 0 0 auto;
+}
+.ct-search-bar.ct-theme-light .ct-search-bar__input {
+  color: var(--ct-search-bar-light-input-color);
+  background-color: var(--ct-search-bar-light-input-background-color);
+  border-color: var(--ct-search-bar-light-input-border-color);
+}
+.ct-search-bar.ct-theme-light .ct-search-bar__input::placeholder {
+  color: var(--ct-search-bar-light-input-color);
+}
+.ct-search-bar.ct-theme-light .ct-search-bar__input:focus-visible {
+  border-color: var(--ct-search-bar-light-input-focus-border-color);
+  outline-color: var(--ct-search-bar-light-input-focus-outline-color);
+}
+.ct-search-bar.ct-theme-dark .ct-search-bar__input {
+  color: var(--ct-search-bar-dark-input-color);
+  background-color: var(--ct-search-bar-dark-input-background-color);
+  border-color: var(--ct-search-bar-dark-input-border-color);
+}
+.ct-search-bar.ct-theme-dark .ct-search-bar__input::placeholder {
+  color: var(--ct-search-bar-dark-input-color);
+}
+.ct-search-bar.ct-theme-dark .ct-search-bar__input:focus-visible {
+  border-color: var(--ct-search-bar-dark-input-focus-border-color);
+  outline-color: var(--ct-search-bar-dark-input-focus-outline-color);
+}

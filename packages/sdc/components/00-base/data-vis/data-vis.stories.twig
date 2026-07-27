@@ -1,0 +1,90 @@
+{#
+/**
+ * @file
+ * Story specimens for Base / Data visualisation / Colour.
+ *
+ * Renders the palette specimens only - the categorical and sequential tables
+ * (Colour / Hex / RGB / Example), the sequential ramp, and the color_by
+ * reference via the summary-list component. The palette tables are styled via
+ * .dv-table in the SCSS (the DS table component themes through runtime --ct-*
+ * tokens that the bare Storybook canvas lacks), with the swatch in the Example
+ * cell. Editorial prose lives in data-vis.mdx; the CVD toggle behaviour is
+ * wired in data-vis.stories.js. Sections render conditionally on the data
+ * passed, so this one template backs the Categorical, Sequential and
+ * ColourScheme stories.
+ *
+ * Props:
+ * - palette: [object]
+ *   - categorical: [array] { name, note, hex, rgb }
+ *   - sequential: [array] { name, note, hex, rgb }
+ *   - colorby: [array] { key, value } (passed straight to summary-list)
+ */
+#}
+<div class="dv">
+  {% if palette.categorical is not empty or palette.sequential is not empty %}
+    <svg width="0" height="0" focusable="false" aria-hidden="true" class="dv__filters">
+      <filter id="dv-deutan" color-interpolation-filters="linearRGB"><feColorMatrix type="matrix" values="0.367322 0.860646 -0.227968 0 0  0.280085 0.672501 0.047413 0 0  -0.011820 0.042940 0.968881 0 0  0 0 0 1 0"/></filter>
+      <filter id="dv-protan" color-interpolation-filters="linearRGB"><feColorMatrix type="matrix" values="0.152286 1.052599 -0.204876 0 0  0.114503 0.786281 0.099216 0 0  -0.003882 -0.048116 1.051998 0 0  0 0 0 1 0"/></filter>
+      <filter id="dv-tritan" color-interpolation-filters="linearRGB"><feColorMatrix type="matrix" values="1.255528 -0.076749 -0.178779 0 0  -0.078411 0.930809 0.147602 0 0  0.004733 0.691367 0.303900 0 0  0 0 0 1 0"/></filter>
+    </svg>
+
+    <div class="dv-cvd" role="group" aria-label="Colour vision deficiency simulation">
+      <span class="dv-cvd__legend">CVD simulation</span>
+      <button type="button" class="dv-cvd__btn" data-cvd="none" aria-pressed="true">Normal</button>
+      <button type="button" class="dv-cvd__btn" data-cvd="deutan" aria-pressed="false">Deuteranopia</button>
+      <button type="button" class="dv-cvd__btn" data-cvd="protan" aria-pressed="false">Protanopia</button>
+      <button type="button" class="dv-cvd__btn" data-cvd="tritan" aria-pressed="false">Tritanopia</button>
+    </div>
+  {% endif %}
+
+  {% if palette.categorical is not empty %}
+    <table class="dv-table">
+      <thead>
+        <tr>
+          <th scope="col">Colour</th>
+          <th scope="col">Hex</th>
+          <th scope="col">RGB</th>
+          <th scope="col">Example</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for c in palette.categorical %}
+          <tr>
+            <th scope="row">{{ c.name }}{% if c.note %} <span class="dv-note">({{ c.note }})</span>{% endif %}</th>
+            <td><code>{{ c.hex }}</code></td>
+            <td class="dv-mono">{{ c.rgb }}</td>
+            <td aria-hidden="true"><span class="dv-chip" style="background: {{ c.hex }};"></span></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+
+  {% if palette.sequential is not empty %}
+    <div class="dv-ramp" aria-hidden="true"></div>
+    <table class="dv-table">
+      <thead>
+        <tr>
+          <th scope="col">Colour</th>
+          <th scope="col">Hex</th>
+          <th scope="col">RGB</th>
+          <th scope="col">Example</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for s in palette.sequential %}
+          <tr>
+            <th scope="row">{{ s.name }}{% if s.note %} <span class="dv-note">({{ s.note }})</span>{% endif %}</th>
+            <td><code>{{ s.hex }}</code></td>
+            <td class="dv-mono">{{ s.rgb }}</td>
+            <td aria-hidden="true"><span class="dv-chip" style="background: {{ s.hex }};"></span></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+
+  {% if palette.colorby is not empty %}
+    {% include 'civictheme:summary-list' with { items: palette.colorby } only %}
+  {% endif %}
+</div>

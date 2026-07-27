@@ -1,0 +1,14 @@
+{/* Editorial body is shared with the design library – edit ./next-step.md, not this file. */}
+
+import { Meta, Canvas, Controls, Markdown } from '@storybook/addon-docs/blocks';
+import * as Stories from './next-step.stories';
+import body from './next-step.md?raw';
+
+<Meta of={Stories} />
+
+# Next step
+
+<Canvas of={Stories.NextSteps} />
+<Controls of={Stories.NextSteps} />
+
+<Markdown>{body.replace(/^---[\s\S]*?---\s*/, '')}</Markdown>

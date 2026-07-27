@@ -1,0 +1,95 @@
+//
+// digital.gov.au Search Form component styles.
+//
+
+.ct-search-form {
+  $root: &;
+
+  @include ct-print-hide();
+
+  &__control {
+    display: flex;
+    align-items: stretch;
+  }
+
+  // Relative container so the label can be positioned absolutely inside it.
+  &__field {
+    position: relative;
+    flex: 1 1 auto;
+  }
+
+  // Label sits inside the input at z-index 1. On focus or when the field has a
+  // value, the input rises to z-index 2 and its background covers the label.
+  // pointer-events: none lets clicks pass through to the input beneath.
+  &__label {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    display: flex !important; // override ct-label display default
+    margin: 0 !important; // override ct-label margins default
+    align-items: center;
+    padding: 0 0.5rem 0 1rem; // align with ct-input's 1rem left padding
+    pointer-events: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__input.ct-input {
+    position: relative;
+    z-index: 0;
+    box-sizing: border-box;
+    width: 100%;
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+
+    // Raise above label on focus (covers it with the input's own background).
+    &:focus,
+    &:focus-visible {
+      z-index: 2;
+    }
+  }
+
+  // JS (search-form.js) adds .has-value when input.value is non-empty; keeps
+  // the input above the label after blur so typed content stays visible.
+  &__field.has-value &__input.ct-input {
+    z-index: 2;
+  }
+
+  // Submit button styled wholly here so CSS auto-loads with this component
+  // rather than depending on civictheme:button being rendered on the page.
+  &__submit {
+    & {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      appearance: button;
+      border: var(--ct-button-border-width) solid transparent;
+    }
+
+    @include ct-button-size('regular');
+    @include ct-button-type('primary');
+
+    // Overrides — must follow ct-button-size, which sets its own padding.
+    // Round the outer (right) edge; keep the left edge flush against the input.
+    & {
+      padding: 0.5rem 1.25rem 0.5rem 0.75rem;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      border-top-right-radius: 50px;
+      border-bottom-right-radius: 50px;
+    }
+  }
+
+  &__submit-icon {
+    display: inline-flex;
+    align-items: center;
+  }
+}

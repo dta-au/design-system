@@ -1,0 +1,94 @@
+//
+// Typography component.
+//
+// Adds text-wrap + max-width to bare headings and paragraphs (via
+// $dga-basic-content-* referenced directly - static values, no
+// custom-property indirection). Distinct from the ct-content mixin: this
+// styles bare elements globally, the mixin styles them inside
+// .ct-basic-content. Keep the two in step.
+//
+
+@use 'sass:map';
+
+@each $name in map.keys(_ct-typography-all()) {
+  .ct-#{$name} {
+    @include ct-typography($name);
+  }
+}
+
+@for $level from 1 through 6 {
+  h#{$level} {
+    @include ct-typography('heading-#{$level}');
+
+    & {
+      text-wrap: $dga-basic-content-heading-text-wrap;
+
+      @if $level <= 3 {
+        max-width: $dga-basic-content-heading-higher-max-width;
+      }
+      @else {
+        max-width: $dga-basic-content-heading-lower-max-width;
+      }
+    }
+  }
+}
+
+p {
+  @include ct-typography('text-regular');
+
+  & {
+    margin-top: var(--ct-basic-content-vertical-spacing);
+    margin-bottom: var(--ct-basic-content-vertical-spacing);
+    max-width: $dga-basic-content-p-max-width;
+    text-wrap: $dga-basic-content-p-text-wrap;
+  }
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+blockquote {
+  @include ct-typography('quote');
+
+  & {
+    position: relative;
+    margin: 0;
+    margin-top: var(--ct-basic-content-vertical-spacing);
+    margin-bottom: var(--ct-basic-content-vertical-spacing);
+    padding: ct-spacing(2) ct-spacing(3);
+  }
+
+  &::before {
+    content: '';
+    width: ct-particle(0.75);
+    height: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: var(--ct-basic-content-blockquote-border-radius);
+  }
+}
+
+// Native decimal at every depth; nested ordered lists restart per <ol>
+// rather than switching to alpha/roman (Style Manual).
+ol {
+  list-style-type: decimal;
+}
+
+.ct-text-align-left {
+  text-align: left;
+}
+
+.ct-text-align-center {
+  text-align: center;
+}
+
+.ct-text-align-right {
+  text-align: right;
+}

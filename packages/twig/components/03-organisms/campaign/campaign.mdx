@@ -1,0 +1,14 @@
+{/* Editorial body is shared with the design library – edit ./campaign.md, not this file. */}
+
+import { Meta, Canvas, Controls, Markdown } from '@storybook/addon-docs/blocks';
+import * as Stories from './campaign.stories';
+import body from './campaign.md?raw';
+
+<Meta of={Stories} />
+
+# Campaign
+
+<Canvas of={Stories.Campaign} />
+<Controls of={Stories.Campaign} />
+
+<Markdown>{body.replace(/^---[\s\S]*?---\s*/, '')}</Markdown>

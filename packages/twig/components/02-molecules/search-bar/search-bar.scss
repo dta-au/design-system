@@ -1,0 +1,51 @@
+//
+// digital.gov.au Search Bar component styles.
+//
+
+.ct-search-bar {
+  $root: &;
+
+  display: flex;
+  gap: ct-spacing(1);
+  align-items: stretch;
+
+  &__input {
+    @include ct-form-control-no-appearance();
+    @include ct-typography('label-small');
+
+    flex: 1 1 auto;
+    min-width: 0;
+    border-style: solid;
+    border-width: ct-particle(0.125);
+    border-radius: var(--ct-textfield-border-radius);
+    padding: ct-spacing(1.625) ct-spacing(2);
+    box-sizing: border-box;
+
+    &:focus-visible {
+      outline-style: solid;
+      outline-width: var(--ct-textfield-outline-width);
+      outline-offset: var(--ct-textfield-outline-offset);
+    }
+  }
+
+  &__button {
+    flex: 0 0 auto;
+  }
+
+  @include ct-component-theme($root) using($root, $theme) {
+    #{$root}__input {
+      @include ct-component-property($root, $theme, input, color);
+      @include ct-component-property($root, $theme, input, background-color);
+      @include ct-component-property($root, $theme, input, border-color);
+
+      &::placeholder {
+        @include ct-component-property($root, $theme, input, color);
+      }
+
+      &:focus-visible {
+        @include ct-component-property($root, $theme, input, focus, border-color);
+        @include ct-component-property($root, $theme, input, focus, outline-color);
+      }
+    }
+  }
+}

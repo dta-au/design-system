@@ -1,0 +1,363 @@
+//
+// digital.gov.au Search Results Page Template component styles.
+//
+
+.ct-search-results {
+  $root: &;
+
+  // In the left layout the sidebar slot has no padding of its own; add a small
+  // end gap so the filter form doesn't crowd the main content column.
+  .ct-layout__sidebar_top_left & {
+    padding-right: ct-spacing(1);
+  }
+
+  &__search {
+    margin-bottom: ct-spacing(3);
+  }
+
+  &__filter-label {
+    @include ct-typography('label-large');
+
+    margin-bottom: ct-spacing(3);
+  }
+
+  &__filter-group {
+    border-bottom-style: solid;
+    border-bottom-width: ct-particle(0.0625);
+
+    &__heading {
+      margin: 0;
+    }
+
+    &__trigger {
+      @include ct-typography('label-regular');
+      @include ct-form-control-no-appearance();
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: ct-spacing(2) 0;
+      text-align: left;
+      cursor: pointer;
+      border: none;
+
+      .ct-collapsible__icon {
+        margin-left: 0.25rem;
+      }
+    }
+
+    &__panel {
+      padding-bottom: ct-spacing(2);
+    }
+
+    &__fieldset {
+      border: 0;
+      margin: 0;
+      padding: 0;
+      min-width: 0;
+    }
+  }
+
+  &__filter-option {
+    display: flex;
+    align-items: flex-start;
+    gap: ct-spacing(1);
+    margin-bottom: ct-spacing(1.5);
+
+    > .ct-checkbox,
+    > .ct-radio {
+      flex-shrink: 0;
+      margin-right: 0;
+      margin-top: ct-spacing(.25);
+    }
+
+    > .ct-checkbox__label,
+    > .ct-radio__label {
+      flex: 1;
+      min-width: 0;
+      overflow-wrap: break-word;
+    }
+  }
+
+  &__filter-option-count {
+    flex-shrink: 0;
+    margin-top: ct-spacing(.25);
+  }
+
+  &__filter-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: ct-spacing(2);
+    margin-top: ct-spacing(3);
+  }
+
+  &__filter-date-range {
+    display: flex;
+    flex-direction: column;
+    gap: ct-spacing(2);
+  }
+
+  &__filter-date {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  &__filter-toggle {
+    @include ct-form-control-no-appearance();
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: ct-spacing(1);
+    width: 100%;
+    padding: ct-spacing(2);
+    background: transparent;
+    border: 0;
+    border-top-style: solid;
+    border-top-width: ct-particle(0.0625);
+    border-bottom-style: solid;
+    border-bottom-width: ct-particle(0.0625);
+    margin-bottom: ct-spacing(2);
+
+    // Chevron rotation is handled by the base collapsible (keyed on
+    // data-collapsible-trigger-collapsed); only sizing/spacing lives here.
+    .ct-collapsible__icon {
+      @include ct-icon-size();
+
+      margin-left: 0.25rem;
+    }
+
+    &[aria-expanded='true'] {
+      border-bottom: 0;
+      margin-bottom: 0;
+    }
+
+    @include ct-breakpoint-upto(m) {
+      display: flex;
+    }
+  }
+
+  &__filter-groups {
+    .ct-group-filter {
+      padding-left: 0;
+      padding-right: 0;
+      border-top: 0;
+      border-bottom: 0;
+    }
+
+    // Visibility is driven by the collapsible primitive (inline display via
+    // collapsible.js); only the mobile separator styling lives here.
+    @include ct-breakpoint-upto(m) {
+      border-bottom-style: solid;
+      border-bottom-width: ct-particle(0.0625);
+      padding-bottom: ct-spacing(2);
+      margin-bottom: ct-spacing(2);
+    }
+  }
+
+  // Horizontal layout: mobile panel vs desktop group-filter bar.
+  &--horizontal {
+    #{$root}__mobile-filters {
+      @include ct-breakpoint(m) {
+        display: none;
+      }
+    }
+
+    #{$root}__desktop-filters {
+      @include ct-breakpoint-upto(m) {
+        display: none;
+      }
+
+      // Upstream group-filter carries its border + padding on __filter-controls,
+      // not the root, so a root-only border: none leaves a stray border pair and
+      // ct-spacing padding behind. Neutralise both here; __row below supplies the
+      // single intended border and 1.5rem spacing for the horizontal bar.
+      .ct-group-filter,
+      .ct-group-filter__filter-controls {
+        border: none;
+      }
+
+      .ct-group-filter__filter-controls {
+        padding: 0;
+      }
+
+      .ct-group-filter__title {
+        margin-bottom: 1rem;
+      }
+
+      .ct-item-list.ct-item-list--horizontal.ct-item-list--large {
+        row-gap: 1rem;
+      }
+
+      .ct-group-filter__submit {
+        margin-top: -0.5rem;
+      }
+
+      .ct-group-filter__row {
+        border-top-style: solid;
+        border-top-width: ct-particle(0.0625);
+        border-bottom-style: solid;
+        border-bottom-width: ct-particle(0.0625);
+        padding-top: 1.5rem;
+        padding-bottom: 1.5rem;
+        margin: 0 0 2rem;
+        align-items: stretch;
+
+        // Title: full-width row of its own
+        > :first-child {
+          flex: 0 0 100%;
+        }
+
+        // Filters col: basis-0 so sort+apply reserve their natural width first
+        > :nth-child(2) {
+          flex: 1 1 0;
+          min-width: 0;
+          order: 0;
+
+          .ct-flex-row-align-middle {
+            flex-wrap: wrap;
+            align-items: flex-start;
+          }
+
+          .ct-group-filter__filters {
+            flex-wrap: wrap;
+          }
+        }
+
+        // Sort and apply cols: never shrink off the row, full height, content top-aligned
+        > :nth-child(3),
+        > :last-child {
+          flex-shrink: 0;
+          align-self: stretch;
+
+          .ct-flex-row-align-middle {
+            align-items: flex-start;
+          }
+        }
+      }
+    }
+  }
+
+  // Left layout: toggle + collapsible groups at the sidebar-collapse breakpoint.
+  &--left {
+    // Sidebar search: shown on mobile (stacks above content), hidden on desktop
+    // where the main content's search bar is used instead.
+    #{$root}__search {
+      @include ct-breakpoint(l) {
+        display: none;
+      }
+    }
+
+    #{$root}__filter-toggle {
+      @include ct-breakpoint-upto(l) {
+        display: flex;
+        margin-bottom: ct-spacing(1);
+      }
+    }
+
+    #{$root}__filter-groups {
+      @include ct-breakpoint-upto(l) {
+        border-bottom-style: solid;
+        border-bottom-width: ct-particle(0.0625);
+        padding-bottom: ct-spacing(1);
+        margin-bottom: ct-spacing(2);
+      }
+
+      // Collapsible (data-responsive="<l") is inactive at >=l, but a resize from
+      // mobile can leave the panel with an inline display:none. Force it open on
+      // desktop, where filters are always shown and the toggle is hidden.
+      @include ct-breakpoint(l) {
+        display: block !important;
+      }
+    }
+
+    #{$root}__filter-apply {
+      @include ct-breakpoint(l) {
+        padding: 0.875rem 1rem;
+        width: 100%;
+      }
+    }
+
+  }
+
+  // Left layout main content: desktop shows search here; mobile hides it
+  // because the sidebar's copy (stacked above) already serves that role.
+  &--left-content {
+    #{$root}__search {
+      @include ct-breakpoint-upto(l) {
+        display: none;
+      }
+    }
+  }
+
+  &__summary {
+    @include ct-typography('label-small');
+
+    margin-bottom: ct-spacing(2);
+  }
+
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__result {
+    border: 0;
+    padding: ct-spacing(3) 0;
+  }
+
+  &__pagination {
+    margin-top: ct-spacing(4);
+  }
+
+  @include ct-component-theme($root) using($root, $theme) {
+    #{$root}__filter-label {
+      @include ct-component-property($root, $theme, filter, trigger, color);
+    }
+
+    #{$root}__filter-group {
+      border-bottom-color: var(--ct-search-results-#{$theme}-filter-border-color);
+
+      &__trigger {
+        @include ct-component-property($root, $theme, filter, trigger, color);
+        @include ct-component-property($root, $theme, filter, trigger, background-color);
+      }
+
+      &__panel {
+        background-color: transparent;
+      }
+    }
+
+    #{$root}__filter-toggle {
+      @include ct-component-property($root, $theme, filter, trigger, color);
+
+      border-color: var(--ct-search-results-#{$theme}-filter-border-color);
+    }
+
+    #{$root}__filter-groups {
+      border-color: var(--ct-search-results-#{$theme}-filter-border-color);
+    }
+
+    #{$root}__desktop-filters .ct-group-filter__row {
+      border-color: var(--ct-search-results-#{$theme}-filter-border-color);
+    }
+
+    @if $theme == 'dark' {
+      .ct-popover__content {
+        border: ct-particle(0.125) solid var(--ct-search-results-#{$theme}-filter-border-color);
+      }
+
+      .ct-textfield {
+        color-scheme: dark;
+      }
+    }
+
+    #{$root}__summary {
+      @include ct-component-property($root, $theme, summary, color);
+    }
+
+  }
+}

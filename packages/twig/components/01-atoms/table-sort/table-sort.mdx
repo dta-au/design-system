@@ -1,0 +1,53 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as Stories from './table-sort.stories';
+
+<Meta of={Stories} />
+
+# Table sort
+
+Sortable column headers for any table, as a progressive enhancement. Add the `ct-table--sortable` class to a `<table>` and every column heading becomes a sort button.
+
+<Canvas of={Stories.TableSort} />
+
+<Controls of={Stories.TableSort} />
+
+There is no template – the component is a class contract, not markup. That is deliberate: the table stays a plain, authorable table that renders in source order without JavaScript, and sorting is layered on wherever the class appears, including tables written by editors. It follows the sortable table pattern from the MOJ Design System, including its arrow iconography.
+
+## When to use
+
+- columns where reordering aids comparison – numbers, dates, names, statuses
+- tables whose source order is just one of several useful orders
+
+## When not to use
+
+- tables whose row order carries meaning (ranked steps, a narrative sequence) – sorting destroys it
+- tables with merged or grouped rows (`rowspan`, subtotal rows) – rows must be independent to reorder
+- as a substitute for filtering a long table – compose with **Filterable table** instead; the two enhancements work on the same table independently
+
+## Sorting behaviour
+
+- clicking a heading cycles ascending and descending; one column is sorted at a time
+- values sort numerically when the whole cell reads as a number, alphabetically otherwise
+- `data-sort-value` on a cell overrides the displayed text – use it for dates (a timestamp sorts correctly where "3 May 2026" does not) and for formatted numbers
+- pre-sort a column by putting `aria-sort="ascending|descending"` (or `ct-sort--asc` / `ct-sort--desc`) on its heading
+
+<Canvas of={Stories.TableSortWithPreSortedColumn} />
+
+## Accessibility
+
+- each heading's control is a real `<button>` inside the `<th>`, so it is keyboard operable and announced as a button
+- the sorted state lives in `aria-sort` on the heading, the attribute assistive tech actually reads; icons are `aria-hidden`
+- icons draw with `currentColor`, so they remain visible in Windows High Contrast Mode
+- without JavaScript the table renders in source order with plain headings – nothing is lost but the enhancement
+
+## Do
+
+- give date and formatted-number cells a `data-sort-value` so they sort by value, not by text
+- pre-sort the column users most arrive for, and leave the rest neutral
+- keep one header row – the enhancement targets the table's heading cells directly
+
+## Don't
+
+- apply it to layout tables or tables with interactive rowspans
+- pair it with row order that encodes meaning
+- restate sort state in the heading text ("Name, sorted") – `aria-sort` already carries it

@@ -1,0 +1,113 @@
+//
+// digital.gov.au Summary List component styles.
+//
+
+.ct-summary-list {
+  $root: &;
+
+  margin: 0;
+  padding: 0;
+
+  #{$root}__row {
+    display: flex;
+    flex-wrap: wrap;
+    border-bottom: ct-particle(0.125) solid transparent;
+    padding: ct-spacing(2) 0;
+    gap: ct-spacing(1);
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    @include ct-breakpoint(m) {
+      flex-wrap: nowrap;
+      gap: 0;
+    }
+
+    // The display:flex above outranks the UA [hidden] rule, so a row the
+    // filterable-table behaviour hides would otherwise stay visible.
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  &--no-border {
+    #{$root}__row {
+      border-bottom: none;
+      padding: ct-spacing(1) 0;
+    }
+  }
+
+  #{$root}__key {
+    @include ct-typography('label-regular');
+
+    flex: 0 0 100%;
+    margin: 0;
+
+    & > p {
+      @include ct-typography('label-regular');
+    }
+
+    @include ct-breakpoint(m) {
+      flex: 0 0 30%;
+      padding-right: ct-spacing(2);
+    }
+  }
+
+  #{$root}__value {
+    @include ct-typography('text-regular');
+
+    flex: 1;
+    margin: 0;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+
+    & > p {
+      @include ct-typography('text-regular');
+    }
+
+    @include ct-breakpoint(m) {
+      flex: 1 1 auto;
+    }
+  }
+
+  #{$root}__actions {
+    margin: 0;
+    flex: 0 0 auto;
+
+    @include ct-breakpoint(m) {
+      text-align: right;
+      padding-left: ct-spacing(2);
+    }
+  }
+
+  #{$root}__action-link {
+    @include ct-typography('label-regular');
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  @include ct-component-theme($root) using($root, $theme) {
+    #{$root}__row {
+      @include ct-component-property($root, $theme, row, border-color);
+    }
+
+    #{$root}__key {
+      @include ct-component-property($root, $theme, key, color);
+    }
+
+    #{$root}__value {
+      @include ct-component-property($root, $theme, value, color);
+    }
+
+    #{$root}__action-link {
+      @include ct-component-property($root, $theme, action, color);
+
+      &:hover {
+        @include ct-component-property($root, $theme, action, hover, color);
+      }
+    }
+  }
+}

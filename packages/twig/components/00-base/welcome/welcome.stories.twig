@@ -1,0 +1,41 @@
+{#
+/**
+ * @file
+ * Welcome story template.
+ */
+#}
+
+{% set first_paragraph %}
+  Built on and extending the open source CivicTheme base – itself based on and inspired by the former Australian Government (GOLD) Design System, then uplifted with new features and functionality based on current users&rsquo; needs. Read more
+  {%- include '@atoms/content-link/content-link.twig' with {
+    theme: 'light',
+    text: 'about CivicTheme.',
+    url: 'https://www.civictheme.io/what-is-civictheme',
+  } only %}
+{% endset %}
+
+<div class="story-welcome">
+  <div class="story-welcome__inner">
+    {# Decorative: the h1 immediately below carries the same wording. #}
+    <img class="story-welcome__logo" src="./assets/logos/digital.gov.au-docs.svg" alt="">
+
+    {% include '@atoms/heading/heading.twig' with {
+      theme: 'light',
+      content: 'digital.gov.au Design system',
+      level: 1,
+      modifier_class: 'ct-text-align-center',
+    } only %}
+
+    {% include '@atoms/paragraph/paragraph.twig' with {
+      theme: 'light',
+      content: first_paragraph,
+      modifier_class: 'ct-text-align-center',
+    } only %}
+
+    {% include '@atoms/paragraph/paragraph.twig' with {
+      theme: 'light',
+      content: 'The digital.gov.au design system provides an atomic, component-based framework for building and managing accessible, consistent government website experiences.',
+      modifier_class: 'ct-text-align-center',
+    } only %}
+  </div>
+</div>

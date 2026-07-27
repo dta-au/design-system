@@ -1,0 +1,90 @@
+//
+// Custom base variables overrides.
+//
+// CivicTheme variables can be found in components/00-base/_variables.base.scss
+//
+// Variables values in this file cannot be based on any variables
+// in _variables.base.scss
+//
+// stylelint-disable scss/dollar-variable-pattern
+
+// Brand colors.
+//
+// This is an example implementation of CivicTheme brand colors.
+//
+// If your custom brand colors are known - update the values below (you can also
+// add new brand colors and map them later) and they will drive color palette
+// values.
+//
+// Alternatively, remove the brand color mappings below (or set them to false)
+// and implement custom mappings using $ct-colors variable.
+
+$ct-colors-brands: (
+  'light': (
+    'brand1': #00698f,
+    'brand2': #e6e9eb,
+    'brand3': #121313,
+  ),
+  'dark': (
+    'brand1': #61daff,
+    'brand2': #003a4f,
+    'brand3': #00698f,
+  )
+);
+
+// Fonts.
+//
+// All three kinds are self-hosted variable woff2 under assets/fonts (OFL).
+// Overriding both upstream keys is what removes the Google Fonts @import for
+// Lexend ('primary') and Public Sans ('secondary'); leaving 'secondary' unset
+// keeps the third-party request alive even though nothing uses the face.
+$ct-fonts: (
+  // Body. Metric-compatible with Arial, so the fallback occupies the same space
+  // while the woff2 loads.
+  'primary': (
+    'family': '"Arimo", Arial, Helvetica, sans-serif',
+    'types': (
+      (
+        'uri': '#{$ct-assets-directory}fonts/arimo/Arimo-variable.woff2',
+        'weight': '400 700',
+      ),
+    ),
+  ),
+  // Headings and display. Axes are wght 100-900 and wdth 62-125; nothing asks
+  // for the width axis yet, so it stays at its 100 default.
+  'secondary': (
+    'family': '"Archivo", "Arimo", Arial, Helvetica, sans-serif',
+    'types': (
+      (
+        'uri': '#{$ct-assets-directory}fonts/archivo/Archivo-variable.woff2',
+        'weight': '100 900',
+      ),
+    ),
+  ),
+  // Code and technical identifiers.
+  'mono': (
+    'family': '"Geist Mono", ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace',
+    'types': (
+      (
+        'uri': '#{$ct-assets-directory}fonts/geist-mono/GeistMono-variable.woff2',
+        'weight': '400 700',
+      ),
+    ),
+  ),
+);
+
+// Elevations: a tight contact shadow plus a wider ambient one per level
+// (digital.gov.au, ported from the AGA theme).
+//
+// Two constraints shape the syntax. The parens around each pair are
+// load-bearing - without them the inner commas flatten into the outer list.
+// And the lengths are literal rem, not ct-particle(): this file loads before
+// the mixins, so the function is undefined here and would emit as raw text.
+// One particle is 8px, so these are the 0.125/0.25/0.375/0.5/0.75/0.875/1/
+// 1.75/2.25 steps.
+$ct-elevations: (
+  (0 0.0625rem 0.125rem rgba(0, 0, 0, 0.05), 0 0.125rem 0.5rem rgba(0, 0, 0, 0.03)),
+  (0 0.0625rem 0.25rem rgba(0, 0, 0, 0.05), 0 0.1875rem 0.5rem rgba(0, 0, 0, 0.03)),
+  (0 0.1875rem 0.4375rem rgba(0, 0, 0, 0.05), 0 0.375rem 0.875rem rgba(0, 0, 0, 0.03)),
+  (0 0.25rem 0.5rem rgba(0, 0, 0, 0.05), 0 0.5rem 1.125rem rgba(0, 0, 0, 0.03)),
+);

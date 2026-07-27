@@ -1,0 +1,261 @@
+{#
+/**
+ * @file
+ * digital.gov.au Chart component.
+ *
+ * Props:
+ * - chart_id: [string] Unique, sanitised DOM id. Used to wire aria-labelledby and aria-describedby.
+ * - chart_type: [string]
+ * - title: [string] Plain-text title rendered in the figcaption and referenced by aria-labelledby.
+ * - description: [string] Plain-text description referenced by aria-describedby. Authors should explain what the chart shows and the source of the data.
+ * - theme: [string]
+ * - heading_level: [integer] Heading level for the title.
+ * - source_mode: [string] How the chart data is provided.
+ * - source_url: [string] data.gov.au URL emitted only after server-side host allowlist validation in chart_postprocess.inc.
+ * - source_page_url: [string] Optional human-readable landing page for the data source (url mode only). When set, the toolbar "View source" link targets this instead of the raw data endpoint in source_url. Falls back to source_url when empty.
+ * - x_key: [string] Field name that identifies the category for each data point.
+ * - y_keys: [array] Field names rendered as series.
+ *   Each item contains:
+ *   - items [string]
+ * - x_label: [string] Display label shown on the X axis and in the data table header. Defaults to x_key.
+ * - y_label: [string] Display label shown on the Y axis. Defaults to the first y_key.
+ * - rows: [array] Server-side parsed and sanitised data rows. Rendered as the fallback table and used as the chart data source when source_mode is csv or json.
+ *   Each item contains:
+ *   - items [object]
+ * - flow_table: [boolean] When true, the fallback <table> renders 3 columns (source / target / value) instead of the standard X / Y layout. Used by sankey and flow chart types.
+ * - source_label: [string,null] Header for the first column of the sankey/flow fallback table. Auto-populated server-side from node prefixes for a 2-stage graph (e.g. "2025" when node ids look like "2025: High"). Null falls through to the generic "From" string in the template.
+ * - target_label: [string,null] Header for the second column of the sankey/flow fallback table. Auto-populated server-side from node prefixes; null falls through to "To".
+ * - value_label: [string] Header for the third (numeric) column of the sankey/flow fallback table. Defaults to the y_label when the author has set one, else "Count".
+ * - median_value: [number,null] Optional reference-line value for the lollipop chart. Computed server-side from the primary Y series.
+ * - config_json: [string] Pre-encoded JSON config (rows, keys, labels, source mode) emitted into a <script type="application/json" data-bdga-chart-config> island inside the figure. Single source of truth for the JS renderer. Encoded with JSON_HEX_TAG | JSON_HEX_AMP server-side so author-supplied strings cannot break out of the script context.
+ * - toolbar: [boolean] Render an accessible toolbar with a "View as table" control and an overflow menu (data download for local data, or a "View source" link in url mode). Progressive enhancement: the menu is built by JavaScript, and the data table stays reachable without it via its own disclosure.
+ * - downloads: [array] Client-side download formats offered in the toolbar overflow menu for local (csv/json) data. Ignored in url mode, which links to the source instead. CSV is the recommended default; JSON is a secondary convenience.
+ *   Each item contains:
+ *   - items [string]
+ * - legend: [boolean] Render an interactive legend whose items toggle series visibility (hover/focus highlights, click hides/shows). Auto-enabled for the multi-series renderers (grouped_bar, stacked_bar, pie); set true to force it on elsewhere. The legend is an enhancement on top of the directly-labelled chart and the data table, not a replacement for either.
+ * - texture: [boolean] Apply SVG pattern fills (hatch, dots, cross-hatch) in addition to colour on the categorical multi-series renderers (grouped_bar, stacked_bar, pie), so adjacent series stay distinguishable for colour-blind users. A redundant cue stacked on the colour-blind-safe palette, not a replacement for it; off by default to avoid clutter.
+ * - zoom: [boolean] Add keyboard-accessible Zoom in / out / reset controls to the toolbar for the ordinal cartesian types (bar, line, lollipop). Narrows the x-axis window to the data; +/-/0 also zoom when a data point is focused. This is data-domain zoom, separate from browser reflow zoom (which the SVG already supports).
+ * - filters: [array] Interactive client-side filter controls, one per entry. The renderer builds a control per dimension and applies the selection before drawing; within a filter the selected values are OR-ed, across filters AND-ed. The fallback data table is unaffected. Carried to the renderer through config_json (the JS reads filters from the data island, not this prop directly); set the prop so the filter-bar container renders:
+ *   Each item contains:
+ *   - key: [string] Field name to filter on. Use a dimension/category column or the X key, not a numeric measure.
+ *   - label: [string] Visible label for the control. Defaults to the column key.
+ *   - values: [array] Optional allow-list of values to offer. When omitted, the renderer derives the distinct values from the data.
+ *     Each item contains:
+ *     - items [string]
+ * - attributes: [Drupal\Core\Template\Attribute] Additional HTML attributes.
+ */
+#}
+
+{% set heading_level = heading_level in [2, 3, 4, 5, 6] ? heading_level : 3 %}
+
+{% set chart_id = chart_id|default('bdga-chart') %}
+{% set chart_type = chart_type in ['bar', 'grouped_bar', 'stacked_bar', 'line', 'pie', 'sankey', 'lollipop', 'cleveland', 'flow'] ? chart_type : 'bar' %}
+{% set theme = theme in ['light', 'dark'] ? theme : 'light' %}
+{% set source_mode = source_mode in ['csv', 'json', 'url'] ? source_mode : 'json' %}
+{# Flow-style 3-column table is mandatory for sankey/flow regardless of the
+   author-supplied flag; for other types it stays off unless explicitly set. #}
+{% set flow_table = flow_table or chart_type in ['sankey', 'flow'] %}
+{# Interactive legend with series toggle. Auto-enabled for the genuinely
+   multi-series renderers; an explicit `legend: true` also forces it on. The
+   list is populated by chart.js (swatch colours come from the resolved
+   palette), so it stays empty without JavaScript - the data table is the
+   no-JS path. #}
+{% set show_legend = legend or chart_type in ['grouped_bar', 'stacked_bar', 'pie'] or (chart_type == 'line' and y_keys|length > 1) %}
+{# Data-domain zoom only applies to the ordinal/time-series cartesian types.
+   It shares the toolbar; enabling zoom alone still renders the toolbar shell. #}
+{% set zoom_enabled = zoom and chart_type in ['bar', 'line', 'lollipop'] %}
+{% set show_toolbar = toolbar or zoom_enabled %}
+{% set theme_class = 'ct-theme-%s'|format(theme) %}
+{% set title_id = chart_id ~ '__title' %}
+{% set desc_id = chart_id ~ '__desc' %}
+{% set status_id = chart_id ~ '__status' %}
+{% set error_id = chart_id ~ '__error' %}
+
+<div class="bdga-chart-block {{ theme_class }}" {% if attributes %}{{ attributes }}{% endif %}>
+<div class="container">
+<div class="row">
+<div class="col-xxs-12">
+<figure
+  id="{{ chart_id }}"
+  class="bdga-chart {{ theme_class }} bdga-chart--{{ chart_type }}"
+  data-bdga-chart="{{ chart_type }}"
+  data-bdga-chart-id="{{ chart_id }}"
+  data-bdga-chart-source="{{ source_mode }}"
+  {% if source_mode == 'url' and source_url %}data-bdga-chart-url="{{ source_url }}"{% endif %}
+  {% if source_mode == 'url' and source_page_url %}data-bdga-chart-source-page="{{ source_page_url }}"{% endif %}
+  {% if x_key %}data-bdga-chart-x="{{ x_key }}"{% endif %}
+  {% if y_keys %}data-bdga-chart-y="{{ y_keys|join(',') }}"{% endif %}
+  {% if downloads %}data-bdga-chart-downloads="{{ downloads|join(',') }}"{% endif %}
+  {% if texture %}data-bdga-chart-texture="true"{% endif %}
+  role="figure"
+  aria-labelledby="{{ title_id }}"
+  aria-describedby="{{ desc_id }}"
+>
+  <figcaption class="bdga-chart__caption">
+    {% if title %}
+      <h{{ heading_level }} id="{{ title_id }}" class="bdga-chart__title">{{ title }}</h{{ heading_level }}>
+    {% endif %}
+    {% if description %}
+      <p id="{{ desc_id }}" class="bdga-chart__description">{{ description }}</p>
+    {% endif %}
+  </figcaption>
+
+  {#
+    Accessible toolbar (optional). The "View as table" control toggles the
+    data disclosure below; the overflow menu is populated by chart.js with a
+    source-aware action set (download links for local data, a "View source"
+    link in url mode). The menu follows the WAI-ARIA menu-button pattern. With
+    JavaScript off the buttons are inert, but the data table is still reachable
+    via its own <summary> and url-mode source via the <noscript> link, so the
+    toolbar is pure progressive enhancement.
+  #}
+  {% if show_toolbar %}
+    <div class="bdga-chart__toolbar" role="toolbar" aria-label="{{ 'Chart controls'|t }}" data-bdga-chart-toolbar>
+      {% if zoom_enabled %}
+        <div class="bdga-chart__zoom" role="group" aria-label="{{ 'Zoom'|t }}" data-bdga-chart-zoom-group>
+          <button type="button" class="bdga-chart__tool" data-bdga-chart-zoom="out" aria-label="{{ 'Zoom out'|t }}">{{ 'Zoom out'|t }}</button>
+          <button type="button" class="bdga-chart__tool" data-bdga-chart-zoom="reset" aria-label="{{ 'Reset zoom'|t }}">{{ 'Reset'|t }}</button>
+          <button type="button" class="bdga-chart__tool" data-bdga-chart-zoom="in" aria-label="{{ 'Zoom in'|t }}">{{ 'Zoom in'|t }}</button>
+        </div>
+      {% endif %}
+      {% if toolbar %}
+        <button
+          type="button"
+          class="bdga-chart__tool"
+          data-bdga-chart-tool="table"
+          aria-expanded="false"
+          aria-controls="{{ chart_id }}__data"
+        >{{ 'View as table'|t }}</button>
+        <div class="bdga-chart__menu-wrap">
+          <button
+            type="button"
+            class="bdga-chart__tool bdga-chart__menu-button"
+            data-bdga-chart-menu-button
+            aria-haspopup="menu"
+            aria-expanded="false"
+            aria-label="{{ 'More chart options'|t }}"
+          ><span class="bdga-chart__menu-icon" aria-hidden="true"><svg class="ct-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z"/></svg></span></button>
+          <ul class="bdga-chart__menu" role="menu" data-bdga-chart-menu hidden></ul>
+        </div>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  {% if show_legend %}
+    <ul class="bdga-chart__legend" data-bdga-chart-legend aria-label="{{ 'Toggle data series'|t }}"></ul>
+  {% endif %}
+
+  {#
+    Interactive filter controls (optional). Built by chart.js from the
+    filters declared in config_json; the container stays empty + hidden
+    until then, so the data table remains the no-JS path. Filters only
+    affect the visual chart - the underlying data table stays complete.
+  #}
+  {% if filters %}
+    <div class="bdga-chart__filters" data-bdga-chart-filters-bar role="group" aria-label="{{ 'Filter chart data'|t }}" hidden></div>
+  {% endif %}
+
+  {#
+    JSON data island: single source of truth for the JS renderer. The contents
+    are inert data (not executable JavaScript) so script-src CSP rules do not
+    apply. Server-encoded with JSON_HEX_TAG | JSON_HEX_AMP so author-supplied
+    strings cannot break out of the <script> context.
+  #}
+  {% if config_json %}
+    <script type="application/json" data-bdga-chart-config>{{ config_json }}</script>
+  {% endif %}
+
+  <output
+    id="{{ status_id }}"
+    class="bdga-chart__status visually-hidden"
+    data-bdga-chart-status
+    role="status"
+    aria-live="polite"
+    aria-atomic="true"
+  ></output>
+
+  <div class="bdga-chart__canvas" data-bdga-chart-canvas aria-hidden="true"></div>
+
+  <div
+    id="{{ error_id }}"
+    class="bdga-chart__error"
+    data-bdga-chart-error
+    role="alert"
+    hidden
+  >
+    {{ 'Chart unavailable. The data source could not be loaded or validated.'|t }}
+  </div>
+
+  <details class="bdga-chart__data" id="{{ chart_id }}__data">
+    <summary class="bdga-chart__data-toggle">{{ 'Show underlying data'|t }}</summary>
+    <table class="bdga-chart__table" data-bdga-chart-data>
+      <caption class="visually-hidden">{{ title|default('Chart'|t) }} - data table</caption>
+      {% if flow_table %}
+        {#
+          Sankey / flow data is a node-link graph; the JS reads its data from
+          the JSON island, but AT users get a meaningful triplet view here:
+          one row per link (source -> target, with the flow value).
+
+          Headers prefer prefix-derived labels (e.g. "2025" / "2026" / "Count")
+          when the chart_postprocess hook detected a clean 2-stage graph;
+          fall back to generic direction words otherwise. For URL-mode flow
+          charts the JS overwrites source_label / target_label after fetch.
+        #}
+        <thead>
+          <tr>
+            <th scope="col" data-bdga-key="source">{{ source_label|default('From'|t) }}</th>
+            <th scope="col" data-bdga-key="target">{{ target_label|default('To'|t) }}</th>
+            <th scope="col" data-bdga-key="value">{{ value_label|default(y_label|default('Count'|t)) }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in rows|default([]) %}
+            <tr>
+              <th scope="row" data-bdga-key="source">{{ row.source }}</th>
+              <td data-bdga-key="target">{{ row.target }}</td>
+              <td data-bdga-key="value" data-value="{{ row.value }}">{{ row.value }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      {% else %}
+        <thead>
+          <tr>
+            <th scope="col" data-bdga-key="{{ x_key }}">{{ x_label|default(x_key)|default('Category'|t) }}</th>
+            {#
+              Single-series: y_label is the column header (it's the axis title and
+              uniquely describes the one numeric column). Multi-series: each column
+              keeps its raw y_key as the header, because a single y_label cannot
+              disambiguate N series; y_label still renders as the axis title.
+            #}
+            {% for y in y_keys|default([]) %}
+              <th scope="col" data-bdga-key="{{ y }}">{{ (y_keys|length == 1) ? (y_label|default(y)) : y }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in rows|default([]) %}
+            <tr>
+              <th scope="row" data-bdga-key="{{ x_key }}">{{ row[x_key] }}</th>
+              {% for y in y_keys %}
+                <td data-bdga-key="{{ y }}" data-value="{{ row[y] }}">{{ row[y] }}</td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      {% endif %}
+    </table>
+  </details>
+
+  {% if source_mode == 'url' and source_url %}
+    <noscript>
+      <p class="bdga-chart__noscript">
+        {{ 'This chart requires JavaScript. Source data:'|t }}
+        <a href="{{ source_url }}" rel="noopener nofollow">{{ source_url }}</a>
+      </p>
+    </noscript>
+  {% endif %}
+</figure>
+</div>
+</div>
+</div>
+</div>

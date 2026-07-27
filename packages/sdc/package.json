@@ -1,0 +1,102 @@
+{
+  "name": "@dta-au/designsystem-sdc",
+  "version": "1.0.0",
+  "license": "GPL-2.0-or-later",
+  "description": "CivicTheme UI Kit for Single Directory Components (Drupal)",
+  "keywords": [
+    "ui kit",
+    "uikit",
+    "components",
+    "component library",
+    "design system",
+    "pattern library",
+    "storybook",
+    "styleguide"
+  ],
+  "homepage": "https://github.com/dta-au/design-system",
+  "bugs": "https://github.com/JamesFehon-DTA/civictheme-uikit/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dta-au/design-system.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "components",
+    "dist",
+    "assets"
+  ],
+  "type": "module",
+  "main": "dist/civictheme.base.js",
+  "module": "dist/civictheme.base.esm.js",
+  "exports": {
+    ".": {
+      "import": "./dist/civictheme.base.esm.js",
+      "default": "./dist/civictheme.base.js"
+    },
+    "./chart.data": {
+      "import": "./dist/chart.data.esm.js",
+      "default": "./dist/chart.data.umd.js"
+    },
+    "./dist/*": "./dist/*",
+    "./components/*": "./components/*",
+    "./assets/*": "./assets/*",
+    "./package.json": "./package.json"
+  },
+  "engines": {
+    "node": ">=22.6.0"
+  },
+  "os": [
+    "darwin",
+    "linux",
+    "win32"
+  ],
+  "cpu": [
+    "x64",
+    "arm",
+    "arm64",
+    "ia32"
+  ],
+  "scripts": {
+    "build": "npm run build-storybook",
+    "dist": "node build.js base build styles_storybook styles_variables styles_stories assets constants sdc_base sdc_components && npm run dist:lib && npm run dist:runtime",
+    "dist:lib": "vite build --config vite.lib.config.js",
+    "dist:runtime": "vite build --config vite.runtime.config.js",
+    "dist:runtime:watch": "vite build --watch --config vite.runtime.config.js",
+    "dist:watch": "node build.js base build watch styles_storybook styles_variables styles_stories assets constants sdc_base sdc_components",
+    "storybook": "storybook dev -p ${PORT:-6007}",
+    "build-storybook": "npm run dist && storybook build",
+    "dev": "npm run dist && node build.js cli \"dist:watch\" \"dist:runtime:watch\" \"storybook\"",
+    "test": "node --experimental-vm-modules ../../node_modules/.bin/jest",
+    "test:ci": "npm run test-unit:ci",
+    "test-unit:ci": "node --experimental-vm-modules ../../node_modules/.bin/jest --coverage",
+    "lint": "eslint ./components ./.storybook ./tests && stylelint 'components/**/*.scss'",
+    "lint:fix": "eslint ./components ./.storybook ./tests --fix",
+    "gen-twig-headers": "node scripts/generate-twig-headers.js",
+    "update-twig": "node scripts/generate-twig-headers.js"
+  },
+  "devDependencies": {
+    "@civictheme/scss-variables-extractor": "^0.2.1",
+    "@storybook/addon-a11y": "10.4.2",
+    "@storybook/addon-docs": "10.4.2",
+    "@storybook/addon-links": "10.4.2",
+    "@storybook/html-vite": "10.4.2",
+    "@whitespace/storybook-addon-html": "^9.0.0",
+    "glob": "^13.0.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^30.3.0",
+    "jest-transform-stub": "^2.0.0",
+    "sass-embedded": "1.77.5",
+    "storybook": "10.4.2",
+    "stylelint": "^17.4.0",
+    "stylelint-config-standard": "^40.0.0",
+    "stylelint-config-standard-scss": "^17.0.0",
+    "twig-testing-library": "^1.2.0",
+    "vite": "^6.3.5",
+    "vite-plugin-twig-drupal": "^1.7.0"
+  },
+  "dependencies": {
+    "@popperjs/core": "^2.11.8"
+  }
+}

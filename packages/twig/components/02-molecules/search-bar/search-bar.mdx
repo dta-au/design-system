@@ -1,0 +1,37 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as Stories from './search-bar.stories';
+
+<Meta of={Stories} />
+
+# Search bar
+
+A labelled keyword input with a visible submit button, for searching within a site or dataset.
+
+<Canvas of={Stories.SearchBar} />
+
+<Controls of={Stories.SearchBar} />
+
+## When to use
+
+- as the primary search on a search page or listing page, where searching is the main task
+- where the submit action should be explicit and visible – the labelled Search button carries the affordance
+
+## When not to use
+
+- in the site header – use **Search form** (below), which is styled for header placement with an inside-field label and icon-only submit
+- to filter an on-page list as the user types – that is a filter interaction, not a search submission
+
+## Search bar and Search form
+
+Search bar and Search form are, for now, separate components. They are grouped together in this sidebar for end-user simplicity, not because one derives from the other.
+
+- **Search bar** (this page) pairs the input with a visible, labelled Search button.
+- **Search form** nests below; it uses an inside-field label and an icon-only submit button, styled for header placement.
+
+Pick whichever matches the context and check both before extending either – a change that suits one usually belongs in the other too.
+
+## Accessibility
+
+- the form carries `role="search"`, so assistive tech exposes it as a search landmark
+- the input keeps a programmatic label (visually hidden); the placeholder is a hint, never the label
+- the submit is a real button with a visible text label

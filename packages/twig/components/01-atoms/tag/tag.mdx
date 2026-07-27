@@ -1,0 +1,14 @@
+{/* Editorial body is shared with the design library – edit ./tag.md, not this file. */}
+
+import { Meta, Canvas, Controls, Markdown } from '@storybook/addon-docs/blocks';
+import * as Stories from './tag.stories';
+import body from './tag.md?raw';
+
+<Meta of={Stories} />
+
+# Tag
+
+<Canvas of={Stories.Tag} />
+<Controls of={Stories.Tag} />
+
+<Markdown>{body.replace(/^---[\s\S]*?---\s*/, '')}</Markdown>

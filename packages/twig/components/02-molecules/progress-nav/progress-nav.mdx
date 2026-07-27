@@ -1,0 +1,56 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as Stories from './progress-nav.stories';
+
+<Meta of={Stories} />
+
+# Progress nav
+
+A vertical task-list that shows a user's position through a multi-step flow. Each step carries a status, so the list communicates what is done, what is in progress, and what is still to come at a glance.
+
+<Canvas of={Stories.Default} />
+
+<Controls of={Stories.Default} />
+
+It follows the GOV.UK Design System task-list pattern, with a ghost-to-solid visual language: a 1px-stroke marker per step that fills in as the step is completed. Depth (sub-steps) is shown with indentation and weight, not accent bars.
+
+## When to use
+
+- a multi-step form or process with three or more distinct steps
+- steps the user can see the shape of up front, and usually complete in order
+- as a sidebar or side column beside the current step's content
+
+## When not to use
+
+- a single-page form – it adds overhead with no benefit
+- a flow whose path is unknown ahead of time (heavily branching) – the list implies a known set of steps. For a branching client-side check, see the **Decision tool**, which shows only the path taken.
+
+## Statuses
+
+Each item takes a `status` that selects its marker:
+
+- **completed** – filled circle with a check
+- **saved** – filled circle with a dashed check (saved but revisitable)
+- **in-progress** – outline circle with a filled centre dot; pair with `is_active: true`
+- **error** – filled circle with an exclamation. Prefer handling errors inline on the step page; use this only for a saved step that still has a problem.
+- **todo** – dashed ghost circle ("Not started")
+- **cannot-start-yet** – a padlock; rendered as a non-interactive span, not a link
+
+## Accessibility
+
+- each step's link is linked to a visually-hidden status element via `aria-describedby`, so a screen reader announces "[step], link – [status]" as one unit
+- the active step carries `aria-current="step"`
+- `cannot-start-yet` steps use `aria-disabled="true"` on a span – never a disabled link
+- markers never rely on colour alone; the status text and the marker shape carry the meaning
+- contrast is tuned so muted and disabled markers still meet WCAG 1.4.11 (3:1 for UI components)
+
+## Do
+
+- keep step titles short and matching the destination page heading
+- show progress with the `current_step` / `total_steps` counter, or a `progress_summary` override
+- keep one source of truth for status – drive it from the form's own step state
+
+## Don't
+
+- put more than one level of sub-steps under a step
+- use it as a clickable menu where steps are not really a sequence
+- signal status with colour only

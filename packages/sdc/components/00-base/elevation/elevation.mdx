@@ -1,0 +1,35 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as Stories from './elevation.stories';
+
+<Meta of={Stories} />
+
+# Elevation
+
+Four shadow levels that communicate physical depth – that an element floats above the surface it sits on. Apply them with `@include ct-elevation(n)`.
+
+<Canvas of={Stories.Elevation} />
+
+Each level is two shadows, not one: a tight, slightly darker contact shadow at the element's base, and a wider, fainter ambient spread. The pair is what keeps surfaces from looking flat or plastic – a single hard shadow reads as a sticker, a single soft one as a blur. The values live in `$ct-elevations` in [variables.base.scss](components/variables.base.scss).
+
+## Choosing a level
+
+Scale the shadow to the element's size and its distance from the page:
+
+- **1** – minimal lift for interactive elements at rest: cards, compact components
+- **2** – standard elevation, and the hover lift for level-1 elements
+- **3** – sticky elements and larger raised panels
+- **4** – elements that float above the page: dropdowns, modals, drawers
+
+Shadow communicates layout hierarchy, not interactivity – pair it with the component's own hover and focus treatments rather than using depth as the affordance.
+
+## Do
+
+- elevate the element that owns the surface (the card, not its contents), so the shadow reads against the page background
+- step up one level on hover rather than inventing an in-between shadow
+- keep large floating surfaces at level 4 and everything in the page flow below it
+
+## Don't
+
+- apply level 4 to small inline components – depth out of proportion to size looks detached
+- stack elevated elements directly on top of each other without a background step between them; on dark or busy backgrounds the ambient layer disappears
+- hand-roll `box-shadow` values in component SCSS – use `ct-elevation(n)` so the scale stays consistent

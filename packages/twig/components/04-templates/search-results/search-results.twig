@@ -1,0 +1,729 @@
+{#
+/**
+ * @file
+ * digital.gov.au Search Results Page Template component.
+ *
+ * Props:
+ * - theme: [string] Theme variation (light or dark).
+ * - heading_level: [integer] Heading level for filter group headings.
+ * - filter_layout: [string] Placement of filters — left sidebar or horizontal bar.
+ * - filter_label: [string] Label shown above the filter groups (left layout) or in the filter bar (horizontal).
+ * - filter_toggle_label: [string] Label for the mobile toggle button (horizontal layout only). Defaults to 'Filters'.
+ * - apply_label: [string]
+ * - clear_label: [string]
+ * - results_summary: [string] Summary text shown above results (e.g. "Showing 1–10 of 42 results").
+ * - filters: [array] :
+ *   Each item contains:
+ *   - type: [string]
+ *   - label: [string]
+ *   - name: [string]
+ *   - options: [array] :
+ *     Each item contains:
+ *     - label: [string]
+ *     - value: [string]
+ *     - count: [integer]
+ *     - is_checked: [boolean]
+ * - sort_filters: [array] :
+ *   Each item contains:
+ *   - type: [string]
+ *   - label: [string]
+ *   - name: [string]
+ *   - options: [array] :
+ *     Each item contains:
+ *     - label: [string]
+ *     - value: [string]
+ *     - count: [integer]
+ *     - is_checked: [boolean]
+ * - results: [array] :
+ *   Each item contains:
+ *   - title: [string]
+ *   - url: [string]
+ *   - description: [string]
+ * - header_theme: [string]
+ * - footer_theme: [string]
+ * - footer_background_image: [string]
+ * - modifier_class: [string]
+ * - attributes: [Drupal\Core\Template\Attribute] Additional HTML attributes.
+ *
+ * Slots:
+ * - search: Pre-rendered search bar component.
+ * - pagination: Pre-rendered pagination component.
+ * - banner: Pre-rendered banner component.
+ * - header_top_1:
+ * - header_top_2:
+ * - header_top_3:
+ * - header_middle_1:
+ * - header_middle_2:
+ * - header_middle_3:
+ * - header_bottom_1:
+ * - footer_top_1:
+ * - footer_top_2:
+ * - footer_middle_1:
+ * - footer_middle_2:
+ * - footer_middle_3:
+ * - footer_middle_4:
+ * - footer_bottom_1:
+ * - footer_bottom_2:
+ */
+#}
+
+{% set heading_level = heading_level in [2, 3, 4, 5, 6] ? heading_level : 3 %}
+
+{% set theme = theme in ['light', 'dark'] ? theme : 'light' %}
+{% set filter_layout = filter_layout in ['left', 'horizontal'] ? filter_layout : 'left' %}
+{% set has_filters = filters is not empty or sort_filters is not empty %}
+
+{# ─────────────────────────────────────────────────────────────────────────── #}
+{# SHARED: chevron icon SVG used in both layout toggle buttons                  #}
+{# ─────────────────────────────────────────────────────────────────────────── #}
+{% set chevron_icon %}<svg class="ct-icon ct-collapsible__icon" width="24" height="24" aria-hidden="true" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.6072 8.38619C18.3583 8.13884 18.0217 8 17.6709 8C17.32 8 16.9834 8.13884 16.7346 8.38619L11.9668 13.0876L7.26542 8.38619C7.01659 8.13884 6.67999 8 6.32913 8C5.97827 8 5.64167 8.13884 5.39284 8.38619C5.26836 8.50965 5.16956 8.65654 5.10214 8.81838C5.03471 8.98022 5 9.1538 5 9.32912C5 9.50445 5.03471 9.67803 5.10214 9.83987C5.16956 10.0017 5.26836 10.1486 5.39284 10.2721L11.0239 15.9031C11.1473 16.0276 11.2942 16.1264 11.4561 16.1938C11.6179 16.2612 11.7915 16.2959 11.9668 16.2959C12.1421 16.2959 12.3157 16.2612 12.4775 16.1938C12.6394 16.1264 12.7863 16.0276 12.9097 15.9031L18.6072 10.2721C18.7316 10.1486 18.8304 10.0017 18.8979 9.83987C18.9653 9.67803 19 9.50445 19 9.32912C19 9.1538 18.9653 8.98022 18.8979 8.81838C18.8304 8.65654 18.7316 8.50965 18.6072 8.38619Z"/></svg>{% endset %}
+
+{# ─────────────────────────────────────────────────────────────────────────── #}
+{# SHARED: results list (used by both layout variants)                         #}
+{# ─────────────────────────────────────────────────────────────────────────── #}
+
+{% set results_html %}
+  {% if results_summary is not empty %}
+    <div class="ct-search-results__summary">{{- results_summary -}}</div>
+  {% endif %}
+  {% if results is not empty %}
+    <ul class="ct-search-results__list">
+      {% for result in results %}
+        <li class="ct-search-results__result">
+          {% include '@molecules/snippet/snippet.twig' with {
+            theme: theme,
+            title: result.title,
+            summary: result.description,
+            link: {url: result.url, is_new_window: false, is_external: false},
+          } only %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+  {% if pagination is not empty %}
+    <div class="ct-search-results__pagination">{{- pagination -}}</div>
+  {% endif %}
+{% endset %}
+
+{# ─────────────────────────────────────────────────────────────────────────── #}
+{# LEFT LAYOUT                                                                  #}
+{# Filters → sidebar_top_left (3 cols, collapses above content at breakpoint l) #}
+{# Results → content (remaining columns)                                        #}
+{# ─────────────────────────────────────────────────────────────────────────── #}
+
+{% if filter_layout == 'left' %}
+
+  {# --- Sidebar: search bar (mobile) + filter toggle + collapsible groups ---- #}
+  {% set sidebar_html %}
+    {# Filter panel reuses the core collapsible primitive: collapsible only below
+       the `l` breakpoint (data-responsive), so the toggle works on mobile and the
+       filters stay open on desktop. No bespoke JS — collapsible.js handles it. #}
+    <div class="ct-search-results ct-search-results--left ct-theme-{{ theme }}" data-collapsible data-collapsible-collapsed data-responsive="<l">
+      {% if search is not empty %}
+        <div class="ct-search-results__search">{{- search -}}</div>
+      {% endif %}
+      <button
+        class="ct-link ct-theme-{{ theme }} ct-search-results__filter-toggle"
+        type="button"
+        data-collapsible-trigger
+      >{{ filter_toggle_label|default('Filters') }}{{ chevron_icon }}</button>
+      <div class="ct-search-results__filter-groups" data-collapsible-panel>
+        <form class="ct-search-results__filters" method="get">
+          {% if filter_label is not empty %}
+            <div class="ct-search-results__filter-label">{{ filter_label }}</div>
+          {% endif %}
+
+          {% for filter in filters %}
+            {% set filter_idx = loop.index %}
+            <div class="ct-search-results__filter-group" data-collapsible data-collapsible-collapsed data-collapsible-trigger-wide>
+              <h{{ heading_level }} class="ct-search-results__filter-group__heading">
+                <button
+                  type="button"
+                  class="ct-search-results__filter-group__trigger"
+                  data-collapsible-trigger
+                  aria-expanded="false"
+                >{{ filter.label }}</button>
+              </h{{ heading_level }}>
+              <div class="ct-search-results__filter-group__panel" data-collapsible-panel aria-hidden="true">
+                <fieldset class="ct-search-results__filter-group__fieldset">
+                  <legend class="ct-visually-hidden">{{ filter.label }}</legend>
+                  {% if filter.type in ['checkbox', 'radio'] %}
+                    {% for option in filter.options %}
+                      {% set option_id = 'ct-srl-' ~ filter_idx ~ '-' ~ loop.index %}
+                      <div class="ct-search-results__filter-option">
+                        {% if filter.type == 'checkbox' %}
+                          {% include '@atoms/checkbox/checkbox.twig' with {
+                            theme: theme,
+                            id: option_id,
+                            name: filter.name ~ '[]',
+                            value: option.value,
+                            label: option.label,
+                            is_checked: option.is_checked|default(false),
+                          } only %}
+                        {% else %}
+                          {% include '@atoms/radio/radio.twig' with {
+                            theme: theme,
+                            id: option_id,
+                            name: filter.name,
+                            value: option.value,
+                            label: option.label,
+                            is_checked: option.is_checked|default(false),
+                          } only %}
+                        {% endif %}
+                        {% if option.count is defined %}
+                          {% include '@atoms/tag/tag.twig' with {
+                            theme: theme,
+                            type: 'secondary',
+                            content: option.count,
+                            modifier_class: 'ct-search-results__filter-option-count',
+                            attributes: create_attribute({'aria-hidden': 'true'}),
+                          } only %}
+                        {% endif %}
+                      </div>
+                    {% endfor %}
+                  {% elseif filter.type == 'date_range' %}
+                    <div class="ct-search-results__filter-date-range">
+                      <label for="ct-srl-{{ filter_idx }}-from" class="ct-label ct-label--small ct-theme-{{ theme }}">From</label>
+                      <input
+                        type="date"
+                        class="ct-textfield ct-theme-{{ theme }} ct-search-results__filter-date"
+                        id="ct-srl-{{ filter_idx }}-from"
+                        name="{{ filter.name }}[from]"
+                      />
+                      <label for="ct-srl-{{ filter_idx }}-to" class="ct-label ct-label--small ct-theme-{{ theme }}">To</label>
+                      <input
+                        type="date"
+                        class="ct-textfield ct-theme-{{ theme }} ct-search-results__filter-date"
+                        id="ct-srl-{{ filter_idx }}-to"
+                        name="{{ filter.name }}[to]"
+                      />
+                    </div>
+                  {% endif %}
+                </fieldset>
+              </div>
+            </div>
+          {% endfor %}
+
+          {% for filter in sort_filters %}
+            {% set filter_idx = 'sort-' ~ loop.index %}
+            <div class="ct-search-results__filter-group" data-collapsible data-collapsible-collapsed data-collapsible-trigger-wide>
+              <h{{ heading_level }} class="ct-search-results__filter-group__heading">
+                <button
+                  type="button"
+                  class="ct-search-results__filter-group__trigger"
+                  data-collapsible-trigger
+                  aria-expanded="false"
+                >{{ filter.label }}</button>
+              </h{{ heading_level }}>
+              <div class="ct-search-results__filter-group__panel" data-collapsible-panel aria-hidden="true">
+                <fieldset class="ct-search-results__filter-group__fieldset">
+                  <legend class="ct-visually-hidden">{{ filter.label }}</legend>
+                  {% if filter.type in ['checkbox', 'radio'] %}
+                    {% for option in filter.options %}
+                      {% set option_id = 'ct-srls-' ~ filter_idx ~ '-' ~ loop.index %}
+                      <div class="ct-search-results__filter-option">
+                        {% if filter.type == 'checkbox' %}
+                          {% include '@atoms/checkbox/checkbox.twig' with {
+                            theme: theme,
+                            id: option_id,
+                            name: filter.name ~ '[]',
+                            value: option.value,
+                            label: option.label,
+                            is_checked: option.is_checked|default(false),
+                          } only %}
+                        {% else %}
+                          {% include '@atoms/radio/radio.twig' with {
+                            theme: theme,
+                            id: option_id,
+                            name: filter.name,
+                            value: option.value,
+                            label: option.label,
+                            is_checked: option.is_checked|default(false),
+                          } only %}
+                        {% endif %}
+                        {% if option.count is defined %}
+                          {% include '@atoms/tag/tag.twig' with {
+                            theme: theme,
+                            type: 'secondary',
+                            content: option.count,
+                            modifier_class: 'ct-search-results__filter-option-count',
+                            attributes: create_attribute({'aria-hidden': 'true'}),
+                          } only %}
+                        {% endif %}
+                      </div>
+                    {% endfor %}
+                  {% elseif filter.type == 'date_range' %}
+                    <div class="ct-search-results__filter-date-range">
+                      <label for="ct-srls-{{ filter_idx }}-from" class="ct-label ct-label--small ct-theme-{{ theme }}">From</label>
+                      <input
+                        type="date"
+                        class="ct-textfield ct-theme-{{ theme }} ct-search-results__filter-date"
+                        id="ct-srls-{{ filter_idx }}-from"
+                        name="{{ filter.name }}[from]"
+                      />
+                      <label for="ct-srls-{{ filter_idx }}-to" class="ct-label ct-label--small ct-theme-{{ theme }}">To</label>
+                      <input
+                        type="date"
+                        class="ct-textfield ct-theme-{{ theme }} ct-search-results__filter-date"
+                        id="ct-srls-{{ filter_idx }}-to"
+                        name="{{ filter.name }}[to]"
+                      />
+                    </div>
+                  {% endif %}
+                </fieldset>
+              </div>
+            </div>
+          {% endfor %}
+
+          <div class="ct-search-results__filter-actions">
+            {% include '@atoms/button/button.twig' with {
+              theme: theme,
+              kind: 'button',
+              type: 'primary',
+              text: apply_label|default('Apply filters'),
+              icon: 'approve',
+              icon_placement: 'after',
+              modifier_class: 'ct-search-results__filter-apply',
+              attributes: create_attribute({type: 'submit'}),
+            } only %}
+            {% include '@atoms/button/button.twig' with {
+              theme: theme,
+              kind: 'button',
+              type: 'tertiary',
+              text: clear_label|default('Clear filters'),
+              icon: 'close',
+              icon_placement: 'after',
+              modifier_class: 'ct-search-results__filter-clear',
+            } only %}
+          </div>
+        </form>
+      </div>
+    </div>
+  {% endset %}
+
+  {# --- Main content: search bar (desktop only) + results ------------------- #}
+  {% set main_html %}
+    <div class="ct-search-results ct-search-results--left-content ct-theme-{{ theme }}">
+      {% if search is not empty %}
+        <div class="ct-search-results__search">{{- search -}}</div>
+      {% endif %}
+      {{ results_html }}
+    </div>
+  {% endset %}
+
+  {% include '@templates/page/page.twig' with {
+    theme: theme,
+    header_theme: header_theme,
+    header_top_1: header_top_1,
+    header_top_2: header_top_2,
+    header_top_3: header_top_3,
+    header_middle_1: header_middle_1,
+    header_middle_2: header_middle_2,
+    header_middle_3: header_middle_3,
+    header_bottom_1: header_bottom_1,
+    banner: banner,
+    sidebar_top_left: has_filters ? sidebar_html : '',
+    content: main_html,
+    vertical_spacing: 'both',
+    footer_theme: footer_theme,
+    footer_background_image: footer_background_image,
+    footer_top_1: footer_top_1,
+    footer_top_2: footer_top_2,
+    footer_middle_1: footer_middle_1,
+    footer_middle_2: footer_middle_2,
+    footer_middle_3: footer_middle_3,
+    footer_middle_4: footer_middle_4,
+    footer_bottom_1: footer_bottom_1,
+    footer_bottom_2: footer_bottom_2,
+    attributes: attributes,
+    modifier_class: modifier_class,
+  } only %}
+
+{# ─────────────────────────────────────────────────────────────────────────── #}
+{# HORIZONTAL LAYOUT                                                            #}
+{# Full-width content; group-filter bar above results at desktop.               #}
+{# At mobile (< m), a toggle reveals a left-style collapsible filter panel.    #}
+{# ─────────────────────────────────────────────────────────────────────────── #}
+
+{% else %}
+
+  {# Build group-filter items from filters array (desktop group-filter bar) #}
+  {% set group_filter_filters = [] %}
+  {% for filter in filters %}
+    {% set filter_idx = loop.index %}
+    {% set filter_content %}
+      {% if filter.type in ['checkbox', 'radio'] %}
+        {% for option in filter.options %}
+          {% set option_id = 'ct-srh-' ~ filter_idx ~ '-' ~ loop.index %}
+          <div class="ct-search-results__filter-option">
+            {% if filter.type == 'checkbox' %}
+              {% include '@atoms/checkbox/checkbox.twig' with {
+                theme: theme,
+                id: option_id,
+                name: filter.name ~ '[]',
+                value: option.value,
+                label: option.label,
+                is_checked: option.is_checked|default(false),
+              } only %}
+            {% else %}
+              {% include '@atoms/radio/radio.twig' with {
+                theme: theme,
+                id: option_id,
+                name: filter.name,
+                value: option.value,
+                label: option.label,
+                is_checked: option.is_checked|default(false),
+              } only %}
+            {% endif %}
+            {% if option.count is defined %}
+              {% include '@atoms/tag/tag.twig' with {
+                theme: theme,
+                type: 'secondary',
+                content: option.count,
+                modifier_class: 'ct-search-results__filter-option-count',
+                attributes: create_attribute({'aria-hidden': 'true'}),
+              } only %}
+            {% endif %}
+          </div>
+        {% endfor %}
+      {% elseif filter.type == 'date_range' %}
+        <div class="ct-search-results__filter-date-range">
+          <label for="ct-srh-{{ filter_idx }}-from" class="ct-label ct-label--small ct-theme-{{ theme }}">From</label>
+          <input
+            type="date"
+            class="ct-textfield ct-theme-{{ theme }} ct-search-results__filter-date"
+            id="ct-srh-{{ filter_idx }}-from"
+            name="{{ filter.name }}[from]"
+          />
+          <label for="ct-srh-{{ filter_idx }}-to" class="ct-label ct-label--small ct-theme-{{ theme }}">To</label>
+          <input
+            type="date"
+            class="ct-textfield ct-theme-{{ theme }} ct-search-results__filter-date"
+            id="ct-srh-{{ filter_idx }}-to"
+            name="{{ filter.name }}[to]"
+          />
+        </div>
+      {% endif %}
+    {% endset %}
+    {% set group_filter_filters = group_filter_filters|merge([{title: filter.label, content: filter_content}]) %}
+  {% endfor %}
+
+  {% set group_filter_sort_filters = [] %}
+  {% for filter in sort_filters %}
+    {% set filter_idx = loop.index %}
+    {% set filter_content %}
+      {% if filter.type in ['checkbox', 'radio'] %}
+        {% for option in filter.options %}
+          {% set option_id = 'ct-srhs-' ~ filter_idx ~ '-' ~ loop.index %}
+          <div class="ct-search-results__filter-option">
+            {% if filter.type == 'checkbox' %}
+              {% include '@atoms/checkbox/checkbox.twig' with {
+                theme: theme,
+                id: option_id,
+                name: filter.name ~ '[]',
+                value: option.value,
+                label: option.label,
+                is_checked: option.is_checked|default(false),
+              } only %}
+            {% else %}
+              {% include '@atoms/radio/radio.twig' with {
+                theme: theme,
+                id: option_id,
+                name: filter.name,
+                value: option.value,
+                label: option.label,
+                is_checked: option.is_checked|default(false),
+              } only %}
+            {% endif %}
+            {% if option.count is defined %}
+              {% include '@atoms/tag/tag.twig' with {
+                theme: theme,
+                type: 'secondary',
+                content: option.count,
+                modifier_class: 'ct-search-results__filter-option-count',
+                attributes: create_attribute({'aria-hidden': 'true'}),
+              } only %}
+            {% endif %}
+          </div>
+        {% endfor %}
+      {% elseif filter.type == 'date_range' %}
+        <div class="ct-search-results__filter-date-range">
+          <label for="ct-srhs-{{ filter_idx }}-from" class="ct-label ct-label--small ct-theme-{{ theme }}">From</label>
+          <input
+            type="date"
+            class="ct-textfield ct-theme-{{ theme }} ct-search-results__filter-date"
+            id="ct-srhs-{{ filter_idx }}-from"
+            name="{{ filter.name }}[from]"
+          />
+          <label for="ct-srhs-{{ filter_idx }}-to" class="ct-label ct-label--small ct-theme-{{ theme }}">To</label>
+          <input
+            type="date"
+            class="ct-textfield ct-theme-{{ theme }} ct-search-results__filter-date"
+            id="ct-srhs-{{ filter_idx }}-to"
+            name="{{ filter.name }}[to]"
+          />
+        </div>
+      {% endif %}
+    {% endset %}
+    {% set group_filter_sort_filters = group_filter_sort_filters|merge([{title: filter.label, content: filter_content}]) %}
+  {% endfor %}
+
+  {# Full-width horizontal content #}
+  {% set horizontal_html %}
+    <div
+      class="ct-search-results ct-search-results--horizontal ct-theme-{{ theme }}"
+    >
+      {# Search bar — above everything in both mobile and desktop #}
+      {% if search is not empty %}
+        <div class="container">
+          <div class="row">
+            <div class="col-xxs-12">
+              <div class="ct-search-results__search">{{- search -}}</div>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+
+      {% if has_filters %}
+        {# Mobile filter panel: collapsible only below `m` (data-responsive); hidden
+           at ≥m where the desktop group-filter bar takes over. Core collapsible
+           primitive, no bespoke JS. #}
+        <div class="ct-search-results__mobile-filters" data-collapsible data-collapsible-collapsed data-responsive="<m">
+          <div class="container">
+            <button
+              class="ct-link ct-theme-{{ theme }} ct-search-results__filter-toggle"
+              type="button"
+              data-collapsible-trigger
+            >{{ filter_toggle_label|default('Filters') }}{{ chevron_icon }}</button>
+          </div>
+          <div class="ct-search-results__filter-groups" data-collapsible-panel>
+            <div class="container">
+              <form class="ct-search-results__filters" method="get">
+                {% if filter_label is not empty %}
+                  <div class="ct-search-results__filter-label">{{ filter_label }}</div>
+                {% endif %}
+
+                {% for filter in filters %}
+                  {% set filter_idx = loop.index %}
+                  <div class="ct-search-results__filter-group" data-collapsible data-collapsible-collapsed data-collapsible-trigger-wide>
+                    <h{{ heading_level }} class="ct-search-results__filter-group__heading">
+                      <button
+                        type="button"
+                        class="ct-search-results__filter-group__trigger"
+                        data-collapsible-trigger
+                        aria-expanded="false"
+                      >{{ filter.label }}</button>
+                    </h{{ heading_level }}>
+                    <div class="ct-search-results__filter-group__panel" data-collapsible-panel aria-hidden="true">
+                      <fieldset class="ct-search-results__filter-group__fieldset">
+                        <legend class="ct-visually-hidden">{{ filter.label }}</legend>
+                        {% if filter.type in ['checkbox', 'radio'] %}
+                          {% for option in filter.options %}
+                            {% set option_id = 'ct-srm-' ~ filter_idx ~ '-' ~ loop.index %}
+                            <div class="ct-search-results__filter-option">
+                              {% if filter.type == 'checkbox' %}
+                                {% include '@atoms/checkbox/checkbox.twig' with {
+                                  theme: theme,
+                                  id: option_id,
+                                  name: filter.name ~ '[]',
+                                  value: option.value,
+                                  label: option.label,
+                                  is_checked: option.is_checked|default(false),
+                                } only %}
+                              {% else %}
+                                {% include '@atoms/radio/radio.twig' with {
+                                  theme: theme,
+                                  id: option_id,
+                                  name: filter.name,
+                                  value: option.value,
+                                  label: option.label,
+                                  is_checked: option.is_checked|default(false),
+                                } only %}
+                              {% endif %}
+                              {% if option.count is defined %}
+                                {% include '@atoms/tag/tag.twig' with {
+                                  theme: theme,
+                                  type: 'secondary',
+                                  content: option.count,
+                                  modifier_class: 'ct-search-results__filter-option-count',
+                                  attributes: create_attribute({'aria-hidden': 'true'}),
+                                } only %}
+                              {% endif %}
+                            </div>
+                          {% endfor %}
+                        {% elseif filter.type == 'date_range' %}
+                          <div class="ct-search-results__filter-date-range">
+                            <label for="ct-srm-{{ filter_idx }}-from" class="ct-label ct-label--small ct-theme-{{ theme }}">From</label>
+                            <input
+                              type="date"
+                              class="ct-textfield ct-theme-{{ theme }} ct-search-results__filter-date"
+                              id="ct-srm-{{ filter_idx }}-from"
+                              name="{{ filter.name }}[from]"
+                            />
+                            <label for="ct-srm-{{ filter_idx }}-to" class="ct-label ct-label--small ct-theme-{{ theme }}">To</label>
+                            <input
+                              type="date"
+                              class="ct-textfield ct-theme-{{ theme }} ct-search-results__filter-date"
+                              id="ct-srm-{{ filter_idx }}-to"
+                              name="{{ filter.name }}[to]"
+                            />
+                          </div>
+                        {% endif %}
+                      </fieldset>
+                    </div>
+                  </div>
+                {% endfor %}
+
+                {% for filter in sort_filters %}
+                  {% set filter_idx = 'sort-' ~ loop.index %}
+                  <div class="ct-search-results__filter-group" data-collapsible data-collapsible-collapsed data-collapsible-trigger-wide>
+                    <h{{ heading_level }} class="ct-search-results__filter-group__heading">
+                      <button
+                        type="button"
+                        class="ct-search-results__filter-group__trigger"
+                        data-collapsible-trigger
+                        aria-expanded="false"
+                      >{{ filter.label }}</button>
+                    </h{{ heading_level }}>
+                    <div class="ct-search-results__filter-group__panel" data-collapsible-panel aria-hidden="true">
+                      <fieldset class="ct-search-results__filter-group__fieldset">
+                        <legend class="ct-visually-hidden">{{ filter.label }}</legend>
+                        {% if filter.type in ['checkbox', 'radio'] %}
+                          {% for option in filter.options %}
+                            {% set option_id = 'ct-srms-' ~ filter_idx ~ '-' ~ loop.index %}
+                            <div class="ct-search-results__filter-option">
+                              {% if filter.type == 'checkbox' %}
+                                {% include '@atoms/checkbox/checkbox.twig' with {
+                                  theme: theme,
+                                  id: option_id,
+                                  name: filter.name ~ '[]',
+                                  value: option.value,
+                                  label: option.label,
+                                  is_checked: option.is_checked|default(false),
+                                } only %}
+                              {% else %}
+                                {% include '@atoms/radio/radio.twig' with {
+                                  theme: theme,
+                                  id: option_id,
+                                  name: filter.name,
+                                  value: option.value,
+                                  label: option.label,
+                                  is_checked: option.is_checked|default(false),
+                                } only %}
+                              {% endif %}
+                              {% if option.count is defined %}
+                                {% include '@atoms/tag/tag.twig' with {
+                                  theme: theme,
+                                  type: 'secondary',
+                                  content: option.count,
+                                  modifier_class: 'ct-search-results__filter-option-count',
+                                  attributes: create_attribute({'aria-hidden': 'true'}),
+                                } only %}
+                              {% endif %}
+                            </div>
+                          {% endfor %}
+                        {% elseif filter.type == 'date_range' %}
+                          <div class="ct-search-results__filter-date-range">
+                            <label for="ct-srms-{{ filter_idx }}-from" class="ct-label ct-label--small ct-theme-{{ theme }}">From</label>
+                            <input
+                              type="date"
+                              class="ct-textfield ct-theme-{{ theme }} ct-search-results__filter-date"
+                              id="ct-srms-{{ filter_idx }}-from"
+                              name="{{ filter.name }}[from]"
+                            />
+                            <label for="ct-srms-{{ filter_idx }}-to" class="ct-label ct-label--small ct-theme-{{ theme }}">To</label>
+                            <input
+                              type="date"
+                              class="ct-textfield ct-theme-{{ theme }} ct-search-results__filter-date"
+                              id="ct-srms-{{ filter_idx }}-to"
+                              name="{{ filter.name }}[to]"
+                            />
+                          </div>
+                        {% endif %}
+                      </fieldset>
+                    </div>
+                  </div>
+                {% endfor %}
+
+                <div class="ct-search-results__filter-actions">
+                  {% include '@atoms/button/button.twig' with {
+                    theme: theme,
+                    kind: 'button',
+                    type: 'primary',
+                    text: apply_label|default('Apply filters'),
+                    icon: 'approve',
+                    icon_placement: 'after',
+                    modifier_class: 'ct-search-results__filter-apply',
+                    attributes: create_attribute({type: 'submit'}),
+                  } only %}
+                  {% include '@atoms/button/button.twig' with {
+                    theme: theme,
+                    kind: 'button',
+                    type: 'tertiary',
+                    text: clear_label|default('Clear filters'),
+                    icon: 'close',
+                    icon_placement: 'after',
+                    modifier_class: 'ct-search-results__filter-clear',
+                  } only %}
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        {# Desktop filter bar: group-filter component (hidden at <m).        #}
+        {# Wrapped in .container so the bar shares the same responsive gutters #}
+        {# and max-width as the search bar and results below it.              #}
+        <div class="ct-search-results__desktop-filters">
+          <div class="container">
+            {% include '@molecules/group-filter/group-filter.twig' with {
+              theme: theme,
+              group_id: 'search-results',
+              title: filter_label,
+              filters: group_filter_filters,
+              sort_filters: group_filter_sort_filters,
+              submit_text: apply_label|default('Apply filters'),
+              form_attributes: create_attribute({method: 'get'}),
+            } only %}
+          </div>
+        </div>
+      {% endif %}
+
+      <div class="container">
+        <div class="row">
+          <div class="col-xxs-12">
+            {{ results_html }}
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endset %}
+
+  {% include '@templates/page/page.twig' with {
+    theme: theme,
+    header_theme: header_theme,
+    header_top_1: header_top_1,
+    header_top_2: header_top_2,
+    header_top_3: header_top_3,
+    header_middle_1: header_middle_1,
+    header_middle_2: header_middle_2,
+    header_middle_3: header_middle_3,
+    header_bottom_1: header_bottom_1,
+    banner: banner,
+    content: horizontal_html,
+    vertical_spacing: 'both',
+    footer_theme: footer_theme,
+    footer_background_image: footer_background_image,
+    footer_top_1: footer_top_1,
+    footer_top_2: footer_top_2,
+    footer_middle_1: footer_middle_1,
+    footer_middle_2: footer_middle_2,
+    footer_middle_3: footer_middle_3,
+    footer_middle_4: footer_middle_4,
+    footer_bottom_1: footer_bottom_1,
+    footer_bottom_2: footer_bottom_2,
+    attributes: attributes,
+    modifier_class: modifier_class,
+  } only %}
+
+{% endif %}

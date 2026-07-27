@@ -1,0 +1,139 @@
+{#
+/**
+ * @file
+ * digital.gov.au Filterable Table component.
+ *
+ * Props:
+ * - table_id: [string] The HTML id attribute of the target table or definition list on this page.
+ * - target_type: [string] Whether the controls filter a table (cell text by column index) or a definition list (data-filter-col-N attributes on each row). Defaults to table; a <dl> target is also auto-detected.
+ * - columns: [array] Per-column filter and label settings. Order matches table column order (left to right):
+ *   Each item contains:
+ *   - label: [string] Column heading text displayed above the filter control.
+ *   - filter_type: [string] Type of filter control to display for this column.
+ * - theme: [string] Theme variation (light or dark).
+ * - heading_level: [integer] Heading level for the title.
+ * - is_contained: [boolean] Whether to wrap the content in a container.
+ * - vertical_spacing: [string] Vertical spacing (top, bottom, both, or none).
+ * - with_background: [boolean] Whether to display with a themed background colour.
+ * - title: [string] Optional heading displayed above the filter controls.
+ * - modifier_class: [string] Additional CSS classes.
+ * - attributes: [Drupal\Core\Template\Attribute] Additional HTML attributes.
+ */
+#}
+
+{% set heading_level = heading_level in [2, 3, 4, 5, 6] ? heading_level : 2 %}
+
+{% set theme = theme in ['light', 'dark'] ? theme : 'light' %}
+{% set target_type = target_type in ['table', 'list'] ? target_type : 'table' %}
+{% set vertical_spacing = vertical_spacing in ['top', 'bottom', 'both', 'none'] ? vertical_spacing : null %}
+{% set is_contained = is_contained is not same as(false) %}
+{% set theme_class = 'ct-theme-%s'|format(theme) %}
+{% set vertical_spacing_class = vertical_spacing ? 'ct-vertical-spacing-inset--%s'|format(vertical_spacing) : '' %}
+{% set with_background_class = with_background ? 'ct-filterable-table--with-background' : '' %}
+{% set not_contained_class = not is_contained ? 'ct-filterable-table--not-contained' : '' %}
+{% set modifier_class = '%s %s %s %s %s'|format(theme_class, vertical_spacing_class, with_background_class, not_contained_class, modifier_class|default('')) %}
+
+{% set has_filters = false %}
+{% for col in columns %}
+  {% if col.filter_type in ['text', 'select'] %}
+    {% set has_filters = true %}
+  {% endif %}
+{% endfor %}
+
+{% if table_id is not empty and columns is not empty %}
+  <div
+    class="ct-filterable-table {{ modifier_class|trim }}"
+    data-component-name="ct-filterable-table"
+    data-dga-filterable-table
+    data-table-id="{{ table_id }}"
+    data-target-type="{{ target_type }}"
+    {%- if attributes is defined and attributes is not null %} {{- attributes -}}{% endif %}
+  >
+    <div class="ct-filterable-table__inner">
+      {% if is_contained %}
+      <div class="container">
+        <div class="row">
+          <div class="col-xxs-12">
+            {% endif %}
+
+            {% if title is not empty %}
+              {% include '@atoms/heading/heading.twig' with {
+                content: title,
+                level: heading_level,
+                theme: theme,
+                modifier_class: 'ct-filterable-table__title',
+              } only %}
+            {% endif %}
+
+            {% if has_filters %}
+              <div class="ct-filterable-table__filters" role="group" aria-label="Table filters">
+
+                {% for col in columns %}
+                  {% if col.filter_type in ['text', 'select'] %}
+                    <div class="ct-filterable-table__filter" data-column-index="{{ loop.index0 }}">
+                      <label
+                        class="ct-filterable-table__filter-label"
+                        for="filterable-table-filter-{{ table_id }}-{{ loop.index0 }}"
+                      >
+                        {{ col.label }}
+                      </label>
+
+                      {% if col.filter_type == 'text' %}
+                        <input
+                          type="text"
+                          id="filterable-table-filter-{{ table_id }}-{{ loop.index0 }}"
+                          class="ct-input {{ theme_class }} ct-filterable-table__filter-input ct-filterable-table__filter-input--text"
+                          placeholder="Filter by {{ col.label|lower }}"
+                          aria-label="Filter by {{ col.label }}"
+                          data-filter-type="text"
+                          data-column-index="{{ loop.index0 }}"
+                        >
+                      {% elseif col.filter_type == 'select' %}
+                        <select
+                          id="filterable-table-filter-{{ table_id }}-{{ loop.index0 }}"
+                          class="ct-select {{ theme_class }} ct-filterable-table__filter-input ct-filterable-table__filter-input--select"
+                          aria-label="Filter by {{ col.label }}"
+                          data-filter-type="select"
+                          data-column-index="{{ loop.index0 }}"
+                        >
+                          <option value="">All {{ col.label|lower }}</option>
+                          {# Options are populated by JS once the target table is found. #}
+                        </select>
+                      {% endif %}
+                    </div>
+                  {% endif %}
+                {% endfor %}
+
+                <div class="ct-filterable-table__filter-actions">
+                  <button
+                    type="button"
+                    class="ct-filterable-table__clear-btn"
+                    aria-label="Clear all filters"
+                    hidden
+                  >
+                    Clear filters
+                    {% include '@base/icon/icon.twig' with {
+                      symbol: 'cancel',
+                      modifier_class: 'ct-filterable-table__clear-icon',
+                    } only %}
+                  </button>
+                </div>
+
+              </div>
+
+              <div
+                class="ct-filterable-table__results"
+                role="status"
+                aria-live="polite"
+                aria-atomic="true"
+              ></div>
+            {% endif %}
+
+            {% if is_contained %}
+          </div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+{% endif %}

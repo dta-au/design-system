@@ -1,0 +1,315 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Search Bar Component applies theme class 1`] = `
+<div>
+  
+
+
+
+  <form
+    class="ct-search-bar ct-theme-dark "
+    method="get"
+    role="search"
+  >
+    
+  
+    <label
+      class="ct-visually-hidden"
+      for="ct-search-bar__input"
+    >
+      Search keywords
+    </label>
+    
+  
+    <input
+      class="ct-search-bar__input"
+      id="ct-search-bar__input"
+      name="keywords"
+      placeholder="I'm looking for..."
+      type="search"
+    />
+    
+  
+
+  
+    <button
+      _keys="type"
+      class="ct-button ct-theme-dark ct-button--primary ct-button--button ct-button--regular   ct-search-bar__button"
+      data-component-name="button"
+      type="submit"
+    >
+      <span
+        class="ct-text-icon__text"
+      >
+        Search
+      </span>
+    </button>
+    
+
+  </form>
+  
+
+</div>
+`;
+
+exports[`Search Bar Component renders with attributes 1`] = `
+<div>
+  
+
+
+
+  <form
+    class="ct-search-bar ct-theme-light "
+    data-test="true"
+    method="get"
+    role="search"
+  >
+    
+  
+    <label
+      class="ct-visually-hidden"
+      for="ct-search-bar__input"
+    >
+      Search keywords
+    </label>
+    
+  
+    <input
+      class="ct-search-bar__input"
+      id="ct-search-bar__input"
+      name="keywords"
+      placeholder="I'm looking for..."
+      type="search"
+    />
+    
+  
+
+  
+    <button
+      _keys="type"
+      class="ct-button ct-theme-light ct-button--primary ct-button--button ct-button--regular   ct-search-bar__button"
+      data-component-name="button"
+      type="submit"
+    >
+      <span
+        class="ct-text-icon__text"
+      >
+        Search
+      </span>
+    </button>
+    
+
+  </form>
+  
+
+</div>
+`;
+
+exports[`Search Bar Component renders with custom label, placeholder, and button_text 1`] = `
+<div>
+  
+
+
+
+  <form
+    class="ct-search-bar ct-theme-light "
+    method="get"
+    role="search"
+  >
+    
+  
+    <label
+      class="ct-visually-hidden"
+      for="ct-search-bar__input"
+    >
+      Find content
+    </label>
+    
+  
+    <input
+      class="ct-search-bar__input"
+      id="ct-search-bar__input"
+      name="keywords"
+      placeholder="Search here..."
+      type="search"
+    />
+    
+  
+
+  
+    <button
+      _keys="type"
+      class="ct-button ct-theme-light ct-button--primary ct-button--button ct-button--regular   ct-search-bar__button"
+      data-component-name="button"
+      type="submit"
+    >
+      <span
+        class="ct-text-icon__text"
+      >
+        Go
+      </span>
+    </button>
+    
+
+  </form>
+  
+
+</div>
+`;
+
+exports[`Search Bar Component renders with default props 1`] = `
+<div>
+  
+
+
+
+  <form
+    class="ct-search-bar ct-theme-light "
+    method="get"
+    role="search"
+  >
+    
+  
+    <label
+      class="ct-visually-hidden"
+      for="ct-search-bar__input"
+    >
+      Search keywords
+    </label>
+    
+  
+    <input
+      class="ct-search-bar__input"
+      id="ct-search-bar__input"
+      name="keywords"
+      placeholder="I'm looking for..."
+      type="search"
+    />
+    
+  
+
+  
+    <button
+      _keys="type"
+      class="ct-button ct-theme-light ct-button--primary ct-button--button ct-button--regular   ct-search-bar__button"
+      data-component-name="button"
+      type="submit"
+    >
+      <span
+        class="ct-text-icon__text"
+      >
+        Search
+      </span>
+    </button>
+    
+
+  </form>
+  
+
+</div>
+`;
+
+exports[`Search Bar Component renders with modifier_class 1`] = `
+<div>
+  
+
+
+
+  <form
+    class="ct-search-bar ct-theme-light custom-class"
+    method="get"
+    role="search"
+  >
+    
+  
+    <label
+      class="ct-visually-hidden"
+      for="ct-search-bar__input"
+    >
+      Search keywords
+    </label>
+    
+  
+    <input
+      class="ct-search-bar__input"
+      id="ct-search-bar__input"
+      name="keywords"
+      placeholder="I'm looking for..."
+      type="search"
+    />
+    
+  
+
+  
+    <button
+      _keys="type"
+      class="ct-button ct-theme-light ct-button--primary ct-button--button ct-button--regular   ct-search-bar__button"
+      data-component-name="button"
+      type="submit"
+    >
+      <span
+        class="ct-text-icon__text"
+      >
+        Search
+      </span>
+    </button>
+    
+
+  </form>
+  
+
+</div>
+`;
+
+exports[`Search Bar Component renders with pre-filled input_value 1`] = `
+<div>
+  
+
+
+
+  <form
+    class="ct-search-bar ct-theme-light "
+    method="get"
+    role="search"
+  >
+    
+  
+    <label
+      class="ct-visually-hidden"
+      for="ct-search-bar__input"
+    >
+      Search keywords
+    </label>
+    
+  
+    <input
+      class="ct-search-bar__input"
+      id="ct-search-bar__input"
+      name="keywords"
+      placeholder="I'm looking for..."
+      type="search"
+      value="planning permits"
+    />
+    
+  
+
+  
+    <button
+      _keys="type"
+      class="ct-button ct-theme-light ct-button--primary ct-button--button ct-button--regular   ct-search-bar__button"
+      data-component-name="button"
+      type="submit"
+    >
+      <span
+        class="ct-text-icon__text"
+      >
+        Search
+      </span>
+    </button>
+    
+
+  </form>
+  
+
+</div>
+`;

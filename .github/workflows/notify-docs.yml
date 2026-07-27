@@ -1,0 +1,22 @@
+name: Notify docs consumers
+
+# Fires a docs-updated repository_dispatch at the design library whenever
+# docs-live advances, so content edits rebuild the site without an npm
+# release. Companion to release.yml's uikit-released dispatch - same PAT,
+# same target; update both when dga-dl becomes design-system-docs.
+
+on:
+  push:
+    branches:
+      - docs-live
+
+permissions: {}
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dispatch docs-updated to dga-dl
+        env:
+          GH_TOKEN: ${{ secrets.DISPATCH_PAT }}
+        run: gh api repos/JamesFehon-DTA/dga-dl/dispatches -f event_type=docs-updated

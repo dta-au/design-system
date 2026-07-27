@@ -1,0 +1,188 @@
+{#
+/**
+ * @file
+ * digital.gov.au Progress nav component.
+ *
+ * Props:
+ * - theme: [string] Theme variation (light or dark).
+ * - heading: [string] Visible label above the step list.
+ * - id_prefix: [string] Prefix for generating unique status element ids. Must be unique per page when used more than once.
+ * - current_step: [integer] The 1-based index of the current step. Used with total_steps to render a structured counter.
+ * - total_steps: [integer] Total number of steps. Used with current_step.
+ * - progress_summary: [string] Freeform summary override, e.g. "2 of 7 steps completed". Rendered instead of the structured counter when provided. Set to false to hide the summary entirely.
+ * - steps: [array] Ordered list of steps. Each step is an object with: title (required); url (optional, omit for non-navigable steps); status (completed, saved, in-progress, error, todo, or cannot-start-yet); is_active (boolean); progress_text (optional meta string); hint (optional text below the title); sub_step (optional level-2 sub-step object { title, url, status, progress_text }, shown only when the parent is active).
+ *   Each item contains:
+ *   - items [object]
+ * - modifier_class: [string] Additional CSS classes.
+ * - attributes: [Drupal\Core\Template\Attribute] Additional HTML attributes.
+ */
+#}
+
+{% set theme_class = 'ct-theme-%s'|format(theme|default('light')) %}
+{% set modifier_class = '%s %s'|format(theme_class, modifier_class|default('')) %}
+{% set id_prefix = id_prefix|default('progress-nav') %}
+
+<div class="progress-nav {{ modifier_class -}}" {% if attributes is defined and attributes is not null %}{{- attributes -}}{% endif %}>
+
+  <div class="progress-nav__header">
+    <span class="progress-nav__heading">{{ heading|default('Progress') }}</span>
+
+    {# Prefer the structured counter; fall back to a freeform summary; render
+       nothing when progress_summary is explicitly false. #}
+    {% if progress_summary is not same as(false) %}
+      {% if progress_summary is not empty %}
+        <p class="progress-nav__summary">{{ progress_summary }}</p>
+      {% elseif current_step is not empty and total_steps is not empty %}
+        <p class="progress-nav__summary">
+          <span class="progress-nav__counter">
+            <span class="ct-visually-hidden">Step </span><span
+              class="progress-nav__current-step">{{ current_step }}</span> <span
+              class="progress-nav__total-steps">of {{ total_steps }}</span>
+          </span>
+        </p>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  <ol class="progress-nav__list">
+    {% for item in steps %}
+      {% set item_status = item.status in ['completed', 'saved', 'in-progress', 'error', 'todo', 'cannot-start-yet'] ? item.status : 'todo' %}
+      {% set is_active = item.is_active|default(false) %}
+      {% set status_id = '%s-%s-status'|format(id_prefix, loop.index) %}
+      {% set item_classes = 'progress-nav__item progress-nav__item--%s'|format(item_status) %}
+      {% if is_active %}{% set item_classes = item_classes ~ ' is-active' %}{% endif %}
+
+      <li class="{{ item_classes }}">
+
+        {# Render as <a> only when navigable. cannot-start-yet steps render as a
+           non-interactive <span> with aria-disabled. aria-describedby links the
+           label to its status so AT announces both as one unit (GOV.UK DS). #}
+        {% if item.url and item_status != 'cannot-start-yet' %}
+          <a
+            href="{{ item.url }}"
+            class="progress-nav__link"
+            aria-describedby="{{ status_id }}"
+            {% if is_active %}aria-current="step"{% endif %}
+          >
+        {% else %}
+          <span
+            class="progress-nav__link"
+            {% if item_status == 'cannot-start-yet' %}aria-disabled="true"{% endif %}
+          >
+        {% endif %}
+
+          {# Status indicator: inline SVG, 1px stroke, aria-hidden (the status
+             text below is the accessible equivalent). #}
+          <span class="progress-nav__indicator" aria-hidden="true">
+            {% if item_status == 'completed' %}
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="7 12.5 10.5 16 17 9"/>
+              </svg>
+            {% elseif item_status == 'saved' %}
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="7 12.5 10.5 16 17 9" stroke-dasharray="2 1.5"/>
+              </svg>
+            {% elseif item_status == 'in-progress' %}
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                <circle cx="12" cy="12" r="10"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            {% elseif item_status == 'error' %}
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                <circle cx="12" cy="12" r="10"/>
+                <polygon points="10,7 14,7 13,13.5 11,13.5"/>
+                <circle cx="12" cy="16.5" r="1"/>
+              </svg>
+            {% elseif item_status == 'cannot-start-yet' %}
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                <rect x="5" y="11" width="14" height="10" rx="1"/>
+                <path d="M8 11V7a4 4 0 0 1 8 0v4"/>
+              </svg>
+            {% else %}
+              {# todo #}
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                <circle cx="12" cy="12" r="10" stroke-dasharray="3 3"/>
+              </svg>
+            {% endif %}
+          </span>
+
+          <span class="progress-nav__label">
+            {{- item.title -}}
+            {% if item.hint %}
+              <span class="progress-nav__hint">{{ item.hint }}</span>
+            {% endif %}
+            {% if item.progress_text %}
+              <small class="progress-nav__meta">{{ item.progress_text }}</small>
+            {% endif %}
+          </span>
+
+        {% if item.url and item_status != 'cannot-start-yet' %}
+          </a>
+        {% else %}
+          </span>
+        {% endif %}
+
+        {# Status text, referenced by aria-describedby. Outside the link so it is
+           announced once, as the link's description, not as separate content. #}
+        <span class="progress-nav__status ct-visually-hidden" id="{{ status_id }}">
+          {%- if item_status == 'completed' -%}Completed
+          {%- elseif item_status == 'saved' -%}Saved
+          {%- elseif item_status == 'in-progress' -%}In progress
+          {%- elseif item_status == 'error' -%}There is a problem
+          {%- elseif item_status == 'cannot-start-yet' -%}Cannot start yet
+          {%- else -%}Not started
+          {%- endif -%}
+        </span>
+
+        {# Level-2 sub-step: only rendered when the parent step is active. #}
+        {% if is_active and item.sub_step %}
+          {% set sub = item.sub_step %}
+          {% set sub_status = sub.status|default('in-progress') %}
+          {% set sub_status_id = '%s-%s-sub-status'|format(id_prefix, loop.index) %}
+          <ol class="progress-nav__sub-list">
+            <li class="progress-nav__item progress-nav__item--level-2 progress-nav__item--{{ sub_status }} is-active">
+
+              {% if sub.url %}
+                <a
+                  href="{{ sub.url }}"
+                  class="progress-nav__link"
+                  aria-describedby="{{ sub_status_id }}"
+                  aria-current="step"
+                >
+              {% else %}
+                <span class="progress-nav__link">
+              {% endif %}
+
+                <span class="progress-nav__indicator" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                    <circle cx="12" cy="12" r="10"/>
+                    <circle cx="12" cy="12" r="3"/>
+                  </svg>
+                </span>
+
+                <span class="progress-nav__label">
+                  {{- sub.title -}}
+                  {% if sub.progress_text %}
+                    <small class="progress-nav__meta">{{ sub.progress_text }}</small>
+                  {% endif %}
+                </span>
+
+              {% if sub.url %}
+                </a>
+              {% else %}
+                </span>
+              {% endif %}
+
+              <span class="progress-nav__status ct-visually-hidden" id="{{ sub_status_id }}">In progress</span>
+
+            </li>
+          </ol>
+        {% endif %}
+
+      </li>
+    {% endfor %}
+  </ol>
+
+</div>

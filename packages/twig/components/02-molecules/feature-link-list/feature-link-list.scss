@@ -1,0 +1,176 @@
+//
+// digital.gov.au Feature Link List component styles.
+//
+
+@use 'sass:map';
+
+.ct-feature-link-list {
+  $root: &;
+
+  & {
+    width: 100%;
+
+    // width: 100% + the with-background padding overflows the parent without
+    // border-box sizing.
+    box-sizing: border-box;
+  }
+
+  &#{$root}--with-background {
+    padding: ct-spacing(3);
+  }
+
+  // Nested in a parent column: the links carry their own inset, so the root
+  // padding doubles up - drop it and give the title the inset instead, so it
+  // aligns with the link text.
+  &#{$root}--with-background#{$root}--not-contained {
+    padding: 0;
+
+    #{$root}__title {
+      margin: 0;
+      padding: ct-spacing(3);
+    }
+  }
+
+  #{$root}__title {
+    @include ct-typography('heading-4');
+
+    margin-bottom: ct-spacing(2);
+  }
+
+  #{$root}__items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  #{$root}__item {
+    border-top: 1px solid transparent;
+
+    &:last-child {
+      border-bottom: 1px solid transparent;
+    }
+  }
+
+  #{$root}__link {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: ct-spacing(3);
+    padding: ct-spacing(3);
+    text-decoration: none;
+
+    &:focus-visible {
+      @include ct-outline();
+      @include ct-outline-border();
+    }
+
+    &:hover,
+    &:focus-visible {
+      #{$root}__link-title {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  #{$root}__content {
+    display: flex;
+    flex-direction: column;
+    gap: ct-spacing(1);
+    flex: 1;
+  }
+
+  #{$root}__link-title {
+    @include ct-typography('text-regular');
+
+    font-weight: bold;
+  }
+
+  #{$root}__description {
+    @include ct-typography('text-regular');
+  }
+
+  #{$root}__icon {
+    flex-shrink: 0;
+    transition: transform 0.15s ease;
+  }
+
+  &--icon-leading {
+    #{$root}__link {
+      align-items: center;
+      gap: ct-spacing(1.5);
+      padding: ct-spacing(3);
+    }
+
+    #{$root}__icon--leading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: ct-spacing(4);
+      height: ct-spacing(4);
+
+      .ct-icon {
+        width: ct-spacing(2.5);
+        height: ct-spacing(2.5);
+      }
+    }
+
+    #{$root}__link:hover #{$root}__icon--leading {
+      transform: none;
+    }
+  }
+
+  @include ct-component-theme($root) using ($root, $theme) {
+    @include ct-component-property($root, $theme, color);
+
+    &#{$root}--with-background {
+      @include ct-component-property($root, $theme, background-color);
+
+      @if $theme == 'light' {
+        #{$root}__link:hover,
+        #{$root}__link:focus-visible {
+          background-color: ct-color-light('background-light');
+        }
+      }
+
+      @if $theme == 'dark' {
+        #{$root}__link:hover,
+        #{$root}__link:focus-visible {
+          background-color: ct-color-dark('background-light');
+        }
+      }
+    }
+
+    #{$root}__item {
+      @include ct-component-property($root, $theme, item, border-color);
+
+      &:last-child {
+        @include ct-component-property($root, $theme, item, border-color);
+      }
+    }
+
+    #{$root}__link {
+      @include ct-component-property($root, $theme, link, color);
+
+      &:hover,
+      &:focus-visible {
+        @include ct-component-property($root, $theme, link, hover, background-color);
+
+        #{$root}__link-title {
+          @include ct-component-property($root, $theme, link, hover, color);
+        }
+
+        #{$root}__icon {
+          @include ct-component-property($root, $theme, icon, hover, color);
+        }
+      }
+    }
+
+    #{$root}__description {
+      @include ct-component-property($root, $theme, description, color);
+    }
+
+    #{$root}__icon {
+      @include ct-component-property($root, $theme, icon, color);
+    }
+  }
+}

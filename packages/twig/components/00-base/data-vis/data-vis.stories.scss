@@ -1,0 +1,99 @@
+//
+// Base / Data visualisation / Colour - specimen styles.
+//
+// The palette tables use the design-system .ct-table styling; only the swatch
+// chip, sequential ramp, CVD toggle and a couple of cell helpers (no DS
+// equivalent) are styled here. Editorial prose lives in data-vis.mdx; the
+// color_by reference reuses the summary-list component.
+//
+
+// Secondary-text grey; CivicTheme's light palette has no caption/muted token.
+$ct-dv-muted: #595959;
+
+.dv__filters {
+  position: absolute;
+}
+
+.dv-cvd {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: ct-spacing(0.5);
+  margin: 0 0 ct-spacing(2);
+}
+
+.dv-cvd__legend {
+  margin-inline-end: ct-spacing(1);
+  color: $ct-dv-muted;
+
+  @include ct-typography('label-regular');
+}
+
+.dv-cvd__btn {
+  padding: ct-spacing(0.5) ct-spacing(1.5);
+  border: ct-particle(0.125) solid ct-color-light('border');
+  border-radius: ct-particle(12.5);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+
+  @include ct-typography('label-regular');
+
+  &[aria-pressed='true'] {
+    border-color: ct-color-light('heading');
+    background: ct-color-light('heading');
+    color: ct-color-light('background');
+  }
+}
+
+// The DS table component themes via runtime --ct-table-light-* tokens that the
+// bare Storybook canvas doesn't provide, so the palette tables are styled here
+// with DS scale functions (canvas-safe, system-consistent values).
+.dv-table {
+  max-width: ct-particle(80);
+  border-collapse: collapse;
+
+  // Match the ct-table typography convention: text-regular body, label-regular
+  // applied to thead (not th) so the UA th bold weight survives as ct renders it.
+  @include ct-typography('text-regular');
+
+  thead {
+    @include ct-typography('label-regular');
+  }
+
+  th,
+  td {
+    padding: ct-spacing(1) ct-spacing(2);
+    border-block-end: ct-particle(0.125) solid ct-color-light('border');
+    text-align: start;
+    vertical-align: middle;
+  }
+}
+
+.dv-note {
+  color: $ct-dv-muted;
+  font-weight: 400;
+}
+
+.dv-mono {
+  font-family: ct-font('mono');
+}
+
+.dv-chip {
+  display: block;
+  width: ct-particle(6);
+  height: ct-particle(3);
+  border: ct-particle(0.125) solid ct-color-light('border');
+  border-radius: ct-particle(0.25);
+  transition: filter 0.15s;
+}
+
+.dv-ramp {
+  height: ct-particle(4);
+  max-width: ct-particle(80);
+  margin: 0 0 ct-spacing(1);
+  border: ct-particle(0.125) solid ct-color-light('border');
+  border-radius: ct-particle(0.5);
+  background: linear-gradient(to right, #001d33, #003c61, #015e8c, #5693bd, #aed0e8, #f0eeee);
+  transition: filter 0.15s;
+}

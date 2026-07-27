@@ -1,0 +1,14 @@
+{/* Editorial body is shared with the design library – edit ./banner.md, not this file. */}
+
+import { Meta, Canvas, Controls, Markdown } from '@storybook/addon-docs/blocks';
+import * as Stories from './banner.stories';
+import body from './banner.md?raw';
+
+<Meta of={Stories} />
+
+# Banner
+
+<Canvas of={Stories.Banner} />
+<Controls of={Stories.Banner} />
+
+<Markdown>{body.replace(/^---[\s\S]*?---\s*/, '')}</Markdown>

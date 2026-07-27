@@ -1,0 +1,78 @@
+{#
+/**
+ * @file
+ * CivicTheme Breadcrumb component.
+ *
+ * Props:
+ * - theme: [string] Theme variation (light or dark).
+ * - active_is_link: [boolean] Deprecated, no longer used. Removed in the next major.
+ * - modifier_class: [string] Additional CSS classes.
+ * - links: [array] Breadcrumb links, ending at the parent page and excluding the current page:
+ *   Each item contains:
+ *   - text: [string] Link text.
+ *   - url: [string] Link URL.
+ * - attributes: [Drupal\Core\Template\Attribute] Additional HTML attributes.
+ */
+#}
+
+{% set theme_class = 'ct-theme-%s'|format(theme|default('light')) %}
+{% set modifier_class = '%s %s'|format(theme_class, modifier_class|default('')) %}
+
+{% if links %}
+  {% set links_count = links|length %}
+  {% set parent = false %}
+
+  <nav class="ct-breadcrumb {{ modifier_class -}}" aria-label="breadcrumb" {% if attributes is defined and attributes is not null %}{{- attributes -}}{% endif %}>
+    {% set link_items = [] %}
+
+    {% for link in links %}
+      {% set link_item -%}
+        {%- include 'civictheme:link' with {
+          text: link.text,
+          url: link.url,
+          theme: theme,
+          modifier_class: 'ct-breadcrumb__links__link',
+        } only -%}
+        {%- if loop.index < links_count -%}
+          {%- include 'civictheme:icon' with {
+            symbol: 'right-arrow-1',
+            modifier_class: 'ct-breadcrumb__links__separator',
+          } only -%}
+        {% endif -%}
+      {%- endset %}
+
+      {% set link_items = link_items|merge([link_item]) %}
+
+      {# Below M the trail collapses to a single back-link to the parent, which is the last item. #}
+      {% if loop.index == links_count %}
+        {% set parent = {
+          text: link.text,
+          url: link.url,
+          theme: theme,
+          icon: 'left-arrow',
+          icon_placement: 'before',
+          modifier_class: 'ct-breadcrumb__links__link',
+        } %}
+      {% endif %}
+    {% endfor %}
+
+    {% if parent %}
+      {% set parent_link_item %}
+        {% include 'civictheme:link' with parent only %}
+      {% endset %}
+
+      {% include 'civictheme:item-list' with {
+        direction: 'horizontal',
+        items: [parent_link_item],
+        modifier_class: 'ct-breadcrumb__links show-xxs-flex hide-m',
+      } only %}
+    {% endif %}
+
+    {% include 'civictheme:item-list' with {
+      direction: 'horizontal',
+      items: link_items,
+      no_gap: true,
+      modifier_class: 'ct-breadcrumb__links hide-xxs show-m-flex',
+    } only %}
+  </nav>
+{% endif %}

@@ -1,0 +1,52 @@
+{#
+/**
+ * @file
+ * digital.gov.au Search Bar component.
+ *
+ * Props:
+ * - theme: [string]
+ * - label: [string]
+ * - placeholder: [string]
+ * - button_text: [string]
+ * - action: [string]
+ * - method: [string]
+ * - input_name: [string]
+ * - input_value: [string]
+ * - input_id: [string] Id for the input and its label. Defaults to ct-search-bar__input; override when more than one search bar renders on a page.
+ * - modifier_class: [string]
+ * - attributes: [Drupal\Core\Template\Attribute] Additional HTML attributes.
+ */
+#}
+
+{% set theme = theme in ['light', 'dark'] ? theme : 'light' %}
+{% set theme_class = 'ct-theme-%s'|format(theme) %}
+{% set modifier_class = '%s %s'|format(theme_class, modifier_class|default('')) %}
+{% set input_id = input_id|default('ct-search-bar__input') %}
+
+<form
+  class="ct-search-bar {{ modifier_class -}}"
+  role="search"
+  {% if action %}action="{{ action }}"{% endif %}
+  method="{{ method|default('get') }}"
+  {% if attributes is defined and attributes is not null %}{{- attributes -}}{% endif %}
+>
+  <label for="{{ input_id }}" class="ct-visually-hidden">
+    {{- label|default('Search keywords') -}}
+  </label>
+  <input
+    class="ct-search-bar__input"
+    type="search"
+    id="{{ input_id }}"
+    name="{{ input_name|default('keywords') }}"
+    {% if input_value is not empty %}value="{{ input_value }}"{% endif %}
+    placeholder="{{ placeholder|default("I'm looking for...") }}"
+  />
+  {% include 'civictheme:button' with {
+    theme: theme,
+    kind: 'button',
+    type: 'primary',
+    text: button_text|default('Search'),
+    modifier_class: 'ct-search-bar__button',
+    attributes: create_attribute({type: 'submit'}),
+  } only %}
+</form>

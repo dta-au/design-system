@@ -1,0 +1,9 @@
+<!--
+  Vendored D3 v7 + d3-sankey for the Chart organism. Loaded synchronously in
+  <head> so window.d3 is populated before civictheme.base evaluates the chart
+  renderer. Served from .storybook/static/d3-vendor/ (the /vendor/ path is
+  gitignored repo-wide, so these committed copies live under d3-vendor/).
+  Same UMD builds a consuming Drupal theme ships in production.
+-->
+<script src="./d3-vendor/d3.v7.min.js"></script>
+<script src="./d3-vendor/d3-sankey.v0.12.3.min.js"></script>

@@ -1,0 +1,126 @@
+{/* Editorial guidance authored for the digital.gov.au chart organism. Specimens render from chart.stories.js. */}
+
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as Stories from './chart.stories';
+
+<Meta of={Stories} />
+
+# Chart
+
+An accessible data chart, progressively enhanced from an HTML data table. The table is the baseline that always renders; D3 draws the SVG on top of it. Bar, grouped and stacked bar, line, pie, lollipop, Cleveland dot plot, sankey and flow types share one component and one data contract.
+
+<Canvas of={Stories.Bar} />
+
+<Controls of={Stories.Bar} />
+
+## When to use
+
+- the numbers carry a shape worth seeing – a trend, a comparison, a distribution, a flow
+- the data is tabular and public – every chart ships its data as a real table and offers it for download
+- the page is content, not an app – the chart is a figure with a title and description, not a dashboard widget
+
+## When not to use
+
+- a handful of values reads fine as a sentence or a **Table** – a chart adds ceremony, not clarity
+- the data cannot be published – the fallback table and downloads expose every row by design
+- you need live dashboards, streaming updates or cross-chart brushing – this is a static figure with light interactivity
+
+## How it works
+
+The component renders a `figure` containing three things: a plain-text title and description, a real `table` of the data behind a disclosure, and a JSON config island (`script type="application/json"`) that carries rows, keys and labels. The JavaScript reads the island – never the DOM table – and draws the SVG. Without JavaScript nothing breaks: the table is the chart.
+
+D3 is deliberately not bundled. The renderer expects `window.d3` (v7, plus d3-sankey for the flow types) supplied by the host page – this Storybook loads a vendored copy in its preview head, and a consuming theme attaches D3 in the same library as the chart script. The behaviour itself runs inside or outside Drupal; shims cover `Drupal.behaviors` and `once` on static pages.
+
+## Chart types
+
+`chart_type` selects the renderer. All types share the same figure, toolbar, table and data contract.
+
+**Bar, grouped bar, stacked bar** – categorical comparison. Grouped places series side by side; stacked shows composition per category.
+
+<Canvas of={Stories.GroupedBar} />
+
+**Line** – ordered series, usually time. Multiple `y_keys` get one line each, distinguished by colour, marker shape and a direct end-of-line label.
+
+<Canvas of={Stories.MultiLine} />
+
+**Pie** – shares of a whole. Keep it to a few slices; past that, use a bar.
+
+<Canvas of={Stories.Pie} />
+
+**Lollipop** – a long tail of one value per item, with an optional median reference line (`median_value`).
+
+<Canvas of={Stories.Lollipop} />
+
+**Cleveland dot plot** – two points per row on a shared scale, made for before/after comparison.
+
+<Canvas of={Stories.ClevelandDotPlot} />
+
+**Sankey and flow** – quantities moving between states. These take link rows (source / target / value) and render a 3-column fallback table (`flow_table`). Node labels sharing a known ordinal vocabulary (High, Medium-High, …) sort and colour by rank; a flat-row sankey with self-loops auto-prefixes the colliding labels so the "no change" diagonal survives.
+
+<Canvas of={Stories.Sankey} />
+
+## Data
+
+`source_mode` sets where the rows come from.
+
+- **json / csv** – the host supplies parsed `rows`; they drive both the fallback table and the SVG. In Drupal the rows are parsed and sanitised server-side.
+- **url** – the renderer fetches from data.gov.au at view time. The host allowlist is data.gov.au only; the fetch is bounded (5,000 rows, 500 characters per cell, 256 KB payload, 10 second timeout) and understands the CKAN `datastore_search` response shape. The toolbar links to the source instead of offering downloads. The UrlSource story exercises this against the live Major Digital Projects Report dataset.
+
+The parsing, validation and fetch logic lives in a shared `chart.data` module, built to `dist/chart.data.esm.js` and `dist/chart.data.umd.js` so a server-side pipeline or another build can reuse the exact rules the browser applies – same limits, same host allowlist, same CKAN extraction.
+
+## Colour
+
+Series colours come from the digital.gov.au data-vis palettes: a navy-anchored categorical set of six and a single-hue navy sequential ramp. `color_by` picks the assignment – `single` for one-colour charts where colour carries no meaning, `series` for one colour per series, `category` for ordinal vocabularies on the sequential ramp. Consumers re-skin without touching code via the `--bdga-chart-c1..c14` and `--bdga-chart-s1..s6` custom properties.
+
+Keep series to six or fewer. For adjacent series that must stay apart without colour, `texture: true` layers SVG pattern fills on the multi-series renderers, mirrored in the legend swatches.
+
+<Canvas of={Stories.Texture} />
+
+The palette rationale and CVD simulations live in the Data visualisation colour foundation.
+
+## Toolbar, downloads, filters and zoom
+
+`toolbar: true` renders an accessible toolbar: a "View as table" toggle and an overflow menu. For local data the menu offers data downloads (`downloads: ['csv', 'json']` – CSV first); in url mode it links to the source instead. Every mode also offers PNG and SVG image export – the exported SVG carries the title, description and source as embedded metadata, so a chart pasted into a report keeps its provenance.
+
+<Canvas of={Stories.Toolbar} />
+
+`filters` adds client-side filter controls, one per dimension. Within a filter the selected values are OR-ed, across filters AND-ed, and the fallback table stays complete – filters slice the picture, not the data.
+
+<Canvas of={Stories.Filters} />
+
+`zoom: true` adds data-domain zoom for the ordinal cartesian types (bar, line, lollipop): toolbar Zoom in / out / reset, and `+` `-` `0` from the keyboard when a point is focused.
+
+<Canvas of={Stories.Zoom} />
+
+The interactive legend toggles series visibility. It enables itself for the genuinely multi-series renderers; `legend: true` forces it elsewhere. Legend, filters and zoom are all enhancements over the labelled chart and the table, never the only way to read the data.
+
+## Accessibility
+
+- The data table is the no-JS path and stays reachable behind its own disclosure regardless of toolbar state.
+- The figure wires `aria-labelledby` to the title and `aria-describedby` to the description – write the description to say what the chart shows and where the data comes from.
+- Data points are keyboard-navigable with a roving tabindex: arrows move within and across series, Home/End jump to the ends, Escape dismisses the tooltip. Each point exposes `role="img"`, a value label, and position-in-set semantics.
+- Loading, zoom, filter and series-toggle changes are announced through a visually hidden status region; on failure the chart hides, the table remains, and the status reads "Chart unavailable".
+- Colour is never the sole cue: series are directly labelled, markers vary by shape, and the texture option adds pattern fills. The categorical palette is colour-blind-safe.
+
+## Do
+
+- write a real description – what the chart shows and the data source
+- keep series to six or fewer; slice with filters, not extra colours
+- turn the toolbar on for anything readers may want to cite or reuse
+- use `x_label` / `y_label` – axis keys are field names, not labels
+
+## Don't
+
+- rely on colour alone to distinguish series – enable texture when adjacent series matter
+- fetch from hosts other than data.gov.au – url mode refuses them by design
+- use a pie for more than a few shares, or a chart at all for two numbers
+- treat the fallback table as decoration – it is the chart for some readers
+
+## Related components
+
+- **Table** – when the numbers are the point and no shape needs drawing.
+- **Figure** – for a static image with a caption, including pre-rendered chart images.
+
+## Related foundations
+
+- **Data visualisation colour** – the categorical and sequential palettes, with CVD simulation.

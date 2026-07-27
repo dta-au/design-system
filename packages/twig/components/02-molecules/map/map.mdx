@@ -1,0 +1,14 @@
+{/* Editorial body is shared with the design library – edit ./map.md, not this file. */}
+
+import { Meta, Canvas, Controls, Markdown } from '@storybook/addon-docs/blocks';
+import * as Stories from './map.stories';
+import body from './map.md?raw';
+
+<Meta of={Stories} />
+
+# Map
+
+<Canvas of={Stories.Map} />
+<Controls of={Stories.Map} />
+
+<Markdown>{body.replace(/^---[\s\S]*?---\s*/, '')}</Markdown>

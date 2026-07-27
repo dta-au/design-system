@@ -1,0 +1,53 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as Stories from './link-list.stories';
+
+<Meta of={Stories} />
+
+# Link list
+
+A group of **Link card** rows under an optional heading. The list owns the heading and the spacing between cards; each card stays a layout-free single link where the whole row is the target.
+
+<Canvas of={Stories.LinkList} />
+
+<Controls of={Stories.LinkList} />
+
+That split of responsibilities is the point: cards never carry group concerns (headings, gaps, borders), so the same card renders identically alone, in a default list, or in the connected variant. A digital.gov.au extension of the CivicTheme card family.
+
+## When to use
+
+- a group of related page links or document downloads in the main content area
+- listing resources where each row needs a type signal – download (with file extension and size), external, or secured
+- content where rows are added and removed editorially and must stay visually uniform
+
+## When not to use
+
+- navigational panels that benefit from descriptions under each link – use a **Feature link list**
+- links woven into prose – a plain rich-text list is enough
+- card grids with imagery or summaries – use the promo or navigation card families
+
+## Variants
+
+The **connected** variant renders the cards as one bordered group – rounded outer corners, hairline separators, no gaps – for lists that should read as a single object, such as a document set. The default variant keeps the cards as separate rows.
+
+<Canvas of={Stories.Connected} />
+
+Per item, the link card's own variants apply: `variant: download` swaps the icon and shows `file_extension` and `file_size`, `is_external` signals an external destination, `is_secured` marks sign-in-to-access rows, and `is_deactivated` renders a non-interactive row.
+
+## Accessibility
+
+- the heading is a real heading (level 3) above the group, giving the list its context
+- each row is one link with one accessible name – no nested targets inside a row
+- type signals (download, external, secured) come from the link card's icons and text, not colour alone
+- deactivated rows render as non-interactive elements, never as disabled links
+
+## Do
+
+- give the list a heading whenever the surrounding page does not already name the group
+- keep every row's title distinct – rows are scanned and screen readers navigate by link text
+- fill `file_extension` and `file_size` on downloads so the cost of the click is visible
+
+## Don't
+
+- mix unrelated links under one heading to save space
+- use the connected variant for rows that are not really one set
+- put more than one destination in a row – one card is one link

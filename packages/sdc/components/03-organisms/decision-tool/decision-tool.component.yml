@@ -1,0 +1,254 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
+name: Decision tool
+status: experimental
+description: 'Config-driven, 100% client-side branching decision tool. Shows one question step at a time with a horizontal progress indicator, accumulates flags, then reveals a severity-keyed outcome with an opaque reference code and dispatches a completion event. No answers leave the browser.'
+props:
+  type: object
+  required:
+    - question_set
+  properties:
+    theme:
+      type: string
+      title: Theme
+      description: Theme variation (light or dark).
+      enum:
+        - light
+        - dark
+      default: light
+    heading_level:
+      type: integer
+      title: Heading level
+      description: Heading level for question titles; the summary heading renders one level below.
+      enum:
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+    vertical_spacing:
+      type: string
+      title: Vertical spacing
+      description: Vertical spacing (top, bottom, both, none).
+      enum:
+        - top
+        - bottom
+        - both
+        - none
+    option_style:
+      type: string
+      title: Option style
+      description: 'How answer options are presented. "list" is a plain radio/checkbox list; "card" is a selectable card; "link-card" is a card that advances on click with no Next button (single-choice routing steps).'
+      enum:
+        - list
+        - card
+        - link-card
+      default: list
+    progress_style:
+      type: string
+      title: Progress style
+      description: '"tracker" shows horizontal step markers (the progress-tracker); "bar" shows a simple filled bar with a "Step N" / "Complete" label.'
+      enum:
+        - tracker
+        - bar
+      default: tracker
+    show_summary:
+      type: boolean
+      title: Show answer summary
+      description: 'Show the "what you have answered" review of previous answers, each with a Change link. On by default.'
+    summary_label:
+      type: string
+      title: Summary heading
+      description: Heading for the answer summary.
+    change_label:
+      type: string
+      title: Change label
+      description: Label for the per-answer Change links.
+    show_progress:
+      type: boolean
+      title: Show progress
+      description: 'Show the horizontal step progress indicator. When unset, it is shown automatically for question sets with three or more steps.'
+    question_set:
+      type: object
+      title: Question set
+      description: 'The branching questionnaire definition. Rendered to HTML server-side; the JS reads the flow from that markup, so nothing about the answers is transmitted.'
+      required:
+        - id
+        - steps
+        - outcomes
+      properties:
+        id:
+          type: string
+          title: Question set ID
+          description: 'Stable identifier echoed back in the completion event as questionSetId. Must be unique per instance on a page.'
+        title:
+          type: string
+          title: Title
+          description: Heading shown above the questions.
+        intro:
+          type: string
+          title: Intro
+          description: Introductory text shown above the questions.
+        steps:
+          type: array
+          title: Steps
+          description: 'Ordered question steps. One shows at a time; per-option next drives branching.'
+          items:
+            type: object
+            required:
+              - id
+              - question
+              - options
+            properties:
+              id:
+                type: string
+                title: Step ID
+              question:
+                type: string
+                title: Question
+              help:
+                type: string
+                title: Help text
+              type:
+                type: string
+                title: Step type
+                description: 'single renders radios; multiple renders checkboxes.'
+                enum:
+                  - single
+                  - multiple
+                default: single
+              option_style:
+                type: string
+                title: Option style
+                description: 'Per-step override of the component option_style (list, card, or link-card).'
+                enum:
+                  - list
+                  - card
+                  - link-card
+              next:
+                type: string
+                title: Default next
+                description: 'Default next step id, or "result". Used when the chosen option has no next of its own.'
+              options:
+                type: array
+                title: Options
+                items:
+                  type: object
+                  required:
+                    - id
+                    - label
+                  properties:
+                    id:
+                      type: string
+                      title: Option ID
+                    label:
+                      type: string
+                      title: Label
+                    description:
+                      type: string
+                      title: Description
+                      description: 'Optional supporting line, shown under the label (most useful with the card and link-card option styles).'
+                    icon:
+                      type: string
+                      title: Icon
+                      description: 'Optional CivicTheme icon name, shown on link-card options.'
+                    value:
+                      type: string
+                      title: Value
+                      description: Defaults to the option id when omitted.
+                    next:
+                      type: string
+                      title: Next
+                      description: 'Next step id or "result" for this option (single-choice branching).'
+                    flags:
+                      type: array
+                      title: Flags
+                      description: Criterion ids added to the accumulated flag set when this option is chosen.
+                      items:
+                        type: string
+        outcomes:
+          type: array
+          title: Outcomes
+          description: 'Candidate results. The first whose when-condition matches the accumulated flags is shown; place a when-less catch-all last.'
+          items:
+            type: object
+            required:
+              - id
+              - heading
+            properties:
+              id:
+                type: string
+                title: Outcome ID
+              when:
+                type: object
+                title: When
+                description: 'Match condition over accumulated flags. all = every listed flag present; any = at least one present. Omit or leave empty for a catch-all.'
+                properties:
+                  all:
+                    type: array
+                    items:
+                      type: string
+                  any:
+                    type: array
+                    items:
+                      type: string
+              heading:
+                type: string
+                title: Heading
+              body:
+                type: string
+                title: Body
+              more_link:
+                type: object
+                title: Find out more link
+                description: 'Optional inline "find out more" link shown after the body.'
+                properties:
+                  text:
+                    type: string
+                  href:
+                    type: string
+              severity:
+                type: string
+                title: Severity
+                description: 'Maps to the Message component type, which supplies a colour and a non-colour icon cue.'
+                enum:
+                  - info
+                  - success
+                  - warning
+                  - error
+              cta:
+                type: object
+                title: Call to action
+                properties:
+                  label:
+                    type: string
+                  href:
+                    type: string
+    storage_key:
+      type: string
+      title: Storage key
+      description: 'Opt-in. When set, the completion detail is written to sessionStorage under this key as JSON. Off by default; nothing is persisted otherwise.'
+    back_label:
+      type: string
+      title: Back label
+    next_label:
+      type: string
+      title: Next label
+    submit_label:
+      type: string
+      title: Submit label
+    restart_label:
+      type: string
+      title: Restart label
+    reference_label:
+      type: string
+      title: Reference code label
+    copy_label:
+      type: string
+      title: Copy label
+    progress_label:
+      type: string
+      title: Progress indicator label
+    modifier_class:
+      type: string
+      title: Modifier class
+      description: Additional CSS classes.

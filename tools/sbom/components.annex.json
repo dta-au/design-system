@@ -1,0 +1,81 @@
+{
+  "$comment": "Manual SBOM components not derivable from package-lock.json. Merged into generated SBOMs by tools/scripts/sbom-generate.js. targets: dev | dist-sdc | dist-twig | storybook. versionFrom lets the generator resolve a version at run time (sass-embedded); '{version}' in the purl is substituted.",
+  "components": [
+    {
+      "targets": ["storybook"],
+      "component": {
+        "type": "library",
+        "name": "d3",
+        "version": "7.9.0",
+        "purl": "pkg:npm/d3@7.9.0",
+        "licenses": [{ "license": { "id": "ISC" } }],
+        "description": "Vendored D3 bundle for the chart organism, loaded via .storybook/preview-head.html; not part of the published npm packages.",
+        "properties": [
+          {
+            "name": "uikit:vendored-path",
+            "value": "packages/sdc/.storybook/static/d3-vendor/d3.v7.min.js"
+          }
+        ]
+      }
+    },
+    {
+      "targets": ["storybook"],
+      "component": {
+        "type": "library",
+        "name": "d3-sankey",
+        "version": "0.12.3",
+        "purl": "pkg:npm/d3-sankey@0.12.3",
+        "licenses": [{ "license": { "id": "BSD-3-Clause" } }],
+        "description": "Vendored d3-sankey plugin for the chart organism, loaded via .storybook/preview-head.html.",
+        "properties": [
+          {
+            "name": "uikit:vendored-path",
+            "value": "packages/sdc/.storybook/static/d3-vendor/d3-sankey.v0.12.3.min.js"
+          }
+        ]
+      }
+    },
+    {
+      "targets": ["dist-sdc", "dist-twig"],
+      "component": {
+        "type": "file",
+        "name": "arimo-font",
+        "version": "0",
+        "licenses": [{ "license": { "id": "OFL-1.1" } }],
+        "description": "Arimo variable font, bundled at assets/fonts/arimo and shipped in dist/assets/fonts."
+      }
+    },
+    {
+      "targets": ["dist-sdc", "dist-twig"],
+      "component": {
+        "type": "file",
+        "name": "geist-mono-font",
+        "version": "0",
+        "licenses": [{ "license": { "id": "OFL-1.1" } }],
+        "description": "Geist Mono variable font, bundled at assets/fonts/geist-mono and shipped in dist/assets/fonts."
+      }
+    },
+    {
+      "targets": ["dev"],
+      "versionFrom": "sass-embedded",
+      "component": {
+        "type": "application",
+        "name": "dart-sass",
+        "purl": "pkg:generic/dart-sass@{version}",
+        "description": "Native Dart Sass binary shipped inside sass-embedded platform packages; versioned 1:1 with the sass-embedded npm package."
+      }
+    }
+  ],
+  "annotations": [
+    {
+      "targets": ["dev"],
+      "subjectName": "drupal-attribute",
+      "text": "Git-pinned fork override (gitlab.com/richardgaunt, commit 8ba9e77). Not CVE-matchable by scanners; assess manually when the override commit changes."
+    },
+    {
+      "targets": ["dev"],
+      "subjectName": "drupal-twig-extensions",
+      "text": "Git-pinned fork override (github.com/richardgaunt, commit 092058b). Not CVE-matchable by scanners; assess manually when the override commit changes."
+    }
+  ]
+}

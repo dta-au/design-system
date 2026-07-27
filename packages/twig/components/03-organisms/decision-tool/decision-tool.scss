@@ -1,0 +1,490 @@
+//
+// digital.gov.au Decision tool component styles.
+//
+
+.dga-decision-tool {
+  $root: &;
+
+  // Design-system body type (font family + scale). Without this the component's
+  // own text falls back to the browser serif default.
+  @include ct-typography('text-regular');
+
+  display: block;
+  margin: var(--ct-spacing-400, 2rem) 0;
+  color: var(--ct-color-text, #1c1c1c);
+
+  // Scoped border-box: CivicTheme only sets it on grid columns, so padded
+  // full-width children (the option cards) would otherwise overflow.
+  &,
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  &__intro {
+    margin-bottom: var(--ct-spacing-300, 1.5rem);
+  }
+
+  // Visually hidden live region (CivicTheme ct-visually-hidden equivalent,
+  // inlined so the component stays self-contained when vendored).
+  &__status {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  // -- Progress indicator -------------------------------------------------
+  // Composes the progress-nav molecule. The decision tool's JS fills its list
+  // from the visited path (past steps completed, current in-progress); branching
+  // means the total is unknowable, so no counter is shown.
+  &__progress {
+    margin-bottom: var(--ct-spacing-300, 1.5rem);
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  // -- Steps + questions --------------------------------------------------
+  &__step {
+    min-width: 0; // <fieldset> defaults to min-width:min-content; reset it.
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  &__question {
+    @include ct-typography('heading-4');
+
+    display: block;
+    width: 100%;
+    margin-bottom: var(--ct-spacing-200, 1rem);
+    padding: 0;
+  }
+
+  &__question-text {
+    display: inline-block;
+
+    &:focus-visible {
+      outline: 2px solid var(--ct-color-interactive-focus, #0052cc);
+      outline-offset: 4px;
+    }
+  }
+
+  &__help {
+    @include ct-typography('text-small');
+
+    margin: 0 0 var(--ct-spacing-200, 1rem);
+    color: var(--ct-color-text-light, #525252);
+  }
+
+  // -- Options: shared ----------------------------------------------------
+  &__options {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ct-spacing-100, 0.5rem);
+  }
+
+  &__option {
+    cursor: pointer;
+  }
+
+  &__option-input {
+    flex: 0 0 auto;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin: 0.125rem 0 0;
+    accent-color: var(--ct-color-interactive, #0052cc);
+  }
+
+  &__option-body {
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: column;
+    gap: var(--ct-spacing-50, 0.25rem);
+    min-width: 0;
+  }
+
+  &__option-description {
+    @include ct-typography('text-small');
+
+    color: var(--ct-color-text-light, #525252);
+  }
+
+  // -- Options: list style (default) --------------------------------------
+  // A conventional radio/checkbox list. The whole label is the click target
+  // (native), with a light row hover - not a bordered card that would imply a
+  // button.
+  &__options--list {
+    #{$root}__option {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--ct-spacing-100, 0.5rem);
+      padding: var(--ct-spacing-100, 0.5rem);
+      border-radius: var(--ct-border-radius-100, 2px);
+
+      &:hover {
+        background: var(--ct-color-neutral-100, #f4f4f4);
+      }
+
+      &:focus-within {
+        outline: 2px solid var(--ct-color-interactive-focus, #0052cc);
+        outline-offset: 2px;
+      }
+    }
+  }
+
+  // -- Options: card style ------------------------------------------------
+  // A selectable card where the whole card is the intended click target, with a
+  // strong selected state. The native control stays visible as the primary,
+  // non-colour cue (WCAG 1.4.1); the thicker inset border is a redundant signal.
+  &__options--card {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: var(--ct-spacing-200, 1rem);
+
+    #{$root}__option {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--ct-spacing-100, 0.5rem);
+      height: 100%;
+      padding: var(--ct-spacing-200, 1rem);
+      border: 1px solid var(--ct-color-neutral-400, #c6c6c6);
+      border-radius: var(--ct-border-radius-200, 4px);
+      background: var(--ct-color-background, #fff);
+
+      &:hover {
+        border-color: var(--ct-color-interactive, #0052cc);
+        background: var(--ct-color-neutral-100, #f4f4f4);
+      }
+
+      &:has(:checked) {
+        border-color: var(--ct-color-interactive, #0052cc);
+        background: var(--ct-color-neutral-100, #f4f4f4);
+        box-shadow: inset 0 0 0 1px var(--ct-color-interactive, #0052cc);
+      }
+
+      &:focus-within {
+        outline: 2px solid var(--ct-color-interactive-focus, #0052cc);
+        outline-offset: 2px;
+      }
+    }
+  }
+
+  // -- Options: link-card style (auto-advance) ----------------------------
+  // Each option is a card that advances on click - no Next button. The native
+  // radio is the state but visually hidden (the whole card is the control); the
+  // arrow signals that selecting routes onward.
+  &__options--link-card {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: var(--ct-spacing-200, 1rem);
+
+    #{$root}__option {
+      display: flex;
+      align-items: center;
+      gap: var(--ct-spacing-200, 1rem);
+      height: 100%;
+      padding: var(--ct-spacing-200, 1rem);
+      border: 1px solid var(--ct-color-neutral-400, #c6c6c6);
+      border-radius: var(--ct-border-radius-200, 4px);
+      background: var(--ct-color-background, #fff);
+
+      &:hover {
+        border-color: var(--ct-color-interactive, #0052cc);
+        background: var(--ct-color-neutral-100, #f4f4f4);
+
+        #{$root}__option-arrow {
+          transform: translateX(0.25rem);
+        }
+      }
+
+      &:has(:checked) {
+        border-color: var(--ct-color-interactive, #0052cc);
+        box-shadow: inset 0 0 0 1px var(--ct-color-interactive, #0052cc);
+      }
+
+      &:focus-within {
+        outline: 2px solid var(--ct-color-interactive-focus, #0052cc);
+        outline-offset: 2px;
+      }
+    }
+
+    #{$root}__option-input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+  }
+
+  &__option-icon {
+    flex: 0 0 auto;
+    color: var(--ct-color-interactive, #0052cc);
+  }
+
+  &__option-arrow {
+    flex: 0 0 auto;
+    margin-inline-start: auto;
+    font-size: 1.25rem;
+    line-height: 1;
+    color: var(--ct-color-interactive, #0052cc);
+    transition: transform 0.15s ease;
+  }
+
+  // -- Progress bar (NSW-style filled bar) --------------------------------
+  &__bar-label {
+    @include ct-typography('label-regular');
+
+    margin: 0 0 var(--ct-spacing-50, 0.25rem);
+    color: var(--ct-color-text-light, #525252);
+  }
+
+  &__bar-track {
+    overflow: hidden;
+    height: 6px;
+    background: var(--ct-color-neutral-200, #e5e5e5);
+    border-radius: 999px;
+  }
+
+  &__bar-fill {
+    display: block;
+    height: 100%;
+    background: var(--ct-color-interactive, #0052cc);
+    border-radius: 999px;
+    transition: width 0.2s ease;
+  }
+
+  // -- Navigation ---------------------------------------------------------
+  &__nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--ct-spacing-200, 1rem);
+    align-items: center;
+    margin-top: var(--ct-spacing-300, 1.5rem);
+
+    // A class display:flex would otherwise win over the UA [hidden] rule.
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  // The visible advance control is always pushed to the inline end, whether or
+  // not Back is present.
+  &__nav-advance {
+    margin-inline-start: auto;
+  }
+
+  // Back rendered as a link (matching the NSW "← Back").
+  &__back-button.ct-button {
+    padding-inline: 0;
+    border: 0;
+    background: transparent;
+    text-decoration: underline;
+
+    &::before {
+      content: '←';
+      margin-inline-end: 0.25rem;
+    }
+  }
+
+  // -- Result -------------------------------------------------------------
+  &__outcome {
+    &:focus-visible {
+      outline: 2px solid var(--ct-color-interactive-focus, #0052cc);
+      outline-offset: 4px;
+    }
+  }
+
+  &__reference {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--ct-spacing-100, 0.5rem) var(--ct-spacing-200, 1rem);
+    margin: var(--ct-spacing-300, 1.5rem) 0;
+    padding: var(--ct-spacing-200, 1rem);
+    border: 1px dashed var(--ct-color-neutral-400, #c6c6c6);
+    border-radius: var(--ct-border-radius-200, 4px);
+  }
+
+  &__reference-label {
+    @include ct-typography('label-regular');
+  }
+
+  &__code {
+    padding: var(--ct-spacing-50, 0.25rem) var(--ct-spacing-100, 0.5rem);
+    font-family: ct-font('mono');
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    background: var(--ct-color-neutral-100, #f4f4f4);
+    border-radius: var(--ct-border-radius-100, 2px);
+  }
+
+  &__cta {
+    margin-top: var(--ct-spacing-200, 1rem);
+  }
+
+  &__restart {
+    margin-top: var(--ct-spacing-300, 1.5rem);
+  }
+
+  // Outcome "find out more" inline link.
+  &__more-link {
+    margin: var(--ct-spacing-100, 0.5rem) 0 0;
+  }
+
+  // -- Answer summary ("what you have answered") --------------------------
+  &__summary {
+    margin-top: var(--ct-spacing-400, 2rem);
+    padding: var(--ct-spacing-300, 1.5rem);
+    background: var(--ct-color-neutral-100, #f4f4f4);
+    border-radius: var(--ct-border-radius-200, 4px);
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  &__summary-heading {
+    @include ct-typography('text-large');
+
+    margin: 0 0 var(--ct-spacing-200, 1rem);
+    font-weight: 700;
+  }
+
+  &__summary-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__summary-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--ct-spacing-200, 1rem);
+    padding: var(--ct-spacing-200, 1rem) 0;
+
+    & + & {
+      border-top: 1px solid var(--ct-color-neutral-300, #d4d4d4);
+    }
+  }
+
+  &__summary-number {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border: 1px solid var(--ct-color-neutral-400, #c6c6c6);
+    border-radius: 50%;
+    font-size: 0.8125rem;
+    font-weight: 700;
+  }
+
+  &__summary-body {
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: column;
+    gap: var(--ct-spacing-50, 0.25rem);
+    min-width: 0;
+  }
+
+  &__summary-question {
+    font-weight: 600;
+  }
+
+  &__summary-answer {
+    color: var(--ct-color-text-light, #525252);
+  }
+
+  &__summary-change {
+    flex: 0 0 auto;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--ct-color-interactive, #0052cc);
+    font: inherit;
+    font-weight: 600;
+    text-decoration: underline;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 2px solid var(--ct-color-interactive-focus, #0052cc);
+      outline-offset: 2px;
+    }
+  }
+
+  // -- Dark theme ---------------------------------------------------------
+  &.ct-theme-dark,
+  .ct-theme-dark & {
+    color: var(--ct-color-text-on-dark, #fff);
+
+    #{$root}__help,
+    #{$root}__option-description {
+      color: var(--ct-color-text-on-dark, #f4f4f4);
+    }
+
+    #{$root}__options--list #{$root}__option:hover,
+    #{$root}__options--card #{$root}__option:hover,
+    #{$root}__options--link-card #{$root}__option:hover {
+      background: var(--ct-color-neutral-800, #2c2c2c);
+    }
+
+    #{$root}__options--card #{$root}__option,
+    #{$root}__options--link-card #{$root}__option {
+      border-color: var(--ct-color-neutral-600, #6f6f6f);
+      background: var(--ct-color-background-dark, #1c1c1c);
+
+      &:has(:checked) {
+        background: var(--ct-color-neutral-800, #2c2c2c);
+      }
+    }
+
+    #{$root}__bar-label,
+    #{$root}__summary-answer {
+      color: var(--ct-color-neutral-400, #a0a0a0);
+    }
+
+    #{$root}__bar-track {
+      background: var(--ct-color-neutral-700, #333);
+    }
+
+    #{$root}__summary {
+      background: var(--ct-color-neutral-800, #2c2c2c);
+    }
+
+    #{$root}__summary-item + #{$root}__summary-item {
+      border-top-color: var(--ct-color-neutral-700, #333);
+    }
+
+    #{$root}__code {
+      background: var(--ct-color-neutral-800, #2c2c2c);
+      color: var(--ct-color-text-on-dark, #fff);
+    }
+  }
+
+  // -- Forced colours: keep selection + focus perceivable without colour. --
+  @media (forced-colors: active) {
+    #{$root}__options--card #{$root}__option:has(:checked) {
+      outline: 2px solid SelectedItem;
+    }
+
+    #{$root}__question-text:focus-visible,
+    #{$root}__option:focus-within {
+      outline-color: Highlight;
+    }
+  }
+}

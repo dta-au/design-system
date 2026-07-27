@@ -1,0 +1,145 @@
+name: Step by Step Nav
+status: stable
+description: Collapsible numbered steps guiding a user through a sequential process, such as applying for a permit or registering a service.
+props:
+  type: object
+  properties:
+    theme:
+      type: string
+      title: Theme
+      description: Theme variation (light or dark).
+      enum:
+        - light
+        - dark
+    is_contained:
+      type: boolean
+      title: Contained
+      description: Whether to wrap the content in a container.
+      default: true
+    size:
+      type: string
+      title: Size
+      description: Component size. Small is intended for use in a sidebar.
+      enum:
+        - default
+        - small
+    heading_level:
+      type: integer
+      title: Heading level
+      description: HTML heading level for step titles (2–6). Default 2.
+    show_step:
+      type: integer
+      title: Show step
+      description: 1-based index of the step to open on initial load.
+    highlight_step:
+      type: integer
+      title: Highlight step
+      description: 1-based index of the step to visually highlight as the active step (e.g. the current page's step).
+    with_background:
+      type: boolean
+      title: With background
+      description: Whether to display with a background.
+    vertical_spacing:
+      type: string
+      title: Vertical spacing
+      description: Vertical spacing position (top, bottom, both, none).
+      enum:
+        - none
+        - top
+        - bottom
+        - both
+    modifier_class:
+      type: string
+      title: Modifier classes
+      description: Additional CSS classes.
+    steps:
+      type: array
+      title: Steps
+      description: Array of step objects.
+      items:
+        type: object
+        required:
+          - title
+        properties:
+          title:
+            type: string
+            title: Title
+            description: Step heading text.
+          number:
+            type: integer
+            title: Number
+            description: Display number for the step badge. Falls back to loop index if absent. Ignored when logic is set.
+          logic:
+            type: string
+            title: Logic
+            description: Replaces the step number with a logic word ('and' or 'or').
+            enum:
+              - and
+              - or
+          optional:
+            type: boolean
+            title: Optional
+            description: Whether this step is optional. Convey optionality in the step's text content.
+          contents:
+            type: array
+            title: Contents
+            description: Step body content items.
+            items:
+              type: object
+              properties:
+                type:
+                  type: string
+                  title: Type
+                  description: Content type (paragraph, list, substep, heading).
+                  enum:
+                    - paragraph
+                    - list
+                    - substep
+                    - heading
+                text:
+                  type: string
+                  title: Text
+                  description: Used for type=paragraph and type=heading.
+                style:
+                  type: string
+                  title: Style
+                  description: Used for type=list. 'choice' adds bullets and indent.
+                  enum:
+                    - choice
+                optional:
+                  type: boolean
+                  title: Optional
+                  description: Used for type=substep. Marks the substep as optional.
+                contents:
+                  type: array
+                  title: Contents
+                  description: Used for type=list (link items) and type=substep (nested content).
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        title: Type
+                        description: Nested content type (paragraph, list, heading). Used inside substep.
+                      text:
+                        type: string
+                        title: Text
+                        description: Link label, connector text, or heading text.
+                      href:
+                        type: string
+                        title: URL
+                        description: Link destination. If absent the item renders as a text connector.
+                      context:
+                        type: string
+                        title: Context
+                        description: Extra detail shown after the link, typically a fee or time estimate.
+                      active:
+                        type: boolean
+                        title: Active
+                        description: Highlights this link as the current page.
+                      style:
+                        type: string
+                        title: Style
+                        description: List style inside a substep ('choice').
+                        enum:
+                          - choice

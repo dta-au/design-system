@@ -1,0 +1,68 @@
+//
+// digital.gov.au Link List component styles.
+//
+
+.ct-link-list {
+  $root: &;
+
+  #{$root}__title {
+    @include ct-typography('heading-3');
+
+    margin: 0 0 ct-spacing(3);
+  }
+
+  #{$root}__items {
+    display: flex;
+    flex-direction: column;
+    gap: ct-spacing(2);
+  }
+
+  // Connected variant: cards butt together as one bordered group - rounded
+  // outer corners (the clipped container rounds the first/last card), hairline
+  // separators between adjacent cards, no gaps. Grouping lives here because the
+  // list owns layout; the cards stay layout-free and flat. No per-card
+  // elevation - a connected surface takes a single elevation at the group, not
+  // one shadow per card.
+  &--connected {
+    #{$root}__items {
+      gap: 0;
+      border-radius: var(--ct-link-list-connected-border-radius);
+      border: ct-particle(0.0625) solid; // 1px, colour from the theme block
+    }
+
+    // Round the group's outer corners on the first/last card directly. Not via
+    // overflow: hidden on the container - that would also clip the focus ring
+    // of a card inside the group.
+    .ct-link-card {
+      border-radius: 0;
+    }
+
+    .ct-link-card:first-child {
+      border-top-left-radius: var(--ct-link-list-connected-border-radius);
+      border-top-right-radius: var(--ct-link-list-connected-border-radius);
+    }
+
+    .ct-link-card:last-child {
+      border-bottom-left-radius: var(--ct-link-list-connected-border-radius);
+      border-bottom-right-radius: var(--ct-link-list-connected-border-radius);
+    }
+
+    // 1px separator between adjacent cards; the first card's top edge is the
+    // container border.
+    .ct-link-card + .ct-link-card {
+      border-top: ct-particle(0.0625) solid;
+    }
+  }
+
+  @include ct-component-theme($root) using($root, $theme) {
+    &#{$root}--connected {
+      #{$root}__items {
+        @include ct-component-property($root, $theme, connected, border-color);
+      }
+
+      .ct-link-card + .ct-link-card {
+        @include ct-component-property($root, $theme, connected, border-color);
+      }
+    }
+  }
+}

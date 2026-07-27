@@ -1,0 +1,273 @@
+/**
+ * This file was automatically generated. Please run `npm run dist` to update.
+ */
+
+.progress-nav {
+  font-size: var(--ct-typography-text-regular-font-size);
+  line-height: var(--ct-typography-text-regular-line-height);
+  font-family: var(--ct-typography-text-regular-font-name);
+  font-weight: var(--ct-typography-text-regular-font-weight);
+  letter-spacing: var(--ct-typography-text-regular-letter-spacing);
+  background: transparent;
+}
+.progress-nav__list, .progress-nav__sub-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.progress-nav__sub-list {
+  margin-left: 28px;
+  margin-top: -11px;
+}
+.progress-nav__header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 20px;
+}
+.progress-nav__heading {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: var(--ct-color-text-light, #767676);
+}
+.progress-nav__summary {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--ct-color-text-light, #767676);
+}
+.progress-nav__counter {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.25em;
+}
+.progress-nav__current-step, .progress-nav__total-steps {
+  font-size: 0.8125rem;
+  color: var(--ct-color-text-light, #767676);
+}
+.progress-nav__link {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 11px 0;
+  color: var(--ct-color-text-light, #767676);
+  text-decoration: none;
+  cursor: default;
+  transition: color 0.15s ease;
+}
+.progress-nav__link[href] {
+  cursor: pointer;
+}
+.progress-nav__link[href]:hover {
+  color: var(--ct-color-interactive, #00698f);
+  text-decoration: none;
+}
+.progress-nav__link[href]:hover .progress-nav__indicator {
+  color: var(--ct-color-interactive, #00698f);
+}
+.progress-nav__link[href]:focus-visible {
+  outline: 2px solid var(--ct-color-interactive-focus, #00698f);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+.progress-nav__indicator {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+}
+.progress-nav__indicator svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 1px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.progress-nav__label {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  line-height: 1.4;
+}
+.progress-nav__hint {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--ct-color-text-light, #767676);
+}
+.progress-nav__meta {
+  font-size: 0.8125rem;
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--ct-color-text-light, #767676);
+}
+.progress-nav__item + .progress-nav__item {
+  border-top: 1px solid var(--ct-color-neutral-200, #e8e8e8);
+}
+.progress-nav__sub-list .progress-nav__item {
+  border-top: none;
+}
+.progress-nav__sub-list .progress-nav__item > .progress-nav__link {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  font-size: 0.9375rem;
+}
+.progress-nav__item--completed > .progress-nav__link, .progress-nav__item--saved > .progress-nav__link {
+  color: var(--ct-color-text, #1a1a1a);
+}
+.progress-nav__item--completed > .progress-nav__link .progress-nav__indicator svg, .progress-nav__item--saved > .progress-nav__link .progress-nav__indicator svg {
+  fill: var(--ct-color-interactive, #00698f);
+  stroke: var(--ct-color-interactive, #00698f);
+}
+.progress-nav__item--completed > .progress-nav__link .progress-nav__indicator svg polyline, .progress-nav__item--saved > .progress-nav__link .progress-nav__indicator svg polyline {
+  fill: none;
+  stroke: #fff;
+}
+.progress-nav__item--in-progress > .progress-nav__link {
+  color: var(--ct-color-text, #1a1a1a);
+}
+.progress-nav__item--in-progress > .progress-nav__link .progress-nav__indicator {
+  color: var(--ct-color-interactive, #00698f);
+}
+.progress-nav__item--in-progress > .progress-nav__link .progress-nav__indicator svg {
+  fill: none;
+  stroke: var(--ct-color-interactive, #00698f);
+}
+.progress-nav__item--in-progress > .progress-nav__link .progress-nav__indicator svg circle:last-child {
+  fill: var(--ct-color-interactive, #00698f);
+  stroke: var(--ct-color-interactive, #00698f);
+}
+.progress-nav__item--error > .progress-nav__link {
+  color: var(--ct-color-text, #1a1a1a);
+}
+.progress-nav__item--error > .progress-nav__link .progress-nav__indicator {
+  color: var(--ct-color-status-error, #d60000);
+}
+.progress-nav__item--error > .progress-nav__link .progress-nav__indicator svg {
+  fill: var(--ct-color-status-error, #d60000);
+  stroke: var(--ct-color-status-error, #d60000);
+}
+.progress-nav__item--error > .progress-nav__link .progress-nav__indicator svg polygon,
+.progress-nav__item--error > .progress-nav__link .progress-nav__indicator svg circle:last-child {
+  fill: #fff;
+  stroke: none;
+}
+.progress-nav__item--todo > .progress-nav__link .progress-nav__indicator {
+  color: var(--ct-color-text-light, #767676);
+}
+.progress-nav__item--cannot-start-yet > .progress-nav__link {
+  color: var(--ct-color-text-light, #767676);
+  cursor: not-allowed;
+}
+.progress-nav__item--cannot-start-yet > .progress-nav__link .progress-nav__indicator {
+  color: #949494;
+}
+.progress-nav__item.is-active > .progress-nav__link {
+  color: var(--ct-color-interactive, #00698f);
+  font-weight: 600;
+}
+.progress-nav__item.is-active > .progress-nav__link .progress-nav__meta {
+  color: var(--ct-color-interactive, #00698f);
+  opacity: 0.75;
+}
+.progress-nav.ct-theme-dark .progress-nav__heading,
+.progress-nav.ct-theme-dark .progress-nav__summary,
+.progress-nav.ct-theme-dark .progress-nav__current-step,
+.progress-nav.ct-theme-dark .progress-nav__total-steps,
+.progress-nav.ct-theme-dark .progress-nav__hint,
+.progress-nav.ct-theme-dark .progress-nav__meta, .ct-theme-dark .progress-nav .progress-nav__heading,
+.ct-theme-dark .progress-nav .progress-nav__summary,
+.ct-theme-dark .progress-nav .progress-nav__current-step,
+.ct-theme-dark .progress-nav .progress-nav__total-steps,
+.ct-theme-dark .progress-nav .progress-nav__hint,
+.ct-theme-dark .progress-nav .progress-nav__meta {
+  color: var(--ct-color-neutral-400, #a0a0a0);
+}
+.progress-nav.ct-theme-dark .progress-nav__link, .ct-theme-dark .progress-nav .progress-nav__link {
+  color: var(--ct-color-neutral-400, #a0a0a0);
+}
+.progress-nav.ct-theme-dark .progress-nav__link[href]:hover, .ct-theme-dark .progress-nav .progress-nav__link[href]:hover {
+  color: var(--ct-color-interactive, #61daff);
+}
+.progress-nav.ct-theme-dark .progress-nav__link[href]:hover .progress-nav__indicator, .ct-theme-dark .progress-nav .progress-nav__link[href]:hover .progress-nav__indicator {
+  color: var(--ct-color-interactive, #61daff);
+}
+.progress-nav.ct-theme-dark .progress-nav__link[href]:focus-visible, .ct-theme-dark .progress-nav .progress-nav__link[href]:focus-visible {
+  outline-color: var(--ct-color-interactive-focus, #61daff);
+}
+.progress-nav.ct-theme-dark .progress-nav__item + .progress-nav__item, .ct-theme-dark .progress-nav .progress-nav__item + .progress-nav__item {
+  border-top-color: var(--ct-color-neutral-700, #333);
+}
+.progress-nav.ct-theme-dark .progress-nav__item--completed > .progress-nav__link,
+.progress-nav.ct-theme-dark .progress-nav__item--saved > .progress-nav__link, .ct-theme-dark .progress-nav .progress-nav__item--completed > .progress-nav__link,
+.ct-theme-dark .progress-nav .progress-nav__item--saved > .progress-nav__link {
+  color: var(--ct-color-text-on-dark, #f0f0f0);
+}
+.progress-nav.ct-theme-dark .progress-nav__item--completed > .progress-nav__link .progress-nav__indicator svg,
+.progress-nav.ct-theme-dark .progress-nav__item--saved > .progress-nav__link .progress-nav__indicator svg, .ct-theme-dark .progress-nav .progress-nav__item--completed > .progress-nav__link .progress-nav__indicator svg,
+.ct-theme-dark .progress-nav .progress-nav__item--saved > .progress-nav__link .progress-nav__indicator svg {
+  fill: var(--ct-color-interactive, #61daff);
+  stroke: var(--ct-color-interactive, #61daff);
+}
+.progress-nav.ct-theme-dark .progress-nav__item--completed > .progress-nav__link .progress-nav__indicator svg polyline,
+.progress-nav.ct-theme-dark .progress-nav__item--saved > .progress-nav__link .progress-nav__indicator svg polyline, .ct-theme-dark .progress-nav .progress-nav__item--completed > .progress-nav__link .progress-nav__indicator svg polyline,
+.ct-theme-dark .progress-nav .progress-nav__item--saved > .progress-nav__link .progress-nav__indicator svg polyline {
+  fill: none;
+  stroke: #fff;
+}
+.progress-nav.ct-theme-dark .progress-nav__item--in-progress > .progress-nav__link, .ct-theme-dark .progress-nav .progress-nav__item--in-progress > .progress-nav__link {
+  color: var(--ct-color-text-on-dark, #f0f0f0);
+}
+.progress-nav.ct-theme-dark .progress-nav__item--in-progress > .progress-nav__link .progress-nav__indicator, .ct-theme-dark .progress-nav .progress-nav__item--in-progress > .progress-nav__link .progress-nav__indicator {
+  color: var(--ct-color-interactive, #61daff);
+}
+.progress-nav.ct-theme-dark .progress-nav__item--in-progress > .progress-nav__link .progress-nav__indicator svg circle:last-child, .ct-theme-dark .progress-nav .progress-nav__item--in-progress > .progress-nav__link .progress-nav__indicator svg circle:last-child {
+  fill: var(--ct-color-interactive, #61daff);
+  stroke: var(--ct-color-interactive, #61daff);
+}
+.progress-nav.ct-theme-dark .progress-nav__item--error > .progress-nav__link, .ct-theme-dark .progress-nav .progress-nav__item--error > .progress-nav__link {
+  color: var(--ct-color-text-on-dark, #f0f0f0);
+}
+.progress-nav.ct-theme-dark .progress-nav__item--error > .progress-nav__link .progress-nav__indicator, .ct-theme-dark .progress-nav .progress-nav__item--error > .progress-nav__link .progress-nav__indicator {
+  color: var(--ct-color-status-error, #e85653);
+}
+.progress-nav.ct-theme-dark .progress-nav__item--error > .progress-nav__link .progress-nav__indicator svg, .ct-theme-dark .progress-nav .progress-nav__item--error > .progress-nav__link .progress-nav__indicator svg {
+  fill: var(--ct-color-status-error, #e85653);
+  stroke: var(--ct-color-status-error, #e85653);
+}
+.progress-nav.ct-theme-dark .progress-nav__item--error > .progress-nav__link .progress-nav__indicator svg polygon,
+.progress-nav.ct-theme-dark .progress-nav__item--error > .progress-nav__link .progress-nav__indicator svg circle:last-child, .ct-theme-dark .progress-nav .progress-nav__item--error > .progress-nav__link .progress-nav__indicator svg polygon,
+.ct-theme-dark .progress-nav .progress-nav__item--error > .progress-nav__link .progress-nav__indicator svg circle:last-child {
+  fill: #fff;
+  stroke: none;
+}
+.progress-nav.ct-theme-dark .progress-nav__item--todo > .progress-nav__link .progress-nav__indicator, .ct-theme-dark .progress-nav .progress-nav__item--todo > .progress-nav__link .progress-nav__indicator {
+  color: var(--ct-color-neutral-400, #a0a0a0);
+}
+.progress-nav.ct-theme-dark .progress-nav__item--cannot-start-yet > .progress-nav__link, .ct-theme-dark .progress-nav .progress-nav__item--cannot-start-yet > .progress-nav__link {
+  color: var(--ct-color-neutral-400, #a0a0a0);
+}
+.progress-nav.ct-theme-dark .progress-nav__item--cannot-start-yet > .progress-nav__link .progress-nav__indicator, .ct-theme-dark .progress-nav .progress-nav__item--cannot-start-yet > .progress-nav__link .progress-nav__indicator {
+  color: #8a8a8a;
+}
+.progress-nav.ct-theme-dark .progress-nav__item.is-active > .progress-nav__link, .ct-theme-dark .progress-nav .progress-nav__item.is-active > .progress-nav__link {
+  color: var(--ct-color-interactive, #61daff);
+}
+.progress-nav.ct-theme-dark .progress-nav__item.is-active > .progress-nav__link .progress-nav__meta, .ct-theme-dark .progress-nav .progress-nav__item.is-active > .progress-nav__link .progress-nav__meta {
+  color: var(--ct-color-interactive, #61daff);
+}
+@media (forced-colors: active) {
+  .progress-nav .progress-nav__link[href]:focus-visible {
+    outline-color: Highlight;
+  }
+  .progress-nav .progress-nav__item.is-active > .progress-nav__link {
+    color: Highlight;
+  }
+}

@@ -1,0 +1,367 @@
+//
+// digital.gov.au Progress nav component styles.
+//
+
+.progress-nav {
+  $root: &;
+
+  // Design-system body type (font family + base scale).
+  @include ct-typography('text-regular');
+
+  background: transparent;
+
+  // ── Lists ──
+  &__list,
+  &__sub-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__sub-list {
+    margin-left: 28px;
+
+    // Tuck the child under its parent: cancel the parent link's 11px bottom
+    // padding so the nested step hugs the step it belongs to, rather than
+    // floating midway to the next top-level step. Following steps shift up with
+    // it, so the gap below the child is unchanged.
+    margin-top: -11px;
+  }
+
+  // ── Header ──
+  &__header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 20px;
+  }
+
+  &__heading {
+    font-size: 0.6875rem; // 11px
+    font-weight: 700;
+    color: var(--ct-color-text-light, #767676);
+  }
+
+  &__summary {
+    margin: 0;
+    font-size: 0.8125rem; // 13px
+    color: var(--ct-color-text-light, #767676);
+  }
+
+  // Structured "Step N of N" counter - informational, visually unemphasised.
+  &__counter {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.25em;
+  }
+
+  &__current-step,
+  &__total-steps {
+    font-size: 0.8125rem;
+    color: var(--ct-color-text-light, #767676);
+  }
+
+  // ── Step row (link or span) ──
+  &__link {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 11px 0;
+    color: var(--ct-color-text-light, #767676);
+    text-decoration: none;
+    cursor: default;
+    transition: color 0.15s ease;
+
+    // Only navigable (anchor) rows are interactive.
+    &[href] {
+      cursor: pointer;
+
+      &:hover {
+        color: var(--ct-color-interactive, #00698f);
+        text-decoration: none;
+
+        #{$root}__indicator {
+          color: var(--ct-color-interactive, #00698f);
+        }
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--ct-color-interactive-focus, #00698f);
+        outline-offset: 2px;
+        border-radius: 2px;
+      }
+    }
+  }
+
+  // ── SVG status marker ──
+  &__indicator {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    margin-top: 2px; // optical alignment to cap-height
+
+    svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      fill: none;
+      stroke: currentcolor;
+      stroke-width: 1px;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+
+  // ── Label + meta ──
+  &__label {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    line-height: 1.4;
+  }
+
+  &__hint {
+    display: block;
+    margin-top: 2px;
+    font-size: 0.8125rem;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--ct-color-text-light, #767676);
+  }
+
+  &__meta {
+    font-size: 0.8125rem;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--ct-color-text-light, #767676);
+  }
+
+  // ── Separators: thin 1px rule between level-1 steps only ──
+  &__item + &__item {
+    border-top: 1px solid var(--ct-color-neutral-200, #e8e8e8);
+  }
+
+  &__sub-list &__item {
+    border-top: none;
+
+    > #{$root}__link {
+      padding-top: 8px;
+      padding-bottom: 8px;
+      font-size: 0.9375rem; // 15px
+    }
+  }
+
+  // ── Status modifiers ──
+
+  // Completed / saved - filled circle + white check.
+  &__item--completed,
+  &__item--saved {
+    > #{$root}__link {
+      color: var(--ct-color-text, #1a1a1a);
+
+      #{$root}__indicator svg {
+        fill: var(--ct-color-interactive, #00698f);
+        stroke: var(--ct-color-interactive, #00698f);
+
+        polyline {
+          fill: none;
+          stroke: #fff;
+        }
+      }
+    }
+  }
+
+  // In-progress - outline circle + filled inner dot.
+  &__item--in-progress {
+    > #{$root}__link {
+      color: var(--ct-color-text, #1a1a1a);
+
+      #{$root}__indicator {
+        color: var(--ct-color-interactive, #00698f);
+
+        svg {
+          fill: none;
+          stroke: var(--ct-color-interactive, #00698f);
+
+          circle:last-child {
+            fill: var(--ct-color-interactive, #00698f);
+            stroke: var(--ct-color-interactive, #00698f);
+          }
+        }
+      }
+    }
+  }
+
+  // Error - filled circle + white exclamation wedge.
+  &__item--error {
+    > #{$root}__link {
+      color: var(--ct-color-text, #1a1a1a);
+
+      #{$root}__indicator {
+        color: var(--ct-color-status-error, #d60000);
+
+        svg {
+          fill: var(--ct-color-status-error, #d60000);
+          stroke: var(--ct-color-status-error, #d60000);
+
+          polygon,
+          circle:last-child {
+            fill: #fff;
+            stroke: none;
+          }
+        }
+      }
+    }
+  }
+
+  // Todo - dashed ghost circle. Uses the muted text colour (not a lighter ghost)
+  // so the marker meets the 3:1 contrast threshold for UI components (WCAG 1.4.11).
+  &__item--todo {
+    > #{$root}__link #{$root}__indicator {
+      color: var(--ct-color-text-light, #767676);
+    }
+  }
+
+  // Cannot start yet - padlock, muted text, non-interactive. No row opacity
+  // (would drop text below AA); only the icon uses a receded fixed colour that
+  // still meets 3:1 for UI components.
+  &__item--cannot-start-yet {
+    > #{$root}__link {
+      color: var(--ct-color-text-light, #767676);
+      cursor: not-allowed;
+
+      #{$root}__indicator {
+        color: #949494; // 3.03:1 on white - meets WCAG 1.4.11
+      }
+    }
+  }
+
+  // Active step - bold label, brand colour.
+  &__item.is-active {
+    > #{$root}__link {
+      color: var(--ct-color-interactive, #00698f);
+      font-weight: 600;
+
+      #{$root}__meta {
+        color: var(--ct-color-interactive, #00698f);
+        opacity: 0.75;
+      }
+    }
+  }
+
+  // ── Dark theme ──
+  &.ct-theme-dark,
+  .ct-theme-dark & {
+    #{$root}__heading,
+    #{$root}__summary,
+    #{$root}__current-step,
+    #{$root}__total-steps,
+    #{$root}__hint,
+    #{$root}__meta {
+      color: var(--ct-color-neutral-400, #a0a0a0);
+    }
+
+    #{$root}__link {
+      color: var(--ct-color-neutral-400, #a0a0a0);
+
+      &[href]:hover {
+        color: var(--ct-color-interactive, #61daff);
+
+        #{$root}__indicator {
+          color: var(--ct-color-interactive, #61daff);
+        }
+      }
+
+      &[href]:focus-visible {
+        outline-color: var(--ct-color-interactive-focus, #61daff);
+      }
+    }
+
+    #{$root}__item + #{$root}__item {
+      border-top-color: var(--ct-color-neutral-700, #333);
+    }
+
+    #{$root}__item--completed,
+    #{$root}__item--saved {
+      > #{$root}__link {
+        color: var(--ct-color-text-on-dark, #f0f0f0);
+
+        #{$root}__indicator svg {
+          fill: var(--ct-color-interactive, #61daff);
+          stroke: var(--ct-color-interactive, #61daff);
+
+          polyline {
+            fill: none;
+            stroke: #fff;
+          }
+        }
+      }
+    }
+
+    #{$root}__item--in-progress > #{$root}__link {
+      color: var(--ct-color-text-on-dark, #f0f0f0);
+
+      #{$root}__indicator {
+        color: var(--ct-color-interactive, #61daff);
+
+        svg circle:last-child {
+          fill: var(--ct-color-interactive, #61daff);
+          stroke: var(--ct-color-interactive, #61daff);
+        }
+      }
+    }
+
+    #{$root}__item--error > #{$root}__link {
+      color: var(--ct-color-text-on-dark, #f0f0f0);
+
+      #{$root}__indicator {
+        color: var(--ct-color-status-error, #e85653);
+
+        svg {
+          fill: var(--ct-color-status-error, #e85653);
+          stroke: var(--ct-color-status-error, #e85653);
+
+          polygon,
+          circle:last-child {
+            fill: #fff;
+            stroke: none;
+          }
+        }
+      }
+    }
+
+    #{$root}__item--todo > #{$root}__link #{$root}__indicator {
+      color: var(--ct-color-neutral-400, #a0a0a0);
+    }
+
+    #{$root}__item--cannot-start-yet > #{$root}__link {
+      color: var(--ct-color-neutral-400, #a0a0a0);
+
+      #{$root}__indicator {
+        color: #8a8a8a;
+      }
+    }
+
+    #{$root}__item.is-active > #{$root}__link {
+      color: var(--ct-color-interactive, #61daff);
+
+      #{$root}__meta {
+        color: var(--ct-color-interactive, #61daff);
+      }
+    }
+  }
+
+  // Forced colours: keep the active marker + focus perceivable without colour.
+  @media (forced-colors: active) {
+    #{$root}__link[href]:focus-visible {
+      outline-color: Highlight;
+    }
+
+    #{$root}__item.is-active > #{$root}__link {
+      color: Highlight;
+    }
+  }
+}

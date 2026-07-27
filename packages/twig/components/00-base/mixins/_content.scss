@@ -1,0 +1,373 @@
+//
+// Content mixins.
+//
+// Diverges from upstream CivicTheme in three ways: heading margins are
+// retuned, headings/paragraphs/list items get text-wrap + max-width (via
+// $dga-basic-content-* referenced directly - they are static, not themed, so
+// no custom-property indirection), and the hand-rolled ::before list markers
+// are dropped for native list-style with an en-dash marker on nested lists
+// (Style Manual). Native decimal restarts per <ol>, so the upstream counter
+// machinery is gone with it.
+//
+
+@mixin ct-content {
+  @include ct-reset-basic-content();
+  @include ct-typography('text-regular');
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 0;
+    text-wrap: $dga-basic-content-heading-text-wrap;
+    max-width: $dga-basic-content-heading-higher-max-width;
+  }
+
+  h1 {
+    @include ct-typography('heading-1');
+
+    & {
+      margin-bottom: ct-spacing(3);
+    }
+
+    @include ct-breakpoint(m) {
+      margin-bottom: ct-spacing(4);
+    }
+  }
+
+  h2 {
+    @include ct-typography('heading-2');
+
+    & {
+      margin-bottom: ct-spacing(2.5);
+    }
+
+    @include ct-breakpoint(m) {
+      margin-bottom: ct-spacing(3.5);
+    }
+  }
+
+  h3 {
+    @include ct-typography('heading-3');
+
+    & {
+      margin-bottom: ct-spacing(1);
+    }
+
+    @include ct-breakpoint(m) {
+      margin-bottom: ct-spacing(1.5);
+    }
+  }
+
+  h4 {
+    @include ct-typography('heading-4');
+
+    & {
+      margin-bottom: ct-spacing(0.25);
+      max-width: $dga-basic-content-heading-lower-max-width;
+    }
+
+    @include ct-breakpoint(m) {
+      margin-bottom: ct-spacing(0.5);
+    }
+  }
+
+  h5 {
+    @include ct-typography('heading-5');
+
+    & {
+      margin-bottom: ct-spacing(0.25);
+      max-width: $dga-basic-content-heading-lower-max-width;
+    }
+
+    @include ct-breakpoint(m) {
+      margin-bottom: ct-spacing(0.5);
+    }
+  }
+
+  h6 {
+    @include ct-typography('heading-6');
+
+    & {
+      margin-bottom: ct-spacing(0.125);
+      max-width: $dga-basic-content-heading-lower-max-width;
+    }
+
+    @include ct-breakpoint(m) {
+      margin-bottom: ct-spacing(0.25);
+    }
+  }
+
+  p {
+    margin-top: var(--ct-basic-content-vertical-spacing);
+    margin-bottom: var(--ct-basic-content-vertical-spacing);
+    max-width: $dga-basic-content-p-max-width;
+    text-wrap: $dga-basic-content-p-text-wrap;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  &:last-child {
+    p {
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  a:not(.ct-button):not(.ct-link) {
+    @include ct-content-link-base();
+  }
+
+  blockquote {
+    @include ct-typography('quote');
+
+    & {
+      position: relative;
+      margin: 0;
+      margin-top: var(--ct-basic-content-vertical-spacing);
+      margin-bottom: var(--ct-basic-content-vertical-spacing);
+      padding: ct-spacing(2) ct-spacing(3);
+      display: grid;
+    }
+
+    &::before {
+      content: '';
+      width: ct-particle(0.75);
+      height: 100%;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      border-radius: var(--ct-basic-content-blockquote-border-radius);
+    }
+
+    p {
+      @include ct-typography('quote');
+
+      & {
+        margin-bottom: 0;
+        max-width: $dga-basic-content-blockquote-p-max-width;
+        text-wrap: $dga-basic-content-blockquote-p-text-wrap;
+      }
+    }
+
+    cite {
+      @include ct-typography('label-extra-small');
+
+      & {
+        padding-top: ct-spacing(2);
+        font-style: normal;
+        display: block;
+        max-width: $dga-basic-content-blockquote-cite-max-width;
+        text-wrap: $dga-basic-content-blockquote-cite-text-wrap;
+      }
+
+      &::before {
+        content: '-';
+        margin-right: ct-spacing(0.5);
+      }
+    }
+  }
+
+  ul:not(.ct-item-list) {
+    margin-top: var(--ct-basic-content-vertical-spacing);
+    margin-bottom: var(--ct-basic-content-vertical-spacing);
+    padding-left: 2em;
+    list-style-type: disc;
+
+    > li {
+      max-width: $dga-basic-content-heading-lower-max-width;
+      text-wrap: $dga-basic-content-p-text-wrap;
+    }
+
+    // Nested lists get tighter spacing at every depth (ul:not(.ct-item-list)
+    // matches nested uls too); only unordered ones take the en-dash marker -
+    // nested ordered lists keep browser-native numbering.
+    > li > :is(ul, ol) {
+      margin-top: calc(var(--ct-typography-text-regular-line-height) * 0.15);
+      margin-bottom: calc(var(--ct-typography-text-regular-line-height) * 0.25);
+    }
+
+    > li > ul {
+      list-style-type: '\2013\00a0\00a0';
+    }
+  }
+
+  ol:not(.ct-item-list) {
+    margin-top: var(--ct-basic-content-vertical-spacing);
+    margin-bottom: var(--ct-basic-content-vertical-spacing);
+    padding-left: 2em;
+    list-style-type: decimal;
+
+    > li {
+      max-width: $dga-basic-content-heading-lower-max-width;
+      text-wrap: $dga-basic-content-p-text-wrap;
+    }
+
+    > li > :is(ol, ul) {
+      margin-top: calc(var(--ct-typography-text-regular-line-height) * 0.15);
+      margin-bottom: calc(var(--ct-typography-text-regular-line-height) * 0.25);
+    }
+
+    > li > ul {
+      list-style-type: '\2013\00a0\00a0';
+    }
+  }
+
+  img {
+    height: auto;
+    max-width: 100%;
+    margin-top: calc(var(--ct-basic-content-vertical-spacing) * 2);
+    margin-bottom: calc(var(--ct-basic-content-vertical-spacing) * 2);
+  }
+
+  figure {
+    margin-top: calc(var(--ct-basic-content-vertical-spacing) * 2);
+    margin-bottom: calc(var(--ct-basic-content-vertical-spacing) * 2);
+
+    img {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+
+  table {
+    @include ct-table();
+  }
+}
+
+@mixin ct-content-light {
+  color: var(--ct-basic-content-light-base-color);
+
+  h1 {
+    color: var(--ct-basic-content-light-heading-1-color);
+  }
+
+  h2 {
+    color: var(--ct-basic-content-light-heading-2-color);
+  }
+
+  h3 {
+    color: var(--ct-basic-content-light-heading-3-color);
+  }
+
+  h4 {
+    color: var(--ct-basic-content-light-heading-4-color);
+  }
+
+  h5 {
+    color: var(--ct-basic-content-light-heading-5-color);
+  }
+
+  h6 {
+    color: var(--ct-basic-content-light-heading-6-color);
+  }
+
+  a:not(.ct-button):not(.ct-link) {
+    @include ct-content-link-light();
+  }
+
+  blockquote {
+    color: var(--ct-basic-content-light-blockquote-color);
+    background-color: var(--ct-basic-content-light-blockquote-background-color);
+
+    &::before {
+      background-color: var(--ct-basic-content-light-blockquote-stripe-background-color);
+    }
+
+    cite {
+      color: var(--ct-basic-content-light-blockquote-color);
+    }
+  }
+
+  ul:not(.ct-item-list) {
+    > li {
+      color: var(--ct-basic-content-light-ul-li-color);
+    }
+  }
+
+  ol:not(.ct-item-list) {
+    > li {
+      color: var(--ct-basic-content-light-ol-li-color);
+    }
+  }
+
+  table {
+    @include ct-table-light();
+  }
+}
+
+@mixin ct-content-dark {
+  color: var(--ct-basic-content-dark-base-color);
+
+  h1 {
+    color: var(--ct-basic-content-dark-heading-1-color);
+  }
+
+  h2 {
+    color: var(--ct-basic-content-dark-heading-2-color);
+  }
+
+  h3 {
+    color: var(--ct-basic-content-dark-heading-3-color);
+  }
+
+  h4 {
+    color: var(--ct-basic-content-dark-heading-4-color);
+  }
+
+  h5 {
+    color: var(--ct-basic-content-dark-heading-5-color);
+  }
+
+  h6 {
+    color: var(--ct-basic-content-dark-heading-6-color);
+  }
+
+  a:not(.ct-button):not(.ct-link) {
+    @include ct-content-link-dark();
+  }
+
+  blockquote {
+    color: var(--ct-basic-content-dark-blockquote-color);
+    background-color: var(--ct-basic-content-dark-blockquote-background-color);
+
+    &::before {
+      background-color: var(--ct-basic-content-dark-blockquote-stripe-background-color);
+    }
+
+    cite {
+      color: var(--ct-basic-content-dark-blockquote-color);
+    }
+  }
+
+  ul:not(.ct-item-list) {
+    > li {
+      color: var(--ct-basic-content-dark-ul-li-color);
+    }
+  }
+
+  ol:not(.ct-item-list) {
+    > li {
+      color: var(--ct-basic-content-dark-ol-li-color);
+    }
+  }
+
+  table {
+    @include ct-table-dark();
+  }
+}
+
+@mixin ct-content-theme($theme) {
+  @if $theme == 'light' {
+    @include ct-content-light();
+  }
+  @else {
+    @include ct-content-dark();
+  }
+}

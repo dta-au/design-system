@@ -1,0 +1,38 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as Stories from './progress-tracker.stories';
+
+<Meta of={Stories} />
+
+# Progress tracker
+
+A horizontal step tracker: a row of markers joined by a connector line that fills in as the user moves through a flow. It is the compact, horizontal counterpart to the [Progress nav](?path=/docs/forms-progress-nav--docs) task list.
+
+<Canvas of={Stories.Default} />
+
+<Controls of={Stories.Default} />
+
+It uses the `progress-tracker` / `progress-step` / `progress-marker` class language – the same one the NigelOToole progress-tracker and the Drupal Webform progress-tracker integration emit – so these styles also apply to that server-rendered markup.
+
+## When to use
+
+- a short, mostly linear multi-step flow where a compact across-the-top indicator suits the layout
+- you want the markers and the connector to read as one continuous "journey"
+
+## When not to use
+
+- a long list of steps with descriptions – use the [Progress nav](?path=/docs/forms-progress-nav--docs) task list, which has room for status text and hints
+- a single step
+
+## Statuses
+
+Each step takes a `status`:
+
+- **complete** – filled marker with a check; its outgoing connector is brand-coloured
+- **active** – outlined marker with its number and a soft ring; pair with the current step
+- **todo** – outlined marker with its number, muted
+
+## Accessibility
+
+- the active step carries `aria-current="step"`
+- each marker's status is also exposed to assistive tech as visually-hidden text, so it is never signalled by colour alone
+- the check shape (complete) and the ring (active) are non-colour cues

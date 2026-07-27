@@ -1,0 +1,85 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
+name: Table of Contents
+status: stable
+description: Component for page section links table of contents
+props:
+  type: object
+  properties:
+    theme:
+      type: string
+      title: Theme
+      description: Theme variation (light or dark).
+      enum:
+        - light
+        - dark
+    heading_level:
+      type: integer
+      title: Heading level
+      description: Heading level for the title.
+      enum:
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+    is_contained:
+      type: boolean
+      title: Contained
+      description: Whether to wrap the content in a container.
+      default: true
+    title:
+      type: string
+      title: Title
+      description: Link title.
+    position:
+      type: string
+      title: Position
+      description: TOC position relative to the content it lists.
+      enum:
+        - before
+        - after
+        - prepend
+        - append
+    min_level:
+      type: integer
+      title: Minimum heading level
+      description: 'Shallowest heading level to list (2 = h2). Used to build the anchor selector for client-side generation when anchor_selector is not set.'
+      enum:
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+    max_level:
+      type: integer
+      title: Maximum heading level
+      description: 'Deepest heading level to list (3 = down to h3). Nested __links are rendered to this depth and no deeper. Used to build the anchor selector for client-side generation when anchor_selector is not set.'
+      enum:
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+    anchor_selector:
+      type: string
+      title: Anchor Selector
+      description: 'Explicit CSS selector for headings to include (e.g. ''h2, h3''). Overrides min_level/max_level for client-side generation when set.'
+    scope_selector:
+      type: string
+      title: Scope Selector
+      description: CSS selector for the content area to generate the TOC from (client-side generation).
+    exclude_selector:
+      type: string
+      title: Exclude Selector
+      description: 'CSS selector list of headings to exclude from client-side generation (e.g. ''.no-toc, #intro''). Individual headings can also opt out with a data-toc-exclude attribute.'
+    modifier_class:
+      type: string
+      title: Modifier Class
+      description: Additional CSS classes.
+slots:
+  links:
+    title: Links
+    description: 'Table of contents links. Each item has title, url and an optional children array of the same shape for nested levels.'
+  content:
+    title: Content
+    description: Content (only displays when links are not provided).

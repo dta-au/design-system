@@ -1,0 +1,175 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
+name: Chart
+status: experimental
+description: 'Accessible data chart progressively enhanced from a fallback HTML data table. Renders bar, line, pie, and stacked-bar charts with D3. WCAG 2.1 AA.'
+props:
+  type: object
+  required:
+    - chart_id
+    - chart_type
+  properties:
+    chart_id:
+      type: string
+      title: 'Chart ID'
+      description: 'Unique, sanitised DOM id. Used to wire aria-labelledby and aria-describedby.'
+    chart_type:
+      type: string
+      title: 'Chart type'
+      enum:
+        - bar
+        - grouped_bar
+        - stacked_bar
+        - line
+        - pie
+        - sankey
+        - lollipop
+        - cleveland
+        - flow
+    title:
+      type: string
+      title: 'Chart title'
+      description: 'Plain-text title rendered in the figcaption and referenced by aria-labelledby.'
+    description:
+      type: string
+      title: 'Chart description'
+      description: 'Plain-text description referenced by aria-describedby. Authors should explain what the chart shows and the source of the data.'
+    theme:
+      type: string
+      title: Theme
+      enum:
+        - light
+        - dark
+      default: light
+    heading_level:
+      type: integer
+      title: Heading level
+      description: Heading level for the title.
+      enum:
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+    source_mode:
+      type: string
+      title: 'Source mode'
+      description: 'How the chart data is provided.'
+      enum:
+        - csv
+        - json
+        - url
+    source_url:
+      type: string
+      title: 'Source URL'
+      description: 'data.gov.au URL emitted only after server-side host allowlist validation in chart_postprocess.inc.'
+    source_page_url:
+      type: string
+      title: 'Source page URL'
+      description: 'Optional human-readable landing page for the data source (url mode only). When set, the toolbar "View source" link targets this instead of the raw data endpoint in source_url. Falls back to source_url when empty.'
+    x_key:
+      type: string
+      title: 'X axis key'
+      description: 'Field name that identifies the category for each data point.'
+    y_keys:
+      type: array
+      title: 'Y axis keys'
+      description: 'Field names rendered as series.'
+      items:
+        type: string
+    x_label:
+      type: string
+      title: 'X axis label'
+      description: 'Display label shown on the X axis and in the data table header. Defaults to x_key.'
+    y_label:
+      type: string
+      title: 'Y axis label'
+      description: 'Display label shown on the Y axis. Defaults to the first y_key.'
+    rows:
+      type: array
+      title: 'Pre-parsed rows'
+      description: 'Server-side parsed and sanitised data rows. Rendered as the fallback table and used as the chart data source when source_mode is csv or json.'
+      items:
+        type: object
+    flow_table:
+      type: boolean
+      title: 'Flow-style fallback table'
+      description: 'When true, the fallback <table> renders 3 columns (source / target / value) instead of the standard X / Y layout. Used by sankey and flow chart types.'
+      default: false
+    source_label:
+      type:
+        - string
+        - "null"
+      title: 'Source-column header (flow table)'
+      description: 'Header for the first column of the sankey/flow fallback table. Auto-populated server-side from node prefixes for a 2-stage graph (e.g. "2025" when node ids look like "2025: High"). Null falls through to the generic "From" string in the template.'
+    target_label:
+      type:
+        - string
+        - "null"
+      title: 'Target-column header (flow table)'
+      description: 'Header for the second column of the sankey/flow fallback table. Auto-populated server-side from node prefixes; null falls through to "To".'
+    value_label:
+      type: string
+      title: 'Value-column header (flow table)'
+      description: 'Header for the third (numeric) column of the sankey/flow fallback table. Defaults to the y_label when the author has set one, else "Count".'
+    median_value:
+      type:
+        - number
+        - "null"
+      title: 'Median value'
+      description: 'Optional reference-line value for the lollipop chart. Computed server-side from the primary Y series.'
+    config_json:
+      type: string
+      title: 'Config JSON'
+      description: 'Pre-encoded JSON config (rows, keys, labels, source mode) emitted into a <script type="application/json" data-bdga-chart-config> island inside the figure. Single source of truth for the JS renderer. Encoded with JSON_HEX_TAG | JSON_HEX_AMP server-side so author-supplied strings cannot break out of the script context.'
+    toolbar:
+      type: boolean
+      title: 'Toolbar'
+      description: 'Render an accessible toolbar with a "View as table" control and an overflow menu (data download for local data, or a "View source" link in url mode). Progressive enhancement: the menu is built by JavaScript, and the data table stays reachable without it via its own disclosure.'
+      default: false
+    downloads:
+      type: array
+      title: 'Data downloads'
+      description: 'Client-side download formats offered in the toolbar overflow menu for local (csv/json) data. Ignored in url mode, which links to the source instead. CSV is the recommended default; JSON is a secondary convenience.'
+      default:
+        - csv
+      items:
+        type: string
+        enum:
+          - csv
+          - json
+    legend:
+      type: boolean
+      title: 'Interactive legend'
+      description: 'Render an interactive legend whose items toggle series visibility (hover/focus highlights, click hides/shows). Auto-enabled for the multi-series renderers (grouped_bar, stacked_bar, pie); set true to force it on elsewhere. The legend is an enhancement on top of the directly-labelled chart and the data table, not a replacement for either.'
+      default: false
+    texture:
+      type: boolean
+      title: 'Texture fills'
+      description: 'Apply SVG pattern fills (hatch, dots, cross-hatch) in addition to colour on the categorical multi-series renderers (grouped_bar, stacked_bar, pie), so adjacent series stay distinguishable for colour-blind users. A redundant cue stacked on the colour-blind-safe palette, not a replacement for it; off by default to avoid clutter.'
+      default: false
+    zoom:
+      type: boolean
+      title: 'Zoom controls'
+      description: 'Add keyboard-accessible Zoom in / out / reset controls to the toolbar for the ordinal cartesian types (bar, line, lollipop). Narrows the x-axis window to the data; +/-/0 also zoom when a data point is focused. This is data-domain zoom, separate from browser reflow zoom (which the SVG already supports).'
+      default: false
+    filters:
+      type: array
+      title: 'Filters'
+      description: 'Interactive client-side filter controls, one per entry. The renderer builds a control per dimension and applies the selection before drawing; within a filter the selected values are OR-ed, across filters AND-ed. The fallback data table is unaffected. Carried to the renderer through config_json (the JS reads filters from the data island, not this prop directly); set the prop so the filter-bar container renders.'
+      items:
+        type: object
+        properties:
+          key:
+            type: string
+            title: 'Column key'
+            description: 'Field name to filter on. Use a dimension/category column or the X key, not a numeric measure.'
+          label:
+            type: string
+            title: 'Control label'
+            description: 'Visible label for the control. Defaults to the column key.'
+          values:
+            type: array
+            title: 'Offered values'
+            description: 'Optional allow-list of values to offer. When omitted, the renderer derives the distinct values from the data.'
+            items:
+              type: string

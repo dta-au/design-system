@@ -1,0 +1,51 @@
+//
+// CivicTheme Attachment component styles.
+//
+
+.ct-attachment {
+  $root: &;
+
+  #{$root}__wrapper {
+    border: solid ct-particle(0.125);
+    border-radius: var(--ct-attachment-border-radius);
+    padding: ct-spacing(3);
+
+    @include ct-breakpoint(m) {
+      padding: ct-spacing(4);
+    }
+  }
+
+  #{$root}__title {
+    @include ct-typography('heading-4');
+
+    margin-bottom: ct-spacing(2);
+  }
+
+  #{$root}__content {
+    margin-bottom: ct-spacing(2);
+  }
+
+  #{$root}__links .ct-item-list__item {
+    display: flex;
+    gap: 0 ct-spacing();
+  }
+
+  #{$root}__links__link__extension {
+    text-transform: uppercase;
+  }
+
+  @include ct-component-theme($root) using($root, $theme) {
+    @include ct-component-property($root, $theme, color);
+
+    #{$root}__wrapper {
+      @include ct-component-property($root, $theme, border-color);
+      @include ct-component-property($root, $theme, background-color);
+    }
+
+    // with_background fills the card itself rather than banding around it, so
+    // the card stays flush with its container.
+    &#{$root}--with-background #{$root}__wrapper {
+      @include ct-component-property($root, $theme, wrapper, background-color);
+    }
+  }
+}

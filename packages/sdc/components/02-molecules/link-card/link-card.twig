@@ -1,0 +1,115 @@
+{#
+/**
+ * @file
+ * digital.gov.au Link Card component.
+ *
+ * Props:
+ * - theme: [string] Theme variation (light or dark).
+ * - heading_level: [integer] Optional heading level for the title. Unset keeps the plain element.
+ * - variant: [string] Card type. "download" marks a downloadable file, shows a download icon, and renders the optional file extension and size. Otherwise the card shows a directional arrow (internal or external).
+ * - is_secured: [boolean] Marks a secured/gated resource. Adds a padlock icon beside the type icon and a visually-hidden "(secured)" notice. Orthogonal to variant, so a download can also be secured. Not recommended on external links - the destination owns its own authentication.
+ * - title: [string] Link text, rendered in label weight.
+ * - url: [string] Link URL. The whole card is the link target. Optional when the card is deactivated.
+ * - file_extension: [string] File extension label shown after the title on the download variant, e.g. "PDF". Ignored on other variants.
+ * - file_size: [string] File size label shown after the title on the download variant, e.g. "1.2 MB". Ignored on other variants.
+ * - is_external: [boolean] Whether the link is external.
+ * - is_new_window: [boolean] Whether to open the link in a new window.
+ * - is_deactivated: [boolean] Render the card in a non-interactive, deactivated state with no link target. Used for secured resources that are locked until the user signs in.
+ * - modifier_class: [string] Additional CSS classes.
+ * - attributes: [Drupal\Core\Template\Attribute] Additional HTML attributes.
+ *
+ * Blocks:
+ * - link_block
+ */
+#}
+
+{% set title_tag = heading_level in [2, 3, 4, 5, 6] ? 'h%d'|format(heading_level) : 'span' %}
+
+{% set theme = theme in ['light', 'dark'] ? theme : 'light' %}
+{% set variant = variant in ['default', 'download'] ? variant : 'default' %}
+
+{% set theme_class = 'ct-theme-%s'|format(theme) %}
+{% set variant_class = 'ct-link-card--%s'|format(variant) %}
+{% set secured_class = is_secured ? 'ct-link-card--secured' : '' %}
+{% set deactivated_class = is_deactivated ? 'ct-link-card--deactivated' : '' %}
+{% set modifier_class = '%s %s %s %s %s'|format(theme_class, variant_class, secured_class, deactivated_class, modifier_class|default('')) %}
+
+{% set icon_symbol = variant == 'download'
+  ? 'download'
+  : (is_external ? 'upper-right-arrow' : 'right-arrow-2') %}
+
+{# A deactivated card is a locked/denied resource, so it always shows the
+   padlock (never the directional arrow, which would imply it's navigable). #}
+{% set show_lock = is_secured or is_deactivated %}
+
+{% if title is not empty and (url is not empty or is_deactivated) %}
+  <div
+    class="ct-link-card {{ modifier_class|trim }}"
+    data-component-name="ct-link-card"
+    {%- if attributes is defined and attributes is not null %} {{- attributes -}}{% endif %}
+  >
+    {% block link_block %}
+      {# a11y #A: deactivated link - aria-disabled + tabindex="-1" + omit href.
+         Never emit `disabled` on <a>. #}
+      <a
+        class="ct-link-card__link"
+        {%- if is_deactivated %} aria-disabled="true" tabindex="-1"
+        {%- else %} href="{{ url }}"
+          {%- if is_new_window %} target="_blank"{% endif %}
+          {%- if is_external or is_new_window %} rel="noopener noreferrer"{% endif %}
+        {%- endif %}
+      >
+        <{{ title_tag }} class="ct-link-card__title">{{ title }}</{{ title_tag }}>
+
+        {# Download meta: extension + size sit beside the title, held at the
+           resting link colour (they don't shift on hover). #}
+        {% if variant == 'download' %}
+          {% if file_extension is not empty %}
+            <span class="ct-link-card__meta ct-link-card__meta--extension">{{ file_extension }}</span>
+          {% endif %}
+          {% if file_size is not empty %}
+            <span class="ct-link-card__meta ct-link-card__meta--size">{{ file_size }}</span>
+          {% endif %}
+        {% endif %}
+
+        {# a11y #B: new-tab notice - append via visually-hidden span. #}
+        {% if is_new_window and not is_deactivated %}
+          <span class="ct-visually-hidden"> (opens in a new tab)</span>
+        {% endif %}
+
+        {# Secured notice: the padlock below is decorative (aria-hidden), so the
+           locked state needs a text equivalent appended to the link. #}
+        {% if show_lock %}
+          <span class="ct-visually-hidden"> (secured)</span>
+        {% endif %}
+
+        {# Trailing indicators, pinned right: the padlock (when locked) and/or
+           the type icon. Both decorative (aria-hidden) - the padlock's meaning
+           is carried by the visually-hidden notice above. A deactivated card
+           shows the padlock alone; the arrow is dropped so it does not imply
+           the card is navigable. #}
+        <span class="ct-link-card__indicators">
+          {% if show_lock %}
+            {# a11y #C: decorative icon - aria-hidden so AT does not double-announce. #}
+            <span class="ct-link-card__icon ct-link-card__icon--secured" aria-hidden="true">
+              {% include 'civictheme:icon' with {
+                symbol: 'padlock',
+                size: 'small',
+              } only %}
+            </span>
+          {% endif %}
+
+          {% if not is_deactivated %}
+            {# a11y #C: decorative icon - aria-hidden so AT does not double-announce. #}
+            <span class="ct-link-card__icon" aria-hidden="true">
+              {% include 'civictheme:icon' with {
+                symbol: icon_symbol,
+                size: 'small',
+              } only %}
+            </span>
+          {% endif %}
+        </span>
+      </a>
+    {% endblock %}
+  </div>
+{% endif %}

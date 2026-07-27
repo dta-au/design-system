@@ -1,0 +1,14 @@
+{/* Editorial body is shared with the design library – edit ./webform.md, not this file. */}
+
+import { Meta, Canvas, Controls, Markdown } from '@storybook/addon-docs/blocks';
+import * as Stories from './webform.stories';
+import body from './webform.md?raw';
+
+<Meta of={Stories} />
+
+# Webform
+
+<Canvas of={Stories.Webform} />
+<Controls of={Stories.Webform} />
+
+<Markdown>{body.replace(/^---[\s\S]*?---\s*/, '')}</Markdown>

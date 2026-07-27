@@ -1,0 +1,64 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as Stories from './step-by-step-nav.stories';
+
+<Meta of={Stories} />
+
+# Step by step nav
+
+Collapsible numbered steps that guide a user through a sequential journey – applying for a permit, registering a service, starting a business. Each step expands to show its tasks, with links into the pages where the work happens.
+
+<Canvas of={Stories.StepByStepNav} />
+
+<Controls of={Stories.StepByStepNav} />
+
+It follows the step by step navigation pattern from the GOV.UK Design System: the component is the map of a whole journey, published once and linked from every page that belongs to it, so users always know where they are and what comes next.
+
+## When to use
+
+- a journey with a clear start and end that spans multiple pages or services
+- steps that are mostly completed in order, where "what do I do next" is the user's real question
+- content owned by several teams or services that needs one authoritative sequence
+
+## When not to use
+
+- a single form or transaction – use **Progress nav**, which tracks a user's own progress through known steps
+- content that is a list of related links with no order – use a **Link list**
+- a branching check where the next step depends on answers – use the **Decision tool**, which shows only the path taken
+
+Step by step nav describes the journey; Progress nav describes the user's position in a flow they are filling in. The step by step map is the same for everyone, which is what lets it be published as content.
+
+## Anatomy of a step
+
+- **Number** – the badge is decorative (`aria-hidden`); the ordered list conveys sequence to assistive tech. A step can override its display number.
+- **Logic words** – `logic: 'and'` or `'or'` replaces the number when a step is not really sequential: "and" for a task done alongside the previous step, "or" for an alternative to it. Use them sparingly; every logic word weakens the sequence the pattern exists to show.
+- **Optional steps** – flag with `optional: true` and say so in the step's own text. Optionality that lives only in styling is invisible to assistive tech.
+- **Contents** – paragraphs, headings, lists of links, and sub-steps. A link can carry a `context` note for the detail people scan for (a fee, a processing time).
+
+<Canvas of={Stories.WithLinks} />
+
+## Behaviour
+
+Steps are collapsible, all closed by default, with a JS-injected "Show all steps" toggle that expands or collapses everything at once. Two props tie the component to the page it sits on: `show_step` opens one step on load, and `highlight_step` marks the step the current page belongs to. Set both when embedding the nav on a page that is itself part of the journey – arriving users see their own step open and marked. `active: true` on a link highlights the current page within the step.
+
+The `small` size is for a sidebar placement of the same journey, typically on the pages the steps link to.
+
+<Canvas of={Stories.Small} />
+
+## Accessibility
+
+- each step title is a real `<button>` inside a heading, with `aria-expanded` and `aria-controls` over the panel; `heading_level` adapts the heading to the host page's outline
+- the "Show all steps" toggle carries `aria-expanded` and updates its label between show and hide
+- step numbers are `aria-hidden`; sequence comes from the ordered list
+- convey optionality and alternatives in text (step titles, "or" items), never in colour or badge styling alone
+
+## Do
+
+- keep step titles short, action-led, and matching the pages they link to
+- put a fee or time estimate in the link's `context` rather than the link text
+- set `show_step` and `highlight_step` on journey pages so the nav reflects where the user is
+
+## Don't
+
+- build a journey more than roughly eight steps long – split the journey instead
+- use it to decorate a list of links that has no real order
+- hide required detail inside collapsed steps that users must read before starting – put it on the page, not in the map

@@ -1,0 +1,117 @@
+{#
+/**
+ * @file
+ * digital.gov.au Feature Link List component.
+ *
+ * Props:
+ * - theme: [string]
+ * - heading_level: [integer] Heading level for the title.
+ * - vertical_spacing: [string]
+ * - with_background: [boolean]
+ * - is_contained: [boolean] Whether to wrap the content in a container.
+ * - title: [string]
+ * - icon_leading: [boolean]
+ * - icon_leading_symbol: [string]
+ * - items: [array] :
+ *   Each item contains:
+ *   - title: [string]
+ *   - description: [string]
+ *   - url: [string]
+ *   - icon: [string]
+ *   - is_external: [boolean]
+ *   - is_new_window: [boolean]
+ * - modifier_class: [string]
+ * - attributes: [Drupal\Core\Template\Attribute] Additional HTML attributes.
+ *
+ * Blocks:
+ * - title_block
+ * - items_block
+ */
+#}
+
+{% set heading_level = heading_level in [2, 3, 4, 5, 6] ? heading_level : 4 %}
+
+{% set theme = theme in ['light', 'dark'] ? theme : 'light' %}
+{% set vertical_spacing = vertical_spacing in ['top', 'bottom', 'both', 'none'] ? vertical_spacing : null %}
+{% set icon_leading = icon_leading ?? false %}
+{% set icon_leading_symbol = icon_leading_symbol|default('prompt-suggestion') %}
+
+{% set is_contained = is_contained is not same as(false) %}
+
+{% set theme_class = 'ct-theme-%s'|format(theme) %}
+{% set spacing_class = vertical_spacing ? 'ct-vertical-spacing-inset--%s'|format(vertical_spacing) : '' %}
+{% set background_class = with_background ? 'ct-feature-link-list--with-background' : '' %}
+{% set not_contained_class = not is_contained ? 'ct-feature-link-list--not-contained' : '' %}
+{% set leading_class = icon_leading ? 'ct-feature-link-list--icon-leading' : '' %}
+{% set modifier_class = '%s %s %s %s %s %s'|format(theme_class, spacing_class, background_class, not_contained_class, leading_class, modifier_class|default('')) %}
+
+{% if items is not empty %}
+  <div
+    class="ct-feature-link-list {{ modifier_class|trim }}"
+    data-component-name="ct-feature-link-list"
+    {%- if attributes is defined and attributes is not null %} {{- attributes -}}{% endif %}
+  >
+    {% if is_contained %}
+    <div class="container">
+      <div class="row">
+        <div class="col-xxs-12">
+          {% endif %}
+          {% block title_block %}
+            {% if title is not empty %}
+              {% include 'civictheme:heading' with {
+                content: title,
+                level: heading_level,
+                theme: theme,
+                modifier_class: 'ct-feature-link-list__title',
+              } only %}
+            {% endif %}
+          {% endblock %}
+
+          {% block items_block %}
+            <ul class="ct-feature-link-list__items">
+              {% for item in items %}
+                {% if item.title is not empty and item.url is not empty %}
+                  <li class="ct-feature-link-list__item">
+                    <a
+                      class="ct-feature-link-list__link"
+                      href="{{ item.url }}"
+                      {%- if item.is_new_window %} target="_blank"{% endif %}
+                      {%- if item.is_external or item.is_new_window %} rel="noopener noreferrer"{% endif %}
+                    >
+                      {% if icon_leading %}
+                        <span class="ct-feature-link-list__icon ct-feature-link-list__icon--leading" aria-hidden="true">
+                          {% include 'civictheme:icon' with {
+                            symbol: item.icon|default(icon_leading_symbol),
+                            size: 'small',
+                          } only %}
+                        </span>
+                      {% endif %}
+
+                      <span class="ct-feature-link-list__content">
+                        <span class="ct-feature-link-list__link-title">{{ item.title }}</span>
+                        {% if item.description is not empty %}
+                          <span class="ct-feature-link-list__description">{{ item.description }}</span>
+                        {% endif %}
+                      </span>
+
+                      {% if not icon_leading %}
+                        <span class="ct-feature-link-list__icon" aria-hidden="true">
+                          {% include 'civictheme:icon' with {
+                            symbol: item.is_external ? 'upper-right-arrow' : 'right-arrow-2',
+                            size: 'small',
+                          } only %}
+                        </span>
+                      {% endif %}
+                    </a>
+                  </li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          {% endblock %}
+          {% if is_contained %}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+{% endif %}

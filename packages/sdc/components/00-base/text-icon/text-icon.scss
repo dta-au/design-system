@@ -1,0 +1,12 @@
+//
+// CivicTheme Text Icon component styles.
+//
+
+.ct-text-icon {
+  &__group {
+    // Must stay a non-atomic inline. An atomic inline (inline-flex,
+    // inline-block) stops the link's underline propagating into the group, so
+    // the last word would lose the line the rest of the label keeps.
+    white-space: nowrap;
+  }
+}

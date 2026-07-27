@@ -1,0 +1,59 @@
+{#
+/**
+ * @file
+ * digital.gov.au Progress tracker component.
+ *
+ * Props:
+ * - theme: [string] Theme variation (light or dark).
+ * - steps: [array] Ordered steps. Each step is an object with: title (label under the marker, optional), status (complete, active, or todo), and href (optional link).
+ *   Each item contains:
+ *   - items [object]
+ * - modifier_class: [string] Additional CSS classes.
+ * - attributes: [Drupal\Core\Template\Attribute] Additional HTML attributes.
+ */
+#}
+
+{% set theme_class = 'ct-theme-%s'|format(theme|default('light')) %}
+{% set modifier_class = '%s %s'|format(theme_class, modifier_class|default('')) %}
+
+{% if steps is not empty %}
+  <ol class="progress-tracker {{ modifier_class -}}" {% if attributes is defined and attributes is not null %}{{- attributes -}}{% endif %}>
+    {% for step in steps %}
+      {% set status = step.status in ['complete', 'active'] ? step.status : 'todo' %}
+      {% set step_classes = 'progress-step' %}
+      {% if status == 'complete' %}{% set step_classes = step_classes ~ ' is-complete' %}
+      {% elseif status == 'active' %}{% set step_classes = step_classes ~ ' is-active' %}{% endif %}
+      <li class="{{ step_classes }}"{% if status == 'active' %} aria-current="step"{% endif %}>
+        {% set marker %}
+          <span class="progress-marker" aria-hidden="true">
+            {%- if status == 'complete' -%}
+              <svg class="progress-marker__icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                <polyline points="5 12.5 10 17.5 19 7"/>
+              </svg>
+            {%- else -%}
+              {{ loop.index }}
+            {%- endif -%}
+          </span>
+          {% if step.title %}
+            <span class="progress-text">
+              <span class="progress-title">{{ step.title }}</span>
+            </span>
+          {% endif %}
+          {# a11y: status conveyed to AT, not by colour alone. #}
+          <span class="ct-visually-hidden">
+            {%- if status == 'complete' -%} (completed)
+            {%- elseif status == 'active' -%} (current step)
+            {%- else -%} (not started)
+            {%- endif -%}
+          </span>
+        {% endset %}
+
+        {% if step.href %}
+          <a class="progress-step__link" href="{{ step.href }}">{{ marker }}</a>
+        {% else %}
+          {{ marker }}
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ol>
+{% endif %}

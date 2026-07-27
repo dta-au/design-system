@@ -1,0 +1,83 @@
+//
+// CivicTheme Promo component styles.
+//
+
+.ct-promo {
+  $root: &;
+
+  &#{$root}--with-background {
+    @include ct-breakpoint(m) {
+      padding-left: var(--ct-promo-space-horizontal);
+      padding-right: var(--ct-promo-space-horizontal);
+    }
+  }
+
+  // Nested in a parent column: band padding collapses to a panel inset.
+  // Top/bottom borders stay as-is - a full border box is a signup-specific
+  // idea, not the default nested treatment.
+  &#{$root}--with-background#{$root}--not-contained {
+    padding: ct-spacing(3);
+  }
+
+  & {
+    border-top: solid ct-particle(0.125);
+    border-bottom: solid ct-particle(0.125);
+  }
+
+  &__wrapper {
+    padding: ct-spacing(3) 0;
+
+    @include ct-breakpoint(m) {
+      padding: ct-spacing(7) 0;
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  &__inner {
+    @include ct-breakpoint(m) {
+      flex-grow: 1;
+      padding-right: ct-spacing(5);
+    }
+  }
+
+  &__links {
+    margin-top: ct-spacing(3);
+
+    @include ct-breakpoint(m) {
+      margin-top: 0;
+    }
+  }
+
+  &__title {
+    @include ct-typography('heading-4');
+
+    margin-bottom: ct-spacing(1);
+  }
+
+  &__content {
+    margin-left: auto;
+  }
+
+  &__button {
+    width: auto;
+
+    @include ct-breakpoint(m) {
+      white-space: nowrap;
+    }
+  }
+
+  @include ct-component-theme($root) using($root, $theme) {
+    // Nested in a column: the panel takes the surface colour, not the section
+    // band colour, so it reads as a card rather than a squeezed band.
+    &#{$root}--with-background#{$root}--not-contained {
+      @include ct-component-property($root, $theme, surface, background-color);
+    }
+
+    @include ct-component-property($root, $theme, border-color);
+
+    &#{$root}--with-background {
+      @include ct-component-property($root, $theme, background-color);
+    }
+  }
+}

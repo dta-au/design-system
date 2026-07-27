@@ -1,0 +1,41 @@
+{/* Editorial guidance for the data-vis colour palettes. Specimens render from data-vis.stories.js. */}
+
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as Stories from './data-vis.stories';
+
+<Meta of={Stories} />
+
+# Data visualisation colour
+
+The data-visualisation palette, anchored on the primary navy and shared across charts. Two palettes carry meaning: categorical for distinct, unordered groups, and sequential for ordered data. Colour encodes meaning – reach for these before adding more colours.
+
+## Categorical
+
+Distinct, unordered groups – chart series, named categories. Six fixed, colour-blind-safe colours, navy first.
+
+- **Cap at six.** Past that, adjacent colours stop being tellable apart, and colour-vision deficiency makes it worse.
+- **For more groups**, reduce the categories, colour by a meaningful dimension instead, or lean on labels and position.
+
+Use the CVD simulation to check the set holds up under the three common colour-vision deficiencies.
+
+<Canvas of={Stories.Categorical} />
+
+## Sequential
+
+Ordered data – ranks, confidence tiers, time. A single-hue navy ramp from darkest to lightest, with a pale grey reserved for no-data or suppressed values.
+
+Use sparingly: adjacent steps do not meet contrast on their own. Always pair the ramp with another cue – data labels, patterns, or position. Three values use Dark/Mid/Light; four add Darkest; five use the full ramp.
+
+<Canvas of={Stories.Sequential} />
+
+## Choosing the scheme
+
+A chart's `color_by` is the explicit control over how colour is assigned.
+
+<Canvas of={Stories.ColourScheme} />
+
+## Accessibility
+
+- The categorical set is colour-blind-safe, but colour is never the sole cue – keep labels, legends and position.
+- The sequential ramp is not contrast-safe step-to-step; pair it with data labels or patterns.
+- The CVD toggle on the specimens above simulates deuteranopia, protanopia and tritanopia.

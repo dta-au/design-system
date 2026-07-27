@@ -1,0 +1,65 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as Stories from './filterable-table.stories';
+
+<Meta of={Stories} />
+
+# Filterable table
+
+Per-column filter controls that progressively enhance a table already on the page. The component renders only the controls; it targets the table by element id and filters its rows client-side.
+
+<Canvas of={Stories.FilterableTable} />
+
+<Controls of={Stories.FilterableTable} />
+
+The separation is the design. The table stays a plain, accessible table – authored, indexed and readable with or without JavaScript – and the filters are an additive layer an editor points at it. Nothing is fetched and no markup is injected into the data: filtering matches the rendered cell text and hides non-matching rows.
+
+## When to use
+
+- a reference table long enough that scanning fails and readers arrive looking for one row
+- the data is already on the page as a table – the component filters what is there, it is not a search
+- editors need to add filtering to authored tables without touching the table markup
+
+## When not to use
+
+- a table short enough to scan – controls above a ten-row table are overhead
+- searching a dataset that is not on the page – that is a search results page, not a table filter
+- cells that carry complex markup rather than plain values – matching is on cell text
+
+## Configuring columns
+
+`columns` mirrors the table's columns left to right. Each gets a `label` (shown above its control) and a `filter_type`:
+
+- **text** – a substring match, for free-text columns like names or descriptions
+- **select** – exact match; the options are populated at runtime from the column's distinct values. Use for low-cardinality columns (status, category, year)
+- **none** – no control; the column still counts in the left-to-right order
+
+## Sorting composes, separately
+
+Sorting is deliberately not a feature of this component. Add the `ct-table--sortable` class to the target table and the **Table sort** atom enhances the same headings independently. The two know nothing about each other, so either can be used alone and both together.
+
+<Canvas of={Stories.FilterableTableSortable} />
+
+## Filtering a definition list
+
+`target_type: list` points the same controls at a `<dl>` (the **Summary list** atom's element). List rows carry `data-filter-col-N` attributes, which decouples the filterable value from the displayed text – a glossary can display rich content while filtering on clean machine values.
+
+<Canvas of={Stories.FilterableList} />
+
+## Accessibility
+
+- the target table is a real table and keeps working when JavaScript is unavailable – the controls simply do not render their effects
+- every control has a label; the control group carries `role="group"` with an accessible name
+- the result count is a `role="status"` live region, so assistive tech hears "N of M rows shown" as filters change
+- filtered-out rows get the `hidden` attribute – removed from the accessibility tree, not just visually hidden
+
+## Do
+
+- match filter `label`s to the visible column headings, in the same order
+- prefer `select` wherever the column's values repeat – it shows users what they can ask for
+- use `data-filter-col-N` (list mode) or plain cell values when the displayed text is not the value to match
+
+## Don't
+
+- point two filterable-table instances at the same target id
+- filter a column whose cells combine several values in prose – split the column instead
+- reach for it when the real need is search over content that is not on the page

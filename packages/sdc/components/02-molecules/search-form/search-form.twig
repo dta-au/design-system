@@ -1,0 +1,68 @@
+{#
+/**
+ * @file
+ * digital.gov.au Search Form component.
+ *
+ * Props:
+ * - theme: [string] Theme variation (light or dark).
+ * - action: [string] Form action URL (the search results page).
+ * - input_name: [string] DOM name / query parameter the keyword is submitted as.
+ * - input_id: [string] Input DOM id, used to associate the visible label.
+ * - label: [string] Label text displayed inside the input at rest; covered by the input on focus or when a value is present.
+ * - placeholder: [string,null] Placeholder text for the input.
+ * - value: [string,null] Pre-filled keyword value.
+ * - button_text: [string] Accessible (visually hidden) label for the icon-only submit button.
+ * - modifier_class: [string] Additional CSS classes.
+ * - attributes: [Drupal\Core\Template\Attribute] Additional HTML attributes.
+ */
+#}
+
+{% set theme = theme in ['light', 'dark'] ? theme : 'light' %}
+{% set theme_class = 'ct-theme-%s'|format(theme) %}
+{% set modifier_class = '%s %s'|format(theme_class, modifier_class|default(''))|trim %}
+{% set input_id = input_id|default('ct-search-form-input') %}
+
+{%- set input_attributes = create_attribute({
+  enterkeyhint: 'search',
+  autocomplete: 'off',
+}) -%}
+
+<form
+  class="ct-search-form {{ modifier_class -}}"
+  method="get"
+  action="{{ action|default('/search') }}"
+  role="search"
+  {% if attributes is defined and attributes is not null %}{{- attributes -}}{% endif %}
+>
+  <div class="ct-search-form__control">
+    <div class="ct-search-form__field" data-search-form-field>
+      {% include 'civictheme:label' with {
+        theme: theme,
+        content: label|default('Search'),
+        size: 'small',
+        for: input_id,
+        modifier_class: 'ct-field__title ct-search-form__label',
+      } only %}
+      {% include 'civictheme:input' with {
+        theme: theme,
+        type: 'search',
+        name: input_name|default('keywords'),
+        id: input_id,
+        value: value,
+        placeholder: placeholder,
+        modifier_class: 'ct-search-form__input',
+        attributes: input_attributes,
+      } only %}
+    </div>
+
+    {# a11y: decorative icon hidden from AT; the button carries a visually-hidden
+       accessible name. Styled wholly by this component so its CSS auto-loads
+       without depending on civictheme:button being rendered on the page. #}
+    <button type="submit" class="ct-search-form__submit">
+      <span class="ct-search-form__submit-icon" aria-hidden="true">
+        {% include 'civictheme:icon' with { symbol: 'magnifier', size: 'regular' } only %}
+      </span>
+      <span class="ct-visually-hidden">{{ button_text|default('Search') }}</span>
+    </button>
+  </div>
+</form>

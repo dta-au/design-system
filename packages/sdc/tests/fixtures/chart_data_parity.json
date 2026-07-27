@@ -1,0 +1,293 @@
+{
+    "is_numeric": [
+        {
+            "value": "5",
+            "expect": true
+        },
+        {
+            "value": "5.",
+            "expect": true
+        },
+        {
+            "value": ".5",
+            "expect": true
+        },
+        {
+            "value": "5.5",
+            "expect": true
+        },
+        {
+            "value": "1e3",
+            "expect": true
+        },
+        {
+            "value": ".5e-3",
+            "expect": true
+        },
+        {
+            "value": "+5",
+            "expect": true
+        },
+        {
+            "value": "-0.0",
+            "expect": true
+        },
+        {
+            "value": " 5 ",
+            "expect": true
+        },
+        {
+            "value": "0",
+            "expect": true
+        },
+        {
+            "value": 42,
+            "expect": true
+        },
+        {
+            "value": 3.14,
+            "expect": true
+        },
+        {
+            "value": 0,
+            "expect": true
+        },
+        {
+            "value": "",
+            "expect": false
+        },
+        {
+            "value": ".",
+            "expect": false
+        },
+        {
+            "value": "1,000",
+            "expect": false
+        },
+        {
+            "value": "0x1A",
+            "expect": false
+        },
+        {
+            "value": "0b1",
+            "expect": false
+        },
+        {
+            "value": "5px",
+            "expect": false
+        },
+        {
+            "value": "e3",
+            "expect": false
+        },
+        {
+            "value": "+",
+            "expect": false
+        },
+        {
+            "value": "  ",
+            "expect": false
+        },
+        {
+            "value": "\t5\n",
+            "expect": true
+        },
+        {
+            "value": "007",
+            "expect": true
+        },
+        {
+            "value": "0.",
+            "expect": true
+        },
+        {
+            "value": "  -.5E+2  ",
+            "expect": true
+        },
+        {
+            "value": "1e",
+            "expect": false
+        },
+        {
+            "value": " ",
+            "expect": false
+        },
+        {
+            "value": "1.2.3",
+            "expect": false
+        },
+        {
+            "value": "1_000",
+            "expect": false
+        },
+        {
+            "value": "INF",
+            "expect": false
+        },
+        {
+            "value": "NAN",
+            "expect": false
+        }
+    ],
+    "autodetect": [
+        {
+            "records": [
+                {
+                    "year": "2020",
+                    "value": "10",
+                    "count": "5"
+                }
+            ],
+            "expect": {
+                "x_key": "year",
+                "y_keys": [
+                    "value",
+                    "count"
+                ]
+            }
+        },
+        {
+            "records": [
+                {
+                    "region": "NSW",
+                    "pop": "100"
+                }
+            ],
+            "expect": {
+                "x_key": "region",
+                "y_keys": [
+                    "pop"
+                ]
+            }
+        },
+        {
+            "records": [
+                {
+                    "label": "A",
+                    "clean": "7",
+                    "padded": " 10 "
+                }
+            ],
+            "expect": {
+                "x_key": "label",
+                "y_keys": [
+                    "clean",
+                    "padded"
+                ]
+            }
+        },
+        {
+            "records": [
+                {
+                    "label": "A",
+                    "num": "5",
+                    "comma": "1,000"
+                }
+            ],
+            "expect": {
+                "x_key": "label",
+                "y_keys": [
+                    "num"
+                ]
+            }
+        },
+        {
+            "records": [
+                {
+                    "year": "2020",
+                    "month": "3"
+                }
+            ],
+            "expect": {
+                "x_key": "year",
+                "y_keys": [
+                    "month"
+                ]
+            }
+        },
+        {
+            "records": [
+                {
+                    "a": "1",
+                    "b": "2"
+                }
+            ],
+            "expect": {
+                "x_key": "a",
+                "y_keys": [
+                    "b"
+                ]
+            }
+        },
+        {
+            "records": [
+                {
+                    "name": "x",
+                    "amount": 42
+                }
+            ],
+            "expect": {
+                "x_key": "name",
+                "y_keys": [
+                    "amount"
+                ]
+            }
+        },
+        {
+            "records": [
+                {
+                    "cat": "a",
+                    "v": "1"
+                },
+                {
+                    "cat": "b",
+                    "v": "2"
+                }
+            ],
+            "expect": {
+                "x_key": "cat",
+                "y_keys": [
+                    "v"
+                ]
+            }
+        }
+    ],
+    "key_absent": [
+        {
+            "csv": "label,val\nA,1",
+            "x_hint": "label",
+            "y_hint": [],
+            "expect_error": false
+        },
+        {
+            "csv": "label,val\nA,1",
+            "x_hint": "missing",
+            "y_hint": [],
+            "expect_error": true
+        },
+        {
+            "csv": "label,val\nA,1",
+            "x_hint": "",
+            "y_hint": [
+                "nope"
+            ],
+            "expect_error": true
+        },
+        {
+            "csv": "label,val\nA,1",
+            "x_hint": "",
+            "y_hint": [
+                "val"
+            ],
+            "expect_error": false
+        },
+        {
+            "csv": "region,count\nNSW,12\nVIC,oops",
+            "x_hint": "region",
+            "y_hint": [
+                "count"
+            ],
+            "expect_error": false
+        }
+    ]
+}

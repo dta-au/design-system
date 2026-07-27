@@ -1,0 +1,44 @@
+{/* Editorial guidance aligned with the digital.gov.au design library (dga-dl /src/content/foundations/typography). */}
+
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as Stories from './typography.stories';
+
+<Meta of={Stories} />
+
+# Typography
+
+The type system: font families, weights, the type scale, line heights, and letter spacing.
+
+<Canvas of={Stories.Typography} />
+
+## Font families
+
+- **Body and headings – Arimo.** Self-hosted variable woff2 (OFL), metric-compatible with Arial, so the system fallback matches while the font loads. Drives every heading, text, and label style.
+- **Monospace – Geist Mono.** Self-hosted variable woff2 (OFL), applied to `code`, `kbd`, `samp`, and `pre`. Use it for code and technical identifiers only – not for UI text that happens to need alignment.
+
+Both fonts are served from the theme's own assets rather than a third-party CDN, so pages make fewer cross-origin requests.
+
+## Weights
+
+- **Regular `400`** – body copy, paragraphs, list items
+- **SemiBold `600`** – labels
+- **Bold `700`** – headings, display, strong callouts
+
+Avoid weights below `400` in UI contexts – they reduce legibility at small sizes.
+
+## Line height
+
+Line heights follow a small, fixed scale:
+
+- **1.25** for headings – keeps multi-line headings compact.
+- **1.5** for body and long-form reading text – the default reading rhythm.
+
+Labels stay tight (around 1.25) as single-line UI text.
+
+## Letter spacing
+
+None. Type is set at its natural tracking. Arimo is an evenly-spaced, neutral face that needs no optical correction, and fixed-pixel tracking would not scale with a user's font-size preference.
+
+## Type scale
+
+Sizes are defined in `rem` so they respect the user's browser font-size setting. Each step also shifts its line height to stay on the scale above, so size and rhythm move together across breakpoints.
