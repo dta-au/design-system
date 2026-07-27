@@ -1,3 +1,10 @@
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset=".github/assets/logo-dark.svg">
+    <img alt="digital.gov.au" src=".github/assets/logo-light.svg" width="300" height="60">
+  </picture>
+</p>
+
 <h1 align="center">DTA design system</h1>
 
 <div align="center">
