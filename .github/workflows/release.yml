@@ -168,7 +168,7 @@ jobs:
     if: needs.publish.outputs.is_latest == 'true'
     runs-on: ubuntu-latest
     steps:
-      - name: Dispatch uikit-released to dga-dl
+      - name: Dispatch uikit-released to design-system-docs
         # version + package are authoritative; the receiver installs the named
         # package at that version, so a package rename never strands the pin.
         env:
@@ -180,5 +180,5 @@ jobs:
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${DISPATCH_PAT}" \
             -H "X-GitHub-Api-Version: 2026-03-10" \
-            https://api.github.com/repos/JamesFehon-DTA/dga-dl/dispatches \
+            https://api.github.com/repos/dta-au/design-system-docs/dispatches \
             -d "{\"event_type\":\"uikit-released\",\"client_payload\":{\"version\":\"${VERSION}\",\"npm_tag\":\"${NPM_TAG}\",\"package\":\"@dta-au/designsystem-twig\"}}"
