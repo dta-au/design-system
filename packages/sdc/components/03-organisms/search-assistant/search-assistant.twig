@@ -244,7 +244,7 @@
                               {% if prompt.url %}
                                 <a class="dga-search-assistant__prompt-link" href="{{ prompt.url }}">
                                   <span class="dga-search-assistant__prompt-icon" aria-hidden="true">
-                                    {% include 'civictheme:icon' with { symbol: 'prompt-suggestion', size: 'small' } only %}
+                                    {% include 'civictheme:icon' with {symbol: 'prompt-suggestion', size: 'small'} only %}
                                   </span>
                                   <span class="dga-search-assistant__prompt-text">{{ prompt.title }}</span>
                                 </a>
@@ -258,7 +258,7 @@
                                   aria-controls="{{ prompt_panel_id }}"
                                 >
                                   <span class="dga-search-assistant__prompt-icon" aria-hidden="true">
-                                    {% include 'civictheme:icon' with { symbol: 'prompt-suggestion', size: 'small' } only %}
+                                    {% include 'civictheme:icon' with {symbol: 'prompt-suggestion', size: 'small'} only %}
                                   </span>
                                   <span class="dga-search-assistant__prompt-text">{{ prompt.title }}</span>
                                   {# a11y #C: decorative chevron - aria-hidden so AT does not double-announce. #}
@@ -336,7 +336,7 @@
                           {% include 'civictheme:snippet' with {
                             theme: theme,
                             title: result.title,
-                            link: { text: result.title, url: result.url },
+                            link: {text: result.title, url: result.url},
                             summary: result.snippet,
                             content_middle: result_meta,
                           } only %}
@@ -379,7 +379,7 @@
                         {% include 'civictheme:snippet' with {
                           theme: theme,
                           title: result.title,
-                          link: { text: result.title, url: result.url },
+                          link: {text: result.title, url: result.url},
                           summary: result.snippet,
                           content_middle: result_meta,
                         } only %}

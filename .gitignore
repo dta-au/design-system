@@ -2,7 +2,6 @@
 .tmp
 .twig-cs-fixer.cache
 build
-composer.lock
 node_modules
 storybook-static
 vendor

@@ -60,7 +60,7 @@
        without depending on @atoms/button/button.twig being rendered on the page. #}
     <button type="submit" class="ct-search-form__submit">
       <span class="ct-search-form__submit-icon" aria-hidden="true">
-        {% include '@base/icon/icon.twig' with { symbol: 'magnifier', size: 'regular' } only %}
+        {% include '@base/icon/icon.twig' with {symbol: 'magnifier', size: 'regular'} only %}
       </span>
       <span class="ct-visually-hidden">{{ button_text|default('Search') }}</span>
     </button>
