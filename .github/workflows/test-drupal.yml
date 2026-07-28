@@ -1,15 +1,23 @@
 name: Test Drupal
 permissions:
   contents: read
+# Markdown is path-ignored: nothing in the Drupal build reads it, and the
+# sqlite-from-source compile makes this the most expensive run in the repo.
 on:
   pull_request:
     branches:
       - main
       - 'feature/**'
       - 'project/**'
+    paths-ignore:
+      - '**/*.md'
+      - 'guidance/**'
   push:
     branches:
       - main
+    paths-ignore:
+      - '**/*.md'
+      - 'guidance/**'
 
 
 

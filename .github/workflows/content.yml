@@ -1,0 +1,39 @@
+name: Content
+
+# Structural gate for the shared content corpus – guidance/** and the component
+# .md twins. validate-content-md.js imports only fs/path/url, so this needs no
+# npm install, no PHP and no build. It exists so test.yml and test-drupal.yml can
+# path-ignore documentation without leaving the corpus ungated.
+
+permissions:
+  contents: read
+
+on:
+  pull_request:
+    branches:
+      - main
+      - 'feature/**'
+      - 'project/**'
+    paths:
+      - 'guidance/**'
+      - 'packages/sdc/components/**/*.md'
+  push:
+    branches:
+      - main
+    paths:
+      - 'guidance/**'
+      - 'packages/sdc/components/**/*.md'
+
+jobs:
+  validate-content:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Validate shared content structure
+        run: node tools/scripts/validate-content-md.js

@@ -5,15 +5,26 @@ permissions:
   deployments: write
   statuses: write
 
+# guidance/**, docs/** and root readmes go to content.yml instead. Component .md
+# twins are deliberately absent from the ignore list: components:update mirrors
+# them into packages/twig, so components:check has to see them.
 on:
   pull_request:
     branches:
       - main
       - 'feature/**'
       - 'project/**'
+    paths-ignore:
+      - 'guidance/**'
+      - 'docs/**'
+      - '*.md'
   push:
     branches:
       - main
+    paths-ignore:
+      - 'guidance/**'
+      - 'docs/**'
+      - '*.md'
 
 jobs:
   test:
