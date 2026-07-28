@@ -100,7 +100,7 @@ export function mergeAnnex(sbom, annex, target) {
     sbom.annotations = sbom.annotations || [];
     sbom.annotations.push({
       subjects: [subject['bom-ref']],
-      annotator: { organization: { name: 'DTA - civictheme-uikit' } },
+      annotator: { organization: { name: 'DTA - design-system' } },
       timestamp: new Date().toISOString(),
       text: annotation.text,
     });
@@ -187,7 +187,7 @@ export function stampVersion(sbom, version) {
 function appendToolEntry(sbom, version) {
   sbom.metadata.tools = sbom.metadata.tools || [];
   sbom.metadata.tools.push({
-    name: 'civictheme-uikit-sbom-generate',
+    name: 'design-system-sbom-generate',
     version,
   });
 }
@@ -222,9 +222,9 @@ function buildStorybookSbom(annex, version) {
       timestamp: new Date().toISOString(),
       tools: [],
       component: {
-        'bom-ref': `civictheme-uikit-storybook@${version}`,
+        'bom-ref': `design-system-storybook@${version}`,
         type: 'application',
-        name: 'civictheme-uikit-storybook',
+        name: 'design-system-storybook',
         version,
         description:
           'Static SDC Storybook deployed to GitHub Pages. Contains vendored runtime assets only; the bundled Storybook build subset of devDependencies is intentionally not enumerated - see docs/sbom.md.',
@@ -235,17 +235,17 @@ function buildStorybookSbom(annex, version) {
         'bom-ref': `@dta-au/designsystem-sdc@${version}`,
         type: 'library',
         group: '@dta-au',
-        name: 'civictheme-uikit',
+        name: 'designsystem-sdc',
         version,
-        purl: `pkg:npm/%40dta-au/civictheme-uikit@${version}`,
+        purl: `pkg:npm/%40dta-au/designsystem-sdc@${version}`,
       },
       {
         'bom-ref': `@dta-au/designsystem-twig@${version}`,
         type: 'library',
         group: '@dta-au',
-        name: 'civictheme-twig',
+        name: 'designsystem-twig',
         version,
-        purl: `pkg:npm/%40dta-au/civictheme-twig@${version}`,
+        purl: `pkg:npm/%40dta-au/designsystem-twig@${version}`,
       },
     ],
     dependencies: [],

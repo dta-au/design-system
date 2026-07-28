@@ -100,7 +100,7 @@
       "version": "1.14.0",
       "scope": "required",
       "description": "CivicTheme UI Kit for Single Directory Components (Drupal)",
-      "purl": "pkg:npm/%40dta-au/civictheme-uikit@1.14.0",
+      "purl": "pkg:npm/%40dta-au/designsystem-sdc@1.14.0",
       "properties": [
         {
           "name": "cdx:npm:package:path",

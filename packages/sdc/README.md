@@ -1,4 +1,4 @@
-# @dta-au/civictheme-uikit
+# @dta-au/designsystem-sdc
 
 CivicTheme UI Kit for Drupal Single Directory Components. Each component ships its own Twig, YAML schema, CSS, and JS under `components/` for per-component attachment by Drupal.
 
@@ -10,7 +10,7 @@ CivicTheme UI Kit for Drupal Single Directory Components. Each component ships i
 
 ## Chart data contract
 
-`@dta-au/civictheme-uikit/chart.data` resolves the shared chart data module: ESM for bundlers, UMD (global `bdgaChartData`) as the default for classic scripts.
+`@dta-au/designsystem-sdc/chart.data` resolves the shared chart data module: ESM for bundlers, UMD (global `bdgaChartData`) as the default for classic scripts.
 
 ## Styles
 
@@ -18,4 +18,4 @@ CivicTheme UI Kit for Drupal Single Directory Components. Each component ships i
 - `dist/civictheme.variables.css` – CSS custom properties
 - per-component `*.css` files compiled next to their source under `components/`
 
-Issues and source live in the repository at https://github.com/JamesFehon-DTA/civictheme-uikit.
+Issues and source live in the repository at https://github.com/dta-au/design-system.

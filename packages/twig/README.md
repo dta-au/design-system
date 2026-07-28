@@ -1,4 +1,4 @@
-# @dta-au/civictheme-twig
+# @dta-au/designsystem-twig
 
 CivicTheme UI Kit for Twig – components plus compiled CSS/JS distributables for non-Drupal consumers.
 
@@ -15,7 +15,7 @@ Load it as a classic script:
 Or import the ES module build, which exports `attach` and `behaviours`:
 
 ```js
-import { attach } from '@dta-au/civictheme-twig';
+import { attach } from '@dta-au/designsystem-twig';
 ```
 
 `dist/civictheme.storybook.js` is a byte-identical alias kept for consumers of the old storybook artifact – switch to `dist/civictheme.js`.
@@ -29,4 +29,4 @@ import { attach } from '@dta-au/civictheme-twig';
 
 Twig templates, SCSS, and behaviour JS live under `components/`, mirrored from the SDC package in this repo. Behaviour files are plain classic scripts; a behaviour authored as an ES module must `export default` its init function, and the bundler resolves its imports.
 
-Issues and source live in the repository at https://github.com/JamesFehon-DTA/civictheme-uikit.
+Issues and source live in the repository at https://github.com/dta-au/design-system.

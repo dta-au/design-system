@@ -14,7 +14,7 @@
     "styleguide"
   ],
   "homepage": "https://github.com/dta-au/design-system",
-  "bugs": "https://github.com/JamesFehon-DTA/civictheme-uikit/issues",
+  "bugs": "https://github.com/dta-au/design-system/issues",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dta-au/design-system.git"

@@ -9,7 +9,7 @@ The UIKit repo is the hub. One monorepo (root is `private`) publishes two packag
 - **`@dta-au/designsystem-sdc`** (`packages/sdc/`) is the source of truth. Drupal's SDC plugin consumes its `.component.yml` + twig + per-component CSS directly; it ships per-component CSS, not a monolithic stylesheet.
 - **`@dta-au/designsystem-twig`** (`packages/twig/`) is the Drupal-agnostic derivative. Its build emits the monolithic `civictheme.css`, so non-Drupal consumers render from it.
 
-Both publish from the same tag at the same version. The interim hub is the fork `dta-au/design-system` (with `upstream` = `civictheme/uikit`); the canonical repo will become `dta-au/design-system`. Storybook deploys to GitHub Pages and the docs site (`JamesFehon-DTA/dga-dl`) is notified by `repository_dispatch`.
+Both publish from the same tag at the same version. The canonical repo is `dta-au/design-system`, which keeps `upstream` = `civictheme/uikit` as a local git remote for cherry-picks – it is not a GitHub fork. Storybook deploys to GitHub Pages and the docs site (`dta-au/design-system-docs`) is notified by `repository_dispatch`.
 
 ## npm name as the abstraction
 
@@ -42,10 +42,10 @@ bdga currently sits in a mixed 1.8.2 / 1.12.2 state and does not pin cleanly to 
 2. `npm ci`, set both workspace versions from the tag, `npm run dist`.
 3. Publish each package with `--provenance --access public --tag <dist-tag>` (provenance needs `id-token: write` and the matching `repository` field).
 4. Current line only: build the SDC Storybook and deploy to GitHub Pages.
-5. Current line only: `repository_dispatch` (`uikit-released`, payload `version`) to `JamesFehon-DTA/dga-dl`.
+5. Current line only: `repository_dispatch` (`uikit-released`, payload `version`) to `dta-au/design-system-docs`.
 
-The dga-dl receiver (`astro.yml`) handles the dispatch by bumping its exact `@dta-au/designsystem-twig` pin to the dispatched version, re-syncing the package's `dist/` assets into `public/`, committing the pin back with `[skip ci]`, then building and deploying. The committed pin is the source of truth, so docs never drift from components.
+The design-system-docs receiver (`astro.yml`) handles the dispatch by bumping its exact `@dta-au/designsystem-twig` pin to the dispatched version, re-syncing the package's `dist/` assets into `public/`, committing the pin back with `[skip ci]`, then building and deploying. The committed pin is the source of truth, so docs never drift from components.
 
 To cut a release: check out the line branch (`main` for 1.13, `dta-1.12` for 1.12), confirm `package-lock.json` matches the `@dta-au` package names, then `git tag v1.13.1 && git push origin v1.13.1`.
 
-First-time setup on the fork: enable Actions (a new fork disables all workflows until the owner confirms in the Actions tab), enable Pages on both repos, regenerate `package-lock.json` for the renamed packages, and provision `NPM_TOKEN` (granular, publish-only) and `DISPATCH_PAT` (fine-grained, Contents: read and write on dga-dl). The first publish bootstraps dga-dl's dependency; until then its sync script no-ops. Pinned actions: `actions/checkout@v6`, `actions/setup-node@v6`, `actions/upload-pages-artifact@v5`, `actions/deploy-pages@v5`.
+Publishing auth: both packages use npm **trusted publishing (OIDC)**, configured per package on npmjs.com. There is no `NPM_TOKEN` secret – `release.yml` only needs `id-token: write` plus a `repository` field matching `dta-au/design-system` exactly. The one secret is `DISPATCH_PAT` (fine-grained, Contents: read and write on `dta-au/design-system-docs`), used for both dispatches. Pinned actions: `actions/checkout@v6`, `actions/setup-node@v6`, `actions/upload-pages-artifact@v5`, `actions/deploy-pages@v5`.
