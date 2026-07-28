@@ -174,6 +174,7 @@ html {
   --ct-search-bar-dark-input-focus-outline-color: var(--ct-color-dark-interaction-focus);
   --ct-table-of-contents-light-link-stripe-background-color: var(--ct-color-light-border);
   --ct-table-of-contents-dark-link-stripe-background-color: var(--ct-color-dark-border-light);
+  --ct-table-of-contents-link-deep-font-size: 0.8125rem;
   --ct-tabs-light-links-stripe-border-color: var(--ct-color-light-border);
   --ct-tabs-dark-links-stripe-border-color: var(--ct-color-dark-border);
   --ct-tabs-light-links-underline-border-color: var(--ct-color-light-interaction-background);

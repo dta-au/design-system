@@ -1646,6 +1646,7 @@
     "ct-search-bar-dark-input-border-color": "ct-color-dark('border-light')",
     "ct-search-bar-dark-input-focus-border-color": "ct-color-dark('interaction-background')",
     "ct-search-bar-dark-input-focus-outline-color": "ct-color-dark('interaction-focus')",
+    "ct-table-of-contents-link-deep-font-size": "ct-particle(1.625)",
     "ct-tabs-light-links-stripe-border-color": "ct-color-light('border')",
     "ct-tabs-dark-links-stripe-border-color": "ct-color-dark('border')",
     "ct-tabs-light-links-underline-border-color": "ct-color-light('interaction-background')",

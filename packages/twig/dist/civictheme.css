@@ -9928,8 +9928,11 @@ ol {
   padding: 0;
   margin: 0;
 }
-.ct-table-of-contents__links--child {
-  padding-left: 1.25rem;
+.ct-table-of-contents__links--child .ct-table-of-contents__link {
+  padding-left: 2rem;
+}
+.ct-table-of-contents__links--child .ct-table-of-contents__links--child .ct-table-of-contents__link {
+  font-size: var(--ct-table-of-contents-link-deep-font-size);
 }
 .ct-table-of-contents__link {
   font-size: var(--ct-typography-label-extra-small-font-size);
@@ -14990,6 +14993,7 @@ html {
   --ct-search-bar-dark-input-focus-outline-color: var(--ct-color-dark-interaction-focus);
   --ct-table-of-contents-light-link-stripe-background-color: var(--ct-color-light-border);
   --ct-table-of-contents-dark-link-stripe-background-color: var(--ct-color-dark-border-light);
+  --ct-table-of-contents-link-deep-font-size: 0.8125rem;
   --ct-tabs-light-links-stripe-border-color: var(--ct-color-light-border);
   --ct-tabs-dark-links-stripe-border-color: var(--ct-color-dark-border);
   --ct-tabs-light-links-underline-border-color: var(--ct-color-light-interaction-background);

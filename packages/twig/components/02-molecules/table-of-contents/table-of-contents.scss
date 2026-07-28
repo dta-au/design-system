@@ -41,9 +41,18 @@
     padding: 0;
     margin: 0;
 
-    // Nested levels (h3+) indent under their parent link.
+    // Nested links (h3+) indent their text one step, keeping every link box
+    // – and its stripe – flush with the component's left edge.
     &--child {
-      padding-left: ct-spacing(2.5);
+      #{$root}__link {
+        padding-left: ct-spacing(4);
+      }
+
+      // Third level and deeper (h4+) hold that indent, one size down from
+      // the link's label-extra-small.
+      #{$root}__links--child #{$root}__link {
+        font-size: var(--ct-table-of-contents-link-deep-font-size);
+      }
     }
   }
 

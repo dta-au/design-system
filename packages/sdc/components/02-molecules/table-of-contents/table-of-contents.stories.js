@@ -59,12 +59,21 @@ const FLAT_LINKS = [
 ];
 
 // Nested, author-provided links (children render as nested __links).
+// Background carries a third level: it holds the second-level indent one
+// size smaller, per the component doc.
 const NESTED_LINKS = [
   {
     title: 'Overview',
     url: '#overview',
     children: [
-      { title: 'Background', url: '#background' },
+      {
+        title: 'Background',
+        url: '#background',
+        children: [
+          { title: 'Prior work', url: '#prior-work' },
+          { title: 'Terminology', url: '#terminology' },
+        ],
+      },
       { title: 'Scope', url: '#scope' },
     ],
   },

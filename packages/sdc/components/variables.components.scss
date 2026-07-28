@@ -136,6 +136,11 @@ $ct-search-bar-dark-input-focus-outline-color: ct-color-dark('interaction-focus'
 $ct-table-of-contents-light-link-stripe-background-color: ct-color-light('border') !default;
 $ct-table-of-contents-dark-link-stripe-background-color: ct-color-dark('border-light') !default;
 
+// Third-and-deeper nested links hold the h3 text indent and step down to this
+// size. rem, not ct-particle-px: every font size in the type layer is rem, and
+// this matches the value the design library override already ships.
+$ct-table-of-contents-link-deep-font-size: ct-particle(1.625) !default;
+
 //
 // Tabs (digital.gov.au) - default variant baseline stripe.
 //
