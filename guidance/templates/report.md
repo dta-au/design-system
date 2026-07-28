@@ -1,6 +1,7 @@
 ---
 title: 'Report'
 description: 'A report presents the findings, analysis, or evaluation of a specific inquiry, project, program, or policy area.'
+toc: true
 ---
 
 Type
@@ -102,7 +103,7 @@ Appendices
 ```
 
 
-## Examples 
+## Examples
 - Long form
   - [Major Digital Projects Report](https://www.digital.gov.au/initiatives/MDPR/foreword)
   - [Microsoft 365 Copilot: Full report](https://www.digital.gov.au/initiatives/copilot-trial/microsoft-365-copilot-evaluation-report-full)

@@ -2,21 +2,8 @@
 title: 'Colour tokens'
 description: 'How to use colour to design consistent, purposeful, and accessible products.'
 foundation-type: Visual
+toc-max-level: 2
 ---
-
-
-<!-- ## On this page
-
-- [Colour palettes](#colour-palettes)
-- [Foreground colours](#foreground-colours)
-- [Background colours](#background-colours)
-- [Border colours](#border-colours)
-- [System colours](#system-colours)
-- [Miscellaneous colours](#miscellaneous-colours)
-- [Usage guidelines](#usage-guidelines)
-
----
- -->
 
 ## Colour palettes
 

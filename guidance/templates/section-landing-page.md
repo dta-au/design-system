@@ -1,6 +1,7 @@
 ---
 title: 'Section landing page'
 description: 'A section landing page is the front door to a major content domain on digital.gov.au, orienting users and helping them navigate to the specific content they need.'
+toc: true
 ---
 
 Type

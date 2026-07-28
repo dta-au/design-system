@@ -18,7 +18,7 @@ Component docs (twins and `guidance/components/`):
 Any doc:
 
 - `toc: true` – inserts an 'On this page' table of contents below the introduction and renders the page full width. Foundations pages default to true; opt out with `toc: false`.
-- `toc-max-level` – integer 2 to 4 (default 4); caps the deepest heading level the table of contents lists.
+- `toc-max-level` – integer 2 to 4 (default 2); the deepest heading level the table of contents lists. Raise it only where sub-headings are navigation targets in their own right.
 
 ## Body
 

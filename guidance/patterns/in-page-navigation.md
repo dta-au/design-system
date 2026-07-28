@@ -7,7 +7,7 @@ In-page navigation helps users understand the structure of a page or section and
 
 One component implements in-page navigation on digital.gov.au:
 
-- **[Table of contents](/components/table-of-contents/)** – an anchor-linked list generated from the headings on the current page, H2 to H4, nested
+- **[Table of contents](/components/table-of-contents/)** – an anchor-linked list generated from the current page's H2s, nesting down to H4 where a page opts deeper
 
 ## Choosing the right approach
 
@@ -15,30 +15,32 @@ Use this table to decide which approach is appropriate.
 
 | Situation | Use |
 |---|---|
-| Long page with four or more headings (H2 to H4), single-page content | Table of contents |
+| Long page with four or more listed headings, single-page content | Table of contents |
 | Page belongs to a multi-page section users navigate between | Sub-nav |
-| Short page with fewer than four headings | Neither |
+| Short page with fewer than four listed headings | Neither |
 | Page is part of a step-by-step form or focus-mode flow | Neither |
 | Section has a persistent sidebar already in use | Sub-nav only |
 
-If a page is part of a section *and* has four or more headings, Sub-nav takes priority. Adding a Table of contents inside a Sub-nav layout creates two competing navigation signals on the same page.
+If a page is part of a section *and* has four or more listed headings, Sub-nav takes priority. Adding a Table of contents inside a Sub-nav layout creates two competing navigation signals on the same page.
 
 ## Table of contents
 
 Use a Table of contents when:
 
-- the page has four or more headings (H2 to H4)
+- the page has four or more listed headings
 - the page is a long or medium guide, report body section, or policy document
 - users benefit from scanning the structure before deciding where to read
 
+Count the headings the list will show, not every heading on the page. By default that means H2s, so a page with three H2s and a dozen H3s does not clear the threshold.
+
 Do not use a Table of contents when:
 
-- the page has fewer than four headings – a short page does not need navigation
+- the page has fewer than four listed headings – a short page does not need navigation
 - the page already uses Sub-nav – do not show both
 - the page is a section landing page – landing pages use card grids for navigation, not anchor links
 - the page is a step-by-step wizard or focus-mode form – sequential flows should not offer navigation shortcuts
 
-Position the Table of contents directly below the page introduction, before the first H2. Authors enable it per page in the CMS; it generates automatically from the page's headings – H2 at the top level, H3 nested one step under its parent H2, H4 holding that indent one size smaller – and does not require manual maintenance.
+Position the Table of contents directly below the page introduction, before the first H2. Authors enable it per page in the CMS; it generates automatically from the page's headings and does not require manual maintenance. It lists H2s at the top level; a page that opts deeper nests H3 one step under its parent H2, with H4 holding that indent one size smaller.
 
 ### The On this page treatment
 
@@ -46,7 +48,7 @@ Long full-width pages – pages with no Sub-nav or persistent sidebar – render
 
 - Any page can carry the treatment: set `toc: true` in frontmatter. Foundations pages carry it by default; a short foundations page opts out with `toc: false`.
 - Keep the title 'On this page' – it is fixed by the mechanism, not set per page.
-- The list covers H2 to H4 by default. Where deeper headings are reference detail rather than navigation targets, cap the depth with `toc-max-level` in frontmatter – an integer from 2 to 4, default 4. A page whose H4s are field definitions reads better capped at 3.
+- The list covers H2s. Where sub-headings are genuine navigation targets rather than reference detail, opt deeper with `toc-max-level` in frontmatter – an integer from 2 to 4, default 2. A page whose H3s name distinct tasks earns 3; reach for 4 only where H4s are destinations in their own right. Repeated sub-headings are the signal to stay at 2 – a list of near-identical entries navigates nothing.
 - A page carrying the treatment renders full width. Pages with a section sidebar keep Sub-nav and do not take a Table of contents.
 
 ## Sub-nav

@@ -1,14 +1,11 @@
 ---
 title: 'Guide'
 description: 'A guide provides instructional content that helps readers understand a framework, complete a process, or meet a policy requirement.'
+toc: true
 ---
 
 Type
 : [Guidance](/templates/) – how to act on a rule, framework, or process.
-
-## On this page
-- When to use a guide
-- Sizing your guide
 
 Guides on digital.gov.au are primarily written for agency staff – including digital practitioners, policy officers, and senior responsible officials – who need clear, actionable direction for navigating digital investment, governance, and service delivery obligations.
 
