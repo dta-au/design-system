@@ -2,6 +2,8 @@
 
 Docs under `guidance/` and the co-located component `.md` twins are consumed by the design library site from the `docs-live` ref. CI gates structure (`validate-content-md`); the semantic contract below is validated at the consumer build – a violation stops the site updating, it never breaks the live site.
 
+Prose follows [writing-rules.md](writing-rules.md). Two campaign checkers back it: `tools/scripts/validate-prose.js` and `tools/scripts/validate-links.js` – run them on changed docs before a PR; they are not wired into CI.
+
 ## Frontmatter
 
 Every doc:
