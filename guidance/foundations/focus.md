@@ -101,5 +101,5 @@ WCAG SC 1.4.11 (Non-text Contrast) requires a minimum **3:1** ratio between the 
 
 ## Related foundations
 
-- [Colour](/dga-dl/foundations/colour) – Token system and mode-switching
-- [Elevation](/dga-dl/foundations/elevation) – Glow token, distinct from focus ring
+- [Colour](/foundations/colour/) – Token system and mode-switching
+- [Elevation](/foundations/elevation/) – Glow token, distinct from focus ring

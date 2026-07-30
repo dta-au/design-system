@@ -84,5 +84,5 @@ A set of predefined values for handling the relative distance between surfaces a
 
 ## Related foundations
 
-- [Colour](/dga-dl/foundations/colour) – Surface tokens (`--bg-raised`) that shadow and glow are applied to
-- [Focus](/dga-dl/foundations/focus) – Keyboard focus indicator, distinct from glow
+- [Colour](/foundations/colour/) – Surface tokens (`--bg-raised`) that shadow and glow are applied to
+- [Focus](/foundations/focus/) – Keyboard focus indicator, distinct from glow
