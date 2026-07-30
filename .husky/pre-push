@@ -16,11 +16,14 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-# Check for uncommitted changes after dist and components:update
-if ! git diff --quiet || ! git diff --cached --quiet; then
-  echo "❌ There are uncommitted changes after running 'npm run dist' and 'npm run components:update'."
+# Check for uncommitted changes after components:update. dist/ is excluded –
+# CI rebuilds it before check:bundles and release.yml rebuilds it from the tag,
+# so its churn is not worth a commit on every push.
+if ! git diff --quiet -- . ':(exclude)packages/*/dist/*' || \
+   ! git diff --cached --quiet -- . ':(exclude)packages/*/dist/*'; then
+  echo "❌ There are uncommitted changes after running 'npm run components:update'."
   echo "Please commit the changes before pushing."
-  git status --short
+  git status --short -- . ':(exclude)packages/*/dist/*'
   exit 1
 fi
 

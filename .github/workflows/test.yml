@@ -72,6 +72,11 @@ jobs:
       - name: Build
         run: npm run build
 
+      # check:bundles reads packages/*/dist, which is no longer refreshed on
+      # every push. Build it here so the gate validates this commit's output.
+      - name: Build distributables
+        run: npm run dist
+
       - name: Check runtime bundles are classic-safe
         run: npm run check:bundles
 
