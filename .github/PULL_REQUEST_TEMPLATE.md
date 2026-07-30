@@ -1,18 +1,19 @@
-## Checklist before requesting a review
+## What changed
 
-- [ ] I have formatted the subject to include the issue number
-  as `[#123] Verb in past tense with a period at the end.`
-- [ ] I have provided information in the `Changed` section about WHY something was
-  done if this was a bespoke implementation.
-- [ ] I have performed a self-review of my code.
-- [ ] I have commented on my code, particularly in hard-to-understand areas.
-- [ ] I have added tests that prove my fix is effective or that my feature works.
-- [ ] I have run new and existing relevant tests locally with my changes,
-  and they have passed.
-- [ ] I have provided screenshots, where applicable.
+<!-- One or two lines. Say what changed and why. -->
 
-## Changed
+## Related issue
 
-1.
+<!-- "Closes #123" for a defect fix, or link the issue this implements. Open an issue first for a new feature. -->
+
+## Checklist
+
+- [ ] Edit `packages/sdc/`. Never hand-edit `packages/twig/components/`.
+- [ ] Run `npm run components:update` and commit the result – CI checks the two packages match.
+- [ ] `npm run lint`, `composer lint` and `npm run test` pass.
+- [ ] Documentation follows `guidance/writing-rules.md`.
+- [ ] Colour, focus and keyboard behaviour meet WCAG 2.1 AA.
 
 ## Screenshots
+
+<!-- Screenshots or a Storybook link for any visual change. Show the light theme and the dark theme. -->
