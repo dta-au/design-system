@@ -79,5 +79,5 @@ The monospace stack is intentionally separate from Public Sans. Use it only for 
 
 ## Related foundations
 
-- [Colour](/dga-dl/foundations/colour) – Foreground tokens that control text colour
-- [Elevation](/dga-dl/foundations/elevation) – Layering model for surfaces that contain text
+- [Colour](/foundations/colour/) – Foreground tokens that control text colour
+- [Elevation](/foundations/elevation/) – Layering model for surfaces that contain text

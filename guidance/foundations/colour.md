@@ -184,5 +184,5 @@ Use additional visual cues alongside colour – icons for status messages, under
 
 ## Related foundations
 
-- [Focus](/dga-dl/foundations/focus) – Focus ring token, contrast requirements, and keyboard navigation
-- [Elevation](/dga-dl/foundations/elevation) – Shadow and glow token usage and layering model
+- [Focus](/foundations/focus/) – Focus ring token, contrast requirements, and keyboard navigation
+- [Elevation](/foundations/elevation/) – Shadow and glow token usage and layering model
