@@ -1,7 +1,7 @@
 $schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
 name: Chart
 status: experimental
-description: 'Accessible data chart progressively enhanced from a fallback HTML data table. Renders bar, line, pie, and stacked-bar charts with D3. WCAG 2.1 AA.'
+description: 'Accessible data chart progressively enhanced from a fallback HTML data table. Renders bar, line, pie/donut, lollipop, cleveland, sankey/flow, chord and treemap charts with D3. WCAG 2.1 AA.'
 props:
   type: object
   required:
@@ -21,10 +21,13 @@ props:
         - stacked_bar
         - line
         - pie
+        - donut
         - sankey
         - lollipop
         - cleveland
         - flow
+        - chord
+        - treemap
     title:
       type: string
       title: 'Chart title'
@@ -93,7 +96,7 @@ props:
     flow_table:
       type: boolean
       title: 'Flow-style fallback table'
-      description: 'When true, the fallback <table> renders 3 columns (source / target / value) instead of the standard X / Y layout. Used by sankey and flow chart types.'
+      description: 'When true, the fallback <table> renders 3 columns (source / target / value) instead of the standard X / Y layout. Used by the sankey, flow and chord chart types.'
       default: false
     source_label:
       type:
@@ -140,17 +143,30 @@ props:
     legend:
       type: boolean
       title: 'Interactive legend'
-      description: 'Render an interactive legend whose items toggle series visibility (hover/focus highlights, click hides/shows). Auto-enabled for the multi-series renderers (grouped_bar, stacked_bar, pie); set true to force it on elsewhere. The legend is an enhancement on top of the directly-labelled chart and the data table, not a replacement for either.'
+      description: 'Render an interactive legend whose items toggle series visibility (hover/focus highlights, click hides/shows). Auto-enabled for the multi-series renderers (grouped_bar, stacked_bar, pie, donut); set true to force it on elsewhere. The legend is an enhancement on top of the directly-labelled chart and the data table, not a replacement for either.'
       default: false
     texture:
       type: boolean
       title: 'Texture fills'
-      description: 'Apply SVG pattern fills (hatch, dots, cross-hatch) in addition to colour on the categorical multi-series renderers (grouped_bar, stacked_bar, pie), so adjacent series stay distinguishable for colour-blind users. A redundant cue stacked on the colour-blind-safe palette, not a replacement for it; off by default to avoid clutter.'
+      description: 'Apply SVG pattern fills (hatch, dots, cross-hatch) in addition to colour on the categorical renderers (grouped_bar, stacked_bar, pie, donut, treemap), so adjacent series stay distinguishable for colour-blind users. A redundant cue stacked on the colour-blind-safe palette, not a replacement for it; off by default to avoid clutter.'
       default: false
     zoom:
       type: boolean
       title: 'Zoom controls'
       description: 'Add keyboard-accessible Zoom in / out / reset controls to the toolbar for the ordinal cartesian types (bar, line, lollipop). Narrows the x-axis window to the data; +/-/0 also zoom when a data point is focused. This is data-domain zoom, separate from browser reflow zoom (which the SVG already supports).'
+      default: false
+    table_toggle:
+      type: string
+      title: 'Table toggle style'
+      description: 'How readers switch to the underlying data table. disclosure keeps the summary below the chart; swap adds one corner icon control that exchanges the chart and the table in place (the toolbar table button is dropped). Without JavaScript, swap falls back to the disclosure.'
+      enum:
+        - disclosure
+        - swap
+      default: disclosure
+    embedded:
+      type: boolean
+      title: 'Embedded'
+      description: 'Render the bare figure without the self-supplied block, container, row and column wrappers, for composition inside chart-collection. The collection owns the keyline chrome and surface; the figure keeps its own layout, data table and query container. attributes is not rendered in this mode.'
       default: false
     filters:
       type: array

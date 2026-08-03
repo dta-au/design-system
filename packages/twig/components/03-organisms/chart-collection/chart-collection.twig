@@ -1,0 +1,115 @@
+{#
+/**
+ * @file
+ * digital.gov.au Chart Collection component.
+ *
+ * Props:
+ * - collection_id: [string] Unique, sanitised DOM id. Prefixes generated panel ids and wires aria-labelledby, aria-describedby and aria-controls.
+ * - title: [string] Plain-text collection heading; names the section region via aria-labelledby.
+ * - description: [string] Plain-text description referenced by aria-describedby.
+ * - theme: [string]
+ * - heading_level: [integer] Heading level for the collection title. Panel titles render one level lower (clamped at 6) unless a panel overrides.
+ * - columns: [integer] Panel columns at wide container widths; narrow containers collapse to one column via container query.
+ * - toolbar: [boolean] Render the collection toolbar with a "View all as tables" control that toggles every panel disclosure. Progressive enhancement: each panel summary works without it.
+ * - vertical_spacing: [string] Vertical spacing (top, bottom, both, or none).
+ * - panels: [array] Chart prop sets, one per panel, forwarded verbatim to the chart component with embedded true. Each panel needs its own pre-encoded config_json and a page-unique chart_id (defaults to {collection_id}__panel-N). theme is forced to the collection theme and the per-panel toolbar defaults off. Any chart prop is accepted; only the high-traffic keys are typed here:
+ *   Each item contains:
+ *   - chart_id: [string]
+ *   - chart_type: [string]
+ *   - title: [string]
+ *   - description: [string]
+ *   - x_key: [string]
+ *   - y_keys: [array]
+ *     Each item contains:
+ *     - items [string]
+ *   - rows: [array]
+ *     Each item contains:
+ *     - items [object]
+ *   - config_json: [string]
+ *   - toolbar: [boolean]
+ *   - legend: [boolean]
+ * - modifier_class: [string] Additional CSS classes.
+ * - attributes: [Drupal\Core\Template\Attribute] Additional HTML attributes.
+ */
+#}
+
+{% set heading_level = heading_level in [2, 3, 4, 5, 6] ? heading_level : 2 %}
+{% set panel_heading_level = heading_level + 1 > 6 ? 6 : heading_level + 1 %}
+{% set collection_id = collection_id|default('bdga-chart-collection') %}
+{% set theme = theme in ['light', 'dark'] ? theme : 'light' %}
+{% set columns = columns in [1, 2, 3] ? columns : 2 %}
+{% set toolbar = toolbar is not same as(false) %}
+{% set vertical_spacing = vertical_spacing in ['top', 'bottom', 'both', 'none'] ? vertical_spacing : null %}
+{% set theme_class = 'ct-theme-%s'|format(theme) %}
+{% set vertical_spacing_class = vertical_spacing ? 'ct-vertical-spacing-inset--%s'|format(vertical_spacing) : '' %}
+{% set modifier_class = '%s %s'|format(vertical_spacing_class, modifier_class|default(''))|trim %}
+{% set title_id = collection_id ~ '__title' %}
+{% set desc_id = collection_id ~ '__desc' %}
+
+{# Assign panel ids up front so the include loop and the toolbar's
+   aria-controls agree; authors may supply page-unique chart_ids instead. #}
+{% set prepared_panels = [] %}
+{% for panel in panels|default([]) %}
+  {% set prepared_panels = prepared_panels|merge([panel|merge({
+    chart_id: panel.chart_id|default('%s__panel-%d'|format(collection_id, loop.index)),
+  })]) %}
+{% endfor %}
+
+{% if prepared_panels is not empty %}
+<div class="bdga-chart-collection-block {{ theme_class }}" {% if attributes is defined and attributes is not null %}{{- attributes -}}{% endif %}>
+<div class="container">
+<div class="row">
+<div class="col-xxs-12">
+<section
+  id="{{ collection_id }}"
+  class="bdga-chart-collection {{ theme_class }} bdga-chart-collection--cols-{{ columns }}{% if modifier_class %} {{ modifier_class }}{% endif %}"
+  data-bdga-chart-collection
+  {% if title %}aria-labelledby="{{ title_id }}"{% endif %}
+  {% if description %}aria-describedby="{{ desc_id }}"{% endif %}
+>
+  {% if title or description %}
+    <div class="bdga-chart-collection__header">
+      {% if title %}
+        <h{{ heading_level }} id="{{ title_id }}" class="bdga-chart-collection__title">{{ title }}</h{{ heading_level }}>
+      {% endif %}
+      {% if description %}
+        <p id="{{ desc_id }}" class="bdga-chart-collection__description">{{ description }}</p>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  {% if toolbar %}
+    {% set data_ids = [] %}
+    {% for panel in prepared_panels %}
+      {% set data_ids = data_ids|merge([panel.chart_id ~ '__data']) %}
+    {% endfor %}
+    {# Inert without JavaScript - each panel's own <summary> still works. #}
+    <div class="bdga-chart-collection__toolbar">
+      <button
+        type="button"
+        class="bdga-chart-collection__tool"
+        data-bdga-chart-collection-tables
+        data-label-show="{{ 'View all as tables'|t }}"
+        data-label-hide="{{ 'Hide all tables'|t }}"
+        aria-expanded="false"
+        aria-controls="{{ data_ids|join(' ') }}"
+      >{{ 'View all as tables'|t }}</button>
+    </div>
+  {% endif %}
+
+  <div class="bdga-chart-collection__panels">
+    {% for panel in prepared_panels %}
+      {% include '@organisms/chart/chart.twig' with panel|merge({
+        embedded: true,
+        theme: theme,
+        heading_level: panel.heading_level|default(panel_heading_level),
+        toolbar: panel.toolbar|default(false),
+      }) only %}
+    {% endfor %}
+  </div>
+</section>
+</div>
+</div>
+</div>
+</div>
+{% endif %}

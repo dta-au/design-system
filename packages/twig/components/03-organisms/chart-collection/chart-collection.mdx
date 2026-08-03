@@ -1,0 +1,14 @@
+{/* Editorial body is shared with the design library – edit ./chart-collection.md, not this file. */}
+
+import { Meta, Canvas, Controls, Markdown } from '@storybook/addon-docs/blocks';
+import * as Stories from './chart-collection.stories';
+import body from './chart-collection.md?raw';
+
+<Meta of={Stories} />
+
+# Chart collection
+
+<Canvas of={Stories.ChartCollection} />
+<Controls of={Stories.ChartCollection} />
+
+<Markdown>{body.replace(/^---[\s\S]*?---\s*/, '')}</Markdown>

@@ -65,6 +65,9 @@
   --bdga-chart-sankey-margin-top: 44px;
   --bdga-chart-sankey-margin-bottom: 10px;
   --bdga-chart-sankey-label-mode: stacked;
+  --bdga-chart-donut-inner: 0.6;
+  --bdga-chart-chord-margin-x: 72px;
+  --bdga-chart-chord-margin-y: 28px;
   container: bdga-chart/inline-size;
   display: flex;
   flex-direction: column;
@@ -87,6 +90,24 @@
   background: var(--ct-color-background-dark, #1c1c1c);
   color: var(--ct-color-text-on-dark, #fff);
   border-color: var(--ct-color-neutral-700, #4a4a4a);
+}
+.bdga-chart.bdga-chart--embedded {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  min-inline-size: 0;
+}
+.bdga-chart.bdga-chart--embedded .bdga-chart__data {
+  margin-block-start: auto;
+}
+.bdga-chart.bdga-chart--embedded.bdga-chart--table-view .bdga-chart__data {
+  margin-block-start: 0;
+}
+.bdga-chart.bdga-chart--embedded .bdga-chart__table-swap {
+  inset-block-start: 0;
+  inset-inline-end: 0;
 }
 .bdga-chart__caption {
   display: flex;
@@ -374,7 +395,34 @@
   stroke-width: 1;
   opacity: 0.45;
 }
+.bdga-chart__donut-total {
+  font-size: 1.5rem;
+  font-weight: 600;
+  fill: currentcolor;
+}
+.bdga-chart__donut-total-label {
+  font-size: 0.8125rem;
+  fill: var(--ct-color-text-light, #525252);
+}
+.bdga-chart__chord-label {
+  font-size: 0.8125rem;
+  fill: currentcolor;
+}
+.bdga-chart__chord-ribbon {
+  cursor: pointer;
+}
+.bdga-chart__treemap-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+.bdga-chart__treemap-value {
+  font-size: 0.75rem;
+  font-weight: 400;
+}
 .bdga-chart.ct-theme-dark .bdga-chart__cleveland-legend-label {
+  fill: var(--ct-color-text-on-dark, #f4f4f4);
+}
+.bdga-chart.ct-theme-dark .bdga-chart__donut-total-label {
   fill: var(--ct-color-text-on-dark, #f4f4f4);
 }
 .bdga-chart__error {
@@ -383,6 +431,69 @@
   background: var(--ct-color-status-error-tint, #fce8eb);
   color: var(--ct-color-status-error-text, #4a0008);
   font-weight: 500;
+}
+.bdga-chart--swap-table {
+  position: relative;
+}
+.bdga-chart--swap-table .bdga-chart__caption {
+  padding-inline-end: 3.25rem;
+}
+.bdga-chart__table-swap {
+  position: absolute;
+  inset-block-start: var(--ct-spacing-300, 1.5rem);
+  inset-inline-end: var(--ct-spacing-300, 1.5rem);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: 1px solid var(--ct-color-neutral-400, #c6c6c6);
+  border-radius: var(--ct-border-radius-100, 2px);
+  background: var(--ct-color-background, #fff);
+  color: inherit;
+  cursor: pointer;
+}
+.bdga-chart__table-swap:hover, .bdga-chart__table-swap:focus-visible {
+  background: var(--ct-color-neutral-100, #f4f4f4);
+}
+.bdga-chart__table-swap:focus-visible {
+  outline: 2px solid var(--bdga-chart-focus);
+  outline-offset: 2px;
+}
+.bdga-chart__table-swap .ct-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+.bdga-chart.ct-theme-dark .bdga-chart__table-swap {
+  border-color: var(--ct-color-neutral-600, #6f6f6f);
+  background: var(--ct-color-background-dark, #1c1c1c);
+}
+.bdga-chart.ct-theme-dark .bdga-chart__table-swap:hover, .bdga-chart.ct-theme-dark .bdga-chart__table-swap:focus-visible {
+  background: var(--ct-color-neutral-800, #2c2c2c);
+}
+.bdga-chart__table-swap-icon {
+  display: inline-flex;
+}
+.bdga-chart__table-swap-icon--chart, .bdga-chart--table-view .bdga-chart__table-swap-icon--table {
+  display: none;
+}
+.bdga-chart--table-view .bdga-chart__table-swap-icon--chart {
+  display: inline-flex;
+}
+.bdga-chart--swap-ready .bdga-chart__data {
+  display: none;
+  border-top: 0;
+  padding-top: 0;
+}
+.bdga-chart--swap-ready .bdga-chart__data-toggle {
+  display: none;
+}
+.bdga-chart--swap-ready.bdga-chart--table-view .bdga-chart__data {
+  display: block;
+}
+.bdga-chart--table-view .bdga-chart__canvas, .bdga-chart--table-view .bdga-chart__legend, .bdga-chart--table-view .bdga-chart__filters {
+  display: none;
 }
 .bdga-chart__data {
   border-top: 1px solid var(--ct-color-neutral-300, #d4d4d4);
@@ -457,12 +568,14 @@
     --bdga-chart-sankey-margin-x: 104px;
     --bdga-chart-sankey-margin-top: 52px;
     --bdga-chart-sankey-label-mode: outside;
+    --bdga-chart-chord-margin-x: 96px;
   }
 }
 @container bdga-chart (min-width: 768px) {
   .bdga-chart__canvas {
     --bdga-chart-sankey-margin-x: 140px;
     --bdga-chart-sankey-margin-top: 60px;
+    --bdga-chart-chord-margin-x: 120px;
   }
 }
 .bdga-chart .visually-hidden {

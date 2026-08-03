@@ -2947,6 +2947,50 @@ var CivicTheme = (function(exports) {
   }
   function init18() {
     (function() {
+      function initCollection(root) {
+        if (root.dataset.bdgaChartCollectionInit) return;
+        root.dataset.bdgaChartCollectionInit = "true";
+        const btn = root.querySelector("[data-bdga-chart-collection-tables]");
+        if (!btn) return;
+        const details = Array.from(root.querySelectorAll("details.bdga-chart__data"));
+        if (!details.length) {
+          btn.hidden = true;
+          return;
+        }
+        const allOpen = () => details.every((d) => d.open);
+        const sync = () => {
+          const open = allOpen();
+          btn.setAttribute("aria-expanded", String(open));
+          btn.textContent = open ? btn.dataset.labelHide : btn.dataset.labelShow;
+        };
+        btn.addEventListener("click", () => {
+          const target = !allOpen();
+          details.forEach((d) => {
+            d.open = target;
+          });
+          sync();
+        });
+        root.addEventListener("toggle", sync, true);
+        sync();
+      }
+      function initAll(context) {
+        (context || document).querySelectorAll("[data-bdga-chart-collection]").forEach(initCollection);
+      }
+      window.DgaChartCollection = { initAll };
+      if (typeof Drupal !== "undefined") {
+        Drupal.behaviors.bdgaChartCollection = {
+          attach(context) {
+            initAll(context);
+          }
+        };
+      } else {
+        initAll();
+        new MutationObserver(() => initAll()).observe(document.body || document.documentElement, { childList: true, subtree: true });
+      }
+    })();
+  }
+  function init19() {
+    (function() {
       if (typeof window.Drupal === "undefined") {
         window.Drupal = {
           behaviors: {},
@@ -3064,6 +3108,33 @@ var CivicTheme = (function(exports) {
         if (total <= 1) return palette.single;
         return palette.sequential[Math.min(index, palette.sequential.length - 1)];
       }
+      function textColorFor(fill) {
+        const s = String(fill || "").trim();
+        const hex = s.match(/^#([0-9a-f]{3}|[0-9a-f]{6})$/i);
+        const rgb = s.match(/^rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)/i);
+        let r;
+        let g;
+        let b;
+        if (hex) {
+          let hx = hex[1];
+          if (hx.length === 3) hx = hx.replace(/./g, (ch) => ch + ch);
+          r = parseInt(hx.slice(0, 2), 16);
+          g = parseInt(hx.slice(2, 4), 16);
+          b = parseInt(hx.slice(4, 6), 16);
+        } else if (rgb) {
+          r = +rgb[1];
+          g = +rgb[2];
+          b = +rgb[3];
+        } else {
+          return "#fff";
+        }
+        const lin = (c) => {
+          const v = c / 255;
+          return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+        };
+        const lum = 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
+        return lum >= 0.2 ? "#1c1c1c" : "#fff";
+      }
       Drupal2.behaviors.bdgaChart = {
         attach(context) {
           if (typeof window.d3 === "undefined") {
@@ -3122,6 +3193,7 @@ var CivicTheme = (function(exports) {
           this.menuEl = root.querySelector("[data-bdga-chart-menu]");
           this.menuButtonEl = root.querySelector("[data-bdga-chart-menu-button]");
           this.tableToggleEl = root.querySelector('[data-bdga-chart-tool="table"]');
+          this.tableSwapEl = root.querySelector("[data-bdga-chart-table-swap]");
           this.detailsEl = this.tableEl ? this.tableEl.closest("details") : null;
           this.downloads = (root.dataset.bdgaChartDownloads || "").split(",").map((s) => s.trim()).filter((s) => s === "csv" || s === "json");
           this.sourcePage = root.dataset.bdgaChartSourcePage || null;
@@ -3160,15 +3232,20 @@ var CivicTheme = (function(exports) {
         init() {
           this.observeResize();
           this.initToolbar();
+          this.wireTableSwap();
           try {
             if (this.mode === "url") {
               return this.loadFromUrl();
             }
-            if (this.type === "sankey" || this.type === "flow") {
+            if (this.type === "sankey" || this.type === "flow" || this.type === "chord") {
               if (!this.nodes || !this.nodes.length || !this.links || !this.links.length) {
-                return this.fail("Sankey/flow chart requires nodes and links");
+                return this.fail("Sankey/flow/chord chart requires nodes and links");
               }
-              if (typeof window.d3 === "undefined" || typeof window.d3.sankey !== "function") {
+              if (this.type === "chord") {
+                if (typeof window.d3.chordDirected !== "function") {
+                  return this.fail("d3 chord layout missing");
+                }
+              } else if (typeof window.d3 === "undefined" || typeof window.d3.sankey !== "function") {
                 return this.fail("d3-sankey plugin missing");
               }
               return this.draw([]);
@@ -3355,6 +3432,30 @@ var CivicTheme = (function(exports) {
           sync();
         }
         /**
+         * Swap-table variant: the icon control and the collection's "view all"
+         * both just flip the details' open state; this listener translates that
+         * state into the swapped presentation (--table-view class), so every
+         * entry point stays in sync. Without JavaScript the variant degrades to
+         * the standard disclosure (--swap-ready never lands).
+         */
+        wireTableSwap() {
+          const btn = this.tableSwapEl;
+          const details = this.detailsEl;
+          if (!btn || !details) return;
+          this.root.classList.add("bdga-chart--swap-ready");
+          btn.addEventListener("click", () => {
+            details.open = !details.open;
+            this.setStatus(details.open ? Drupal2.t("Showing data table.") : Drupal2.t("Showing chart."));
+          });
+          const sync = () => {
+            this.root.classList.toggle("bdga-chart--table-view", details.open);
+            btn.setAttribute("aria-expanded", String(details.open));
+            btn.setAttribute("aria-label", details.open ? btn.dataset.labelHide : btn.dataset.labelShow);
+          };
+          details.addEventListener("toggle", sync);
+          sync();
+        }
+        /**
          * Build the overflow menu's items. url mode offers a single "view source"
          * link; local modes offer a download button per configured format. When
          * there is nothing to offer, the menu button is removed so we never ship
@@ -3523,12 +3624,13 @@ var CivicTheme = (function(exports) {
 `;
         }
         /**
-         * The rows to export. Flow / sankey carry their data as links
-         * (source / target / value); every other type exports the plotted rows.
-         * Falls back to the parsed table when no draw has happened yet.
+         * The rows to export. The node-link types (sankey / flow / chord) carry
+         * their data as links (source / target / value); every other type exports
+         * the plotted rows. Falls back to the parsed table when no draw has
+         * happened yet.
          */
         exportRows() {
-          if ((this.type === "sankey" || this.type === "flow") && Array.isArray(this.links)) {
+          if ((this.type === "sankey" || this.type === "flow" || this.type === "chord") && Array.isArray(this.links)) {
             return this.links.map((l) => ({
               source: l.source && l.source.id ? l.source.id : l.source,
               target: l.target && l.target.id ? l.target.id : l.target,
@@ -3547,7 +3649,7 @@ var CivicTheme = (function(exports) {
          * as a last resort.
          */
         csvColumns(rows) {
-          if (this.type === "sankey" || this.type === "flow") {
+          if (this.type === "sankey" || this.type === "flow" || this.type === "chord") {
             return ["source", "target", "value"];
           }
           const cols = [];
@@ -3807,7 +3909,7 @@ ${new XMLSerializer().serializeToString(clone)}`;
         }
         /** Count of series still visible, across the keyed and pie shapes. */
         visibleSeriesCount() {
-          if (this.type === "pie") {
+          if (this.type === "pie" || this.type === "donut") {
             return (this.lastDrawData || []).filter(
               (r) => !this.hidden.has(String(r[this.xKey]))
             ).length;
@@ -3874,7 +3976,7 @@ ${new XMLSerializer().serializeToString(clone)}`;
           if (!this.legendEl || this.legendBuilt) return;
           this.palette = this.palette || resolvePalette(this.root);
           let series;
-          if (this.type === "pie") {
+          if (this.type === "pie" || this.type === "donut") {
             const rows = this.lastDrawData || [];
             series = rows.map((r, i) => ({
               key: String(r[this.xKey]),
@@ -3955,7 +4057,7 @@ ${new XMLSerializer().serializeToString(clone)}`;
             this.canvas.querySelectorAll("[data-bdga-series],[data-bdga-point]").forEach((m) => {
               m.style.opacity = "";
             });
-            this.canvas.querySelectorAll(".bdga-chart__sankey-link").forEach((m) => {
+            this.canvas.querySelectorAll("[data-bdga-link]").forEach((m) => {
               m.style.opacity = "";
             });
             return;
@@ -3967,9 +4069,9 @@ ${new XMLSerializer().serializeToString(clone)}`;
         /**
          * Emphasize what a hovered/focused mark belongs to; dim the rest to 30%.
          * Multi-series charts emphasize the whole series. Charts that colour marks
-         * by a per-mark dimension (color_by a category/field) or sankey/flow nodes
-         * emphasize the single mark (and, for sankey, its connected links). Plain
-         * single-colour charts have nothing to dim.
+         * by a per-mark dimension (color_by a category/field) or sankey/flow/chord
+         * nodes emphasize the single mark (and its connected links / ribbons).
+         * Plain single-colour charts have nothing to dim.
          */
         emphasizePoint(pt) {
           if (!pt || !this.canvas) return;
@@ -3980,19 +4082,28 @@ ${new XMLSerializer().serializeToString(clone)}`;
             return;
           }
           const isFlow = this.type === "sankey" || this.type === "flow";
+          const isChord = this.type === "chord";
           const cb = this.colorBy;
           const perMark = cb && cb !== "series" && cb !== "single";
-          if (!perMark && !isFlow) return;
+          if (!perMark && !isFlow && !isChord) return;
           this.canvas.querySelectorAll("[data-bdga-point]").forEach((m) => {
             m.style.opacity = m === pt ? "" : "0.3";
           });
           if (isFlow) {
             const node = window.d3.select(pt).datum();
             const id = node && node.id;
-            this.canvas.querySelectorAll(".bdga-chart__sankey-link").forEach((l) => {
+            this.canvas.querySelectorAll("[data-bdga-link]").forEach((l) => {
               const ld = window.d3.select(l).datum();
               const s = ld && ld.source && ld.source.id;
               const t = ld && ld.target && ld.target.id;
+              l.style.opacity = id && (s === id || t === id) ? "" : "0.2";
+            });
+          }
+          if (isChord) {
+            const id = pt.getAttribute("data-bdga-chord-id");
+            this.canvas.querySelectorAll("[data-bdga-link]").forEach((l) => {
+              const s = l.getAttribute("data-bdga-chord-source");
+              const t = l.getAttribute("data-bdga-chord-target");
               l.style.opacity = id && (s === id || t === id) ? "" : "0.2";
             });
           }
@@ -4006,7 +4117,7 @@ ${new XMLSerializer().serializeToString(clone)}`;
          */
         emphasizeLink(linkEl) {
           if (!linkEl || !this.canvas) return;
-          this.canvas.querySelectorAll(".bdga-chart__sankey-link").forEach((l) => {
+          this.canvas.querySelectorAll("[data-bdga-link]").forEach((l) => {
             l.style.opacity = l === linkEl ? "1" : "0.2";
           });
         }
@@ -4295,18 +4406,23 @@ ${new XMLSerializer().serializeToString(clone)}`;
           }
           const rows = this.extractCkanRows(payload);
           if (!rows.length) return this.fail("No rows returned");
-          if (this.type === "sankey" || this.type === "flow") {
-            const graph = this.buildSankeyFromRows(rows);
+          if (this.type === "sankey" || this.type === "flow" || this.type === "chord") {
+            const isChord = this.type === "chord";
+            const graph = isChord ? this.buildChordFromRows(rows) : this.buildSankeyFromRows(rows);
             if (!graph.links.length) {
               return this.fail("CKAN response had no usable source/target/value rows");
             }
-            if (typeof window.d3.sankey !== "function") {
+            if (isChord) {
+              if (typeof window.d3.chordDirected !== "function") {
+                return this.fail("d3 chord layout missing");
+              }
+            } else if (typeof window.d3.sankey !== "function") {
               return this.fail("d3-sankey plugin missing");
             }
             this.nodes = graph.nodes;
             this.links = graph.links;
             this.populateFlowTable(graph.links);
-            this.updateFlowTableHeaders(graph.nodes);
+            if (!isChord) this.updateFlowTableHeaders(graph.nodes);
             this.setStatus(
               Drupal2.t("Chart loaded. @count flows, @nodes nodes.", {
                 "@count": graph.links.length,
@@ -4325,7 +4441,7 @@ ${new XMLSerializer().serializeToString(clone)}`;
         }
         extractCkanRows(payload) {
           const records = payload && payload.result && Array.isArray(payload.result.records) ? payload.result.records : Array.isArray(payload) ? payload : [];
-          const isFlow = this.type === "sankey" || this.type === "flow";
+          const isFlow = this.type === "sankey" || this.type === "flow" || this.type === "chord";
           const yKeySet = new Set(this.yKeys || []);
           if (isFlow) {
             yKeySet.clear();
@@ -4468,6 +4584,32 @@ ${new XMLSerializer().serializeToString(clone)}`;
           });
           return { nodes, links: Array.from(linkMap.values()) };
         }
+        /**
+         * Flat {source, target, value} rows -> {nodes, links} for the chord
+         * renderer. Unlike buildSankeyFromFlatRows there is no collision
+         * auto-prefixing and self-loops are kept: a chord matrix renders
+         * source === target as a self-ribbon, and "did not move" is signal.
+         */
+        buildChordFromRows(rows) {
+          const seen = /* @__PURE__ */ new Set();
+          const nodes = [];
+          const links = [];
+          rows.forEach((r) => {
+            const src = String(r.source ?? "").trim();
+            const tgt = String(r.target ?? "").trim();
+            const val = Number(r.value);
+            if (!src || !tgt) return;
+            if (!Number.isFinite(val) || val <= 0) return;
+            [src, tgt].forEach((id) => {
+              if (!seen.has(id)) {
+                seen.add(id);
+                nodes.push({ id });
+              }
+            });
+            links.push({ source: src, target: tgt, value: val });
+          });
+          return { nodes, links };
+        }
         populateTable(rows) {
           if (!this.tableEl) return;
           const tbody = this.tableEl.querySelector("tbody");
@@ -4574,7 +4716,7 @@ ${new XMLSerializer().serializeToString(clone)}`;
          */
         setupFilters() {
           if (!this.filtersBarEl || !this.filters.length) return;
-          if (this.type === "sankey" || this.type === "flow") return;
+          if (this.type === "sankey" || this.type === "flow" || this.type === "chord") return;
           const rows = this.fullRows || [];
           this.activeFilters = /* @__PURE__ */ new Map();
           const groups = [];
@@ -4702,6 +4844,9 @@ ${new XMLSerializer().serializeToString(clone)}`;
             case "pie":
               this.drawPie(drawRows);
               break;
+            case "donut":
+              this.drawDonut(drawRows);
+              break;
             case "stacked_bar":
               this.drawStackedBar(drawRows);
               break;
@@ -4714,11 +4859,17 @@ ${new XMLSerializer().serializeToString(clone)}`;
             case "flow":
               this.drawFlow();
               break;
+            case "chord":
+              this.drawChord();
+              break;
             case "lollipop":
               this.drawLollipop(drawRows);
               break;
             case "cleveland":
               this.drawCleveland(drawRows);
+              break;
+            case "treemap":
+              this.drawTreemap(drawRows);
               break;
             case "bar":
             default:
@@ -4954,11 +5105,48 @@ ${new XMLSerializer().serializeToString(clone)}`;
           this.drawAxisLabels(svg, w, h, m);
         }
         drawPie(rows) {
+          this.drawPieInternal(rows, 0);
+        }
+        /**
+         * Donut - a pie with the centre opened. The hole ratio is a CSS knob
+         * (--bdga-chart-donut-inner, a unitless fraction of the radius) so
+         * themes can tune it; the freed centre carries the visible-slice total.
+         */
+        drawDonut(rows) {
+          const ratio = cssNum(this.canvas, "--bdga-chart-donut-inner", 0.6);
+          this.drawPieInternal(rows, Math.min(0.85, Math.max(0.3, ratio)));
+        }
+        /** Shared pie/donut renderer; innerRatio 0 draws the full pie. */
+        drawPieInternal(rows, innerRatio) {
           const d3 = window.d3;
           const { w, h } = this.dims(null);
           const svg = this.svgRoot(w, h);
           const yKey = this.yKeys[0];
-          const r = Math.max(48, Math.min(w, h) / 2 - 72);
+          const visible = rows.filter((d) => !this.hidden.has(String(d[this.xKey])));
+          const totalValue = visible.reduce((a, d) => a + (Number(d[yKey]) || 0), 0);
+          const sum = totalValue || 1;
+          const sliceLabel = (row) => {
+            const pct = Math.round((Number(row[yKey]) || 0) / sum * 100);
+            return `${row[this.xKey]} (${pct}%)`;
+          };
+          const estWidth = (s) => String(s).length * 7.5;
+          const fullW = visible.reduce((a, row) => Math.max(a, estWidth(sliceLabel(row))), 0);
+          const wordW = visible.reduce(
+            (a, row) => sliceLabel(row).split(/\s+/).reduce((b, word) => Math.max(b, estWidth(word)), a),
+            0
+          );
+          const reserve = 38;
+          const upperR = Math.min(w, h) / 2 - 72;
+          const singleR = Math.min(upperR, w / 2 - fullW - reserve);
+          const pieFloor = Math.max(48, Math.min(w, h) / 2 * 0.45);
+          let r;
+          let wrapWidth = 0;
+          if (singleR >= pieFloor) {
+            r = Math.max(48, singleR);
+          } else {
+            r = Math.max(48, Math.min(upperR, w / 2 - wordW - reserve));
+            wrapWidth = Math.max(w / 2 - r - reserve, 40);
+          }
           const g = svg.append("g").attr("transform", `translate(${w / 2},${h / 2})`);
           const palette = this.palette;
           const total = rows.length;
@@ -4972,15 +5160,29 @@ ${new XMLSerializer().serializeToString(clone)}`;
               total <= palette.categorical.length ? palette.categorical[i] : shadeSequential(palette, i, total)
             );
           });
-          const visible = rows.filter((d) => !this.hidden.has(String(d[this.xKey])));
-          const sum = visible.reduce((a, d) => a + (Number(d[yKey]) || 0), 0) || 1;
           const pie = d3.pie().value((d) => d[yKey]);
-          const arc = d3.arc().innerRadius(0).outerRadius(r);
+          const arc = d3.arc().innerRadius(innerRatio > 0 ? r * innerRatio : 0).outerRadius(r);
           const arcs = pie(visible);
           const slices = g.selectAll("path.bdga-chart__pie-slice").data(arcs).join("path").attr("class", "bdga-chart__pie-slice").attr("d", arc).attr("data-bdga-series", (d) => String(d.data[this.xKey])).attr("fill", (d) => {
             const k = String(d.data[this.xKey]);
             return this.fillFor(svg, idxByKey.get(k) || 0, colorByKey.get(k) || palette.single);
           }).attr("stroke", "var(--ct-color-background, #fff)").attr("stroke-width", 2);
+          const wrapLabel = (s, width) => {
+            if (!width) return [s];
+            const lines = [];
+            let line = "";
+            s.split(/\s+/).forEach((word) => {
+              const probe = line ? `${line} ${word}` : word;
+              if (line && estWidth(probe) > width) {
+                lines.push(line);
+                line = word;
+              } else {
+                line = probe;
+              }
+            });
+            if (line) lines.push(line);
+            return lines;
+          };
           const labelArc = d3.arc().innerRadius(r + 6).outerRadius(r + 6);
           const mid = (d) => d.startAngle + (d.endAngle - d.startAngle) / 2;
           const labels = g.append("g").attr("class", "bdga-chart__pie-labels").attr("aria-hidden", "true");
@@ -4989,9 +5191,28 @@ ${new XMLSerializer().serializeToString(clone)}`;
             const elbow = labelArc.centroid(d);
             const end2 = [(r + 28) * (right2 ? 1 : -1), elbow[1]];
             labels.append("polyline").attr("class", "bdga-chart__pie-leader").attr("points", [arc.centroid(d), elbow, end2].map((p) => p.join(",")).join(" "));
-            const pct = Math.round((Number(d.data[yKey]) || 0) / sum * 100);
-            labels.append("text").attr("class", "bdga-chart__pie-label").attr("x", end2[0] + (right2 ? 4 : -4)).attr("y", end2[1]).attr("dy", "0.32em").attr("text-anchor", right2 ? "start" : "end").text(`${d.data[this.xKey]} (${pct}%)`);
+            const lines = wrapLabel(sliceLabel(d.data), wrapWidth);
+            const text = labels.append("text").attr("class", "bdga-chart__pie-label").attr("text-anchor", right2 ? "start" : "end");
+            const x = end2[0] + (right2 ? 4 : -4);
+            lines.forEach((ln, i) => {
+              text.append("tspan").attr("x", x).attr("y", end2[1]).attr("dy", `${0.32 + (i - (lines.length - 1) / 2) * 1.1}em`).text(ln);
+            });
           });
+          labels.selectAll("text").each((d_, i, textNodes) => {
+            const node = textNodes[i];
+            const box = node.getBBox();
+            const overLeft = -w / 2 + 2 - box.x;
+            const overRight = box.x + box.width - (w / 2 - 2);
+            if (overLeft > 0) node.setAttribute("transform", `translate(${overLeft},0)`);
+            else if (overRight > 0) node.setAttribute("transform", `translate(${-overRight},0)`);
+          });
+          if (innerRatio > 0) {
+            const centre = g.append("g").attr("aria-hidden", "true");
+            centre.append("text").attr("class", "bdga-chart__donut-total").attr("text-anchor", "middle").attr("dy", this.yLabel ? "-0.1em" : "0.35em").text(this.formatValue(totalValue));
+            if (this.yLabel) {
+              centre.append("text").attr("class", "bdga-chart__donut-total-label").attr("text-anchor", "middle").attr("dy", "1.4em").text(this.yLabel);
+            }
+          }
           this.addPoints(
             null,
             slices.nodes().map((el) => {
@@ -5121,6 +5342,61 @@ ${new XMLSerializer().serializeToString(clone)}`;
           });
           this.drawAxisLabels(svg, w, h, m);
           this.exposePlot(Drupal2.t("Tab to each row for its values."));
+        }
+        /**
+         * Treemap - single-level part-to-whole tiling. Each row is a leaf sized
+         * by the primary Y value; rows with non-positive values are dropped (the
+         * layout needs positive sums). Cells are the focusable points with
+         * pie-style share labels; cell text clips to its rect and hides entirely
+         * in cells too small to read (aria-label, tooltip and table remain).
+         */
+        drawTreemap(rows) {
+          const d3 = window.d3;
+          const { w, h } = this.dims(null);
+          const yKey = this.yKeys[0];
+          const plotted = rows.filter((r) => (Number(r[yKey]) || 0) > 0);
+          if (!plotted.length) return;
+          const svg = this.svgRoot(w, h);
+          const sum = plotted.reduce((a, r) => a + (Number(r[yKey]) || 0), 0) || 1;
+          const root = d3.hierarchy({ children: plotted }).sum((d) => Number(d[yKey]) || 0);
+          d3.treemap().size([w, h]).padding(2)(root);
+          const palette = this.palette;
+          const total = plotted.length;
+          const colorAt = (i) => total <= palette.categorical.length ? palette.categorical[i] : shadeSequential(palette, i, total);
+          let defs = svg.select("defs");
+          if (defs.empty()) defs = svg.append("defs");
+          const cells = svg.append("g").selectAll("g").data(root.leaves()).join("g").attr("class", "bdga-chart__treemap-cell").attr("transform", (d) => `translate(${d.x0},${d.y0})`);
+          cells.each((d, i, cellNodes) => {
+            const cell = d3.select(cellNodes[i]);
+            const cw = d.x1 - d.x0;
+            const ch = d.y1 - d.y0;
+            const fill = colorAt(i);
+            cell.append("rect").attr("width", Math.max(1, cw)).attr("height", Math.max(1, ch)).attr("fill", this.fillFor(svg, i, fill)).attr("stroke", "var(--ct-color-background, #fff)").attr("stroke-width", 1);
+            if (cw < 56 || ch < 26) return;
+            const clipId = `bdga-treemap-clip-${this.id || "chart"}-${i}`.replace(/[^\w-]+/g, "-");
+            defs.append("clipPath").attr("id", clipId).append("rect").attr("width", Math.max(0, cw - 6)).attr("height", ch);
+            const pct = Math.round((Number(d.data[yKey]) || 0) / sum * 100);
+            const text = cell.append("text").attr("clip-path", `url(#${clipId})`).attr("fill", textColorFor(fill));
+            text.append("tspan").attr("class", "bdga-chart__treemap-label").attr("x", 6).attr("y", 17).text(String(d.data[this.xKey]));
+            if (ch >= 40) {
+              text.append("tspan").attr("class", "bdga-chart__treemap-value").attr("x", 6).attr("y", 33).text(`${this.formatValue(d.data[yKey])} (${pct}%)`);
+            }
+          });
+          this.addPoints(
+            null,
+            cells.nodes().map((el) => {
+              const d = d3.select(el).datum();
+              const pct = Math.round((Number(d.data[yKey]) || 0) / sum * 100);
+              return {
+                el,
+                label: Drupal2.t("@x: @v, @p% of total", {
+                  "@x": d.data[this.xKey],
+                  "@v": this.formatValue(d.data[yKey]),
+                  "@p": pct
+                })
+              };
+            })
+          );
         }
         /**
          * Internal: render a sankey diagram for the given alignment.
@@ -5319,6 +5595,70 @@ ${new XMLSerializer().serializeToString(clone)}`;
         drawFlow() {
           this.drawSankeyInternal(window.d3.sankeyJustify);
         }
+        /**
+         * Chord - directed circular flow diagram over the same nodes + links
+         * shape as sankey. Groups (arcs) are the entities and the focusable
+         * points; ribbons connect source to target with an arrowhead at the
+         * target so paired opposite flows stay distinguishable, and self-loops
+         * render as self-ribbons. Ribbons are hover-only emphasis targets like
+         * sankey links; AT reads the arcs and the 3-column table.
+         */
+        drawChord() {
+          const d3 = window.d3;
+          const w = this.canvas.clientWidth || 640;
+          const h = Math.min(Math.max(w * 0.7, 320), 640);
+          const svg = this.svgRoot(w, h);
+          const g = svg.append("g").attr("transform", `translate(${w / 2},${h / 2})`);
+          const sideReserve = cssNum(this.canvas, "--bdga-chart-chord-margin-x", 120);
+          const topReserve = cssNum(this.canvas, "--bdga-chart-chord-margin-y", 28);
+          const outer = Math.max(60, Math.min(w / 2 - sideReserve, h / 2 - topReserve));
+          const inner = Math.max(48, outer - 14);
+          const ids = this.nodes.map((n) => n.id);
+          const indexById = new Map(ids.map((id, i) => [id, i]));
+          const matrix = ids.map(() => ids.map(() => 0));
+          this.links.forEach((l) => {
+            const s = indexById.get(l.source && l.source.id ? l.source.id : l.source);
+            const t = indexById.get(l.target && l.target.id ? l.target.id : l.target);
+            const v = Number(l.value);
+            if (s === void 0 || t === void 0) return;
+            if (!Number.isFinite(v) || v <= 0) return;
+            matrix[s][t] += v;
+          });
+          const chords = d3.chordDirected().padAngle(0.04).sortSubgroups(d3.descending)(matrix);
+          const palette = this.palette;
+          const colorFor = (i) => i < palette.categorical.length ? palette.categorical[i] : shadeSequential(palette, i, ids.length);
+          const arc = d3.arc().innerRadius(inner).outerRadius(outer);
+          const ribbon = d3.ribbonArrow().radius(inner - 2);
+          const flowLabel = (d) => `${ids[d.source.index]} → ${ids[d.target.index]}: ${this.formatValue(d.source.value)}`;
+          const ribbonGroup = g.append("g").attr("aria-hidden", "true");
+          ribbonGroup.selectAll("path").data(chords).join("path").attr("class", "bdga-chart__chord-ribbon").attr("data-bdga-link", "").attr("data-bdga-chord-source", (d) => ids[d.source.index]).attr("data-bdga-chord-target", (d) => ids[d.target.index]).attr("aria-label", flowLabel).attr("d", ribbon).attr("fill", (d) => colorFor(d.source.index)).attr("fill-opacity", 0.7).append("title").text(flowLabel);
+          const midAngle = (d) => (d.startAngle + d.endAngle) / 2;
+          const groups = g.selectAll("g.bdga-chart__chord-arc").data(chords.groups).join("g").attr("class", "bdga-chart__chord-arc").attr("data-bdga-chord-id", (d) => ids[d.index]);
+          groups.append("path").attr("d", arc).attr("fill", (d) => colorFor(d.index));
+          groups.append("text").attr("class", "bdga-chart__chord-label").attr("transform", (d) => {
+            const a = midAngle(d);
+            const x = Math.sin(a) * (outer + 8);
+            const y = -Math.cos(a) * (outer + 8);
+            return `translate(${x},${y})`;
+          }).attr("text-anchor", (d) => midAngle(d) > Math.PI ? "end" : "start").attr("dy", "0.35em").text((d) => ids[d.index]);
+          this.addPoints(
+            null,
+            groups.nodes().map((el) => {
+              const d = d3.select(el).datum();
+              const i = d.index;
+              const out = matrix[i].reduce((a, v) => a + v, 0);
+              const inc = matrix.reduce((a, row) => a + row[i], 0);
+              return {
+                el,
+                label: Drupal2.t("@x: @out out, @in in", {
+                  "@x": ids[i],
+                  "@out": this.formatValue(out),
+                  "@in": this.formatValue(inc)
+                })
+              };
+            })
+          );
+        }
       }
     })(window.Drupal, window.once);
     (function() {
@@ -5343,7 +5683,7 @@ ${new XMLSerializer().serializeToString(clone)}`;
       );
     })();
   }
-  function init19() {
+  function init20() {
     (function() {
       if (typeof window.Drupal === "undefined") {
         window.Drupal = {
@@ -5844,7 +6184,7 @@ ${new XMLSerializer().serializeToString(clone)}`;
       );
     })();
   }
-  function init20() {
+  function init21() {
     (function() {
       function initWrapper(wrapper) {
         var _a;
@@ -5967,7 +6307,7 @@ ${new XMLSerializer().serializeToString(clone)}`;
       }
     })();
   }
-  function init21() {
+  function init22() {
     (function() {
       if (typeof window.Drupal === "undefined") {
         window.Drupal = {
@@ -6316,7 +6656,7 @@ ${new XMLSerializer().serializeToString(clone)}`;
       );
     })();
   }
-  function init22() {
+  function init23() {
     function CivicThemeSlider(el) {
       if (el.getAttribute("data-slider") === "true" || this.el) {
         return;
@@ -6450,7 +6790,7 @@ ${new XMLSerializer().serializeToString(clone)}`;
       new MutationObserver(() => initAll()).observe(document.body || document.documentElement, { childList: true, subtree: true });
     }
   }
-  function init23() {
+  function init24() {
     function CivicThemeStepByStepNav(el) {
       if (el.getAttribute("data-step-by-step-nav") === "true" || this.el) {
         return;
@@ -6527,7 +6867,7 @@ ${new XMLSerializer().serializeToString(clone)}`;
       }).observe(document.body || document.documentElement, { childList: true, subtree: true });
     }
   }
-  function init24() {
+  function init25() {
     function CivicThemeWebform(el) {
       if (el.getAttribute("data-webform") === "true" || this.el) {
         return;
@@ -6571,13 +6911,14 @@ ${new XMLSerializer().serializeToString(clone)}`;
     civictheme_tabs: init15,
     civictheme_tooltip: init16,
     civictheme_alert: init17,
-    civictheme_chart: init18,
-    civictheme_decision_tool: init19,
-    civictheme_filterable_table: init20,
-    civictheme_search_assistant: init21,
-    civictheme_slider: init22,
-    civictheme_step_by_step_nav: init23,
-    civictheme_webform: init24
+    civictheme_chart_collection: init18,
+    civictheme_chart: init19,
+    civictheme_decision_tool: init20,
+    civictheme_filterable_table: init21,
+    civictheme_search_assistant: init22,
+    civictheme_slider: init23,
+    civictheme_step_by_step_nav: init24,
+    civictheme_webform: init25
   };
   function attach() {
     Object.entries(behaviours).forEach(([name, init]) => {

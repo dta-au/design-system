@@ -1,0 +1,121 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
+name: Chart Collection
+status: experimental
+description: 'A group of related charts rendered as embedded panels in a responsive grid, inside one keyline frame with a shared title, description and a control that toggles every panel data table. Composes the chart organism; each panel keeps its own fallback table.'
+props:
+  type: object
+  required:
+    - collection_id
+  properties:
+    collection_id:
+      type: string
+      title: 'Collection ID'
+      description: 'Unique, sanitised DOM id. Prefixes generated panel ids and wires aria-labelledby, aria-describedby and aria-controls.'
+    title:
+      type: string
+      title: Title
+      description: 'Plain-text collection heading; names the section region via aria-labelledby.'
+    description:
+      type: string
+      title: Description
+      description: 'Plain-text description referenced by aria-describedby.'
+    theme:
+      type: string
+      title: Theme
+      enum:
+        - light
+        - dark
+      default: light
+    heading_level:
+      type: integer
+      title: Heading level
+      description: 'Heading level for the collection title. Panel titles render one level lower (clamped at 6) unless a panel overrides.'
+      enum:
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+      default: 2
+    columns:
+      type: integer
+      title: Columns
+      description: 'Panel columns at wide container widths; narrow containers collapse to one column via container query.'
+      enum:
+        - 1
+        - 2
+        - 3
+      default: 2
+    toolbar:
+      type: boolean
+      title: 'Shared toolbar'
+      description: 'Render the collection toolbar with a "View all as tables" control that toggles every panel disclosure. Progressive enhancement: each panel summary works without it.'
+      default: true
+    vertical_spacing:
+      type: string
+      title: Vertical Spacing
+      description: 'Vertical spacing (top, bottom, both, or none).'
+      enum:
+        - none
+        - top
+        - bottom
+        - both
+    panels:
+      type: array
+      title: Panels
+      description: 'Chart prop sets, one per panel, forwarded verbatim to the chart component with embedded true. Each panel needs its own pre-encoded config_json and a page-unique chart_id (defaults to {collection_id}__panel-N). theme is forced to the collection theme and the per-panel toolbar defaults off. Any chart prop is accepted; only the high-traffic keys are typed here.'
+      items:
+        type: object
+        properties:
+          chart_id:
+            type: string
+            title: 'Chart ID'
+          chart_type:
+            type: string
+            title: 'Chart type'
+            enum:
+              - bar
+              - grouped_bar
+              - stacked_bar
+              - line
+              - pie
+              - donut
+              - sankey
+              - lollipop
+              - cleveland
+              - flow
+              - chord
+              - treemap
+          title:
+            type: string
+            title: Title
+          description:
+            type: string
+            title: Description
+          x_key:
+            type: string
+            title: 'X axis key'
+          y_keys:
+            type: array
+            title: 'Y axis keys'
+            items:
+              type: string
+          rows:
+            type: array
+            title: 'Pre-parsed rows'
+            items:
+              type: object
+          config_json:
+            type: string
+            title: 'Config JSON'
+          toolbar:
+            type: boolean
+            title: 'Panel toolbar'
+            default: false
+          legend:
+            type: boolean
+            title: 'Interactive legend'
+    modifier_class:
+      type: string
+      title: 'Modifier class'
+      description: 'Additional CSS classes.'

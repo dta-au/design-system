@@ -1,0 +1,1569 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Chart Component chord forces the 3-column flow table 1`] = `
+<div>
+  
+
+
+
+
+
+
+
+  <div
+    class="bdga-chart-block ct-theme-light"
+  >
+    
+
+    <div
+      class="container"
+    >
+      
+
+      <div
+        class="row"
+      >
+        
+
+        <div
+          class="col-xxs-12"
+        >
+          
+
+          <figure
+            aria-describedby="test-chord__desc"
+            aria-labelledby="test-chord__title"
+            class="bdga-chart ct-theme-light bdga-chart--chord"
+            data-bdga-chart="chord"
+            data-bdga-chart-id="test-chord"
+            data-bdga-chart-source="json"
+            data-bdga-chart-x="source"
+            data-bdga-chart-y="value"
+            id="test-chord"
+            role="figure"
+          >
+            
+  
+            <figcaption
+              class="bdga-chart__caption"
+            >
+              
+          
+              <h3
+                class="bdga-chart__title"
+                id="test-chord__title"
+              >
+                Test chart
+              </h3>
+              
+              
+              <p
+                class="bdga-chart__description"
+                id="test-chord__desc"
+              >
+                Chart under test.
+              </p>
+              
+      
+            </figcaption>
+            
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+            <output
+              aria-atomic="true"
+              aria-live="polite"
+              class="bdga-chart__status visually-hidden"
+              data-bdga-chart-status=""
+              id="test-chord__status"
+              role="status"
+            />
+            
+
+  
+            <div
+              aria-hidden="true"
+              class="bdga-chart__canvas"
+              data-bdga-chart-canvas=""
+            />
+            
+
+  
+            <div
+              class="bdga-chart__error"
+              data-bdga-chart-error=""
+              hidden=""
+              id="test-chord__error"
+              role="alert"
+            >
+              
+    Chart unavailable. The data source could not be loaded or validated.
+  
+            </div>
+            
+
+  
+            <details
+              class="bdga-chart__data"
+              id="test-chord__data"
+            >
+              
+    
+              <summary
+                class="bdga-chart__data-toggle"
+              >
+                Show underlying data
+              </summary>
+              
+    
+              <table
+                class="bdga-chart__table"
+                data-bdga-chart-data=""
+              >
+                
+      
+                <caption
+                  class="visually-hidden"
+                >
+                  Test chart - data table
+                </caption>
+                
+              
+        
+                <thead>
+                  
+          
+                  <tr>
+                    
+            
+                    <th
+                      data-bdga-key="source"
+                      scope="col"
+                    >
+                      From
+                    </th>
+                    
+            
+                    <th
+                      data-bdga-key="target"
+                      scope="col"
+                    >
+                      To
+                    </th>
+                    
+            
+                    <th
+                      data-bdga-key="value"
+                      scope="col"
+                    >
+                      Count
+                    </th>
+                    
+          
+                  </tr>
+                  
+        
+                </thead>
+                
+        
+                <tbody>
+                  
+                      
+                  <tr>
+                    
+              
+                    <th
+                      data-bdga-key="source"
+                      scope="row"
+                    >
+                      NSW
+                    </th>
+                    
+              
+                    <td
+                      data-bdga-key="target"
+                    >
+                      Vic
+                    </td>
+                    
+              
+                    <td
+                      data-bdga-key="value"
+                      data-value="10"
+                    >
+                      10
+                    </td>
+                    
+            
+                  </tr>
+                  
+                      
+                  <tr>
+                    
+              
+                    <th
+                      data-bdga-key="source"
+                      scope="row"
+                    >
+                      Vic
+                    </th>
+                    
+              
+                    <td
+                      data-bdga-key="target"
+                    >
+                      NSW
+                    </td>
+                    
+              
+                    <td
+                      data-bdga-key="value"
+                      data-value="7"
+                    >
+                      7
+                    </td>
+                    
+            
+                  </tr>
+                  
+                  
+                </tbody>
+                
+          
+              </table>
+              
+  
+            </details>
+            
+
+  
+          </figure>
+          
+
+        </div>
+        
+
+      </div>
+      
+
+    </div>
+    
+
+  </div>
+  
+
+</div>
+`;
+
+exports[`Chart Component embedded renders the bare figure only 1`] = `
+<div>
+  
+
+
+
+
+
+
+
+  <figure
+    aria-describedby="test-embedded__desc"
+    aria-labelledby="test-embedded__title"
+    class="bdga-chart ct-theme-light bdga-chart--donut bdga-chart--embedded"
+    data-bdga-chart="donut"
+    data-bdga-chart-id="test-embedded"
+    data-bdga-chart-source="json"
+    data-bdga-chart-x="source"
+    data-bdga-chart-y="share"
+    id="test-embedded"
+    role="figure"
+  >
+    
+  
+    <figcaption
+      class="bdga-chart__caption"
+    >
+      
+          
+      <h3
+        class="bdga-chart__title"
+        id="test-embedded__title"
+      >
+        Test chart
+      </h3>
+      
+              
+      <p
+        class="bdga-chart__description"
+        id="test-embedded__desc"
+      >
+        Chart under test.
+      </p>
+      
+      
+    </figcaption>
+    
+
+  
+  
+  
+  
+      
+    <ul
+      aria-label="Toggle data series"
+      class="bdga-chart__legend"
+      data-bdga-chart-legend=""
+    />
+    
+  
+  
+  
+  
+  
+  
+    <output
+      aria-atomic="true"
+      aria-live="polite"
+      class="bdga-chart__status visually-hidden"
+      data-bdga-chart-status=""
+      id="test-embedded__status"
+      role="status"
+    />
+    
+
+  
+    <div
+      aria-hidden="true"
+      class="bdga-chart__canvas"
+      data-bdga-chart-canvas=""
+    />
+    
+
+  
+    <div
+      class="bdga-chart__error"
+      data-bdga-chart-error=""
+      hidden=""
+      id="test-embedded__error"
+      role="alert"
+    >
+      
+    Chart unavailable. The data source could not be loaded or validated.
+  
+    </div>
+    
+
+  
+    <details
+      class="bdga-chart__data"
+      id="test-embedded__data"
+    >
+      
+    
+      <summary
+        class="bdga-chart__data-toggle"
+      >
+        Show underlying data
+      </summary>
+      
+    
+      <table
+        class="bdga-chart__table"
+        data-bdga-chart-data=""
+      >
+        
+      
+        <caption
+          class="visually-hidden"
+        >
+          Test chart - data table
+        </caption>
+        
+              
+        <thead>
+          
+          
+          <tr>
+            
+            
+            <th
+              data-bdga-key="source"
+              scope="col"
+            >
+              source
+            </th>
+            
+            
+                          
+            <th
+              data-bdga-key="share"
+              scope="col"
+            >
+              share
+            </th>
+            
+                      
+          </tr>
+          
+        
+        </thead>
+        
+        
+        <tbody>
+          
+                      
+          <tr>
+            
+              
+            <th
+              data-bdga-key="source"
+              scope="row"
+            >
+              Renewable
+            </th>
+            
+                              
+            <td
+              data-bdga-key="share"
+              data-value="44"
+            >
+              44
+            </td>
+            
+                          
+          </tr>
+          
+                      
+          <tr>
+            
+              
+            <th
+              data-bdga-key="source"
+              scope="row"
+            >
+              Fossil
+            </th>
+            
+                              
+            <td
+              data-bdga-key="share"
+              data-value="56"
+            >
+              56
+            </td>
+            
+                          
+          </tr>
+          
+                  
+        </tbody>
+        
+          
+      </table>
+      
+  
+    </details>
+    
+
+  
+  </figure>
+  
+
+</div>
+`;
+
+exports[`Chart Component renders donut with legend and standard x/y table 1`] = `
+<div>
+  
+
+
+
+
+
+
+
+  <div
+    class="bdga-chart-block ct-theme-light"
+  >
+    
+
+    <div
+      class="container"
+    >
+      
+
+      <div
+        class="row"
+      >
+        
+
+        <div
+          class="col-xxs-12"
+        >
+          
+
+          <figure
+            aria-describedby="test-chart__desc"
+            aria-labelledby="test-chart__title"
+            class="bdga-chart ct-theme-light bdga-chart--donut"
+            data-bdga-chart="donut"
+            data-bdga-chart-id="test-chart"
+            data-bdga-chart-source="json"
+            data-bdga-chart-x="source"
+            data-bdga-chart-y="share"
+            id="test-chart"
+            role="figure"
+          >
+            
+  
+            <figcaption
+              class="bdga-chart__caption"
+            >
+              
+          
+              <h3
+                class="bdga-chart__title"
+                id="test-chart__title"
+              >
+                Test chart
+              </h3>
+              
+              
+              <p
+                class="bdga-chart__description"
+                id="test-chart__desc"
+              >
+                Chart under test.
+              </p>
+              
+      
+            </figcaption>
+            
+
+  
+  
+  
+  
+      
+            <ul
+              aria-label="Toggle data series"
+              class="bdga-chart__legend"
+              data-bdga-chart-legend=""
+            />
+            
+  
+  
+  
+  
+  
+  
+            <output
+              aria-atomic="true"
+              aria-live="polite"
+              class="bdga-chart__status visually-hidden"
+              data-bdga-chart-status=""
+              id="test-chart__status"
+              role="status"
+            />
+            
+
+  
+            <div
+              aria-hidden="true"
+              class="bdga-chart__canvas"
+              data-bdga-chart-canvas=""
+            />
+            
+
+  
+            <div
+              class="bdga-chart__error"
+              data-bdga-chart-error=""
+              hidden=""
+              id="test-chart__error"
+              role="alert"
+            >
+              
+    Chart unavailable. The data source could not be loaded or validated.
+  
+            </div>
+            
+
+  
+            <details
+              class="bdga-chart__data"
+              id="test-chart__data"
+            >
+              
+    
+              <summary
+                class="bdga-chart__data-toggle"
+              >
+                Show underlying data
+              </summary>
+              
+    
+              <table
+                class="bdga-chart__table"
+                data-bdga-chart-data=""
+              >
+                
+      
+                <caption
+                  class="visually-hidden"
+                >
+                  Test chart - data table
+                </caption>
+                
+              
+                <thead>
+                  
+          
+                  <tr>
+                    
+            
+                    <th
+                      data-bdga-key="source"
+                      scope="col"
+                    >
+                      source
+                    </th>
+                    
+            
+                          
+                    <th
+                      data-bdga-key="share"
+                      scope="col"
+                    >
+                      share
+                    </th>
+                    
+                      
+                  </tr>
+                  
+        
+                </thead>
+                
+        
+                <tbody>
+                  
+                      
+                  <tr>
+                    
+              
+                    <th
+                      data-bdga-key="source"
+                      scope="row"
+                    >
+                      Renewable
+                    </th>
+                    
+                              
+                    <td
+                      data-bdga-key="share"
+                      data-value="44"
+                    >
+                      44
+                    </td>
+                    
+                          
+                  </tr>
+                  
+                      
+                  <tr>
+                    
+              
+                    <th
+                      data-bdga-key="source"
+                      scope="row"
+                    >
+                      Fossil
+                    </th>
+                    
+                              
+                    <td
+                      data-bdga-key="share"
+                      data-value="56"
+                    >
+                      56
+                    </td>
+                    
+                          
+                  </tr>
+                  
+                  
+                </tbody>
+                
+          
+              </table>
+              
+  
+            </details>
+            
+
+  
+          </figure>
+          
+
+        </div>
+        
+
+      </div>
+      
+
+    </div>
+    
+
+  </div>
+  
+
+</div>
+`;
+
+exports[`Chart Component swap variant renders the icon control and drops the toolbar table button 1`] = `
+<div>
+  
+
+
+
+
+
+
+
+  <div
+    class="bdga-chart-block ct-theme-light"
+  >
+    
+
+    <div
+      class="container"
+    >
+      
+
+      <div
+        class="row"
+      >
+        
+
+        <div
+          class="col-xxs-12"
+        >
+          
+
+          <figure
+            aria-describedby="test-swap__desc"
+            aria-labelledby="test-swap__title"
+            class="bdga-chart ct-theme-light bdga-chart--donut bdga-chart--swap-table"
+            data-bdga-chart="donut"
+            data-bdga-chart-id="test-swap"
+            data-bdga-chart-source="json"
+            data-bdga-chart-x="source"
+            data-bdga-chart-y="share"
+            id="test-swap"
+            role="figure"
+          >
+            
+  
+            <figcaption
+              class="bdga-chart__caption"
+            >
+              
+          
+              <h3
+                class="bdga-chart__title"
+                id="test-swap__title"
+              >
+                Test chart
+              </h3>
+              
+              
+              <p
+                class="bdga-chart__description"
+                id="test-swap__desc"
+              >
+                Chart under test.
+              </p>
+              
+      
+            </figcaption>
+            
+
+  
+      
+            <button
+              aria-controls="test-swap__data"
+              aria-expanded="false"
+              aria-label="View data as table"
+              class="bdga-chart__table-swap"
+              data-bdga-chart-table-swap=""
+              data-label-hide="View chart"
+              data-label-show="View data as table"
+              type="button"
+            >
+              
+      
+              <span
+                aria-hidden="true"
+                class="bdga-chart__table-swap-icon bdga-chart__table-swap-icon--table"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="ct-icon"
+                  fill="currentColor"
+                  height="24"
+                  viewBox="0 -960 960 960"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm240-240H200v160h240v-160Zm80 0v160h240v-160H520Zm-80-80v-160H200v160h240Zm80 0h240v-160H520v160ZM200-680h560v-80H200v80Z"
+                  />
+                </svg>
+              </span>
+              
+      
+              <span
+                aria-hidden="true"
+                class="bdga-chart__table-swap-icon bdga-chart__table-swap-icon--chart"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="ct-icon"
+                  fill="currentColor"
+                  height="24"
+                  viewBox="0 -960 960 960"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M640-160v-280h160v280H640Zm-240 0v-640h160v640H400Zm-240 0v-440h160v440H160Z"
+                  />
+                </svg>
+              </span>
+              
+    
+            </button>
+            
+  
+  
+      
+            <div
+              aria-label="Chart controls"
+              class="bdga-chart__toolbar"
+              data-bdga-chart-toolbar=""
+              role="toolbar"
+            >
+              
+                            
+              <div
+                class="bdga-chart__menu-wrap"
+              >
+                
+          
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="menu"
+                  aria-label="More chart options"
+                  class="bdga-chart__tool bdga-chart__menu-button"
+                  data-bdga-chart-menu-button=""
+                  type="button"
+                >
+                  <span
+                    aria-hidden="true"
+                    class="bdga-chart__menu-icon"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="ct-icon"
+                      fill="currentColor"
+                      height="24"
+                      viewBox="0 -960 960 960"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z"
+                      />
+                    </svg>
+                  </span>
+                </button>
+                
+          
+                <ul
+                  class="bdga-chart__menu"
+                  data-bdga-chart-menu=""
+                  hidden=""
+                  role="menu"
+                />
+                
+        
+              </div>
+              
+          
+            </div>
+            
+  
+      
+            <ul
+              aria-label="Toggle data series"
+              class="bdga-chart__legend"
+              data-bdga-chart-legend=""
+            />
+            
+  
+  
+  
+  
+  
+  
+            <output
+              aria-atomic="true"
+              aria-live="polite"
+              class="bdga-chart__status visually-hidden"
+              data-bdga-chart-status=""
+              id="test-swap__status"
+              role="status"
+            />
+            
+
+  
+            <div
+              aria-hidden="true"
+              class="bdga-chart__canvas"
+              data-bdga-chart-canvas=""
+            />
+            
+
+  
+            <div
+              class="bdga-chart__error"
+              data-bdga-chart-error=""
+              hidden=""
+              id="test-swap__error"
+              role="alert"
+            >
+              
+    Chart unavailable. The data source could not be loaded or validated.
+  
+            </div>
+            
+
+  
+            <details
+              class="bdga-chart__data"
+              id="test-swap__data"
+            >
+              
+    
+              <summary
+                class="bdga-chart__data-toggle"
+              >
+                Show underlying data
+              </summary>
+              
+    
+              <table
+                class="bdga-chart__table"
+                data-bdga-chart-data=""
+              >
+                
+      
+                <caption
+                  class="visually-hidden"
+                >
+                  Test chart - data table
+                </caption>
+                
+              
+                <thead>
+                  
+          
+                  <tr>
+                    
+            
+                    <th
+                      data-bdga-key="source"
+                      scope="col"
+                    >
+                      source
+                    </th>
+                    
+            
+                          
+                    <th
+                      data-bdga-key="share"
+                      scope="col"
+                    >
+                      share
+                    </th>
+                    
+                      
+                  </tr>
+                  
+        
+                </thead>
+                
+        
+                <tbody>
+                  
+                      
+                  <tr>
+                    
+              
+                    <th
+                      data-bdga-key="source"
+                      scope="row"
+                    >
+                      Renewable
+                    </th>
+                    
+                              
+                    <td
+                      data-bdga-key="share"
+                      data-value="44"
+                    >
+                      44
+                    </td>
+                    
+                          
+                  </tr>
+                  
+                      
+                  <tr>
+                    
+              
+                    <th
+                      data-bdga-key="source"
+                      scope="row"
+                    >
+                      Fossil
+                    </th>
+                    
+                              
+                    <td
+                      data-bdga-key="share"
+                      data-value="56"
+                    >
+                      56
+                    </td>
+                    
+                          
+                  </tr>
+                  
+                  
+                </tbody>
+                
+          
+              </table>
+              
+  
+            </details>
+            
+
+  
+          </figure>
+          
+
+        </div>
+        
+
+      </div>
+      
+
+    </div>
+    
+
+  </div>
+  
+
+</div>
+`;
+
+exports[`Chart Component treemap keeps the standard x/y table and no legend 1`] = `
+<div>
+  
+
+
+
+
+
+
+
+  <div
+    class="bdga-chart-block ct-theme-light"
+  >
+    
+
+    <div
+      class="container"
+    >
+      
+
+      <div
+        class="row"
+      >
+        
+
+        <div
+          class="col-xxs-12"
+        >
+          
+
+          <figure
+            aria-describedby="test-treemap__desc"
+            aria-labelledby="test-treemap__title"
+            class="bdga-chart ct-theme-light bdga-chart--treemap"
+            data-bdga-chart="treemap"
+            data-bdga-chart-id="test-treemap"
+            data-bdga-chart-source="json"
+            data-bdga-chart-x="source"
+            data-bdga-chart-y="share"
+            id="test-treemap"
+            role="figure"
+          >
+            
+  
+            <figcaption
+              class="bdga-chart__caption"
+            >
+              
+          
+              <h3
+                class="bdga-chart__title"
+                id="test-treemap__title"
+              >
+                Test chart
+              </h3>
+              
+              
+              <p
+                class="bdga-chart__description"
+                id="test-treemap__desc"
+              >
+                Chart under test.
+              </p>
+              
+      
+            </figcaption>
+            
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+            <output
+              aria-atomic="true"
+              aria-live="polite"
+              class="bdga-chart__status visually-hidden"
+              data-bdga-chart-status=""
+              id="test-treemap__status"
+              role="status"
+            />
+            
+
+  
+            <div
+              aria-hidden="true"
+              class="bdga-chart__canvas"
+              data-bdga-chart-canvas=""
+            />
+            
+
+  
+            <div
+              class="bdga-chart__error"
+              data-bdga-chart-error=""
+              hidden=""
+              id="test-treemap__error"
+              role="alert"
+            >
+              
+    Chart unavailable. The data source could not be loaded or validated.
+  
+            </div>
+            
+
+  
+            <details
+              class="bdga-chart__data"
+              id="test-treemap__data"
+            >
+              
+    
+              <summary
+                class="bdga-chart__data-toggle"
+              >
+                Show underlying data
+              </summary>
+              
+    
+              <table
+                class="bdga-chart__table"
+                data-bdga-chart-data=""
+              >
+                
+      
+                <caption
+                  class="visually-hidden"
+                >
+                  Test chart - data table
+                </caption>
+                
+              
+                <thead>
+                  
+          
+                  <tr>
+                    
+            
+                    <th
+                      data-bdga-key="source"
+                      scope="col"
+                    >
+                      source
+                    </th>
+                    
+            
+                          
+                    <th
+                      data-bdga-key="share"
+                      scope="col"
+                    >
+                      share
+                    </th>
+                    
+                      
+                  </tr>
+                  
+        
+                </thead>
+                
+        
+                <tbody>
+                  
+                      
+                  <tr>
+                    
+              
+                    <th
+                      data-bdga-key="source"
+                      scope="row"
+                    >
+                      Renewable
+                    </th>
+                    
+                              
+                    <td
+                      data-bdga-key="share"
+                      data-value="44"
+                    >
+                      44
+                    </td>
+                    
+                          
+                  </tr>
+                  
+                      
+                  <tr>
+                    
+              
+                    <th
+                      data-bdga-key="source"
+                      scope="row"
+                    >
+                      Fossil
+                    </th>
+                    
+                              
+                    <td
+                      data-bdga-key="share"
+                      data-value="56"
+                    >
+                      56
+                    </td>
+                    
+                          
+                  </tr>
+                  
+                  
+                </tbody>
+                
+          
+              </table>
+              
+  
+            </details>
+            
+
+  
+          </figure>
+          
+
+        </div>
+        
+
+      </div>
+      
+
+    </div>
+    
+
+  </div>
+  
+
+</div>
+`;
+
+exports[`Chart Component unknown chart type falls back to bar 1`] = `
+<div>
+  
+
+
+
+
+
+
+
+  <div
+    class="bdga-chart-block ct-theme-light"
+  >
+    
+
+    <div
+      class="container"
+    >
+      
+
+      <div
+        class="row"
+      >
+        
+
+        <div
+          class="col-xxs-12"
+        >
+          
+
+          <figure
+            aria-describedby="test-unknown__desc"
+            aria-labelledby="test-unknown__title"
+            class="bdga-chart ct-theme-light bdga-chart--bar"
+            data-bdga-chart="bar"
+            data-bdga-chart-id="test-unknown"
+            data-bdga-chart-source="json"
+            data-bdga-chart-x="source"
+            data-bdga-chart-y="share"
+            id="test-unknown"
+            role="figure"
+          >
+            
+  
+            <figcaption
+              class="bdga-chart__caption"
+            >
+              
+          
+              <h3
+                class="bdga-chart__title"
+                id="test-unknown__title"
+              >
+                Test chart
+              </h3>
+              
+              
+              <p
+                class="bdga-chart__description"
+                id="test-unknown__desc"
+              >
+                Chart under test.
+              </p>
+              
+      
+            </figcaption>
+            
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+            <output
+              aria-atomic="true"
+              aria-live="polite"
+              class="bdga-chart__status visually-hidden"
+              data-bdga-chart-status=""
+              id="test-unknown__status"
+              role="status"
+            />
+            
+
+  
+            <div
+              aria-hidden="true"
+              class="bdga-chart__canvas"
+              data-bdga-chart-canvas=""
+            />
+            
+
+  
+            <div
+              class="bdga-chart__error"
+              data-bdga-chart-error=""
+              hidden=""
+              id="test-unknown__error"
+              role="alert"
+            >
+              
+    Chart unavailable. The data source could not be loaded or validated.
+  
+            </div>
+            
+
+  
+            <details
+              class="bdga-chart__data"
+              id="test-unknown__data"
+            >
+              
+    
+              <summary
+                class="bdga-chart__data-toggle"
+              >
+                Show underlying data
+              </summary>
+              
+    
+              <table
+                class="bdga-chart__table"
+                data-bdga-chart-data=""
+              >
+                
+      
+                <caption
+                  class="visually-hidden"
+                >
+                  Test chart - data table
+                </caption>
+                
+              
+                <thead>
+                  
+          
+                  <tr>
+                    
+            
+                    <th
+                      data-bdga-key="source"
+                      scope="col"
+                    >
+                      source
+                    </th>
+                    
+            
+                          
+                    <th
+                      data-bdga-key="share"
+                      scope="col"
+                    >
+                      share
+                    </th>
+                    
+                      
+                  </tr>
+                  
+        
+                </thead>
+                
+        
+                <tbody>
+                  
+                      
+                  <tr>
+                    
+              
+                    <th
+                      data-bdga-key="source"
+                      scope="row"
+                    >
+                      Renewable
+                    </th>
+                    
+                              
+                    <td
+                      data-bdga-key="share"
+                      data-value="44"
+                    >
+                      44
+                    </td>
+                    
+                          
+                  </tr>
+                  
+                      
+                  <tr>
+                    
+              
+                    <th
+                      data-bdga-key="source"
+                      scope="row"
+                    >
+                      Fossil
+                    </th>
+                    
+                              
+                    <td
+                      data-bdga-key="share"
+                      data-value="56"
+                    >
+                      56
+                    </td>
+                    
+                          
+                  </tr>
+                  
+                  
+                </tbody>
+                
+          
+              </table>
+              
+  
+            </details>
+            
+
+  
+          </figure>
+          
+
+        </div>
+        
+
+      </div>
+      
+
+    </div>
+    
+
+  </div>
+  
+
+</div>
+`;

@@ -1,0 +1,101 @@
+/**
+ * This file was automatically generated. Please run `npm run dist` to update.
+ */
+
+.bdga-chart-collection {
+  --bdga-chart-collection-focus: var(--ct-color-light-interaction-focus, #8b5cd7);
+  container: bdga-chart-collection/inline-size;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ct-spacing-200, 1rem);
+  padding: var(--ct-spacing-300, 1.5rem);
+  border: 1px solid var(--ct-color-neutral-300, #d4d4d4);
+  border-radius: var(--ct-border-radius-200, 4px);
+  background: var(--ct-color-background, #fff);
+  color: var(--ct-color-text, #1c1c1c);
+  font-family: var(--ct-typography-text-regular-font-name, inherit);
+}
+.bdga-chart-collection,
+.bdga-chart-collection *,
+.bdga-chart-collection *::before,
+.bdga-chart-collection *::after {
+  box-sizing: border-box;
+}
+.bdga-chart-collection.ct-theme-dark {
+  --bdga-chart-collection-focus: var(--ct-color-dark-interaction-focus, #8b5cd7);
+  background: var(--ct-color-background-dark, #1c1c1c);
+  color: var(--ct-color-text-on-dark, #fff);
+  border-color: var(--ct-color-neutral-700, #4a4a4a);
+}
+.bdga-chart-collection__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ct-spacing-100, 0.5rem);
+}
+.bdga-chart-collection__title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+.bdga-chart-collection__description {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+.bdga-chart-collection__toolbar {
+  display: flex;
+  justify-content: flex-end;
+}
+.bdga-chart-collection__tool {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ct-spacing-50, 0.25rem);
+  min-height: 2.25rem;
+  padding: var(--ct-spacing-50, 0.25rem) var(--ct-spacing-200, 1rem);
+  border: 1px solid var(--ct-color-neutral-400, #c6c6c6);
+  border-radius: var(--ct-border-radius-100, 2px);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 500;
+  line-height: 1.2;
+  cursor: pointer;
+}
+.bdga-chart-collection__tool:hover, .bdga-chart-collection__tool:focus-visible {
+  background: var(--ct-color-neutral-100, #f4f4f4);
+}
+.bdga-chart-collection__tool:focus-visible {
+  outline: 2px solid var(--bdga-chart-collection-focus);
+  outline-offset: 2px;
+}
+.bdga-chart-collection.ct-theme-dark .bdga-chart-collection__tool {
+  border-color: var(--ct-color-neutral-600, #6f6f6f);
+}
+.bdga-chart-collection.ct-theme-dark .bdga-chart-collection__tool:hover, .bdga-chart-collection.ct-theme-dark .bdga-chart-collection__tool:focus-visible {
+  background: var(--ct-color-neutral-800, #2c2c2c);
+}
+.bdga-chart-collection__panels {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--ct-spacing-300, 1.5rem);
+}
+.bdga-chart-collection__panels > * {
+  min-width: 0;
+}
+@media (forced-colors: active) {
+  .bdga-chart-collection {
+    border-color: CanvasText;
+  }
+  .bdga-chart-collection__tool {
+    border-color: CanvasText;
+  }
+}
+
+@container bdga-chart-collection (min-width: 768px) {
+  .bdga-chart-collection--cols-2 .bdga-chart-collection__panels {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .bdga-chart-collection--cols-3 .bdga-chart-collection__panels {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
