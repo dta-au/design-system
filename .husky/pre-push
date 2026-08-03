@@ -18,7 +18,7 @@ fi
 
 # Only components:update output has to be committed. dist/ is rebuilt in CI and
 # at release, and unrelated working changes are not this hook's business.
-# status, not diff: it refreshes the index and sees newly generated files too.
+# status, not diff: it also sees newly generated files.
 CHANGED=$(git status --porcelain -- packages/sdc/components packages/twig/components)
 if [ -n "$CHANGED" ]; then
   echo "❌ There are uncommitted changes after running 'npm run components:update'."
