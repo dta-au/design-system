@@ -95,6 +95,16 @@
   // @container queries at the end of this file.
   --bdga-chart-sankey-label-mode: stacked;
 
+  // Donut hole as a fraction of the pie radius; chart.js clamps to 0.3-0.85.
+  --bdga-chart-donut-inner: 0.6;
+
+  // Chord label reserves read by chart.js: x fits the outside labels beside
+  // the circle, y fits one label line above and below. Widened by the
+  // @container queries at the end of this file, so the circle claims the
+  // canvas on narrow embeds and the labels get room on wide ones.
+  --bdga-chart-chord-margin-x: 72px;
+  --bdga-chart-chord-margin-y: 28px;
+
   // Establish a query container so the knobs above respond to the chart's own
   // width, not the viewport - a chart in a narrow desktop sidebar needs the
   // same treatment as one on a phone.
@@ -128,6 +138,34 @@
     background: var(--ct-color-background-dark, #1c1c1c);
     color: var(--ct-color-text-on-dark, #fff);
     border-color: var(--ct-color-neutral-700, #4a4a4a);
+  }
+
+  // Embedded inside a chart-collection panel: the collection owns the keyline
+  // chrome and surface; the figure keeps its flex layout, gap and query
+  // container so each panel adapts to its own grid cell.
+  &.bdga-chart--embedded {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    min-inline-size: 0;
+  }
+
+  // Embedded panels sit in the collection's stretch grid: pin the data
+  // disclosure to the panel foot so the toggles align across a row. The pin
+  // comes off in swap table view, where the table replaces the canvas.
+  &.bdga-chart--embedded .bdga-chart__data {
+    margin-block-start: auto;
+  }
+
+  &.bdga-chart--embedded.bdga-chart--table-view .bdga-chart__data {
+    margin-block-start: 0;
+  }
+
+  &.bdga-chart--embedded .bdga-chart__table-swap {
+    inset-block-start: 0;
+    inset-inline-end: 0;
   }
 
   &__caption {
@@ -534,7 +572,47 @@
     opacity: 0.45;
   }
 
+  // Donut centre total; the small unit label uses text-light and gets a dark
+  // override below.
+  &__donut-total {
+    font-size: 1.5rem;
+    font-weight: 600;
+    fill: currentcolor;
+  }
+
+  &__donut-total-label {
+    font-size: 0.8125rem;
+    fill: var(--ct-color-text-light, #525252);
+  }
+
+  // Chord arc labels; ribbons carry inline fills like sankey links, so no
+  // colour is declared here.
+  &__chord-label {
+    font-size: 0.8125rem;
+    fill: currentcolor;
+  }
+
+  &__chord-ribbon {
+    cursor: pointer;
+  }
+
+  // Treemap cell text: the inline fill carries the per-cell contrast colour,
+  // so these only size / weight it.
+  &__treemap-label {
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+
+  &__treemap-value {
+    font-size: 0.75rem;
+    font-weight: 400;
+  }
+
   &.ct-theme-dark &__cleveland-legend-label {
+    fill: var(--ct-color-text-on-dark, #f4f4f4);
+  }
+
+  &.ct-theme-dark &__donut-total-label {
     fill: var(--ct-color-text-on-dark, #f4f4f4);
   }
 
@@ -544,6 +622,95 @@
     background: var(--ct-color-status-error-tint, #fce8eb);
     color: var(--ct-color-status-error-text, #4a0008);
     font-weight: 500;
+  }
+
+  // Swap-table variant: one icon control exchanges the canvas and the data
+  // table in place. Presentation keys off the details' open state through
+  // the --table-view class set by chart.js; without JavaScript (--swap-ready
+  // absent) the variant falls back to the standard disclosure below.
+  &--swap-table {
+    position: relative;
+  }
+
+  &--swap-table &__caption {
+    padding-inline-end: 3.25rem;
+  }
+
+  &__table-swap {
+    position: absolute;
+    inset-block-start: var(--ct-spacing-300, 1.5rem);
+    inset-inline-end: var(--ct-spacing-300, 1.5rem);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0;
+    border: 1px solid var(--ct-color-neutral-400, #c6c6c6);
+    border-radius: var(--ct-border-radius-100, 2px);
+    background: var(--ct-color-background, #fff);
+    color: inherit;
+    cursor: pointer;
+
+    &:hover,
+    &:focus-visible {
+      background: var(--ct-color-neutral-100, #f4f4f4);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--bdga-chart-focus);
+      outline-offset: 2px;
+    }
+
+    .ct-icon {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+  }
+
+  &.ct-theme-dark &__table-swap {
+    border-color: var(--ct-color-neutral-600, #6f6f6f);
+    background: var(--ct-color-background-dark, #1c1c1c);
+
+    &:hover,
+    &:focus-visible {
+      background: var(--ct-color-neutral-800, #2c2c2c);
+    }
+  }
+
+  &__table-swap-icon {
+    display: inline-flex;
+  }
+
+  &__table-swap-icon--chart,
+  &--table-view &__table-swap-icon--table {
+    display: none;
+  }
+
+  &--table-view &__table-swap-icon--chart {
+    display: inline-flex;
+  }
+
+  // JS-ready swap: the icon is the sole control, so the summary retires and
+  // the table region only shows in table view, minus the disclosure border.
+  &--swap-ready &__data {
+    display: none;
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  &--swap-ready &__data-toggle {
+    display: none;
+  }
+
+  &--swap-ready.bdga-chart--table-view &__data {
+    display: block;
+  }
+
+  &--table-view &__canvas,
+  &--table-view &__legend,
+  &--table-view &__filters {
+    display: none;
   }
 
   &__data {
@@ -636,15 +803,16 @@
   }
 }
 
-// Container-query breakpoints for the sankey margin knobs, aligned to the
-// CivicTheme breakpoint scale (s 576px, m 768px). Below 's' the mobile-first
-// defaults declared on .bdga-chart apply. Set on the canvas (a descendant of
-// the .bdga-chart query container) so chart.js reads the matched value off it.
+// Container-query breakpoints for the sankey and chord margin knobs, aligned
+// to the CivicTheme breakpoint scale (s 576px, m 768px). Below 's' the
+// mobile-first defaults declared on .bdga-chart apply. Set on the canvas (a
+// descendant of the query container) so chart.js reads the matched value.
 @container bdga-chart (min-width: 576px) {
   .bdga-chart__canvas {
     --bdga-chart-sankey-margin-x: 104px;
     --bdga-chart-sankey-margin-top: 52px;
     --bdga-chart-sankey-label-mode: outside;
+    --bdga-chart-chord-margin-x: 96px;
   }
 }
 
@@ -652,6 +820,7 @@
   .bdga-chart__canvas {
     --bdga-chart-sankey-margin-x: 140px;
     --bdga-chart-sankey-margin-top: 60px;
+    --bdga-chart-chord-margin-x: 120px;
   }
 }
 

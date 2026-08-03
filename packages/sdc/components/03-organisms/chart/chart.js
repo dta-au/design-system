@@ -72,19 +72,10 @@
   // eslint-disable-next-line max-len
   const FILTER_CHEVRON_SVG = '<svg class="ct-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.6072 8.38619C18.3583 8.13884 18.0217 8 17.6709 8C17.32 8 16.9834 8.13884 16.7346 8.38619L11.9668 13.0876L7.26542 8.38619C7.01659 8.13884 6.67999 8 6.32913 8C5.97827 8 5.64167 8.13884 5.39284 8.38619C5.26836 8.50965 5.16956 8.65654 5.10214 8.81838C5.03471 8.98022 5 9.1538 5 9.32912C5 9.50445 5.03471 9.67803 5.10214 9.83987C5.16956 10.0017 5.26836 10.1486 5.39284 10.2721L11.0239 15.9031C11.1473 16.0276 11.2942 16.1264 11.4561 16.1938C11.6179 16.2612 11.7915 16.2959 11.9668 16.2959C12.1421 16.2959 12.3157 16.2612 12.4775 16.1938C12.6394 16.1264 12.7863 16.0276 12.9097 15.9031L18.6072 10.2721C18.7316 10.1486 18.8304 10.0017 18.8979 9.83987C18.9653 9.67803 19 9.50445 19 9.32912C19 9.1538 18.9653 8.98022 18.8979 8.81838C18.8304 8.65654 18.7316 8.50965 18.6072 8.38619Z"/></svg>';
 
-  // Ordinal rank table for sankey node labels. Used to:
-  //   (a) sort group colour assignment so e.g. "High" always gets the
-  //       darkest sequential shade regardless of where it appears in the
-  //       data, and
-  //   (b) drive d3-sankey's nodeSort so the same vocabulary stacks
-  //       top-to-bottom by rank in every column.
-  // Lower number = higher priority (= darker colour, = higher in column).
-  // Labels not present here fall back to encounter order.
-  //
-  // Currently covers MDPR Delivery Confidence Assessment ratings. Extend
-  // here when other ordinal vocabularies appear (project lifecycle states,
-  // likert scales, RAG statuses, etc.) - the entries are matched case-
-  // insensitively after trimming and collapsing internal whitespace.
+  // Ordinal rank for sankey node labels: drives group colour order and
+  // d3-sankey's nodeSort, so e.g. "High" is always darkest and stacks first.
+  // Matched case-insensitively after whitespace collapse; unlisted labels
+  // fall back to encounter order. Extend for new ordinal vocabularies.
   const ORDINAL_RANK = {
     high: 0,
     'medium-high': 1,
@@ -177,6 +168,43 @@
     return palette.sequential[Math.min(index, palette.sequential.length - 1)];
   }
 
+  /**
+   * Dark-or-white label colour for a given fill, chosen by WCAG relative
+   * luminance so the higher-contrast side wins. Accepts #rgb, #rrggbb and
+   * rgb()/rgba() strings; unparseable input gets white, the safe default for
+   * the navy-anchored palette.
+   */
+  function textColorFor(fill) {
+    const s = String(fill || '').trim();
+    const hex = s.match(/^#([0-9a-f]{3}|[0-9a-f]{6})$/i);
+    const rgb = s.match(/^rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)/i);
+    let r;
+    let g;
+    let b;
+    if (hex) {
+      let hx = hex[1];
+      if (hx.length === 3) hx = hx.replace(/./g, (ch) => ch + ch);
+      r = parseInt(hx.slice(0, 2), 16);
+      g = parseInt(hx.slice(2, 4), 16);
+      b = parseInt(hx.slice(4, 6), 16);
+    }
+    else if (rgb) {
+      r = +rgb[1];
+      g = +rgb[2];
+      b = +rgb[3];
+    }
+    else {
+      return '#fff';
+    }
+    const lin = (c) => {
+      const v = c / 255;
+      return v <= 0.04045 ? v / 12.92 : (((v + 0.055) / 1.055) ** 2.4);
+    };
+    const lum = 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
+    // Crossover where contrast against #1c1c1c beats contrast against #fff.
+    return lum >= 0.2 ? '#1c1c1c' : '#fff';
+  }
+
   Drupal.behaviors.bdgaChart = {
     attach(context) {
       if (typeof window.d3 === 'undefined') {
@@ -255,6 +283,7 @@
       this.menuEl = root.querySelector('[data-bdga-chart-menu]');
       this.menuButtonEl = root.querySelector('[data-bdga-chart-menu-button]');
       this.tableToggleEl = root.querySelector('[data-bdga-chart-tool="table"]');
+      this.tableSwapEl = root.querySelector('[data-bdga-chart-table-swap]');
       this.detailsEl = this.tableEl ? this.tableEl.closest('details') : null;
       this.downloads = (root.dataset.bdgaChartDownloads || '')
         .split(',')
@@ -316,17 +345,23 @@
     init() {
       this.observeResize();
       this.initToolbar();
+      this.wireTableSwap();
       try {
         if (this.mode === 'url') {
           return this.loadFromUrl();
         }
-        // Sankey / flow read nodes + links from the JSON island; the table
-        // is the AT fallback only, not a data source for the renderer.
-        if (this.type === 'sankey' || this.type === 'flow') {
+        // Sankey / flow / chord read nodes + links from the JSON island; the
+        // table is the AT fallback only, not a data source for the renderer.
+        if (this.type === 'sankey' || this.type === 'flow' || this.type === 'chord') {
           if (!this.nodes || !this.nodes.length || !this.links || !this.links.length) {
-            return this.fail('Sankey/flow chart requires nodes and links');
+            return this.fail('Sankey/flow/chord chart requires nodes and links');
           }
-          if (typeof window.d3 === 'undefined' || typeof window.d3.sankey !== 'function') {
+          if (this.type === 'chord') {
+            if (typeof window.d3.chordDirected !== 'function') {
+              return this.fail('d3 chord layout missing');
+            }
+          }
+          else if (typeof window.d3 === 'undefined' || typeof window.d3.sankey !== 'function') {
             return this.fail('d3-sankey plugin missing');
           }
           return this.draw([]);
@@ -549,6 +584,31 @@
     }
 
     /**
+     * Swap-table variant: the icon control and the collection's "view all"
+     * both just flip the details' open state; this listener translates that
+     * state into the swapped presentation (--table-view class), so every
+     * entry point stays in sync. Without JavaScript the variant degrades to
+     * the standard disclosure (--swap-ready never lands).
+     */
+    wireTableSwap() {
+      const btn = this.tableSwapEl;
+      const details = this.detailsEl;
+      if (!btn || !details) return;
+      this.root.classList.add('bdga-chart--swap-ready');
+      btn.addEventListener('click', () => {
+        details.open = !details.open;
+        this.setStatus(details.open ? Drupal.t('Showing data table.') : Drupal.t('Showing chart.'));
+      });
+      const sync = () => {
+        this.root.classList.toggle('bdga-chart--table-view', details.open);
+        btn.setAttribute('aria-expanded', String(details.open));
+        btn.setAttribute('aria-label', details.open ? btn.dataset.labelHide : btn.dataset.labelShow);
+      };
+      details.addEventListener('toggle', sync);
+      sync();
+    }
+
+    /**
      * Build the overflow menu's items. url mode offers a single "view source"
      * link; local modes offer a download button per configured format. When
      * there is nothing to offer, the menu button is removed so we never ship
@@ -748,12 +808,13 @@
     }
 
     /**
-     * The rows to export. Flow / sankey carry their data as links
-     * (source / target / value); every other type exports the plotted rows.
-     * Falls back to the parsed table when no draw has happened yet.
+     * The rows to export. The node-link types (sankey / flow / chord) carry
+     * their data as links (source / target / value); every other type exports
+     * the plotted rows. Falls back to the parsed table when no draw has
+     * happened yet.
      */
     exportRows() {
-      if ((this.type === 'sankey' || this.type === 'flow') && Array.isArray(this.links)) {
+      if ((this.type === 'sankey' || this.type === 'flow' || this.type === 'chord') && Array.isArray(this.links)) {
         return this.links.map((l) => ({
           source: l.source && l.source.id ? l.source.id : l.source,
           target: l.target && l.target.id ? l.target.id : l.target,
@@ -773,7 +834,7 @@
      * as a last resort.
      */
     csvColumns(rows) {
-      if (this.type === 'sankey' || this.type === 'flow') {
+      if (this.type === 'sankey' || this.type === 'flow' || this.type === 'chord') {
         return ['source', 'target', 'value'];
       }
       const cols = [];
@@ -1061,7 +1122,7 @@
 
     /** Count of series still visible, across the keyed and pie shapes. */
     visibleSeriesCount() {
-      if (this.type === 'pie') {
+      if (this.type === 'pie' || this.type === 'donut') {
         return (this.lastDrawData || []).filter(
           (r) => !this.hidden.has(String(r[this.xKey]))
         ).length;
@@ -1142,7 +1203,7 @@
       if (!this.legendEl || this.legendBuilt) return;
       this.palette = this.palette || resolvePalette(this.root);
       let series;
-      if (this.type === 'pie') {
+      if (this.type === 'pie' || this.type === 'donut') {
         const rows = this.lastDrawData || [];
         series = rows.map((r, i) => ({
           key: String(r[this.xKey]),
@@ -1170,8 +1231,10 @@
       const frag = document.createDocumentFragment();
       this.legendButtons = new Map();
       series.forEach((s, i) => {
+        // Plain listitem: stripping the role would leave a <ul> with no list
+        // items (WCAG 1.3.1 / axe list). The menu li below differs - its
+        // role="none" is the ARIA menu pattern inside ul[role="menu"].
         const li = document.createElement('li');
-        li.setAttribute('role', 'none');
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.className = 'bdga-chart__legend-item';
@@ -1229,11 +1292,11 @@
     emphasizeSeries(key) {
       if (!this.canvas) return;
       // key === null is the universal restore: clear every opacity the emphasis
-      // paths set (series groups, individual marks, sankey links).
+      // paths set (series groups, individual marks, link marks).
       if (key === null) {
         this.canvas.querySelectorAll('[data-bdga-series],[data-bdga-point]')
           .forEach((m) => { m.style.opacity = ''; });
-        this.canvas.querySelectorAll('.bdga-chart__sankey-link')
+        this.canvas.querySelectorAll('[data-bdga-link]')
           .forEach((m) => { m.style.opacity = ''; });
         return;
       }
@@ -1245,9 +1308,9 @@
     /**
      * Emphasize what a hovered/focused mark belongs to; dim the rest to 30%.
      * Multi-series charts emphasize the whole series. Charts that colour marks
-     * by a per-mark dimension (color_by a category/field) or sankey/flow nodes
-     * emphasize the single mark (and, for sankey, its connected links). Plain
-     * single-colour charts have nothing to dim.
+     * by a per-mark dimension (color_by a category/field) or sankey/flow/chord
+     * nodes emphasize the single mark (and its connected links / ribbons).
+     * Plain single-colour charts have nothing to dim.
      */
     emphasizePoint(pt) {
       if (!pt || !this.canvas) return;
@@ -1258,19 +1321,30 @@
         return;
       }
       const isFlow = this.type === 'sankey' || this.type === 'flow';
+      const isChord = this.type === 'chord';
       const cb = this.colorBy;
       const perMark = cb && cb !== 'series' && cb !== 'single';
-      if (!perMark && !isFlow) return;
+      if (!perMark && !isFlow && !isChord) return;
       this.canvas.querySelectorAll('[data-bdga-point]').forEach((m) => {
         m.style.opacity = m === pt ? '' : '0.3';
       });
       if (isFlow) {
         const node = window.d3.select(pt).datum();
         const id = node && node.id;
-        this.canvas.querySelectorAll('.bdga-chart__sankey-link').forEach((l) => {
+        this.canvas.querySelectorAll('[data-bdga-link]').forEach((l) => {
           const ld = window.d3.select(l).datum();
           const s = ld && ld.source && ld.source.id;
           const t = ld && ld.target && ld.target.id;
+          l.style.opacity = id && (s === id || t === id) ? '' : '0.2';
+        });
+      }
+      if (isChord) {
+        // Chord ribbons carry their endpoints as data attributes (their d3
+        // datums hold matrix indices, not node ids), so match on those.
+        const id = pt.getAttribute('data-bdga-chord-id');
+        this.canvas.querySelectorAll('[data-bdga-link]').forEach((l) => {
+          const s = l.getAttribute('data-bdga-chord-source');
+          const t = l.getAttribute('data-bdga-chord-target');
           l.style.opacity = id && (s === id || t === id) ? '' : '0.2';
         });
       }
@@ -1285,7 +1359,7 @@
      */
     emphasizeLink(linkEl) {
       if (!linkEl || !this.canvas) return;
-      this.canvas.querySelectorAll('.bdga-chart__sankey-link').forEach((l) => {
+      this.canvas.querySelectorAll('[data-bdga-link]').forEach((l) => {
         // Explicit '1' beats the generic group-hover rule, which would else
         // hold the focused link at 0.85 while its parent <g> is hovered.
         l.style.opacity = l === linkEl ? '1' : '0.2';
@@ -1373,10 +1447,18 @@
 
       this.exposePlot(Drupal.t('Use arrow keys to move between data points.'));
 
+      // Position-in-set rides the accessible name: aria-posinset/-setsize
+      // are not valid on role="img" marks (WCAG 4.1.2 / axe aria-allowed-attr).
       this.pointGroups.forEach((group) => {
         group.forEach((el, idx) => {
-          el.setAttribute('aria-posinset', String(idx + 1));
-          el.setAttribute('aria-setsize', String(group.length));
+          el.setAttribute(
+            'aria-label',
+            Drupal.t('@label, @i of @n', {
+              '@label': el.getAttribute('aria-label') || '',
+              '@i': idx + 1,
+              '@n': group.length,
+            })
+          );
         });
       });
       this.focusPos = { g: 0, i: 0 };
@@ -1605,21 +1687,29 @@
       const rows = this.extractCkanRows(payload);
       if (!rows.length) return this.fail('No rows returned');
 
-      // Sankey / flow: the wire shape is a list of {source, target, value}
-      // rows. Build nodes + links here so the renderer path is identical
-      // to JSON-mode flow charts.
-      if (this.type === 'sankey' || this.type === 'flow') {
-        const graph = this.buildSankeyFromRows(rows);
+      // Sankey / flow / chord: the wire shape is a list of {source, target,
+      // value} rows. Build nodes + links here so the renderer path is
+      // identical to JSON-mode graphs. Chord uses its own builder: self-loops
+      // are kept and the sankey collision auto-prefixing must not run.
+      if (this.type === 'sankey' || this.type === 'flow' || this.type === 'chord') {
+        const isChord = this.type === 'chord';
+        const graph = isChord ? this.buildChordFromRows(rows) : this.buildSankeyFromRows(rows);
         if (!graph.links.length) {
           return this.fail('CKAN response had no usable source/target/value rows');
         }
-        if (typeof window.d3.sankey !== 'function') {
+        if (isChord) {
+          if (typeof window.d3.chordDirected !== 'function') {
+            return this.fail('d3 chord layout missing');
+          }
+        }
+        else if (typeof window.d3.sankey !== 'function') {
           return this.fail('d3-sankey plugin missing');
         }
         this.nodes = graph.nodes;
         this.links = graph.links;
         this.populateFlowTable(graph.links);
-        this.updateFlowTableHeaders(graph.nodes);
+        // Prefix-derived headers only apply to the sankey/flow builders.
+        if (!isChord) this.updateFlowTableHeaders(graph.nodes);
         this.setStatus(
           Drupal.t('Chart loaded. @count flows, @nodes nodes.', {
             '@count': graph.links.length,
@@ -1646,7 +1736,7 @@
           : Array.isArray(payload)
             ? payload
             : [];
-      const isFlow = this.type === 'sankey' || this.type === 'flow';
+      const isFlow = this.type === 'sankey' || this.type === 'flow' || this.type === 'chord';
       const yKeySet = new Set(this.yKeys || []);
       // For flow types the y-key set is fixed; the wire shape carries a
       // single numeric column called 'value' regardless of authored y_keys.
@@ -1730,19 +1820,11 @@
     }
 
     buildSankeyFromFlatRows(rows) {
-      // d3-sankey is a DAG layout: it cannot render edges where source ===
-      // target, and the row carries genuine signal (e.g. 12 projects whose
-      // DCA rating stayed at Medium-High between 2025 and 2026). When the
-      // author writes a 2-stage SQL like
-      //   SELECT "DCA 2025" AS source, "DCA 2026" AS target, COUNT(*) AS value
-      // the labels overlap. We pre-scan for that collision and, if it
-      // occurs anywhere, auto-prefix every row's source/target with
-      // generic "From: " / "To: " markers so the data survives. Authors
-      // who want nicer node labels can prefix at SQL time, e.g.
-      //   SELECT '2025: ' || "DCA 2025" AS source,
-      //          '2026: ' || "DCA 2026" AS target,
-      // in which case the pre-scan finds no collision and the labels pass
-      // through untouched.
+      // d3-sankey cannot render self-edges, yet "Medium-High -> Medium-High"
+      // is genuine signal. If any row's labels collide, auto-prefix every
+      // source/target with "From: " / "To: " so the data survives; authors
+      // who prefix at SQL time ('2025: ' || col) trigger no collision and
+      // pass through untouched.
       let hasCollision = false;
       for (let i = 0; i < rows.length; i += 1) {
         const r = rows[i];
@@ -1791,14 +1873,9 @@
       const seen = new Set();
       const nodes = [];
       const linkMap = new Map();
-      // Stage column -> integer index in author SELECT order. Captured here
-      // and attached to each node so drawSankeyInternal can force the
-      // d3-sankey layer assignment directly, rather than guessing stage
-      // order from the order chains happen to enter the link map. Leading
-      // null rows in the CKAN response would otherwise seed the first
-      // non-null column as layer 0 regardless of where it semantically
-      // belongs - that bug had the 2025 column rendering leftmost and the
-      // 2024 column rendering rightmost.
+      // Stage column -> index in author SELECT order, attached to each node
+      // so drawSankeyInternal can force layer assignment. Deriving it from
+      // link encounter order instead mis-columns cascades with leading nulls.
       const stageOf = new Map(stageCols.map((c, i) => [c, i]));
       const addNode = (id, stage) => {
         if (!seen.has(id)) {
@@ -1841,6 +1918,33 @@
         }
       });
       return { nodes, links: Array.from(linkMap.values()) };
+    }
+
+    /**
+     * Flat {source, target, value} rows -> {nodes, links} for the chord
+     * renderer. Unlike buildSankeyFromFlatRows there is no collision
+     * auto-prefixing and self-loops are kept: a chord matrix renders
+     * source === target as a self-ribbon, and "did not move" is signal.
+     */
+    buildChordFromRows(rows) {
+      const seen = new Set();
+      const nodes = [];
+      const links = [];
+      rows.forEach((r) => {
+        const src = String(r.source ?? '').trim();
+        const tgt = String(r.target ?? '').trim();
+        const val = Number(r.value);
+        if (!src || !tgt) return;
+        if (!Number.isFinite(val) || val <= 0) return;
+        [src, tgt].forEach((id) => {
+          if (!seen.has(id)) {
+            seen.add(id);
+            nodes.push({ id });
+          }
+        });
+        links.push({ source: src, target: tgt, value: val });
+      });
+      return { nodes, links };
     }
 
     populateTable(rows) {
@@ -1952,7 +2056,7 @@
      */
     setupFilters() {
       if (!this.filtersBarEl || !this.filters.length) return;
-      if (this.type === 'sankey' || this.type === 'flow') return;
+      if (this.type === 'sankey' || this.type === 'flow' || this.type === 'chord') return;
       const rows = this.fullRows || [];
       this.activeFilters = new Map();
       const groups = [];
@@ -2115,6 +2219,9 @@
         case 'pie':
           this.drawPie(drawRows);
           break;
+        case 'donut':
+          this.drawDonut(drawRows);
+          break;
         case 'stacked_bar':
           this.drawStackedBar(drawRows);
           break;
@@ -2127,11 +2234,17 @@
         case 'flow':
           this.drawFlow();
           break;
+        case 'chord':
+          this.drawChord();
+          break;
         case 'lollipop':
           this.drawLollipop(drawRows);
           break;
         case 'cleveland':
           this.drawCleveland(drawRows);
+          break;
+        case 'treemap':
+          this.drawTreemap(drawRows);
           break;
         case 'bar':
         default:
@@ -2267,12 +2380,8 @@
       svg.append('g').attr('transform', `translate(${  m.left  },0)`).call(d3.axisLeft(y));
       this.rotateXLabels(xAxis, rotation);
 
-      // Single-series bar charts default to one colour (palette.single) per
-      // IBM Carbon convention: for time-series bars the colour carries no
-      // information and rainbow bars are visual noise. Authors opt into
-      // per-category colouring via field_bdga_p_chart_color_by when the X
-      // axis is categorical (e.g. agency types) and colour reinforces the
-      // distinction between bars.
+      // Single-series bars default to one colour (palette.single, per
+      // Carbon); per-category colour is opt-in via color_by below.
       const palette = this.palette;
       // Per-bar colour is opt-in and explicit via color_by:
       //  - a row field name -> colour by that field (sequential ramp when the
@@ -2568,13 +2677,56 @@
     }
 
     drawPie(rows) {
+      this.drawPieInternal(rows, 0);
+    }
+
+    /**
+     * Donut - a pie with the centre opened. The hole ratio is a CSS knob
+     * (--bdga-chart-donut-inner, a unitless fraction of the radius) so
+     * themes can tune it; the freed centre carries the visible-slice total.
+     */
+    drawDonut(rows) {
+      const ratio = cssNum(this.canvas, '--bdga-chart-donut-inner', 0.6);
+      this.drawPieInternal(rows, Math.min(0.85, Math.max(0.3, ratio)));
+    }
+
+    /** Shared pie/donut renderer; innerRatio 0 draws the full pie. */
+    drawPieInternal(rows, innerRatio) {
       const d3 = window.d3;
       const { w, h } = this.dims(null);
       const svg = this.svgRoot(w, h);
       const yKey = this.yKeys[0];
-      // Reserve an outer ring for the direct slice labels (so each slice is
-      // identifiable without the legend); shrink the slice radius to fit them.
-      const r = Math.max(48, Math.min(w, h) / 2 - 72);
+
+      const visible = rows.filter((d) => !this.hidden.has(String(d[this.xKey])));
+      const totalValue = visible.reduce((a, d) => a + (Number(d[yKey]) || 0), 0);
+      const sum = totalValue || 1;
+      const sliceLabel = (row) => {
+        const pct = Math.round(((Number(row[yKey]) || 0) / sum) * 100);
+        return `${row[this.xKey]} (${pct}%)`;
+      };
+
+      // Outer ring for the direct slice labels: fit the longest label on one
+      // line while the pie stays a readable size, else shrink to the longest
+      // word and wrap - labels must never clip at the canvas edge.
+      const estWidth = (s) => String(s).length * 7.5;
+      const fullW = visible.reduce((a, row) => Math.max(a, estWidth(sliceLabel(row))), 0);
+      const wordW = visible.reduce(
+        (a, row) => sliceLabel(row).split(/\s+/).reduce((b, word) => Math.max(b, estWidth(word)), a),
+        0
+      );
+      const reserve = 38;
+      const upperR = Math.min(w, h) / 2 - 72;
+      const singleR = Math.min(upperR, (w / 2) - fullW - reserve);
+      const pieFloor = Math.max(48, (Math.min(w, h) / 2) * 0.45);
+      let r;
+      let wrapWidth = 0;
+      if (singleR >= pieFloor) {
+        r = Math.max(48, singleR);
+      }
+      else {
+        r = Math.max(48, Math.min(upperR, (w / 2) - wordW - reserve));
+        wrapWidth = Math.max((w / 2) - r - reserve, 40);
+      }
 
       const g = svg.append('g').attr('transform', `translate(${  w / 2  },${  h / 2  })`);
       // Pie slices are categorical: colour by ORIGINAL slice index (over the
@@ -2593,10 +2745,8 @@
           total <= palette.categorical.length ? palette.categorical[i] : shadeSequential(palette, i, total)
         );
       });
-      const visible = rows.filter((d) => !this.hidden.has(String(d[this.xKey])));
-      const sum = visible.reduce((a, d) => a + (Number(d[yKey]) || 0), 0) || 1;
       const pie = d3.pie().value((d) => d[yKey]);
-      const arc = d3.arc().innerRadius(0).outerRadius(r);
+      const arc = d3.arc().innerRadius(innerRatio > 0 ? r * innerRatio : 0).outerRadius(r);
       const arcs = pie(visible);
 
       const slices = g
@@ -2616,6 +2766,25 @@
       // Direct slice labels with leader lines, outside the pie (Carbon callout
       // style), so the chart reads without the legend. Decorative for AT - the
       // slice path carries the accessible label - so the label group is hidden.
+      // Greedy word-wrap by estimated width; a word longer than the wrap width
+      // stays whole on its own line.
+      const wrapLabel = (s, width) => {
+        if (!width) return [s];
+        const lines = [];
+        let line = '';
+        s.split(/\s+/).forEach((word) => {
+          const probe = line ? `${line} ${word}` : word;
+          if (line && estWidth(probe) > width) {
+            lines.push(line);
+            line = word;
+          }
+          else {
+            line = probe;
+          }
+        });
+        if (line) lines.push(line);
+        return lines;
+      };
       const labelArc = d3.arc().innerRadius(r + 6).outerRadius(r + 6);
       const mid = (d) => d.startAngle + (d.endAngle - d.startAngle) / 2;
       const labels = g.append('g').attr('class', 'bdga-chart__pie-labels').attr('aria-hidden', 'true');
@@ -2627,16 +2796,53 @@
           .append('polyline')
           .attr('class', 'bdga-chart__pie-leader')
           .attr('points', [arc.centroid(d), elbow, end].map((p) => p.join(',')).join(' '));
-        const pct = Math.round(((Number(d.data[yKey]) || 0) / sum) * 100);
-        labels
+        const lines = wrapLabel(sliceLabel(d.data), wrapWidth);
+        const text = labels
           .append('text')
           .attr('class', 'bdga-chart__pie-label')
-          .attr('x', end[0] + (right ? 4 : -4))
-          .attr('y', end[1])
-          .attr('dy', '0.32em')
-          .attr('text-anchor', right ? 'start' : 'end')
-          .text(`${d.data[this.xKey]} (${pct}%)`);
+          .attr('text-anchor', right ? 'start' : 'end');
+        const x = end[0] + (right ? 4 : -4);
+        lines.forEach((ln, i) => {
+          text
+            .append('tspan')
+            .attr('x', x)
+            .attr('y', end[1])
+            .attr('dy', `${0.32 + (i - (lines.length - 1) / 2) * 1.1}em`)
+            .text(ln);
+        });
       });
+
+      // The estimate can still run a few pixels past the edge (font metrics
+      // vary); measure the rendered labels and nudge overflows back inside.
+      labels.selectAll('text').each((d_, i, textNodes) => {
+        const node = textNodes[i];
+        const box = node.getBBox();
+        const overLeft = (-w / 2) + 2 - box.x;
+        const overRight = (box.x + box.width) - ((w / 2) - 2);
+        if (overLeft > 0) node.setAttribute('transform', `translate(${overLeft},0)`);
+        else if (overRight > 0) node.setAttribute('transform', `translate(${-overRight},0)`);
+      });
+
+      // Donut centre: the visible-slice total as a direct label in the hole.
+      // Decorative for AT - slices carry per-slice labels and the table stays
+      // the structural source. Redrawn with the slices on legend toggles.
+      if (innerRatio > 0) {
+        const centre = g.append('g').attr('aria-hidden', 'true');
+        centre
+          .append('text')
+          .attr('class', 'bdga-chart__donut-total')
+          .attr('text-anchor', 'middle')
+          .attr('dy', this.yLabel ? '-0.1em' : '0.35em')
+          .text(this.formatValue(totalValue));
+        if (this.yLabel) {
+          centre
+            .append('text')
+            .attr('class', 'bdga-chart__donut-total-label')
+            .attr('text-anchor', 'middle')
+            .attr('dy', '1.4em')
+            .text(this.yLabel);
+        }
+      }
 
       // Slices are one navigable group; the label carries the share of the
       // whole so a screen-reader user gets the same insight a sighted user
@@ -2892,6 +3098,104 @@
     }
 
     /**
+     * Treemap - single-level part-to-whole tiling. Each row is a leaf sized
+     * by the primary Y value; rows with non-positive values are dropped (the
+     * layout needs positive sums). Cells are the focusable points with
+     * pie-style share labels; cell text clips to its rect and hides entirely
+     * in cells too small to read (aria-label, tooltip and table remain).
+     */
+    drawTreemap(rows) {
+      const d3 = window.d3;
+      const { w, h } = this.dims(null);
+      const yKey = this.yKeys[0];
+      const plotted = rows.filter((r) => (Number(r[yKey]) || 0) > 0);
+      if (!plotted.length) return;
+      const svg = this.svgRoot(w, h);
+      const sum = plotted.reduce((a, r) => a + (Number(r[yKey]) || 0), 0) || 1;
+
+      const root = d3.hierarchy({ children: plotted }).sum((d) => Number(d[yKey]) || 0);
+      d3.treemap().size([w, h]).padding(2)(root);
+
+      const palette = this.palette;
+      const total = plotted.length;
+      const colorAt = (i) =>
+        (total <= palette.categorical.length
+          ? palette.categorical[i]
+          : shadeSequential(palette, i, total));
+
+      let defs = svg.select('defs');
+      if (defs.empty()) defs = svg.append('defs');
+
+      const cells = svg
+        .append('g')
+        .selectAll('g')
+        .data(root.leaves())
+        .join('g')
+        .attr('class', 'bdga-chart__treemap-cell')
+        .attr('transform', (d) => `translate(${d.x0},${d.y0})`);
+
+      cells.each((d, i, cellNodes) => {
+        const cell = d3.select(cellNodes[i]);
+        const cw = d.x1 - d.x0;
+        const ch = d.y1 - d.y0;
+        const fill = colorAt(i);
+        cell
+          .append('rect')
+          .attr('width', Math.max(1, cw))
+          .attr('height', Math.max(1, ch))
+          .attr('fill', this.fillFor(svg, i, fill))
+          .attr('stroke', 'var(--ct-color-background, #fff)')
+          .attr('stroke-width', 1);
+        // Direct labels only in cells big enough to read them.
+        if (cw < 56 || ch < 26) return;
+        const clipId = `bdga-treemap-clip-${this.id || 'chart'}-${i}`.replace(/[^\w-]+/g, '-');
+        defs
+          .append('clipPath')
+          .attr('id', clipId)
+          .append('rect')
+          .attr('width', Math.max(0, cw - 6))
+          .attr('height', ch);
+        const pct = Math.round(((Number(d.data[yKey]) || 0) / sum) * 100);
+        // Inline fill carries the per-fill contrast colour; the CSS classes
+        // must not set fill or they would override it.
+        const text = cell
+          .append('text')
+          .attr('clip-path', `url(#${clipId})`)
+          .attr('fill', textColorFor(fill));
+        text
+          .append('tspan')
+          .attr('class', 'bdga-chart__treemap-label')
+          .attr('x', 6)
+          .attr('y', 17)
+          .text(String(d.data[this.xKey]));
+        if (ch >= 40) {
+          text
+            .append('tspan')
+            .attr('class', 'bdga-chart__treemap-value')
+            .attr('x', 6)
+            .attr('y', 33)
+            .text(`${this.formatValue(d.data[yKey])} (${pct}%)`);
+        }
+      });
+
+      this.addPoints(
+        null,
+        cells.nodes().map((el) => {
+          const d = d3.select(el).datum();
+          const pct = Math.round(((Number(d.data[yKey]) || 0) / sum) * 100);
+          return {
+            el,
+            label: Drupal.t('@x: @v, @p% of total', {
+              '@x': d.data[this.xKey],
+              '@v': this.formatValue(d.data[yKey]),
+              '@p': pct,
+            }),
+          };
+        })
+      );
+    }
+
+    /**
      * Internal: render a sankey diagram for the given alignment.
      *
      * Colour model:
@@ -3031,13 +3335,9 @@
       const mutedColour = cssVar(this.root, '--bdga-chart-sankey-muted', '#a8a8a8');
       let colourForNode;
       if (allPrefixed) {
-        // Collect the unique suffixes in encounter order, then sort them
-        // by ordinal rank so known categories (High..Not Reported) own
-        // the head of the sequential ramp and pick up the darkest shades.
-        // Unknown labels keep encounter order and fill the tail. Ranks
-        // 5+ (Not reported / Unable to rate) are pulled out of the ramp
-        // and rendered as muted grey, matching the MDPR Fig 18 treatment
-        // where reporting gaps read as desaturated.
+        // Unique suffixes, sorted by ordinal rank so known categories own
+        // the darkest sequential shades; unknown labels fill the tail in
+        // encounter order. Ranks 5+ (Not reported etc.) render muted grey.
         const isMutedLabel = (label) => {
           const r = rankOf(label);
           return r !== null && r >= 5;
@@ -3237,6 +3537,126 @@
      */
     drawFlow() {
       this.drawSankeyInternal(window.d3.sankeyJustify);
+    }
+
+    /**
+     * Chord - directed circular flow diagram over the same nodes + links
+     * shape as sankey. Groups (arcs) are the entities and the focusable
+     * points; ribbons connect source to target with an arrowhead at the
+     * target so paired opposite flows stay distinguishable, and self-loops
+     * render as self-ribbons. Ribbons are hover-only emphasis targets like
+     * sankey links; AT reads the arcs and the 3-column table.
+     */
+    drawChord() {
+      const d3 = window.d3;
+      const w = this.canvas.clientWidth || 640;
+      // Taller cap than the cartesian types: the mark is a circle, so extra
+      // height converts directly into diagram size on wide canvases.
+      const h = Math.min(Math.max(w * 0.7, 320), 640);
+      const svg = this.svgRoot(w, h);
+      const g = svg.append('g').attr('transform', `translate(${w / 2},${h / 2})`);
+
+      // Per-axis label reserves (container-query knobs, like the sankey
+      // margins): labels cost width beside the circle but only one line above
+      // and below it, so separate axes let the circle fill the canvas. The
+      // floor keeps a workable radius even if long labels then clip.
+      const sideReserve = cssNum(this.canvas, '--bdga-chart-chord-margin-x', 120);
+      const topReserve = cssNum(this.canvas, '--bdga-chart-chord-margin-y', 28);
+      const outer = Math.max(60, Math.min(w / 2 - sideReserve, h / 2 - topReserve));
+      const inner = Math.max(48, outer - 14);
+
+      const ids = this.nodes.map((n) => n.id);
+      const indexById = new Map(ids.map((id, i) => [id, i]));
+      const matrix = ids.map(() => ids.map(() => 0));
+      this.links.forEach((l) => {
+        const s = indexById.get(l.source && l.source.id ? l.source.id : l.source);
+        const t = indexById.get(l.target && l.target.id ? l.target.id : l.target);
+        const v = Number(l.value);
+        if (s === undefined || t === undefined) return;
+        if (!Number.isFinite(v) || v <= 0) return;
+        matrix[s][t] += v;
+      });
+
+      const chords = d3.chordDirected().padAngle(0.04).sortSubgroups(d3.descending)(matrix);
+
+      const palette = this.palette;
+      const colorFor = (i) =>
+        (i < palette.categorical.length
+          ? palette.categorical[i]
+          : shadeSequential(palette, i, ids.length));
+
+      const arc = d3.arc().innerRadius(inner).outerRadius(outer);
+      const ribbon = d3.ribbonArrow().radius(inner - 2);
+
+      // Ribbons underneath the arcs, filled from the source entity like
+      // sankey links; the group stays aria-hidden so flows reach AT once,
+      // through the table.
+      const flowLabel = (d) =>
+        `${ids[d.source.index]} → ${ids[d.target.index]}: ${this.formatValue(d.source.value)}`;
+      const ribbonGroup = g.append('g').attr('aria-hidden', 'true');
+      ribbonGroup
+        .selectAll('path')
+        .data(chords)
+        .join('path')
+        .attr('class', 'bdga-chart__chord-ribbon')
+        .attr('data-bdga-link', '')
+        .attr('data-bdga-chord-source', (d) => ids[d.source.index])
+        .attr('data-bdga-chord-target', (d) => ids[d.target.index])
+        .attr('aria-label', flowLabel)
+        .attr('d', ribbon)
+        .attr('fill', (d) => colorFor(d.source.index))
+        .attr('fill-opacity', 0.7)
+        .append('title')
+        .text(flowLabel);
+
+      const midAngle = (d) => (d.startAngle + d.endAngle) / 2;
+      const groups = g
+        .selectAll('g.bdga-chart__chord-arc')
+        .data(chords.groups)
+        .join('g')
+        .attr('class', 'bdga-chart__chord-arc')
+        .attr('data-bdga-chord-id', (d) => ids[d.index]);
+
+      groups
+        .append('path')
+        .attr('d', arc)
+        .attr('fill', (d) => colorFor(d.index));
+
+      // Horizontal labels just outside each arc, anchored away from the
+      // circle. Chord angles run clockwise from 12 o'clock, so
+      // x = sin(a) * r and y = -cos(a) * r.
+      groups
+        .append('text')
+        .attr('class', 'bdga-chart__chord-label')
+        .attr('transform', (d) => {
+          const a = midAngle(d);
+          const x = Math.sin(a) * (outer + 8);
+          const y = -Math.cos(a) * (outer + 8);
+          return `translate(${x},${y})`;
+        })
+        .attr('text-anchor', (d) => (midAngle(d) > Math.PI ? 'end' : 'start'))
+        .attr('dy', '0.35em')
+        .text((d) => ids[d.index]);
+
+      // Directed totals for the accessible label: outgoing = matrix row sum,
+      // incoming = column sum.
+      this.addPoints(
+        null,
+        groups.nodes().map((el) => {
+          const d = d3.select(el).datum();
+          const i = d.index;
+          const out = matrix[i].reduce((a, v) => a + v, 0);
+          const inc = matrix.reduce((a, row) => a + row[i], 0);
+          return {
+            el,
+            label: Drupal.t('@x: @out out, @in in', {
+              '@x': ids[i],
+              '@out': this.formatValue(out),
+              '@in': this.formatValue(inc),
+            }),
+          };
+        })
+      );
     }
   }
 })(window.Drupal, window.once);

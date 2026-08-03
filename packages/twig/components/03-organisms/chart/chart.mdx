@@ -7,7 +7,7 @@ import * as Stories from './chart.stories';
 
 # Chart
 
-An accessible data chart, progressively enhanced from an HTML data table. The table is the baseline that always renders; D3 draws the SVG on top of it. Bar, grouped and stacked bar, line, pie, lollipop, Cleveland dot plot, sankey and flow types share one component and one data contract.
+An accessible data chart, progressively enhanced from an HTML data table. The table is the baseline that always renders; D3 draws the SVG on top of it. Bar, grouped and stacked bar, line, pie and donut, lollipop, Cleveland dot plot, sankey, flow, chord and treemap types share one component and one data contract.
 
 <Canvas of={Stories.Bar} />
 
@@ -17,13 +17,13 @@ An accessible data chart, progressively enhanced from an HTML data table. The ta
 
 - the numbers carry a shape worth seeing – a trend, a comparison, a distribution, a flow
 - the data is tabular and public – every chart ships its data as a real table and offers it for download
-- the page is content, not an app – the chart is a figure with a title and description, not a dashboard widget
+- the page is content, not an app – the chart is a figure with a title and description, not a dashboard widget; a set of related figures under one frame is a **Chart collection**
 
 ## When not to use
 
 - a handful of values reads fine as a sentence or a **Table** – a chart adds ceremony, not clarity
 - the data cannot be published – the fallback table and downloads expose every row by design
-- you need live dashboards, streaming updates or cross-chart brushing – this is a static figure with light interactivity
+- you need live dashboards, streaming updates or cross-chart brushing – this is a static figure with light interactivity, and a **Chart collection** is a static composition of such figures, not a live dashboard
 
 ## How it works
 
@@ -43,9 +43,11 @@ D3 is deliberately not bundled. The renderer expects `window.d3` (v7, plus d3-sa
 
 <Canvas of={Stories.MultiLine} />
 
-**Pie** – shares of a whole. Keep it to a few slices; past that, use a bar.
+**Pie and donut** – shares of a whole. Keep it to a few slices; past that, use a bar or a treemap. The donut opens the centre (ratio set by `--bdga-chart-donut-inner`) and shows the visible-slice total there.
 
 <Canvas of={Stories.Pie} />
+
+<Canvas of={Stories.Donut} />
 
 **Lollipop** – a long tail of one value per item, with an optional median reference line (`median_value`).
 
@@ -58,6 +60,14 @@ D3 is deliberately not bundled. The renderer expects `window.d3` (v7, plus d3-sa
 **Sankey and flow** – quantities moving between states. These take link rows (source / target / value) and render a 3-column fallback table (`flow_table`). Node labels sharing a known ordinal vocabulary (High, Medium-High, …) sort and colour by rank; a flat-row sankey with self-loops auto-prefixes the colliding labels so the "no change" diagonal survives.
 
 <Canvas of={Stories.Sankey} />
+
+**Chord** – flows between entities arranged on a circle, for many-to-many movement where a sankey's columns would tangle. Takes the same link rows and 3-column fallback table; ribbons carry an arrowhead at their destination, and self-loops render as self-ribbons rather than being dropped.
+
+<Canvas of={Stories.Chord} />
+
+**Treemap** – shares of a whole as tiled cells, when there are too many parts for a pie. Single level: one cell per row, sized by the first `y_keys` value. Small cells drop their text label but keep keyboard focus, tooltip and the data table.
+
+<Canvas of={Stories.Treemap} />
 
 ## Data
 
@@ -84,6 +94,10 @@ The palette rationale and CVD simulations live in the Data visualisation colour 
 
 <Canvas of={Stories.Toolbar} />
 
+`table_toggle: 'swap'` trades the disclosure for one corner icon control that exchanges the chart and its table in place – suited to compact embeds and collection panels. The toolbar's own table button retires; without JavaScript the standard disclosure returns.
+
+<Canvas of={Stories.TableSwap} />
+
 `filters` adds client-side filter controls, one per dimension. Within a filter the selected values are OR-ed, across filters AND-ed, and the fallback table stays complete – filters slice the picture, not the data.
 
 <Canvas of={Stories.Filters} />
@@ -98,7 +112,7 @@ The interactive legend toggles series visibility. It enables itself for the genu
 
 - The data table is the no-JS path and stays reachable behind its own disclosure regardless of toolbar state.
 - The figure wires `aria-labelledby` to the title and `aria-describedby` to the description – write the description to say what the chart shows and where the data comes from.
-- Data points are keyboard-navigable with a roving tabindex: arrows move within and across series, Home/End jump to the ends, Escape dismisses the tooltip. Each point exposes `role="img"`, a value label, and position-in-set semantics.
+- Data points are keyboard-navigable with a roving tabindex: arrows move within and across series, Home/End jump to the ends, Escape dismisses the tooltip. Each point exposes `role="img"` and a value label that carries its position in the set.
 - Loading, zoom, filter and series-toggle changes are announced through a visually hidden status region; on failure the chart hides, the table remains, and the status reads "Chart unavailable".
 - Colour is never the sole cue: series are directly labelled, markers vary by shape, and the texture option adds pattern fills. The categorical palette is colour-blind-safe.
 
@@ -118,6 +132,7 @@ The interactive legend toggles series visibility. It enables itself for the genu
 
 ## Related components
 
+- **Chart collection** – several related charts in one frame with a shared data-table control.
 - **Table** – when the numbers are the point and no shape needs drawing.
 - **Figure** – for a static image with a caption, including pre-rendered chart images.
 

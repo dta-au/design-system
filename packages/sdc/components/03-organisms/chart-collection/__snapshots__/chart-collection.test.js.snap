@@ -1,0 +1,508 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Chart Collection Component renders a named section of embedded panels 1`] = `
+<div>
+  
+
+
+
+    
+  <div
+    class="bdga-chart-collection-block ct-theme-light"
+  >
+    
+
+    <div
+      class="container"
+    >
+      
+
+      <div
+        class="row"
+      >
+        
+
+        <div
+          class="col-xxs-12"
+        >
+          
+
+          <section
+            aria-describedby="test-collection__desc"
+            aria-labelledby="test-collection__title"
+            class="bdga-chart-collection ct-theme-light bdga-chart-collection--cols-2"
+            data-bdga-chart-collection=""
+            id="test-collection"
+          >
+            
+      
+            <div
+              class="bdga-chart-collection__header"
+            >
+              
+              
+              <h2
+                class="bdga-chart-collection__title"
+                id="test-collection__title"
+              >
+                Collection under test
+              </h2>
+              
+                    
+              <p
+                class="bdga-chart-collection__description"
+                id="test-collection__desc"
+              >
+                Two related panels.
+              </p>
+              
+          
+            </div>
+            
+  
+                                  
+    
+            <div
+              class="bdga-chart-collection__toolbar"
+            >
+              
+      
+              <button
+                aria-controls="test-collection__panel-1__data test-collection__panel-2__data"
+                aria-expanded="false"
+                class="bdga-chart-collection__tool"
+                data-bdga-chart-collection-tables=""
+                data-label-hide="Hide all tables"
+                data-label-show="View all as tables"
+                type="button"
+              >
+                View all as tables
+              </button>
+              
+    
+            </div>
+            
+  
+  
+            <div
+              class="bdga-chart-collection__panels"
+            >
+              
+          
+
+
+
+
+
+
+
+              <figure
+                aria-describedby="test-collection__panel-1__desc"
+                aria-labelledby="test-collection__panel-1__title"
+                class="bdga-chart ct-theme-light bdga-chart--bar bdga-chart--embedded"
+                data-bdga-chart="bar"
+                data-bdga-chart-id="test-collection__panel-1"
+                data-bdga-chart-source="json"
+                data-bdga-chart-x="year"
+                data-bdga-chart-y="renewable"
+                id="test-collection__panel-1"
+                role="figure"
+              >
+                
+  
+                <figcaption
+                  class="bdga-chart__caption"
+                >
+                  
+          
+                  <h3
+                    class="bdga-chart__title"
+                    id="test-collection__panel-1__title"
+                  >
+                    Panel one
+                  </h3>
+                  
+          
+                </figcaption>
+                
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+                <output
+                  aria-atomic="true"
+                  aria-live="polite"
+                  class="bdga-chart__status visually-hidden"
+                  data-bdga-chart-status=""
+                  id="test-collection__panel-1__status"
+                  role="status"
+                />
+                
+
+  
+                <div
+                  aria-hidden="true"
+                  class="bdga-chart__canvas"
+                  data-bdga-chart-canvas=""
+                />
+                
+
+  
+                <div
+                  class="bdga-chart__error"
+                  data-bdga-chart-error=""
+                  hidden=""
+                  id="test-collection__panel-1__error"
+                  role="alert"
+                >
+                  
+    Chart unavailable. The data source could not be loaded or validated.
+  
+                </div>
+                
+
+  
+                <details
+                  class="bdga-chart__data"
+                  id="test-collection__panel-1__data"
+                >
+                  
+    
+                  <summary
+                    class="bdga-chart__data-toggle"
+                  >
+                    Show underlying data
+                  </summary>
+                  
+    
+                  <table
+                    class="bdga-chart__table"
+                    data-bdga-chart-data=""
+                  >
+                    
+      
+                    <caption
+                      class="visually-hidden"
+                    >
+                      Panel one - data table
+                    </caption>
+                    
+              
+                    <thead>
+                      
+          
+                      <tr>
+                        
+            
+                        <th
+                          data-bdga-key="year"
+                          scope="col"
+                        >
+                          year
+                        </th>
+                        
+            
+                          
+                        <th
+                          data-bdga-key="renewable"
+                          scope="col"
+                        >
+                          renewable
+                        </th>
+                        
+                      
+                      </tr>
+                      
+        
+                    </thead>
+                    
+        
+                    <tbody>
+                      
+                      
+                      <tr>
+                        
+              
+                        <th
+                          data-bdga-key="year"
+                          scope="row"
+                        >
+                          2024
+                        </th>
+                        
+                              
+                        <td
+                          data-bdga-key="renewable"
+                          data-value="40"
+                        >
+                          40
+                        </td>
+                        
+                          
+                      </tr>
+                      
+                      
+                      <tr>
+                        
+              
+                        <th
+                          data-bdga-key="year"
+                          scope="row"
+                        >
+                          2025
+                        </th>
+                        
+                              
+                        <td
+                          data-bdga-key="renewable"
+                          data-value="44"
+                        >
+                          44
+                        </td>
+                        
+                          
+                      </tr>
+                      
+                  
+                    </tbody>
+                    
+          
+                  </table>
+                  
+  
+                </details>
+                
+
+  
+              </figure>
+              
+          
+
+
+
+
+
+
+
+              <figure
+                aria-describedby="test-collection__panel-2__desc"
+                aria-labelledby="test-collection__panel-2__title"
+                class="bdga-chart ct-theme-light bdga-chart--donut bdga-chart--embedded"
+                data-bdga-chart="donut"
+                data-bdga-chart-id="test-collection__panel-2"
+                data-bdga-chart-source="json"
+                data-bdga-chart-x="source"
+                data-bdga-chart-y="share"
+                id="test-collection__panel-2"
+                role="figure"
+              >
+                
+  
+                <figcaption
+                  class="bdga-chart__caption"
+                >
+                  
+          
+                  <h3
+                    class="bdga-chart__title"
+                    id="test-collection__panel-2__title"
+                  >
+                    Panel two
+                  </h3>
+                  
+          
+                </figcaption>
+                
+
+  
+  
+  
+  
+      
+                <ul
+                  aria-label="Toggle data series"
+                  class="bdga-chart__legend"
+                  data-bdga-chart-legend=""
+                />
+                
+  
+  
+  
+  
+  
+  
+                <output
+                  aria-atomic="true"
+                  aria-live="polite"
+                  class="bdga-chart__status visually-hidden"
+                  data-bdga-chart-status=""
+                  id="test-collection__panel-2__status"
+                  role="status"
+                />
+                
+
+  
+                <div
+                  aria-hidden="true"
+                  class="bdga-chart__canvas"
+                  data-bdga-chart-canvas=""
+                />
+                
+
+  
+                <div
+                  class="bdga-chart__error"
+                  data-bdga-chart-error=""
+                  hidden=""
+                  id="test-collection__panel-2__error"
+                  role="alert"
+                >
+                  
+    Chart unavailable. The data source could not be loaded or validated.
+  
+                </div>
+                
+
+  
+                <details
+                  class="bdga-chart__data"
+                  id="test-collection__panel-2__data"
+                >
+                  
+    
+                  <summary
+                    class="bdga-chart__data-toggle"
+                  >
+                    Show underlying data
+                  </summary>
+                  
+    
+                  <table
+                    class="bdga-chart__table"
+                    data-bdga-chart-data=""
+                  >
+                    
+      
+                    <caption
+                      class="visually-hidden"
+                    >
+                      Panel two - data table
+                    </caption>
+                    
+              
+                    <thead>
+                      
+          
+                      <tr>
+                        
+            
+                        <th
+                          data-bdga-key="source"
+                          scope="col"
+                        >
+                          source
+                        </th>
+                        
+            
+                          
+                        <th
+                          data-bdga-key="share"
+                          scope="col"
+                        >
+                          share
+                        </th>
+                        
+                      
+                      </tr>
+                      
+        
+                    </thead>
+                    
+        
+                    <tbody>
+                      
+                      
+                      <tr>
+                        
+              
+                        <th
+                          data-bdga-key="source"
+                          scope="row"
+                        >
+                          Renewable
+                        </th>
+                        
+                              
+                        <td
+                          data-bdga-key="share"
+                          data-value="44"
+                        >
+                          44
+                        </td>
+                        
+                          
+                      </tr>
+                      
+                      
+                      <tr>
+                        
+              
+                        <th
+                          data-bdga-key="source"
+                          scope="row"
+                        >
+                          Fossil
+                        </th>
+                        
+                              
+                        <td
+                          data-bdga-key="share"
+                          data-value="56"
+                        >
+                          56
+                        </td>
+                        
+                          
+                      </tr>
+                      
+                  
+                    </tbody>
+                    
+          
+                  </table>
+                  
+  
+                </details>
+                
+
+  
+              </figure>
+              
+      
+            </div>
+            
+
+          </section>
+          
+
+        </div>
+        
+
+      </div>
+      
+
+    </div>
+    
+
+  </div>
+  
+
+</div>
+`;

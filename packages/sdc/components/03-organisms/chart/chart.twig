@@ -22,7 +22,7 @@
  * - rows: [array] Server-side parsed and sanitised data rows. Rendered as the fallback table and used as the chart data source when source_mode is csv or json.
  *   Each item contains:
  *   - items [object]
- * - flow_table: [boolean] When true, the fallback <table> renders 3 columns (source / target / value) instead of the standard X / Y layout. Used by sankey and flow chart types.
+ * - flow_table: [boolean] When true, the fallback <table> renders 3 columns (source / target / value) instead of the standard X / Y layout. Used by the sankey, flow and chord chart types.
  * - source_label: [string,null] Header for the first column of the sankey/flow fallback table. Auto-populated server-side from node prefixes for a 2-stage graph (e.g. "2025" when node ids look like "2025: High"). Null falls through to the generic "From" string in the template.
  * - target_label: [string,null] Header for the second column of the sankey/flow fallback table. Auto-populated server-side from node prefixes; null falls through to "To".
  * - value_label: [string] Header for the third (numeric) column of the sankey/flow fallback table. Defaults to the y_label when the author has set one, else "Count".
@@ -32,9 +32,11 @@
  * - downloads: [array] Client-side download formats offered in the toolbar overflow menu for local (csv/json) data. Ignored in url mode, which links to the source instead. CSV is the recommended default; JSON is a secondary convenience.
  *   Each item contains:
  *   - items [string]
- * - legend: [boolean] Render an interactive legend whose items toggle series visibility (hover/focus highlights, click hides/shows). Auto-enabled for the multi-series renderers (grouped_bar, stacked_bar, pie); set true to force it on elsewhere. The legend is an enhancement on top of the directly-labelled chart and the data table, not a replacement for either.
- * - texture: [boolean] Apply SVG pattern fills (hatch, dots, cross-hatch) in addition to colour on the categorical multi-series renderers (grouped_bar, stacked_bar, pie), so adjacent series stay distinguishable for colour-blind users. A redundant cue stacked on the colour-blind-safe palette, not a replacement for it; off by default to avoid clutter.
+ * - legend: [boolean] Render an interactive legend whose items toggle series visibility (hover/focus highlights, click hides/shows). Auto-enabled for the multi-series renderers (grouped_bar, stacked_bar, pie, donut); set true to force it on elsewhere. The legend is an enhancement on top of the directly-labelled chart and the data table, not a replacement for either.
+ * - texture: [boolean] Apply SVG pattern fills (hatch, dots, cross-hatch) in addition to colour on the categorical renderers (grouped_bar, stacked_bar, pie, donut, treemap), so adjacent series stay distinguishable for colour-blind users. A redundant cue stacked on the colour-blind-safe palette, not a replacement for it; off by default to avoid clutter.
  * - zoom: [boolean] Add keyboard-accessible Zoom in / out / reset controls to the toolbar for the ordinal cartesian types (bar, line, lollipop). Narrows the x-axis window to the data; +/-/0 also zoom when a data point is focused. This is data-domain zoom, separate from browser reflow zoom (which the SVG already supports).
+ * - table_toggle: [string] How readers switch to the underlying data table. disclosure keeps the summary below the chart; swap adds one corner icon control that exchanges the chart and the table in place (the toolbar table button is dropped). Without JavaScript, swap falls back to the disclosure.
+ * - embedded: [boolean] Render the bare figure without the self-supplied block, container, row and column wrappers, for composition inside chart-collection. The collection owns the keyline chrome and surface; the figure keeps its own layout, data table and query container. attributes is not rendered in this mode.
  * - filters: [array] Interactive client-side filter controls, one per entry. The renderer builds a control per dimension and applies the selection before drawing; within a filter the selected values are OR-ed, across filters AND-ed. The fallback data table is unaffected. Carried to the renderer through config_json (the JS reads filters from the data island, not this prop directly); set the prop so the filter-bar container renders:
  *   Each item contains:
  *   - key: [string] Field name to filter on. Use a dimension/category column or the X key, not a numeric measure.
@@ -49,18 +51,21 @@
 {% set heading_level = heading_level in [2, 3, 4, 5, 6] ? heading_level : 3 %}
 
 {% set chart_id = chart_id|default('bdga-chart') %}
-{% set chart_type = chart_type in ['bar', 'grouped_bar', 'stacked_bar', 'line', 'pie', 'sankey', 'lollipop', 'cleveland', 'flow'] ? chart_type : 'bar' %}
+{% set chart_type = chart_type in ['bar', 'grouped_bar', 'stacked_bar', 'line', 'pie', 'donut', 'sankey', 'lollipop', 'cleveland', 'flow', 'chord', 'treemap'] ? chart_type : 'bar' %}
 {% set theme = theme in ['light', 'dark'] ? theme : 'light' %}
 {% set source_mode = source_mode in ['csv', 'json', 'url'] ? source_mode : 'json' %}
-{# Flow-style 3-column table is mandatory for sankey/flow regardless of the
-   author-supplied flag; for other types it stays off unless explicitly set. #}
-{% set flow_table = flow_table or chart_type in ['sankey', 'flow'] %}
+{% set embedded = embedded|default(false) %}
+{% set table_toggle = table_toggle in ['disclosure', 'swap'] ? table_toggle : 'disclosure' %}
+{# Flow-style 3-column table is mandatory for the node-link types (sankey,
+   flow, chord) regardless of the author-supplied flag; for other types it
+   stays off unless explicitly set. #}
+{% set flow_table = flow_table or chart_type in ['sankey', 'flow', 'chord'] %}
 {# Interactive legend with series toggle. Auto-enabled for the genuinely
    multi-series renderers; an explicit `legend: true` also forces it on. The
    list is populated by chart.js (swatch colours come from the resolved
    palette), so it stays empty without JavaScript - the data table is the
    no-JS path. #}
-{% set show_legend = legend or chart_type in ['grouped_bar', 'stacked_bar', 'pie'] or (chart_type == 'line' and y_keys|length > 1) %}
+{% set show_legend = legend or chart_type in ['grouped_bar', 'stacked_bar', 'pie', 'donut'] or (chart_type == 'line' and y_keys|length > 1) %}
 {# Data-domain zoom only applies to the ordinal/time-series cartesian types.
    It shares the toolbar; enabling zoom alone still renders the toolbar shell. #}
 {% set zoom_enabled = zoom and chart_type in ['bar', 'line', 'lollipop'] %}
@@ -71,13 +76,15 @@
 {% set status_id = chart_id ~ '__status' %}
 {% set error_id = chart_id ~ '__error' %}
 
+{% if not embedded %}
 <div class="bdga-chart-block {{ theme_class }}" {% if attributes %}{{ attributes }}{% endif %}>
 <div class="container">
 <div class="row">
 <div class="col-xxs-12">
+{% endif %}
 <figure
   id="{{ chart_id }}"
-  class="bdga-chart {{ theme_class }} bdga-chart--{{ chart_type }}"
+  class="bdga-chart {{ theme_class }} bdga-chart--{{ chart_type }}{% if embedded %} bdga-chart--embedded{% endif %}{% if table_toggle == 'swap' %} bdga-chart--swap-table{% endif %}"
   data-bdga-chart="{{ chart_type }}"
   data-bdga-chart-id="{{ chart_id }}"
   data-bdga-chart-source="{{ source_mode }}"
@@ -101,6 +108,26 @@
   </figcaption>
 
   {#
+    Swap-table variant control: exchanges the chart and its data table in
+    place. Inert without JavaScript - the data disclosure below then applies.
+  #}
+  {% if table_toggle == 'swap' %}
+    <button
+      type="button"
+      class="bdga-chart__table-swap"
+      data-bdga-chart-table-swap
+      data-label-show="{{ 'View data as table'|t }}"
+      data-label-hide="{{ 'View chart'|t }}"
+      aria-expanded="false"
+      aria-controls="{{ chart_id }}__data"
+      aria-label="{{ 'View data as table'|t }}"
+    >
+      <span class="bdga-chart__table-swap-icon bdga-chart__table-swap-icon--table" aria-hidden="true"><svg class="ct-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm240-240H200v160h240v-160Zm80 0v160h240v-160H520Zm-80-80v-160H200v160h240Zm80 0h240v-160H520v160ZM200-680h560v-80H200v80Z"/></svg></span>
+      <span class="bdga-chart__table-swap-icon bdga-chart__table-swap-icon--chart" aria-hidden="true"><svg class="ct-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path d="M640-160v-280h160v280H640Zm-240 0v-640h160v640H400Zm-240 0v-440h160v440H160Z"/></svg></span>
+    </button>
+  {% endif %}
+
+  {#
     Accessible toolbar (optional). The "View as table" control toggles the
     data disclosure below; the overflow menu is populated by chart.js with a
     source-aware action set (download links for local data, a "View source"
@@ -119,13 +146,15 @@
         </div>
       {% endif %}
       {% if toolbar %}
-        <button
-          type="button"
-          class="bdga-chart__tool"
-          data-bdga-chart-tool="table"
-          aria-expanded="false"
-          aria-controls="{{ chart_id }}__data"
-        >{{ 'View as table'|t }}</button>
+        {% if table_toggle != 'swap' %}
+          <button
+            type="button"
+            class="bdga-chart__tool"
+            data-bdga-chart-tool="table"
+            aria-expanded="false"
+            aria-controls="{{ chart_id }}__data"
+          >{{ 'View as table'|t }}</button>
+        {% endif %}
         <div class="bdga-chart__menu-wrap">
           <button
             type="button"
@@ -255,7 +284,9 @@
     </noscript>
   {% endif %}
 </figure>
+{% if not embedded %}
 </div>
 </div>
 </div>
 </div>
+{% endif %}

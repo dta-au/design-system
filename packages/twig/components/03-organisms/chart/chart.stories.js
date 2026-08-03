@@ -23,7 +23,7 @@ export default {
     chart_id: { control: 'text' },
     chart_type: {
       control: 'select',
-      options: ['bar', 'grouped_bar', 'stacked_bar', 'line', 'pie', 'sankey', 'lollipop', 'cleveland', 'flow'],
+      options: ['bar', 'grouped_bar', 'stacked_bar', 'line', 'pie', 'donut', 'sankey', 'lollipop', 'cleveland', 'flow', 'chord', 'treemap'],
     },
     title: { control: 'text' },
     description: { control: 'text' },
@@ -37,6 +37,7 @@ export default {
     downloads: { control: 'object' },
     legend: { control: 'boolean' },
     texture: { control: 'boolean' },
+    table_toggle: { control: 'select', options: ['disclosure', 'swap'] },
     filters: { control: 'object' },
   },
 };
@@ -125,6 +126,38 @@ export const Pie = {
   },
 };
 
+// Donut - pie with the centre opened; the hole shows the visible-slice total,
+// which updates as legend toggles hide slices. config_json carries y_label to
+// the renderer so the centre unit reads "Share (%)", as it would from Drupal.
+const DONUT_ROWS = [
+  { source: 'Renewable', share: 44 },
+  { source: 'Fossil', share: 52 },
+  { source: 'Storage', share: 4 },
+];
+
+export const Donut = {
+  args: {
+    ...Pie.args,
+    chart_id: 'bdga-chart-donut',
+    chart_type: 'donut',
+    title: 'Generation mix - 2025 (donut)',
+    y_label: 'Share (%)',
+    rows: DONUT_ROWS,
+    config_json: JSON.stringify({
+      id: 'bdga-chart-donut',
+      type: 'donut',
+      source: 'json',
+      url: null,
+      x_key: 'source',
+      y_keys: ['share'],
+      x_label: 'Source',
+      y_label: 'Share (%)',
+      rows: DONUT_ROWS,
+      color_by: 'series',
+    }),
+  },
+};
+
 // Toolbar with client-side downloads. Local (json) data, so the overflow menu
 // offers "Download data (CSV)" and "Download data (JSON)" alongside the
 // "View as table" control. Exercises Phase 1 of the accessibility spec.
@@ -181,18 +214,10 @@ export const Texture = {
   },
 };
 
-// Live data.gov.au example. CKAN datastore_search_sql endpoint, MDPR 2026
-// resource id 37c7bae2-990d-47e8-bf15-4159a5adc264. The SQL sums the
-// 'Total budget (millions)' column (cast to numeric, NFP rows excluded)
-// grouped by portfolio, ordered descending. Browser-side: the renderer's
-// host allowlist accepts data.gov.au, CORS is open (Access-Control-Allow-
-// Origin: *), and the response shape is the standard CKAN
-// { result: { records: [...] } } that extractCkanRows() already handles.
-//
-// config_json mirrors what chart_postprocess.inc emits in Drupal: the JSON
-// island is the renderer's single source of truth, so URL-mode charts still
-// pick up the author-supplied axis labels without falling back to the raw
-// y_key.
+// Live data.gov.au example: CKAN datastore_search_sql over the MDPR 2026
+// resource, summing the budget column by portfolio (NFP rows excluded).
+// data.gov.au is on the renderer's host allowlist and serves open CORS with
+// the standard CKAN response shape extractCkanRows() handles.
 const URL_SOURCE_URL = 'https://data.gov.au/data/api/action/datastore_search_sql?sql=SELECT%20%22Portfolio%22%2C%20SUM(%22Total%20budget%20(millions)%22%3A%3Anumeric)%20AS%20total_budget_m%20FROM%20%2237c7bae2-990d-47e8-bf15-4159a5adc264%22%20WHERE%20%22Total%20budget%20(millions)%22%20!%3D%20%27NFP%27%20GROUP%20BY%20%22Portfolio%22%20ORDER%20BY%20total_budget_m%20DESC';
 
 export const UrlSource = {
@@ -402,6 +427,79 @@ export const Flow = {
   },
 };
 
+// Swap-table variant: one corner icon control exchanges the chart and its
+// data table in place - suited to embeds where the full toolbar is noise.
+export const TableSwap = {
+  args: {
+    ...Bar.args,
+    chart_id: 'bdga-chart-table-swap',
+    title: 'Renewable share with swap-table control',
+    description: 'The corner control swaps the chart for its underlying data table in place. Without JavaScript the standard data disclosure below remains.',
+    table_toggle: 'swap',
+  },
+};
+
+// Chord - directed circular flows over the sankey nodes + links shape, with a
+// deliberate self-loop (intra-NSW moves) to exercise the self-ribbon path.
+const CHORD_LINKS = [
+  { source: 'NSW', target: 'Vic', value: 24800 },
+  { source: 'NSW', target: 'Qld', value: 51200 },
+  { source: 'NSW', target: 'WA', value: 11200 },
+  { source: 'NSW', target: 'NSW', value: 9800 },
+  { source: 'Vic', target: 'NSW', value: 21500 },
+  { source: 'Vic', target: 'Qld', value: 36400 },
+  { source: 'Vic', target: 'SA', value: 7800 },
+  { source: 'Qld', target: 'NSW', value: 28900 },
+  { source: 'Qld', target: 'Vic', value: 19700 },
+  { source: 'WA', target: 'NSW', value: 8600 },
+  { source: 'WA', target: 'Qld', value: 12300 },
+  { source: 'SA', target: 'Vic', value: 9400 },
+];
+const CHORD_NODES = (() => {
+  const seen = new Set();
+  const out = [];
+  CHORD_LINKS.forEach((l) => {
+    [l.source, l.target].forEach((id) => {
+      if (!seen.has(id)) { seen.add(id); out.push({ id }); }
+    });
+  });
+  return out;
+})();
+
+const chordConfig = JSON.stringify({
+  id: 'bdga-chart-chord',
+  type: 'chord',
+  source: 'json',
+  url: null,
+  x_key: 'source',
+  y_keys: ['value'],
+  x_label: 'From state',
+  y_label: 'People',
+  rows: CHORD_LINKS,
+  color_by: 'series',
+  nodes: CHORD_NODES,
+  links: CHORD_LINKS,
+});
+
+export const Chord = {
+  args: {
+    chart_id: 'bdga-chart-chord',
+    chart_type: 'chord',
+    title: 'Interstate movements between the five largest states',
+    description: 'Illustrative annual interstate movements. Ribbon width is the number of people, arrowheads point at the destination state, and the NSW self-ribbon is intra-state movement.',
+    theme: 'light',
+    source_mode: 'json',
+    flow_table: true,
+    x_key: 'source',
+    y_keys: ['value'],
+    source_label: 'From state',
+    target_label: 'To state',
+    value_label: 'People',
+    rows: CHORD_LINKS,
+    config_json: chordConfig,
+  },
+};
+
 // Lollipop - sample of MDPR 2026 Figure 12 (every project by total budget,
 // tier-coloured). Real story would pull all ~55 projects from data.gov.au;
 // the sample here is short enough to read on the canvas.
@@ -505,6 +603,36 @@ export const ClevelandDotPlot = {
       rows: MDPR_DCA_HIGH_ROWS,
       color_by: 'series',
     }),
+  },
+};
+
+// Treemap - single-level part-to-whole tiling. Mixed magnitudes and long
+// portfolio names exercise the label clipping and small-cell suppression.
+const TREEMAP_ROWS = [
+  { portfolio: 'Home Affairs', budget: 2214 },
+  { portfolio: 'Treasury', budget: 1892 },
+  { portfolio: 'Health, Disability and Ageing', budget: 1560 },
+  { portfolio: 'Finance', budget: 1140 },
+  { portfolio: 'Employment and Workplace Relations', budget: 830 },
+  { portfolio: 'Foreign Affairs and Trade', budget: 415 },
+  { portfolio: 'Education', budget: 260 },
+  { portfolio: "Attorney-General's", budget: 190 },
+  { portfolio: 'Prime Minister and Cabinet', budget: 85 },
+];
+
+export const Treemap = {
+  args: {
+    chart_id: 'bdga-chart-treemap',
+    chart_type: 'treemap',
+    title: 'Total digital-project budget by portfolio',
+    description: 'Illustrative total budget of Major Digital Projects per portfolio. Cell area is proportional to budget; small cells drop their text label but keep keyboard focus, tooltip and the data table.',
+    theme: 'light',
+    source_mode: 'json',
+    x_key: 'portfolio',
+    y_keys: ['budget'],
+    x_label: 'Portfolio',
+    y_label: 'Total budget ($m)',
+    rows: TREEMAP_ROWS,
   },
 };
 
