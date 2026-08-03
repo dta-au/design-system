@@ -1231,8 +1231,10 @@
       const frag = document.createDocumentFragment();
       this.legendButtons = new Map();
       series.forEach((s, i) => {
+        // Plain listitem: stripping the role would leave a <ul> with no list
+        // items (WCAG 1.3.1 / axe list). The menu li below differs - its
+        // role="none" is the ARIA menu pattern inside ul[role="menu"].
         const li = document.createElement('li');
-        li.setAttribute('role', 'none');
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.className = 'bdga-chart__legend-item';
@@ -1445,10 +1447,18 @@
 
       this.exposePlot(Drupal.t('Use arrow keys to move between data points.'));
 
+      // Position-in-set rides the accessible name: aria-posinset/-setsize
+      // are not valid on role="img" marks (WCAG 4.1.2 / axe aria-allowed-attr).
       this.pointGroups.forEach((group) => {
         group.forEach((el, idx) => {
-          el.setAttribute('aria-posinset', String(idx + 1));
-          el.setAttribute('aria-setsize', String(group.length));
+          el.setAttribute(
+            'aria-label',
+            Drupal.t('@label, @i of @n', {
+              '@label': el.getAttribute('aria-label') || '',
+              '@i': idx + 1,
+              '@n': group.length,
+            })
+          );
         });
       });
       this.focusPos = { g: 0, i: 0 };

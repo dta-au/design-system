@@ -112,7 +112,7 @@ The interactive legend toggles series visibility. It enables itself for the genu
 
 - The data table is the no-JS path and stays reachable behind its own disclosure regardless of toolbar state.
 - The figure wires `aria-labelledby` to the title and `aria-describedby` to the description – write the description to say what the chart shows and where the data comes from.
-- Data points are keyboard-navigable with a roving tabindex: arrows move within and across series, Home/End jump to the ends, Escape dismisses the tooltip. Each point exposes `role="img"`, a value label, and position-in-set semantics.
+- Data points are keyboard-navigable with a roving tabindex: arrows move within and across series, Home/End jump to the ends, Escape dismisses the tooltip. Each point exposes `role="img"` and a value label that carries its position in the set.
 - Loading, zoom, filter and series-toggle changes are announced through a visually hidden status region; on failure the chart hides, the table remains, and the status reads "Chart unavailable".
 - Colour is never the sole cue: series are directly labelled, markers vary by shape, and the texture option adds pattern fills. The categorical palette is colour-blind-safe.
 

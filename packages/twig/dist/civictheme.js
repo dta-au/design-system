@@ -4000,7 +4000,6 @@ ${new XMLSerializer().serializeToString(clone)}`;
           this.legendButtons = /* @__PURE__ */ new Map();
           series.forEach((s, i) => {
             const li = document.createElement("li");
-            li.setAttribute("role", "none");
             const btn = document.createElement("button");
             btn.type = "button";
             btn.className = "bdga-chart__legend-item";
@@ -4192,8 +4191,14 @@ ${new XMLSerializer().serializeToString(clone)}`;
           this.exposePlot(Drupal2.t("Use arrow keys to move between data points."));
           this.pointGroups.forEach((group) => {
             group.forEach((el, idx) => {
-              el.setAttribute("aria-posinset", String(idx + 1));
-              el.setAttribute("aria-setsize", String(group.length));
+              el.setAttribute(
+                "aria-label",
+                Drupal2.t("@label, @i of @n", {
+                  "@label": el.getAttribute("aria-label") || "",
+                  "@i": idx + 1,
+                  "@n": group.length
+                })
+              );
             });
           });
           this.focusPos = { g: 0, i: 0 };
