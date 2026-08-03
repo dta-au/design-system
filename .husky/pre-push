@@ -16,14 +16,14 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-# Check for uncommitted changes after components:update. dist/ is excluded –
-# CI rebuilds it before check:bundles and release.yml rebuilds it from the tag,
-# so its churn is not worth a commit on every push.
-if ! git diff --quiet -- . ':(exclude)packages/*/dist/*' || \
-   ! git diff --cached --quiet -- . ':(exclude)packages/*/dist/*'; then
+# Only components:update output has to be committed. dist/ is rebuilt in CI and
+# at release, and unrelated working changes are not this hook's business.
+# status, not diff: it refreshes the index and sees newly generated files too.
+CHANGED=$(git status --porcelain -- packages/sdc/components packages/twig/components)
+if [ -n "$CHANGED" ]; then
   echo "❌ There are uncommitted changes after running 'npm run components:update'."
   echo "Please commit the changes before pushing."
-  git status --short -- . ':(exclude)packages/*/dist/*'
+  echo "$CHANGED"
   exit 1
 fi
 
