@@ -8,19 +8,18 @@ Type
 
 A program page describes ongoing or recurring digital government programs, initiatives, frameworks or capability-building offerings. They describe things that exist over time and typically act as an entry point to supporting guides, resources and reports.
 
-Program pages can be used to help people understand what a program offers, who it is for, and how to engage with it. They are written for people who will actively use, adopt or participate in the program, and are action-oriented: the reader should leave knowing what to do next.
+Use a program page to help people understand what a program offers, who it is for, and how to engage with it. Program pages address the people who will use, adopt or participate in the program. They are action-oriented: the reader must leave knowing what to do next.
 
-Program pages can be used for different types of programs:
+Program pages cover different types of programs:
 - delivery programs with structured participation (such as enrolment, cohorts or scheduled delivery)
-- capability, platform or framework programs that are used or adopted across government.
+- capability, platform or framework programs that agencies use or adopt across government.
 
 Use a program page when:
 - the initiative is ongoing or recurring, rather than a one-off publication or event
 - there is a defined audience who will actively use, adopt, engage with or participate in the program
 - the program has supporting guidance, resources or reports beneath it.
 
-Do not use a program page for one-off events, published reports, or policy content. Training or learning modules within a broader program should usually be published as sub-pages rather than as standalone program pages.
-
+Do not use a program page for one-off events, published reports, or policy content. Publish training or learning modules within a broader program as sub-pages, not as standalone program pages.
 
 ## Structure
 
@@ -29,11 +28,11 @@ A program page should follow this pattern:
 1. **Overview** – one to two short paragraphs describing the program, its objectives, and its relationship to broader policy or strategy
 2. **Who this program is for** – a clear statement of the target audience, including any eligibility requirements or prerequisites
 3. **What participants will gain** – three to five specific, measurable outcomes; use a bullet list
-4. **How the program is delivered** – format (online, in-person, self-paced, or cohort-based), duration, and frequency
+4. **How we deliver the program** – format (online, in-person, self-paced, or cohort-based), duration, and frequency
 5. **How to get involved** – the specific action a reader must take to register, nominate, or find out more; include a call-to-action button or prominent link
 6. **Contact and support** – a named team or inbox for enquiries
 
-Keep the page concise. Program pages are a gateway, not a course catalogue. Supporting content – detailed module descriptions, prerequisite reading, post-program resources – should live on sub-pages linked from the main program page.
+Keep the page concise. Program pages are a gateway, not a course catalogue. Put supporting content on sub-pages linked from the main program page: detailed module descriptions, prerequisite reading, post-program resources.
 
 ## Writing conventions
 
@@ -48,7 +47,7 @@ Follow the [Australian Government Style Manual](https://www.stylemanual.gov.au) 
 
 Use the following UI components when building program pages in the CMS.
 
-**Page header (hero)** – Use a title and a short description (under 30 words) that answers 'what is this and who is it for?' in a single glance. An optional background image or colour band may be applied if the program has an approved visual identity.
+**Page header (hero)** – Use a title and a short description (under 30 words) that answers 'what is this and who is it for?' in a single glance. You may add an optional background image or colour band when the program has an approved visual identity.
 
 **Rich text body** – The main content area for the program overview and descriptive sections.
 

@@ -3,7 +3,7 @@ title: 'Focus mode'
 description: 'A reduced-chrome layout for multi-step forms that minimises distractions while users complete a task.'
 ---
 
-Focus mode is a layout pattern for multi-step form flows. It hides the main site navigation and simplifies the header to reduce distractions and reduce the risk of users accidentally leaving the form before completing it.
+Focus mode is a layout pattern for multi-step form flows. It hides the main site navigation and simplifies the header. That reduces distraction, and it reduces the risk of users leaving the form early.
 
 Do not use focus mode on informational content pages. Users reading guides, reports, or reference content need access to the site navigation.
 
@@ -19,7 +19,7 @@ Use focus mode for:
 
 In focus mode:
 
-- use the minimal header variant – the site logo is visible but the main site navigation is hidden
+- use the minimal header variant – it keeps the site logo and drops the main site navigation
 - do not include breadcrumbs, section navigation, or any persistent navigational sidebar
 - include a 'Back' link so users can return to the previous step without losing data
 - include a 'Save and exit' control at the top of the page so users can leave intentionally and return later
@@ -28,7 +28,7 @@ In focus mode:
 
 Use the [Progress indicator](/components/progress-indicator/) component to show users how far through the form they are. Place it near the top of the content area, directly below the minimal header.
 
-Do not use a progress indicator outside of focus mode. It is designed for form flows, not informational content or chapter navigation sequences.
+Do not use a progress indicator outside of focus mode. The component serves form flows rather than informational content or chapter navigation sequences.
 
 ## Preventing data loss
 

@@ -3,7 +3,7 @@ title: 'Related resources'
 description: 'Surfacing two to four supporting links at the end of a page after the main content.'
 ---
 
-Use related resources to surface a small, curated set of links to supporting content at the end of a page. This helps users find what they might need next without competing with the main content.
+Use related resources to show a small, curated set of links to supporting content at the end of a page. This helps users find what they might need next without competing with the main content.
 
 ## When to use
 
@@ -37,11 +37,11 @@ Place related resources at the end of the page, after the main content and befor
 
 ## Promoting a sibling slice from a rule page
 
-A rule page – a criterion or statement – is useless without the guidance that explains how to meet it, how to measure it, and how to transition to it. That guidance lives on three sibling pages, and the right control on the rule page is a card grid that points at the *rule-shaped slice* of each sibling, not at the sibling's full landing.
+A rule page – a criterion or statement – is useless without its guidance. That guidance explains how to meet the rule, how to measure it, and how to transition to it. It lives on three sibling pages. The right control on the rule page is a card grid. Each card points at the *rule-shaped slice* of a sibling, never the sibling's full landing page.
 
 Use a [promo](/components/promo/) card for each guidance sibling, with the link anchored or filtered to the current rule. A reader on Criterion 7 needs the seven-shaped slice of 'how to meet the standard', not the full guide. Three promo cards is the right count. See [card selection](/patterns/card-selection/) for the broader rules.
 
-On rule pages, every card in this control must point at the current rule's axis. The pattern is curated and axis-aware; a generic 'see also' grid does not serve a reader who is mid-task on a specific rule.
+On rule pages, every card in this control must point at the current rule's axis. The pattern stays curated and axis-aware; a generic 'see also' grid does not serve a reader who is mid-task on a specific rule.
 
 ## Related components
 

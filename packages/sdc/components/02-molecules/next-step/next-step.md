@@ -18,6 +18,12 @@ Use a next step at the end of a page or guide section to direct users toward the
 - when the page already ends with a form or another direct call to action
 - multiple times on a single page – one next step per page is sufficient
 
+## Accessibility
+
+- The link text names the action and its destination, so it still makes sense out of context (WCAG 2.4.4 Link purpose).
+- One next step per page leaves a single, unambiguous primary action at the end of the reading order (WCAG 1.3.2 Meaningful Sequence).
+- The block renders as a link. Do not style it as a button unless it submits something (WCAG 4.1.2 Name, Role, Value).
+
 ## Related components
 
 - [Callout](/components/callout/) – use to highlight important information rather than direct the user to an action.

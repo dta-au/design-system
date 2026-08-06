@@ -23,7 +23,7 @@ Use a title, description, publication date, and a PDF download link in the heade
 
 **Section landing pages**
 
-Use the full-width [Banner](/components/banner/) component with the section title and a two to three sentence description. An optional background image or approved colour treatment may be applied, consistent with design system and brand guidelines. Keep the description free of jargon.
+Use the full-width [Banner](/components/banner/) component with the section title and a two to three sentence description. You may add an optional background image or approved colour treatment, consistent with design system and brand guidelines. Keep the description free of jargon.
 
 **Focus mode pages (multi-step forms)**
 

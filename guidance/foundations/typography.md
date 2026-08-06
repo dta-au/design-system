@@ -4,12 +4,11 @@ description: 'The design system uses system fonts to decrease file size and incr
 foundation-type: Visual
 ---
 
-
 ## Font family
 
 The design system uses system fonts to decrease file size and increase page speed.
 
-Government services are provided for everyone, regardless of their situation or location. By choosing to use system fonts, users download less data and make fewer HTTP requests. This means that people on low-end devices or internet connections in remote areas can access government services easier.
+Government services must work for everyone, regardless of their situation or location. By choosing to use system fonts, users download less data and make fewer HTTP requests. This means that people on low-end devices or internet connections in remote areas can access government services easier.
 
 ## Font family tokens
 
@@ -17,7 +16,6 @@ Government services are provided for everyone, regardless of their situation or 
 |---|---|---|
 | body | -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol' | Used as the default font for all text |
 | monospace | 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace | Used for code and other monospaced text |
-
 
 ## Weights
 
@@ -32,7 +30,7 @@ Avoid Thin (100), ExtraLight (200), and Light (300) in digital interfaces – th
 
 ## Type scale
 
-The scale uses a modular ratio. Sizes are defined as CSS custom properties and expressed in `rem` to respect user font-size preferences.
+The scale uses a modular ratio. The system defines sizes as CSS custom properties, expressed in `rem` to respect user font-size preferences.
 
 | Token | Value | Use |
 |---|---|---|

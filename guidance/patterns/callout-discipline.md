@@ -5,7 +5,7 @@ description: 'Setting a budget for callouts on each page type so the most import
 
 A callout works because it is the visually-strongest element on the page. Two callouts on a page compete with each other and the strongest one wins by default – usually the wrong one. This pattern sets a per-page-type budget so the callout always carries the sentence it needs to.
 
-The [callout](/components/callout/) component itself is unchanged. What this pattern governs is editorial frequency – how often a callout appears on a given page type.
+This pattern does not change the [callout](/components/callout/) component. It governs editorial frequency – how often a callout appears on a given page type.
 
 ## Per-page-type budget
 
@@ -25,7 +25,7 @@ The [callout](/components/callout/) component itself is unchanged. What this pat
 
 ## Why one callout on rule pages is non-negotiable
 
-A rule page exists so that agencies can quote the rule in compliance reviews, audits, and tabled responses. The callout is the surface that gets quoted. A second callout next to the rule – even one labelled 'Tip' or 'See also' – competes for the reader's attention and creates ambiguity about which sentence is the source of truth.
+A rule page exists so that agencies can quote the rule in compliance reviews, audits, and tabled responses. The callout is the surface that gets quoted. A second callout next to the rule – even one labelled 'Tip' or 'See also' – competes for the reader's attention. It also creates doubt about which sentence is the source of truth.
 
 This applies to every variant of rule page: criteria, statements, standard parents. See the [rule template](/templates/rule/) for the full pattern.
 
@@ -33,7 +33,7 @@ This applies to every variant of rule page: criteria, statements, standard paren
 
 Two callouts on a guidance page – one positive, one negative – read as a deliberate editorial pair. A third callout breaks the pattern: readers stop reading them as exceptional and start scanning past them.
 
-If a guidance page has more than two pieces of information that 'feel callout-worthy', restructure with H2 sub-sections instead. The information is not less important; it just no longer needs the visual lift to be found.
+If a guidance page has more than two pieces of information that 'feel callout-worthy', restructure with H2 sub-sections instead. The information is not less important; it just no longer needs the visual lift.
 
 ## Why reference pages get zero callouts (with one exception)
 
@@ -57,7 +57,7 @@ The position of the single callout matters as much as the count.
 
 **Callout used for a quotation in long-form content.** Use [Quote](/components/quote/) instead. The visual treatment is similar but the semantic meaning is different.
 
-**Callout used for primary content.** If the content of the callout is the page's main argument, it is no longer a callout – move it into the body and use a callout for something genuinely supplementary.
+**Callout used for primary content.** When the callout carries the page's main argument, it is no longer a callout. Move it into the body, and use a callout for something genuinely supplementary.
 
 **Callout used to hide complexity.** A callout flags one important sentence – it does not substitute for headings, lists, or sub-sections. If the page reads as a wall of prose, restructure the body before adding a callout.
 

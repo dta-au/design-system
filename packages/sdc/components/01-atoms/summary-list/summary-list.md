@@ -4,7 +4,6 @@ description: 'A structured list of name–value pairs for displaying record summ
 component-type: Content
 ---
 
-
 Use a summary list to display structured information as labelled name–value pairs. Typical uses include review and confirm screens before form submission, metadata panels on record or profile pages, and read-only summaries of collected data.
 
 The component renders as a styled `<dl>` element with `<dt>` (term) and `<dd>` (description) pairs.
@@ -22,6 +21,12 @@ The component renders as a styled `<dl>` element with `<dt>` (term) and `<dd>` (
 - when the data is tabular with multiple columns of comparable items – use a [Table](/components/table/) instead
 - for navigational lists – use [Manual list](/components/manual-list/) or [Feature link list](/components/feature-link-list/) instead
 - when there are only one or two pairs – a simple paragraph is sufficient
+
+## Accessibility
+
+- The component renders real `<dl>`, `<dt>` and `<dd>` markup, so assistive technology reports each value with its label (WCAG 1.3.1 Info and Relationships).
+- Each term must name its value on its own. A reader who jumps into the middle of the list still knows what a value means (WCAG 2.4.6 Headings and Labels).
+- Never use the list to fake table layout. Comparable rows and columns belong in a [table](/components/table/).
 
 ## Related components
 

@@ -10,45 +10,45 @@ Type
 Related
 : [Communique](/templates/communique/) for short, dated Evidence pages.
 
-Reports are formal, structured documents which present findings, evaluation, analysis, oversight or whole-of-government performance. Reports may be published as full or summary versions. They sometimes take the form of a plan or strategy document.
+Reports are formal, structured documents which present findings, evaluation, analysis, oversight or whole-of-government performance. The DTA may publish a report as a full or a summary version. They sometimes take the form of a plan or strategy document.
 
-Reports on digital.gov.au are typically authored or commissioned by the DTA and represent a formal record of evidence and recommendations for government decision-makers, agencies, and the public.
+The DTA typically authors or commissions reports on digital.gov.au. They are a formal record of evidence and recommendations for government decision-makers, agencies, and the public.
 
-Unlike guides, reports describe what was found rather than what to do. They are evidence-first documents whose authority comes from the rigour of their methodology and the quality of their source data.
+Unlike guides, reports describe the findings rather than the actions to take. They are evidence-first documents whose authority comes from the rigour of their methodology and the quality of their source data.
 
 Use a report when:
 - the content presents the results of an evaluation, review, trial, or research process
-- the findings are intended to inform decision-making by agencies, ministers, or the public
-- the content may be referenced as a formal government record over time
+- the findings must inform decision-making by agencies, ministers, or the public
+- readers may cite the content as a formal government record over time
 
-Reports may exist as a single page (summary) or as a multi-page publication with a landing page, body sections, and appendices. When a report is tabled in parliament, it must follow the full structural requirements set out in the Australian Government Style Manual.
+Reports may exist as a single page (summary) or as a multi-page publication with a landing page, body sections, and appendices. A report tabled in parliament must follow the full structural requirements in the Australian Government Style Manual.
 
 ## Sizing your report
 
 **Long-form reports** are comprehensive publications – typically structured as multi-page sites with a foreword, methodology, findings sections, and appendices. They require a dedicated landing page that introduces the report and links to each chapter. Navigation between sections should be explicit and persistent.
 
-**Short-form reports and summaries** present key findings in a condensed format – typically a single page or two to three short sections. They are designed for readers who need the headline findings without the full detail. A short-form report should always link to the full report where one exists.
+**Short-form reports and summaries** present key findings in a condensed format – typically a single page or two to three short sections. They serve readers who need the headline findings without the full detail. A short-form report should always link to the full report where one exists.
 
 ## Front-matter chapters and body chapters
 
 Long-form reports have two kinds of chapter, and they need different treatment.
 
-**Front-matter chapters** are the entry sleeve to the report: foreword, executive summary, 'at a glance', introduction. Readers usually arrive at these from the report landing page and read them linearly. Treat front-matter chapters as gateway pages – include a [publication card](/components/promo/) at the top of the body that re-establishes the parent report (cover, full title, date, PDF), then the chapter prose, then [pagination](/patterns/pagination/) to the next chapter.
+**Front-matter chapters** are the entry sleeve to the report: foreword, executive summary, 'at a glance', introduction. Readers usually arrive at these from the report landing page and read them linearly. Treat front-matter chapters as gateway pages. Put a [publication card](/components/promo/) at the top of the body to re-establish the parent report: cover, full title, date, PDF. The chapter prose follows, then [pagination](/patterns/pagination/) to the next chapter.
 
-**Body chapters** are where the findings live. Readers often arrive directly from a search result, so each body chapter must restate context and let readers locate findings quickly. Add an in-page [table of contents](/components/table-of-contents/) generated from the chapter's H2s, present figures and tables inline (never collapsed), and use one [callout](/components/callout/) for the chapter's headline finding.
+**Body chapters** are where the findings live. Readers often arrive directly from a search result, so each body chapter must restate context and let readers locate findings quickly. Add an in-page [table of contents](/components/table-of-contents/) generated from the chapter's H2s. Present figures and tables inline, never collapsed. Use one [callout](/components/callout/) for the chapter's headline finding.
 
 The structural difference matters for cross-linking: front-matter chapters use [pagination](/patterns/pagination/) only – they are read in order. Body chapters use pagination *and* may carry a [next step](/components/next-step/) into a related surface (the policy area, the next report in the series).
 
-Reports may also publish case studies as body chapters – for example, named-project pages inside a major reporting cycle. Treat these as Evidence body chapters, not as the narrative case study variant of guide – they exist to present the project's findings, not to teach a method.
+Reports may also publish case studies as body chapters – for example, named-project pages inside a major reporting cycle. Treat these as Evidence body chapters, not as the narrative case study variant of guide. They exist to present the project's findings, not to teach a method.
 
-Do not split a single body chapter across tabs by year or portfolio. Where a report publishes per-year or per-portfolio appendices, those are separate URLs in their own right – turning them into a tab strip breaks the URL contract and the report's `hasPart` relationship in JSON-LD.
+Do not split a single body chapter across tabs by year or portfolio. Where a report publishes per-year or per-portfolio appendices, those are separate URLs in their own right. A tab strip breaks the URL contract and the report's `hasPart` relationship in JSON-LD.
 
 ## Writing conventions
 
 Follow the [Australian Government Style Manual](https://www.stylemanual.gov.au) throughout. Key conventions for reports include:
 
 - Use past tense for findings: 'the evaluation found', 'agencies reported', 'the data showed'
-- Present recommendations in the active voice: 'agencies should adopt', not 'it is recommended that agencies consider adopting'
+- Present recommendations in the active voice: write `agencies should adopt`, not `it is recommended that agencies consider adopting`
 - Use numbered headings for multi-chapter reports to make cross-referencing straightforward
 - Tables and figures must have a title and a source citation
 - Avoid editorialising findings – present evidence clearly and let recommendations carry the judgment
@@ -63,7 +63,7 @@ Use the following UI components when building report pages in the CMS.
 
 **Rich text body** – The main content area. Use blockquotes for key findings or important direct quotations. Use tables for structured comparative data.
 
-**Data visualisation** – Charts and graphs should be inserted as images with appropriate alt text. Where interactive data is available, use an embedded iframe or the relevant integration component.
+**Data visualisation** – Insert charts and graphs as images with appropriate alt text. Where interactive data is available, use an embedded iframe or the relevant integration component.
 
 **Pull quote** – Use for a single high-impact finding or a key quotation from the report. Position mid-page to break up long sections of text. Limit to one per section.
 
@@ -71,16 +71,15 @@ Use the following UI components when building report pages in the CMS.
 
 **Accordion** – Use only for supporting reference material that is not part of the main report narrative, such as methodology notes or reference lists. Never use accordions for core findings or recommendations. Never nest accordions. Limit to five to seven items.
 
-**Related content cards** – At the bottom of the landing page, link to related reports, the relevant policy area, and any program pages associated with the findings. Two to four cards.
+**Related content cards** – At the bottom of the landing page, link to related reports and the relevant policy area. Add any program pages tied to the findings. Two to four cards.
 
 **Tags** – Apply tags from the approved taxonomy. Reports typically carry tags for the policy domain, the publication type, and the year of publication.
 
 ## Style Manual guidance
 
-
 > Create complete reports with a landing page, preliminary content, body and endmatter. Include other parts if the report needs to be tabled in parliament.
 > <cite>
-[Reports \| Australian Government Style Manual](https://www.stylemanual.gov.au/content-types/reports) 
+[Reports \| Australian Government Style Manual](https://www.stylemanual.gov.au/content-types/reports)
 </cite>
 
 ## Structure
@@ -102,7 +101,6 @@ Appendices
 └── Appendix 3
 ```
 
-
 ## Examples
 - Long form
   - [Major Digital Projects Report](https://www.digital.gov.au/initiatives/MDPR/foreword)
@@ -119,6 +117,5 @@ Reports with broad scope or a large volume of supporting material may include su
 
 **Glossary** – a sub-page listing defined terms; required for long-form reports, optional for short-form. Position as the first appendix or as a named sub-page before appendices. Do not duplicate a glossary that exists on a parent section landing page.
 
-**Appendix** – one or more sub-pages containing supporting data, methodology, stakeholder lists, or reference material that would interrupt the report body. Each appendix must be numbered and titled. Link to all appendices from the report landing page.
-
+**Appendix** – one or more sub-pages containing supporting data, methodology, stakeholder lists, or reference material that would interrupt the report body. Give each appendix a number and a title. Link to all appendices from the report landing page.
 

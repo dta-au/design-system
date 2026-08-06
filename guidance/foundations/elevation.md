@@ -4,16 +4,15 @@ description: 'A set of predefined tokens that establish a sense of depth and lay
 foundation-type: Visual
 ---
 
-
 ## Shadow vs glow
 
 The system distinguishes between two types of visual elevation:
 
-**Shadow** communicates **physical depth** – that an element floats above the surface it sits on. Shadows are directional, darker at the base, and simulate a light source above. They are used for structural elements: cards, dropdowns, modals, popovers.
+**Shadow** communicates **physical depth** – that an element floats above the surface it sits on. Shadows are directional, darker at the base, and simulate a light source above. Use them for structural elements: cards, dropdowns, modals, popovers.
 
 **Glow** communicates **attention state** – that an element is interactive or live right now. Glows are non-directional, use the accent colour at low opacity, and signal UI feedback rather than layout hierarchy.
 
-A glowing card implies it is interactive or active. A shadowed card implies it sits above the page. These are different messages, but they can coexist: shadow establishes the physical presence of an element at rest; glow layers on top when that element is hovered or live.
+A glowing card implies it is interactive or active. A shadowed card implies it sits above the page. These are different messages, but they can coexist. Shadow establishes the physical presence of an element at rest. Glow layers on top when the user hovers that element, or when it goes live.
 
 ## Shadow tokens
 
@@ -45,11 +44,11 @@ Glow at rest in light mode competes with the other signals already present on a 
 
 **Dark mode – rest state on raised surfaces**
 
-Neutral shadows become near-invisible on dark backgrounds (dark-on-dark). Glow becomes the primary signal that a surface is elevated or interactive. This is where the token earns its place in the system. Apply at rest on `--bg-raised` surfaces in dark mode; on hover, increase shadow lift rather than intensifying the glow.
+Neutral shadows become near-invisible on dark backgrounds (dark-on-dark). Glow becomes the primary signal for a raised or interactive surface. This is where the token earns its place in the system. Apply at rest on `--bg-raised` surfaces in dark mode; on hover, increase shadow lift rather than intensifying the glow.
 
 **Live or real-time elements**
 
-The one legitimate rest-state exception in light mode: a component actively broadcasting data – a live feed card, a status indicator that is currently updating – can carry glow at rest to communicate "this is alive now." Borders and shadows cannot convey this; glow can.
+Light mode has one legitimate rest-state exception: a component that actively broadcasts data. A live feed card, or a status indicator that is currently updating, can carry glow at rest. The glow tells the reader that the data is alive now. Borders and shadows cannot carry that message; glow can.
 
 ## Z-index tokens
 
@@ -78,11 +77,11 @@ A set of predefined values for handling the relative distance between surfaces a
 - apply `--glow` to elements that are not interactive or live – it creates false affordance
 - apply `--glow` to every card or surface – it loses signal value when overused
 - apply `--shadow-lg` to small UI components – scale shadow to the physical size of the element
-- use `--glow` for selected state – that is handled by `--selected` and `--selected-muted`
-- use `--glow` in place of the focus ring – glow is a pointer-hover signal, not a keyboard-navigation signal
+- use `--glow` for selected state – `--selected` and `--selected-muted` carry that
+- use `--glow` in place of the focus ring – glow signals pointer hover, and the focus ring signals keyboard navigation
 - use arbitrary z-index values outside the token scale – this breaks stacking order guarantees
 
 ## Related foundations
 
-- [Colour](/foundations/colour/) – Surface tokens (`--bg-raised`) that shadow and glow are applied to
+- [Colour](/foundations/colour/) – Surface tokens (`--bg-raised`) that carry shadow and glow
 - [Focus](/foundations/focus/) – Keyboard focus indicator, distinct from glow

@@ -17,6 +17,12 @@ Use a banner at the top of a page to establish context. It displays the page tit
 - on every page – standard content pages use the page title in the site header, not a banner
 - to display system notifications or alerts – use [Message](/components-advanced/message/) or the global alert instead
 
+## Accessibility
+
+- The banner carries the page title as the only H1 on the page (WCAG 1.3.1 Info and Relationships).
+- The component takes a text alternative from the background image alt field. Leave that field empty when the image only decorates (WCAG 1.1.1 Non-text Content).
+- Title and description must meet contrast against the background image or colour behind them (WCAG 1.4.3 Contrast (Minimum)).
+
 ## Related components
 
 - [Campaign](/components/campaign/) – use for a major editorial feature with a more complex layout than a banner provides.

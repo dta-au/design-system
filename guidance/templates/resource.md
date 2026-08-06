@@ -15,7 +15,7 @@ Use a resource page when:
 - users will return to it repeatedly to complete a recurring task
 - the primary deliverable is a tool, template, checklist, factsheet, or visual reference
 
-Do not publish long explanatory text as a resource page. If context or instructions are needed beyond a short paragraph, consider pairing the resource with a guide page and linking between the two.
+Do not publish long explanatory text as a resource page. When the resource needs more context or instructions than a short paragraph, pair it with a guide page and link between the two.
 
 ## Structure
 
@@ -68,6 +68,6 @@ Use the following UI components when building resource pages in the CMS.
 
 ## Sub-page variants
 
-Some resources warrant a sub-page to address questions that cannot be handled within the main resource page.
+Some resources warrant a sub-page for questions the main resource page cannot answer.
 
 **FAQ** – a sub-page for frequently asked questions about the resource; appropriate when the resource has multiple user types or use cases that generate distinct questions. Limit to 7 items.

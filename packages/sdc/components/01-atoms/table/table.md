@@ -20,21 +20,23 @@ Use tables to present data that users need to scan, compare, or look up. Tables 
 
 ## Variants
 
+The component ships five variants. Pick the one that matches how readers use the data.
+
 ### Standard
 
 A basic table with column headers, an optional caption, and optional zebra striping for readability.
 
 ### Sortable
 
-Column headers become interactive sort controls. Clicking a header sorts that column ascending; clicking again sorts descending. Only one column sorts at a time. Sort direction is indicated with an icon.
+Column headers become interactive sort controls. A click sorts that column ascending; a second click sorts descending. Only one column sorts at a time. An icon shows the sort direction.
 
 ### Filterable
 
 Connects to the search-filters pattern. Three filter configurations apply depending on the number of filters:
 
-- **Small (1–2 filters):** filters appear inline above the table; no applied filter tags are needed.
-- **Medium (3–6 filters):** primary filters appear inline; remaining filters appear in an accordion triggered by 'Show filters'; applied filters are shown as dismissible tags.
-- **Large (6+ filters):** primary filters appear inline; remaining filters appear in a drawer triggered by 'Show filters'; the drawer has Apply, Clear, Close, and Cancel actions; applied filters are shown as dismissible tags.
+- **Small (1–2 filters):** filters appear inline above the table, with no applied filter tags.
+- **Medium (3–6 filters):** primary filters appear inline; the rest sit in an accordion behind 'Show filters'. Applied filters appear as dismissible tags.
+- **Large (6+ filters):** primary filters appear inline; the rest sit in a drawer behind 'Show filters'. The drawer carries Apply, Clear, Close, and Cancel actions. Applied filters appear as dismissible tags.
 
 ### Wide tables
 
@@ -43,6 +45,13 @@ When table content overflows its container, a custom horizontal scrollbar render
 ### Spanning cells
 
 Cells can span multiple columns (`colSpan`) or rows (`rowSpan`) to represent data with genuinely hierarchical relationships. Use spanning cells only when the data relationship is inherently multi-dimensional. Do not use them to create visual layout effects.
+
+## Accessibility
+
+- Every table needs a caption that says what the data covers, so a reader knows the subject before the values (WCAG 1.3.1 Info and Relationships).
+- Header cells must use `<th>` with a scope. Assistive technology then reads each value with its row and column header (WCAG 1.3.1 Info and Relationships).
+- A sort control reports its current direction, so the reader hears the order as well as seeing the icon (WCAG 4.1.2 Name, Role, Value).
+- A wide table scrolls horizontally from the keyboard as well as the pointer (WCAG 2.1.1 Keyboard).
 
 ## Related components
 

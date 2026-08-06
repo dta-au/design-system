@@ -3,17 +3,17 @@ title: 'Search filters'
 description: 'Helping users narrow a large dataset using inline filters above the listing or a persistent filter sidebar.'
 ---
 
-Search filters help users find content by narrowing a dataset to items that match selected criteria. Applied filters are displayed as tags so users can see which filters are active and remove them individually.
+Search filters help users find content by narrowing a dataset to items that match selected criteria. Applied filters appear as tags, so users can see which filters are active and remove them individually.
 
 Display filtered results in a [Table](/components/table/) or a card list below the filters.
 
 ## Choosing a filter layout
 
-**Inline filters** – use when there are one or two filters. Display them directly above the dataset. No trigger button is needed. Applied filter tags are not required because the filters themselves are always visible.
+**Inline filters** – use when there are one or two filters. Display them directly above the dataset. The layout needs no trigger button. Applied filter tags are not required because the filters themselves are always visible.
 
 **[Filter sidebar](/components/filter-sidebar/)** – use when filters need to be quickly accessed on a regular basis and should always be visible alongside the listing. The filter sidebar places filters in a persistent left-hand column. Because filters are always visible, applied filter tags are not required.
 
-Use a filter sidebar when the layout supports a two-column arrangement and most users are likely to use the filters regularly. Use inline filters when only a small number of filter controls are needed and always-visible filters are not necessary.
+Use a filter sidebar when the layout supports a two-column arrangement and most users are likely to use the filters regularly. Use inline filters when the page has only a few filter controls and does not need them always visible.
 
 ## Filter sizes
 

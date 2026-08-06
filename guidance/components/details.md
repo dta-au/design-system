@@ -5,8 +5,7 @@ component-type: Content
 rendered-by: []
 ---
 
-
-Use Details to offer a single piece of supplementary content that not all users will need: a definition, short clarification, or contextual help. When the user opens the element, the content is revealed in place. When closed, it takes up minimal space on the page.
+Use Details to offer a single piece of supplementary content that not all users will need: a definition, short clarification, or contextual help. When the user opens the element, the content appears in place. When closed, it takes up minimal space on the page.
 
 Details renders the native HTML `<details>` and `<summary>` elements with styling applied. An `iconBefore` variant displays an information icon before the label.
 
@@ -24,7 +23,13 @@ Details renders the native HTML `<details>` and `<summary>` elements with stylin
 - to hide critical instructions, warnings, or error guidance
 - to nest other components inside it
 
+## Accessibility
+
+- The component uses native `<details>` and `<summary>`, so the browser reports the open state without extra code (WCAG 4.1.2 Name, Role, Value).
+- A closed element hides its content from assistive technology as well as from sight. Never hide a warning or an instruction inside one (WCAG 1.3.1 Info and Relationships).
+- The summary text says what the element holds, so a reader can decide whether to open it (WCAG 2.4.6 Headings and Labels).
+
 ## Related components
 
 - [Accordion](/components/accordion/) – use when multiple sections need to expand and collapse independently.
-- Tabs – use when content is divided into distinct categories that users switch between.
+- Tabs – use when the content splits into distinct categories that users switch between.

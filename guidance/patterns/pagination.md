@@ -11,7 +11,7 @@ Paginate when:
 
 - the dataset contains more than 25 items
 - users are likely to need to return to a specific position – for example, after following a result link and pressing back
-- the total number of results is known and finite
+- you know the total number of results, and it is finite
 
 ## When not to paginate
 
@@ -23,9 +23,9 @@ Do not paginate when:
 
 ## Load more vs pagination
 
-Use a **Load more** button instead of pagination when users are browsing and do not need to bookmark or share a specific position in the list. Load more appends items to the existing list rather than replacing it.
+Use a **Load more** button instead of pagination when users browse without needing to bookmark or share a position in the list. Load more appends items to the existing list rather than replacing it.
 
-Use **infinite scroll** only when there is a clear user experience benefit and the following conditions are met: the content is a feed or stream, the footer does not need to be reachable by scrolling, and the page does not require screen reader accessibility to the full result set. Infinite scroll creates serious accessibility problems and makes it impossible to link to a position in a list. Avoid it for content users need to compare across pages or return to.
+Use **infinite scroll** only when it gives a clear user experience benefit and all three conditions hold. The content is a feed or stream. The reader does not have to scroll to the footer. The page does not need screen reader access to the full result set. Infinite scroll creates serious accessibility problems and makes it impossible to link to a position in a list. Avoid it for content users need to compare across pages or return to.
 
 ## Page size
 

@@ -7,9 +7,9 @@ toc-max-level: 2
 
 ## Colour palettes
 
-There are 2 colour palettes: **light** and **dark**. Each palette is divided into foreground, background, border, system, and miscellaneous colour groups – all with a specific purpose.
+There are 2 colour palettes: **light** and **dark**. Each palette splits into foreground, background, border, system, and miscellaneous colour groups – each with a specific purpose.
 
-All colour values are authored in [OKLCH](https://oklch.com/), a perceptually uniform colour space. Unlike HSL or HEX, OKLCH guarantees that two colours at the same Lightness value appear equally bright to the human eye, making it reliable for building accessible contrast ratios programmatically.
+The system authors all colour values in [OKLCH](https://oklch.com/), a perceptually uniform colour space. Unlike HSL or HEX, OKLCH guarantees that two colours at the same Lightness value appear equally bright. That makes it reliable for building accessible contrast ratios.
 
 The system uses a **fixed cool-neutral hue of 255°** with micro-chroma. This keeps surfaces visually calm while avoiding the flat appearance of pure grey. Dark mode uses slightly elevated chroma (`0.020`) – the Commonwealth navy approach – to maintain a cool quality consistent with the Australian Government digital identity.
 
@@ -17,7 +17,7 @@ The system uses a **fixed cool-neutral hue of 255°** with micro-chroma. This ke
 
 ## Foreground colours
 
-Designed to sit on top of background colours to ensure contrast ratios meet WCAG 2.1 AA requirements: 4.5:1 for text (SC 1.4.3) and 3:1 for graphic elements (SC 1.4.11).
+Foreground colours sit on top of background colours. They meet the WCAG 2.1 AA contrast ratios: 4.5:1 for text (SC 1.4.3) and 3:1 for graphic elements (SC 1.4.11).
 
 ### Light palette
 
@@ -37,11 +37,9 @@ Designed to sit on top of background colours to ensure contrast ratios meet WCAG
 | `--fg-subtle` | `oklch(0.50 0.008 255)` | Mid cool grey. Used for placeholder text on dark surfaces. |
 | `--fg-action` | `oklch(0.70 0.14 240)` | Light blue. Used to indicate interactive elements on dark surfaces. |
 
-
-
 ## Background colours
 
-Each palette has two main background colours: the default (`body`) and a darker alternative (`body-alt`). Shade variants sit one step darker and are used to differentiate or highlight content on their respective base.
+Each palette has two main background colours: the default (`body`) and a darker alternative (`body-alt`). Shade variants sit one step darker. Use them to differentiate or highlight content on their respective base.
 
 ### Light palette
 
@@ -65,8 +63,6 @@ Each palette has two main background colours: the default (`body`) and a darker 
 | `--bg-inset` | `oklch(0.125 0.016 255)` | Very dark navy. Recessed surface for code blocks and input fills on dark backgrounds. |
 | `--bg-raised` | `oklch(0.220 0.024 255)` | Elevated navy panel. Used for floating surfaces – cards, dropdowns, tooltips on dark backgrounds. |
 
-
-
 ## Border colours
 
 Each palette has three border tiers: muted for decorative rules, default for structural borders, and emphasis for active or focused states.
@@ -87,13 +83,11 @@ Each palette has three border tiers: muted for decorative rules, default for str
 | `--border-default` | `oklch(0.30 0.014 255)` | Dark cool rule. Used for structural borders on dark inputs, cards, and containers. |
 | `--border-emphasis` | `oklch(0.48 0.016 255)` | Medium cool rule. Used for hover states and active borders on dark surfaces. |
 
-
-
 ## System colours
 
 System colours indicate status. They are intentionally prominent to attract attention. Each has a `subtle` background variant (for component fills) and an `emphasis` variant (for icons, borders, and text).
 
-Status hues are fixed and not brand-derived: success `155°`, warning `85°`, danger `25°`, info `245°`.
+Status hues do not derive from the brand: success `155°`, warning `85°`, danger `25°`, info `245°`.
 
 ### Light palette
 
@@ -120,7 +114,6 @@ Status hues are fixed and not brand-derived: success `155°`, warning `85°`, da
 | `--danger-emphasis` | `oklch(0.68 0.16 25)` | Bright red. Used for error icons, borders, and status text on dark surfaces. |
 | `--info-subtle` | `oklch(0.22 0.03 245)` | Muted dark blue. Background fill for informational components on dark surfaces. |
 | `--info-emphasis` | `oklch(0.68 0.12 245)` | Bright cyan-blue. Used for info icons, borders, and status text on dark surfaces. |
-
 
 ## Miscellaneous colours
 
@@ -150,13 +143,13 @@ Colours that do not belong to the above groups: interactive selected states, the
 | `--focus-ring` | `oklch(0.72 0.20 285)` | Light purple (hue 285°). Used to highlight interactive components for keyboard navigation on dark surfaces. |
 | `--overlay-dim` | `oklch(0.00 0 0 / 0.65)` | Semi-transparent black scrim. Used as an overlay behind modals and drawers on dark surfaces. |
 
-
-
 ## Usage guidelines
+
+These rules apply wherever a component picks a colour.
 
 ### Use palettes to divide sections
 
-An interface can be divided into rows or sections using either the light or dark palette. Components inside light sections use light palette tokens; components inside dark sections use dark palette tokens.
+Divide an interface into rows or sections, and give each one the light or the dark palette. Components inside light sections use light palette tokens; components inside dark sections use dark palette tokens.
 
 For example, a page header or footer might use the dark palette to create separation, while the content area uses the light palette.
 
@@ -177,7 +170,7 @@ Use additional visual cues alongside colour – icons for status messages, under
 
 - **Do** reference semantic tokens (`--bg-body`, `--fg-text`, `--border-default`) in all component CSS
 - **Don't** hardcode OKLCH, hex, or RGB values in component styles – always reference a token
-- **Don't** use `--overlay-dim` for decorative purposes – it is reserved for modal and drawer scrims
+- **Don't** use `--overlay-dim` for decorative purposes – it belongs to modal and drawer scrims
 - **Don't** use `--fg-subtle` for any text that carries meaning – it does not meet WCAG contrast for body text
 
 ---

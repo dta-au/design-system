@@ -18,17 +18,17 @@ Do not stack multiple notification types on the same page. Choose the one that b
 
 ## Inline body text
 
-Use inline text for information that is a natural part of the page flow. This is the default choice for informational content. Do not reach for a callout or message component unless the content genuinely needs to stand apart.
+Use inline text for information that is a natural part of the page flow. This is the default choice for informational content. Do not choose a callout or message component unless the content genuinely needs to stand apart.
 
 ## Callout
 
-Use a [Callout](/components/callout/) for static, non-urgent information that needs to be visually distinguished from surrounding body text. A callout is authored inline and does not respond to user action or system state.
+Use a [Callout](/components/callout/) for static, non-urgent information that needs to be visually distinguished from surrounding body text. An editor authors a callout inline, and it does not respond to user action or system state.
 
 **Use a callout when:**
 
 - the information is important but not urgent
 - the content needs to stand out from surrounding text
-- the message is fixed – it does not change based on what the user does
+- the message never changes, whatever the user does
 
 **Do not use a callout for:**
 
@@ -38,7 +38,7 @@ Use a [Callout](/components/callout/) for static, non-urgent information that ne
 
 ## Message
 
-Use a Message for system feedback that follows a user action – for example, confirming a submission, flagging a validation error, or warning that a session is expiring. Position it near the page H1.
+Use a Message for system feedback that follows a user action. Examples: confirming a submission, flagging a validation error, or warning that a session is expiring. Position it near the page H1.
 
 **Use a message when:**
 
@@ -53,7 +53,7 @@ Use a Message for system feedback that follows a user action – for example, co
 
 ## Global alert
 
-Use a Global alert for the highest-urgency, site-wide information – for example, a service outage, a critical policy update with an imminent deadline, or a mandatory change affecting all users. It appears above the site header on every page.
+Use a Global alert for the highest-urgency, site-wide information. Examples: a service outage, a critical policy update with an imminent deadline, or a mandatory change affecting all users. It appears above the site header on every page.
 
 **Use a global alert when:**
 

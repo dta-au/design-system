@@ -6,7 +6,7 @@ component-type: Content
 
 A slider – sometimes called a carousel – rotates a small number of featured items through a single visual frame. Only one slide is visible at a time; readers reveal the others by clicking arrows or pagination dots.
 
-The component is included in the design library because it has a small number of legitimate uses. It is not a default and should be reached for rarely.
+The design library keeps the component because it has a small number of legitimate uses. Choose it rarely, and never by default.
 
 ## When to use
 
@@ -18,7 +18,7 @@ The component is included in the design library because it has a small number of
 
 A slider hides everything but the visible slide. That makes it the wrong component whenever discoverability, comparison, or evidence-finding matter.
 
-- **for the chapter list of a report or plan** – chapters are sequential reading; a slider hides the structure from search and from screen readers paginating the page. Use a card grid of [navigation cards](/patterns/card-selection/) instead.
+- **for the chapter list of a report or plan** – chapters are sequential reading. A slider hides that structure from search and from screen readers. Use a card grid of [navigation cards](/patterns/card-selection/) instead.
 - **for headline commitments of a strategy or plan** – readers need to compare commitments at a glance, not click through them. Use a card grid or, for a single dominant commitment, a [callout](/components/callout/).
 - **for routing on a section landing page** – the four or five top-level destinations of a section must all be visible without interaction. Use a card grid.
 - **for evidence findings in a report** – findings must be readable in full and quotable. Use rich text headings and figures.

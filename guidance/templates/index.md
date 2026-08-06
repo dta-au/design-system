@@ -26,7 +26,7 @@ Some pages sit between types. The deciding factor is the reader's job, not the c
 - A **case study** is Guidance when it teaches a method (one of a set of scenarios under a framework). It is Evidence when it presents the findings of a specific project (a named-project chapter inside a report). See the [guide](/templates/guide/) and [report](/templates/report/) templates for the two variants.
 - A **plan or strategy document** is Evidence when its purpose is to record commitments and direction. Use the [report](/templates/report/) template; flagship documents may carry additional marketing weight in the page header.
 - A **checklist** is Reference content, but it publishes as a [resource](/templates/resource/) page because readers return to it repeatedly to complete a task.
-- A **standard parent** (the umbrella above a set of rules) is a Rule page, not a section landing page – its job is to anchor the rule set, not to route to unrelated content. See the [rule](/templates/rule/) template.
+- A **standard parent** (the umbrella above a set of rules) uses the Rule template rather than the section landing page. Its job is to anchor the rule set. It does not route to unrelated content. See the [rule](/templates/rule/) template.
 
 ## Sub-pages and variants
 

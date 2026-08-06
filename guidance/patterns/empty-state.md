@@ -5,13 +5,13 @@ description: 'What to show when a filter or search query returns no matching res
 
 An empty state communicates to users that a filter or search query returned no matching results. It replaces the listing in the content area.
 
-This pattern covers the no-results state only. Loading states and error states are separate concerns and are not covered here.
+This pattern covers the no-results state only. It does not cover loading states or error states.
 
 ## Required elements
 
 An empty state must include all three of the following:
 
-1. **A clear heading** – state plainly that no results were found. Do not use vague or apologetic language such as 'Hmm' or 'Nothing here'.
+1. **A clear heading** – state plainly that the search returned no results. Do not use vague or apologetic language such as 'Hmm' or 'Nothing here'.
 2. **An explanation** – tell users why there are no results. For example: 'No results match your current filters' or 'No publications found for this search term'.
 3. **An actionable recovery** – give users a clear next step. At minimum, offer a 'Clear filters' or 'Clear search' action. For narrow searches, also suggest broadening the search term.
 
@@ -25,7 +25,7 @@ Position the empty state where the listing would normally appear. Do not move it
 
 ## When multiple filters are active
 
-If the empty state is caused by a combination of active filters, provide both 'Clear all filters' and the option to remove individual filters. Let users experiment with removing one constraint at a time without losing all their filter selections.
+When a combination of active filters empties the results, provide both 'Clear all filters' and the option to remove individual filters. Let users experiment with removing one constraint at a time without losing all their filter selections.
 
 ## Related components
 
@@ -35,4 +35,4 @@ If the empty state is caused by a combination of active filters, provide both 'C
 ## Related patterns
 
 - [Search filters](/patterns/search-filters/) – the broader filtering pattern that this empty state supports.
-- [Pagination](/patterns/pagination/) – appears alongside pagination; when filters reduce results to zero, pagination is replaced by the empty state.
+- [Pagination](/patterns/pagination/) – appears alongside pagination; when filters reduce results to zero, the empty state takes its place.

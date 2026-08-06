@@ -4,17 +4,17 @@ description: 'Two props, three states – plain, band, surface panel – so a ba
 ---
 
 A background band works because it runs edge to edge. Put the same band inside
-a column and it stops being a band – it becomes a coloured box, indented in
-less space than the content around it, and the nested `.container` re-applies
+a column and it stops being a band. It becomes a coloured box, indented in
+less space than the content around it. The nested `.container` also re-applies
 page-level widths where they no longer apply. This pattern gives a component
 two honest ways to carry a background instead of one dishonest one.
 
-Contained (`is_contained: true`, the default), the component owns its width:
-it brings its own `.container`, aligns to the page grid, and its background is
+Contained (`is_contained: true`, the default), the component owns its width.
+It brings its own `.container` and aligns to the page grid. Its background is
 a full-bleed band of section colour. Not contained, a parent column owns the
-width: the component drops the grid scaffolding, emits a `--not-contained`
-modifier, and its background becomes a surface panel – the shared surface
-colour at the column's natural width, reading as a card among content.
+width. The component drops the grid scaffolding and emits a `--not-contained`
+modifier. Its background becomes a surface panel: the shared surface colour at
+the column's natural width, reading as a card among content.
 
 | State | Props | Reads as |
 |---|---|---|
@@ -25,11 +25,11 @@ colour at the column's natural width, reading as a card among content.
 The band colour is per component – accordion, list, map and webform band on
 `background` (#e6e9eb); promo and slider on `background-light` (#fdfdfd). The
 surface colour is a single token, because nested panels sit next to each other
-and must match: `$dga-color-light-surface` (#f2f4f5) and dark (#073f53),
-declared per component as `$ct-[component]-[theme]-surface-background-color`.
-Attachment is the reference component – its wrapper was already the surface
-colour, flush with its container, and the surface panel state generalises that
-treatment.
+and must match. Declare it per component as
+`$ct-[component]-[theme]-surface-background-color`: `$dga-color-light-surface`
+(#f2f4f5) and dark (#073f53). Attachment is the reference component – its
+wrapper was already the surface colour, flush with its container, and the
+surface panel state generalises that treatment.
 
 ## Where the fill lands
 
@@ -38,17 +38,17 @@ The fill goes where the component's anatomy says it should.
 **Flat components are their own card – paint the root.** Basic content, list,
 slider, promo, map, webform, filterable table and step-by-step nav fill the
 root with an all-round `ct-spacing(3)` inset. Step-by-step nav also takes a
-1px separator-colour border box, drops the first step's top rule so it does
-not double the panel border, and narrows to `col-l-9 col-xl-8` when contained.
+1px separator-colour border box. It drops the first step's top rule so it does
+not double the panel border. It narrows to `col-l-9 col-xl-8` when contained.
 
 **Components made of cards paint the cards.** Accordion leaves the root on the
-page background with no inset; the panels and their header buttons carry the
+page background with no inset. The panels and their header buttons carry the
 surface, so each panel reads as a card rather than the set as a band.
 
 **Components whose rows pad themselves drop the root inset.** Feature link
-list fills the root but removes the root padding – the links' own padding
+list fills the root but removes the root padding. The links' own padding
 provides the inset, and the title takes matching padding so it aligns with the
-link text. Doubling the padding is how bands sneak back in.
+link text. Double that padding and the band sneaks back in.
 
 ## Who decides containment
 

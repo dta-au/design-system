@@ -9,7 +9,7 @@ Section navigation helps users move between the pages in a bounded content secti
 
 **Sub-nav strip (default)** – a compact horizontal list of section links displayed above the page content. Use for sections that are flat and shallow. The sub-nav strip is not yet implemented in CivicTheme; this is an active requirement.
 
-**Side Navigation** – a persistent vertical list in a left-hand sidebar. Use when the section has deeper hierarchy or more pages than a strip can display clearly. Side Navigation is implemented in CivicTheme but currently applied inconsistently across the site.
+**Side Navigation** – a persistent vertical list in a left-hand sidebar. Use when the section has deeper hierarchy or more pages than a strip can display clearly. CivicTheme implements Side Navigation, but the site applies it inconsistently.
 
 ## When to use each
 
@@ -43,7 +43,7 @@ Most other sections on digital.gov.au are candidates for the **sub-nav strip** b
 
 ## Consistency rules for fixing patchy Side Navigation
 
-Side Navigation is implemented in CivicTheme but not applied consistently across the site. When auditing or fixing patchy usage, apply these rules:
+CivicTheme implements Side Navigation, but the site applies it inconsistently. When you audit or fix patchy usage, apply these rules:
 
 - every page within a section that has Side Navigation must show the same Side Navigation – do not hide it on some pages within the section
 - the current page must be clearly indicated as active in the Side Navigation

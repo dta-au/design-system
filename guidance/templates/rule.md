@@ -8,19 +8,21 @@ Type
 
 A rule page sets out a normative requirement that agencies must apply. Standards, criteria, and numbered statements are all rule pages. The reader's job is to find the requirement, understand who it applies to, and know what to do next. The page's job is to make the normative text unmissable, then layer the explanation around it.
 
-Rule pages are evidence-bearing in a way most other content is not – they are the surface that gets quoted in compliance reviews, audits, and tabled responses. Every editorial decision on a rule page should protect the integrity of that quotation.
+Rule pages carry evidence in a way most other content does not. They are the surface that gets quoted in compliance reviews, audits, and tabled responses. Every editorial decision on a rule page should protect the integrity of that quotation.
 
 ## When to use
 
 Use a rule page when:
 
 - the content states an obligation, requirement, or standard that agencies must comply with
-- the requirement has its own identity that will be referenced from other pages – for example, 'Criterion 7' or 'Statement 12'
+- the requirement has its own identity that other pages cite – for example, 'Criterion 7' or 'Statement 12'
 - the rule is part of a set of sibling rules that together form a standard or framework
 
-Do not use a rule page for the explanatory or procedural content that surrounds a rule. That content belongs on a [guide](/templates/guide/) page. Linking the two is essential, but they are different page types.
+Do not use a rule page for the explanatory or procedural content that surrounds a rule. That content belongs on a [guide](/templates/guide/) page. Link the two, but keep them as different page types.
 
 ## Variants
+
+A rule set uses two page shapes: the parent that holds the set, and the rule itself.
 
 ### Standard parent
 
@@ -54,11 +56,11 @@ A page that holds one criterion or one statement from a standard.
 
 **One callout per rule page.** The verbatim normative sentence is the only callout. A second callout for a tip or related rule competes with the rule itself and dilutes both. See [callout discipline](/patterns/callout-discipline/).
 
-**Never collapse rules into accordions.** Each rule has its own URL, its own deep-link target, and is referenced individually from other pages. Hiding rules inside accordion panels destroys those references and makes the rule set unsearchable. See [accordion](/components/accordion/).
+**Never collapse rules into accordions.** Each rule has its own URL and its own deep-link target, and other pages cite it individually. An accordion panel destroys those references and makes the rule set unsearchable. See [accordion](/components/accordion/).
 
-**Do not organise the rule set as a linear chapter sequence.** Numbered rules use [pagination](/patterns/pagination/) for sibling traversal, but the rule index on the parent must be a card grid – readers usually need one specific rule, not the whole set in order. The card grid is a page-layout choice; it does not imply that the rules themselves are unordered.
+**Do not organise the rule set as a linear chapter sequence.** Numbered rules use [pagination](/patterns/pagination/) for sibling traversal. The rule index on the parent must be a card grid, because readers usually need one rule rather than the whole set. The card grid is a page-layout choice; the rules themselves stay ordered.
 
-**Make the cross-axis visible.** Every rule has at least two axes – its number, and its place in some other taxonomy (lifecycle stage, policy domain, audience). Surface the second axis as a tag on the banner and as a card in the body, so readers can pivot from rule to surrounding context in one click.
+**Make the cross-axis visible.** Every rule has at least two axes – its number, and its place in some other taxonomy (lifecycle stage, policy domain, audience). Show the second axis as a tag on the banner and as a card in the body. Readers can then pivot from rule to surrounding context in one click.
 
 ## Writing conventions
 
@@ -71,7 +73,7 @@ Follow the [Australian Government Style Manual](https://www.stylemanual.gov.au) 
 
 ## Cross-linking with guidance
 
-A rule page on its own tells the reader what to do but not how. The how lives on a [guide](/templates/guide/) page, often as a set of three siblings: 'how to meet the standard', 'how to measure success', and 'transitioning to the standard'.
+A rule page on its own tells the reader what to do but not how. The how lives on a [guide](/templates/guide/) page. It often takes three siblings: 'how to meet the standard', 'how to measure success', and 'transitioning to the standard'.
 
 On the rule page, surface those siblings with a card grid filtered or anchored to the specific rule. A reader on Criterion 7 needs the seven-shaped slice of the guidance, not the full guide.
 

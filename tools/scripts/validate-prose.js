@@ -43,7 +43,7 @@ const BANNED_HEADINGS = [
 const PLACEHOLDER_MARKERS = /\[(to be reviewed|todo)\]|\bTBD\b/i;
 const CAPS_ALLOW = new Set([
   'WCAG', 'HTML', 'ARIA', 'JSON', 'YAML', 'HTTP', 'HTTPS',
-  'SDDC', 'SCSS', 'OKLCH', 'GIF', 'HREF',
+  'SDDC', 'SCSS', 'OKLCH', 'GIF', 'HREF', 'EMMP',
 ]);
 const ING_ALLOW = new Set([
   'During', 'Nothing', 'Anything', 'Everything', 'Something',
@@ -89,12 +89,20 @@ const files = fileArgs.length ? allFiles.filter((f) => fileArgs.includes(f)) : a
 const errors = [];
 const warnings = [];
 
-// Inline code is exempt from content checks; keep the line length stable.
-const maskInlineCode = (line) => line.replace(/`[^`]*`/g, (m) => ' '.repeat(m.length));
+// Inline code and link targets are exempt from content checks – a URL is not
+// prose. Blank them in place so the line length stays stable.
+const maskInlineCode = (line) =>
+  line
+    .replace(/`[^`]*`/g, (m) => ' '.repeat(m.length))
+    .replace(/\]\(([^)\s]+)\)/g, (m, url) => `](${' '.repeat(url.length)})`);
 
+// Closing emphasis may follow the full stop ("**… panels.**"); without it the
+// split misses the boundary and two sentences count as one long one.
 const sentences = (text) =>
-  text.split(/(?<=[.!?])\s+/).map((s) => s.trim()).filter(Boolean);
-const wordCount = (s) => s.split(/\s+/).filter(Boolean).length;
+  text.split(/(?<=[.!?][*_)\]"']*)\s+/).map((s) => s.trim()).filter(Boolean);
+// Bare punctuation is not a word – a masked `code` span leaves stray brackets,
+// and an en dash aside would otherwise cost the sentence a word.
+const wordCount = (s) => s.split(/\s+/).filter((w) => /\w/.test(w)).length;
 
 for (const file of files) {
   const rel = path.relative(root, file);
@@ -126,6 +134,7 @@ for (const file of files) {
 
   const headings = []; // { level, text, lineNo, contentAfter: 'none'|'deeper'|'prose' }
   let inFence = false;
+  let inHtml = false;
   let paragraph = [];
   let paragraphStart = 0;
 
@@ -137,8 +146,12 @@ for (const file of files) {
       if (words > MAX_SENTENCE_WORDS) {
         warnings.push(`${rel}:${paragraphStart}: ${words}-word sentence – "${s.split(/\s+/).slice(0, 8).join(' ')}…"`);
       }
-      const first = s.replace(/^[-*+]\s+|^\d+\.\s+|^\*\*|^\[/, '').split(/\s+/)[0] ?? '';
-      if (/^[A-Z][a-z]+ing$/.test(first) && !ING_ALLOW.has(first)) {
+      const opening = s.replace(/^[-*+]\s+|^\d+\.\s+|^\*\*|^\[/, '').split(/\s+/);
+      const first = opening[0] ?? '';
+      // "Enabling Government" is a page name, not an -ing verb: a capitalised
+      // word after the first one marks a proper noun.
+      const properNoun = /^[A-Z]/.test(opening[1] ?? '');
+      if (/^[A-Z][a-z]+ing$/.test(first) && !ING_ALLOW.has(first) && !properNoun) {
         warnings.push(`${rel}:${paragraphStart}: sentence starts with an -ing form ("${first}")`);
       }
       if (/\bis (?:a |an |the )?[\w\s-]{2,30}, not /.test(s)) {
@@ -155,6 +168,9 @@ for (const file of files) {
 
     if (/^(```|~~~)/.test(raw.trim())) {
       flushParagraph();
+      // A code block is section content, so the section is not empty.
+      const open = headings[headings.length - 1];
+      if (open && open.contentAfter === 'none') open.contentAfter = 'prose';
       inFence = !inFence;
       return;
     }
@@ -187,6 +203,7 @@ for (const file of files) {
 
     if (trimmed === '') {
       flushParagraph();
+      inHtml = false;
       return;
     }
 
@@ -199,7 +216,10 @@ for (const file of files) {
     if (last && last.contentAfter === 'none') last.contentAfter = 'prose';
 
     if (isBlockquote) return; // quoted external text is not ours to rewrite
-    if (trimmed.startsWith('<')) return; // raw HTML blocks are not prose
+    // A raw HTML block runs from its opening tag to the next blank line, so
+    // embedded CSS and attribute text never reach the prose checks.
+    if (trimmed.startsWith('<')) inHtml = true;
+    if (inHtml) return;
 
     if (/—/.test(line)) warnings.push(`${rel}:${lineNo}: em dash – use an en dash`);
 

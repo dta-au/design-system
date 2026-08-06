@@ -18,6 +18,12 @@ Use a campaign to give major visibility to a program, initiative, or service. Th
 - for sequential process content – use [Timeline](/components/timeline/) instead
 - when the feature does not have a clear call to action
 
+## Accessibility
+
+- The call to action names what happens next. Never publish 'find out more' as the link text (WCAG 2.4.4 Link purpose).
+- The campaign heading fits under the page title in the outline. It never takes the H1 (WCAG 1.3.1 Info and Relationships).
+- Text over an image must meet contrast in both the light and dark palettes (WCAG 1.4.3 Contrast (Minimum)).
+
 ## Related components
 
 - [Timeline](/components/timeline/) – use when the content describes a process with ordered steps.

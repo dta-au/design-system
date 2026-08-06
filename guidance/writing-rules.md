@@ -102,6 +102,7 @@ A template doc has four layers, in this order: when to use, sizing and variation
 - Write headings in sentence case.
 - Keep H2 headings short. On pages with `toc: true`, each H2 becomes a nav label.
 - Use straight quotes and apostrophes.
+- Put a quoted example in backticks (`Use a callout`, not `A callout can be used`). The prose checker skips code spans, so a counter-example does not read as a violation.
 - Use an en dash (`–`) for asides and ranges. Never use an em dash (`—`).
 - Do not write in all caps. Acronyms (WCAG, CMS, HTML) are the exception.
 - Put links at the end of the sentence. Start the link text with the keyword. Make the destination clear from the link text alone.

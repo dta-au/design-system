@@ -7,9 +7,9 @@ toc: true
 Type
 : [Guidance](/templates/) – how to act on a rule, framework, or process.
 
-Guides on digital.gov.au are primarily written for agency staff – including digital practitioners, policy officers, and senior responsible officials – who need clear, actionable direction for navigating digital investment, governance, and service delivery obligations.
+Guides on digital.gov.au address agency staff: digital practitioners, policy officers, and senior responsible officials. They need clear, actionable direction on digital investment, governance, and service delivery obligations.
 
-A guide explains how to act, not just what is required. A guide explains steps to follow, considerations to weigh, and common scenarios to anticipate.
+A guide explains how to act, not just what the rules demand. A guide explains steps to follow, considerations to weigh, and common scenarios to anticipate.
 
 ## When to use a guide
 
@@ -22,9 +22,9 @@ Do not publish content as a guide if it is a one-page checklist, a single summar
 
 ## Sizing your guide
 
-Guides on digital.gov.au fall into 3 size categories. Choosing the right size helps readers scan, navigate, and use your content efficiently.
+Guides on digital.gov.au fall into 3 size categories. The right size helps readers scan, navigate, and use your content efficiently.
 
-**Long guides** are comprehensive frameworks or policy documents – typically 2,000 words or more across multiple structured sections. They require strong in-page navigation and a clear hierarchy. 
+**Long guides** are comprehensive frameworks or policy documents – typically 2,000 words or more across multiple structured sections. They require strong in-page navigation and a clear hierarchy.
 Use a long guide when the subject matter is complex, involves multiple roles or responsibilities, or spans a broad scope that cannot be meaningfully summarised.
 
 **Medium guides** are process-heavy instructions or operational guidebooks – typically between 800 and 2,000 words. They walk readers through a defined set of steps and may include conditional paths or decision points. In-page navigation is optional but useful for guides at the upper end of this range.
@@ -44,7 +44,7 @@ Keep each section focused. If a section covers more than one topic, consider whe
 
 Guides should not include the full text of the policy they support. Link to the policy instead, and use the guide to provide interpretation, worked examples, and procedural steps.
 
-Standards and criteria published as a set of pages need their own navigation pattern – see the [rule template](/templates/rule/). In short: use a card grid or link list for the rule index, because readers usually arrive looking for one specific criterion rather than working through the full set.
+Standards and criteria published as a set of pages need their own navigation pattern – see the [rule template](/templates/rule/). In short: use a card grid or link list for the rule index. Readers usually arrive looking for one criterion rather than the full set.
 
 <svg viewBox="0 0 800 450" width="100%" xmlns="http://www.w3.org/2000/svg">
   <rect width="800" height="450" fill="#f8f9fa" />
@@ -107,25 +107,25 @@ Standards and criteria published as a set of pages need their own navigation pat
 
 ## Case study variant
 
-Use this variant when a guide page is a narrative example rather than a how-to – for example, one of a set of scenarios showing how agencies have applied a framework. Case studies are scanned for fit before they are read for content.
+Use this variant when a guide page is a narrative example rather than a how-to. An example is one of a set of scenarios showing how agencies applied a framework. Readers scan a case study for fit before they read it for content.
 
 Place a single [callout](/components/callout/) at the top of the body, before the narrative begins. The callout carries the 'best for' statement – the conditions under which this case study applies. A reader who is not a fit should be able to tell from the callout and skip on to the next case study.
 
 Structure the body as situation, action, outcome – plain prose with H2 sub-headings. Do not use accordions; case studies are read end to end.
 
-Where the case study has an architecture or process diagram, use [figure](/components/figure/) rather than a bare image. The caption and alt-text structure is built in.
+Where the case study has an architecture or process diagram, use [figure](/components/figure/) rather than a bare image. The component provides the caption and alt-text structure.
 
 Cross-link to sibling case studies at the bottom of the page using a card grid. Case studies are a *set* – the reader who is not a fit for this one needs to find their fit in one click.
 
 ## Writing conventions
 
-Draft content for the web first, using HTML-ready structures, rather than creating a PDF that later has to be adapted for online use.
+Draft content for the web first, using HTML-ready structures. Do not create a PDF that someone must later adapt for online use.
 
 Follow the [Australian Government Style Manual](https://www.stylemanual.gov.au) throughout. Key conventions for guides include:
 
-- Use plain English and active voice. Write 'agencies must submit their DIP by 31 March' not 'DIP submission is required to have been completed by agencies prior to 31 March'
+- Use plain English and active voice. Write `agencies must submit their DIP by 31 March`, not `DIP submission is required to have been completed by agencies prior to 31 March`
 - Use sentence case for all headings
-- Use numbered lists for steps that must be followed in order; use bullet lists for sets of items without a fixed sequence
+- Use numbered lists for steps the reader must follow in order; use bullet lists for items without a fixed sequence
 - Spell out acronyms on first use, even if they are well known within government
 - Avoid jargon and undefined technical terms; if a technical term is necessary, define it at first use or link to a glossary
 
@@ -137,15 +137,18 @@ Use the following UI components when building guide pages in the CMS.
 
 **In-page navigation** – Used on long and medium guides. This component generates an anchor-linked table of contents from the H2 headings on the page. Position it directly below the page header, before the first H2. Use with short guides where it helps the user - for example if your short guide has 4 or 5 H2s. See the [in-page navigation pattern](/patterns/in-page-navigation/) for full guidance.
 
-**Text body** – The main content area. Use the full range of formatting options: headings, lists, tables and inline links. Use sub-headings and basic formatting to provide users with important information to reduce friction and keep flow for the reader. Users can miss important information when it is presented in UI block elements.
+**Text body** – The main content area. Use the full range of formatting options: headings, lists, tables and inline links. Use sub-headings and basic formatting to provide users with important information to reduce friction and keep flow for the reader. Users can miss important information inside UI block elements.
 
 **Accordion** – Accordions hide content by default. Use them only for optional detail that readers can choose to skip, not for core guidance, standards criteria, or content readers need to cross-reference. Never nest accordions. If a page contains more than three accordions, restructure using H2/H3 headings instead, or split into sub-pages. Limit to five to seven items.
 
-**Related content cards** – Add two to four cards at the bottom of the page linking to the relevant policy, related guides, and any associated forms or templates.
+**Related content cards** – Add two to four cards at the bottom of the page. Link to the relevant policy, related guides, and any associated forms or templates.
 
 **Tags** – Apply content tags to support site-wide filtering (for example, 'investment', 'policy', 'assurance'). Tags should come from the approved taxonomy – do not create new tags without approval.
 
-## Examples [to be reviewed]
+## Examples
+
+Published guides at each size.
+
 ### Long
 - [Guidance for agencies and independent assurers: Assessing delivery confidence of digital projects](https://www.digital.gov.au/initiatives/digital-project-research-series/assessing-delivery-confidence-of-digital-projects)
 - [Guidance for Senior Responsible Officials: Digital Project Governance Boards](https://www.digital.gov.au/initiatives/digital-project-research-series/digital-project-governance-boards-steering-success)
@@ -161,17 +164,17 @@ Use the following UI components when building guide pages in the CMS.
 
 ## Sub-page variants
 
-Some guides warrant one or more sub-pages beyond the main guide body. Use sub-page variants only when the content genuinely cannot be accommodated within the guide structure without disrupting flow or readability.
+Some guides warrant one or more sub-pages beyond the main guide body. Use sub-page variants only when the guide structure genuinely cannot hold the content without disrupting flow or readability.
 
-**Glossary** – a sub-page listing defined terms used across the guide; only warranted when the guide introduces 5 or more terms that cannot be defined inline. Link to it from the guide introduction. Do not duplicate definitions that exist in a related policy or report glossary.
+**Glossary** – a sub-page listing defined terms used across the guide; only warranted when the guide introduces 5 or more terms you cannot define inline. Link to it from the guide introduction. Do not duplicate definitions that exist in a related policy or report glossary.
 
-**FAQ** – a sub-page for frequently asked questions; use only when questions cannot be addressed within the guide body without disrupting flow. Limit to 7 items. Position as the last sub-page in the guide structure.
+**FAQ** – a sub-page for frequently asked questions; use only when the guide body cannot answer the questions without disrupting flow. Limit to 7 items. Position as the last sub-page in the guide structure.
 
 ## Step in a framework variant
 
 Use this variant when a guide page is one step of a numbered procedural framework – for example, step 4 of an 11-step assurance framework. The reader is mid-task and arrives expecting to act on this step, then move to the next.
 
-Structure the body of the page with three predictable H2 blocks: **Inputs**, **What to do**, and **Outputs**. The same three headings on every step let a reader who has done step 3 land quickly on what is the same and what is new.
+Structure the body of the page with three predictable H2 blocks: **Inputs**, **What to do**, and **Outputs**. The same three headings on every step let a reader who finished step 3 see quickly what changed.
 
 Place a single [callout](/components/callout/) at the bottom of the body, immediately above the pagination control. The callout carries the gate condition – the requirement that must be met before the reader proceeds. See [callout discipline](/patterns/callout-discipline/).
 

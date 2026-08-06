@@ -19,6 +19,12 @@ Use a sub-nav to help users move between the pages within a section without retu
 - on standalone pages that do not belong to a defined section
 - when the section contains only one or two pages – a sub-nav adds navigation overhead without benefit
 
+## Accessibility
+
+- The component renders a navigation landmark, so assistive technology can jump to it or skip past it (WCAG 2.4.1 Bypass Blocks).
+- The component marks the current page in text as well as by styling (WCAG 1.4.1 Use of Colour).
+- Link text matches the title of the page it points at, so readers can predict the destination (WCAG 2.4.4 Link purpose).
+
 ## Related components
 
 - [Table of contents](/components/table-of-contents/) – use for in-page navigation generated from H2 headings on the current page.
