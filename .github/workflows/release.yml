@@ -107,7 +107,8 @@ jobs:
 
   storybook:
     # Only the current line owns the single Pages site; maintenance-line tags
-    # publish to npm and notify docs but do not overwrite the live Storybook.
+    # publish to npm but do not overwrite the live Storybook. They do not
+    # dispatch either - notify-docs carries the same is_latest gate.
     needs: publish
     if: needs.publish.outputs.is_latest == 'true'
     runs-on: ubuntu-latest
