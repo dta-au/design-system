@@ -7290,19 +7290,19 @@ ol {
   flex: 0 0 auto;
 }
 .ct-chapter-nav .ct-chapter-nav__direction {
+  font-size: var(--ct-typography-label-small-font-size);
+  line-height: var(--ct-typography-label-small-line-height);
+  font-family: var(--ct-typography-label-small-font-name);
+  font-weight: var(--ct-typography-label-small-font-weight);
+  letter-spacing: var(--ct-typography-label-small-letter-spacing);
+  flex: 0 0 auto;
+}
+.ct-chapter-nav .ct-chapter-nav__title {
   font-size: var(--ct-typography-label-regular-font-size);
   line-height: var(--ct-typography-label-regular-line-height);
   font-family: var(--ct-typography-label-regular-font-name);
   font-weight: var(--ct-typography-label-regular-font-weight);
   letter-spacing: var(--ct-typography-label-regular-letter-spacing);
-  flex: 0 0 auto;
-}
-.ct-chapter-nav .ct-chapter-nav__title {
-  font-size: var(--ct-typography-text-regular-font-size);
-  line-height: var(--ct-typography-text-regular-line-height);
-  font-family: var(--ct-typography-text-regular-font-name);
-  font-weight: var(--ct-typography-text-regular-font-weight);
-  letter-spacing: var(--ct-typography-text-regular-letter-spacing);
   text-decoration: underline;
 }
 .ct-chapter-nav.ct-theme-light {
@@ -15418,8 +15418,8 @@ html {
   --ct-list-space-horizontal-desktop: 3.5rem;
   --ct-navigation-light-drawer-menu-item-active-trail-color: var(--ct-color-light-interaction-text);
   --ct-navigation-dark-drawer-menu-item-active-trail-color: var(--ct-color-dark-interaction-text);
-  --ct-chapter-nav-light-border-color: var(--ct-color-light-border-light);
-  --ct-chapter-nav-dark-border-color: var(--ct-color-dark-border);
+  --ct-chapter-nav-light-border-color: var(--ct-color-light-border);
+  --ct-chapter-nav-dark-border-color: var(--ct-color-dark-border-light);
   --ct-chapter-nav-light-link-color: var(--ct-color-light-interaction-background);
   --ct-chapter-nav-dark-link-color: var(--ct-color-dark-interaction-background);
   --ct-chapter-nav-light-link-hover-color: var(--ct-color-light-interaction-hover-background);

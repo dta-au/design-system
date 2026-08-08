@@ -266,8 +266,8 @@ html {
   --ct-list-space-horizontal-desktop: 3.5rem;
   --ct-navigation-light-drawer-menu-item-active-trail-color: var(--ct-color-light-interaction-text);
   --ct-navigation-dark-drawer-menu-item-active-trail-color: var(--ct-color-dark-interaction-text);
-  --ct-chapter-nav-light-border-color: var(--ct-color-light-border-light);
-  --ct-chapter-nav-dark-border-color: var(--ct-color-dark-border);
+  --ct-chapter-nav-light-border-color: var(--ct-color-light-border);
+  --ct-chapter-nav-dark-border-color: var(--ct-color-dark-border-light);
   --ct-chapter-nav-light-link-color: var(--ct-color-light-interaction-background);
   --ct-chapter-nav-dark-link-color: var(--ct-color-dark-interaction-background);
   --ct-chapter-nav-light-link-hover-color: var(--ct-color-light-interaction-hover-background);
