@@ -10,10 +10,12 @@ The digital.gov.au content taxonomy classifies pages into six types. Each type h
 | Type | Template | Used for |
 |---|---|---|
 | Navigation | [Section landing page](/templates/section-landing-page/) | Front-door pages that route readers to deeper content. |
+| Navigation | [Report series](/templates/report-series/) | Front door to a recurring publication – editions or numbered instalments. |
 | Overview | [Program](/templates/program/) | Gateway page for an ongoing program, initiative, or framework. |
 | Rule | [Rule](/templates/rule/) | A normative requirement that agencies must apply – standard, criterion, or numbered statement. |
 | Guidance | [Guide](/templates/guide/) | How to act on a rule, framework, or process. |
 | Evidence | [Report](/templates/report/) | Long-form findings, analysis, or evaluation. |
+| Evidence | [Report landing page](/templates/report-landing-page/) | Cover page for one edition of a multi-page report. |
 | Evidence | [Communique](/templates/communique/) | Short, dated record of a committee's decisions. |
 | Reference | [Reference](/templates/reference/) | Glossaries, FAQs, and checklists – always sub-pages of the template they serve. |
 
@@ -27,6 +29,9 @@ Some pages sit between types. The deciding factor is the reader's job, not the c
 - A **plan or strategy document** is Evidence when its purpose is to record commitments and direction. Use the [report](/templates/report/) template; flagship documents may carry additional marketing weight in the page header.
 - A **checklist** is Reference content, but it publishes as a [resource](/templates/resource/) page because readers return to it repeatedly to complete a task.
 - A **standard parent** (the umbrella above a set of rules) uses the Rule template rather than the section landing page. Its job is to anchor the rule set. It does not route to unrelated content. See the [rule](/templates/rule/) template.
+- A **report cover** is Evidence, not Navigation. It belongs to the report it introduces and holds only that report's chapters. Use the [report landing page](/templates/report-landing-page/) template. A section landing page covers a content domain that holds unrelated publications.
+- A **foreword** is a front-matter chapter, never a cover. Where a report has no landing page, publish one rather than promoting the foreword. See the [report landing page](/templates/report-landing-page/) template.
+- A **series front door** is Navigation whether its members are reports or guides. The research series publishes its instalments as long guides; the series page above them is still Navigation. See the [report series](/templates/report-series/) template.
 
 ## Sub-pages and variants
 
