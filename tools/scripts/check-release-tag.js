@@ -19,8 +19,14 @@ import { execFileSync } from 'child_process';
 import { fileURLToPath } from 'url';
 
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '../..');
+// stderr is piped, not inherited: several calls here are expected to fail and
+// are caught, and git's own message would otherwise leak into the output.
 const git = (...args) =>
-  execFileSync('git', args, { cwd: root, encoding: 'utf8' }).trim();
+  execFileSync('git', args, {
+    cwd: root,
+    encoding: 'utf8',
+    stdio: ['ignore', 'pipe', 'pipe'],
+  }).trim();
 
 const tag = process.argv[2];
 if (!tag) {
@@ -44,6 +50,29 @@ try {
 }
 
 let failed = false;
+
+// Every tag is cut from main. Tagging anywhere else publishes work that was
+// never on the release line.
+try {
+  git('merge-base', '--is-ancestor', tag, 'main');
+} catch {
+  console.error(`check-release-tag: ${tag} is not reachable from main. Every tag is cut from main.`);
+  failed = true;
+}
+
+// npm sets the latest dist-tag to whatever publishes with it, even a lower
+// version, so a bare install would start resolving backwards.
+const higherOnLine = git('tag', '--list', `v${line}.*`, '--sort=-v:refname')
+  .split('\n')
+  .filter(Boolean)
+  .filter((t) => t !== tag)
+  .filter((t) => Number(t.slice(t.lastIndexOf('.') + 1)) > Number(version.slice(version.lastIndexOf('.') + 1)));
+
+if (higherOnLine.length) {
+  console.error(`check-release-tag: ${tag} is lower than ${higherOnLine[0]}, which is already on the ${line} line.`);
+  console.error('  Publishing it would move the latest dist-tag backwards for anyone installing without a range.');
+  failed = true;
+}
 
 if (previous) {
   const previousLine = previous.replace(/^v/, '').replace(/\.\d+$/, '');
