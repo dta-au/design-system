@@ -1,5 +1,15 @@
 #!/bin/sh
 
+# Tag pushes gate on semver intent first, before the expensive build below.
+# Git feeds pre-push one "<local ref> <local sha> <remote ref> <remote sha>"
+# line per ref; a terminal on stdin means it was run by hand, with no refs.
+if [ ! -t 0 ]; then
+  REFS=$(cat)
+  for TAG in $(printf '%s\n' "$REFS" | awk '$1 ~ /^refs\/tags\/v/ { sub(/^refs\/tags\//, "", $1); print $1 }'); do
+    node tools/scripts/check-release-tag.js "$TAG" || exit 1
+  done
+fi
+
 # Run dist
 echo "Running dist..."
 npm run dist
