@@ -19,6 +19,12 @@ Use a promo to draw attention to a single item (a publication, event, program, o
 - as the page header – use [Banner](/components/banner/) instead
 - for process content – use [Timeline](/components/timeline/) for ordered steps
 
+## Accessibility
+
+- The heading and the link text name the item. Never publish 'read more' as the link text (WCAG 2.4.4 Link purpose).
+- The image needs alt text that adds information, or empty alt text when the heading already carries the meaning (WCAG 1.1.1 Non-text Content).
+- Text over the image must meet contrast at every breakpoint (WCAG 1.4.3 Contrast (Minimum)).
+
 ## Related components
 
 - [Campaign](/components/campaign/) – use for a major editorial feature rather than a single highlighted item.

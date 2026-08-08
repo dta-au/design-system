@@ -4,29 +4,48 @@ description: 'An attachment block draws attention to files which can be download
 component-type: Content
 ---
 
+Use an attachment block to present files the reader downloads: forms, reports, datasets, and templates. The block lists each file with its name, format, size, and date.
 
-Use callout to draw a user’s attention to important snippets of static information.
+## When to use
+
+- the page offers one or more files for download
+- the reader needs the format and the size before they choose a file
+- the files support the page content and do not replace it
+- several related files belong together under one heading
+
+## When not to use
+
+- for a single file link inside body copy – link the file in the sentence instead
+- for the main content of a page – publish that content as a web page first
+- for links to other pages – use a [feature link list](/components/feature-link-list/) instead
+- for an image or a diagram – use a [figure](/components/figure/) instead
 
 ## Do
 
-- use sparingly as they are intrusive
-- use to help users quickly scan to find essential information in a long text page
-- use to reiterate important content
-- use to format content not included in the main text such as support and contact details, checklists, definitions and ‘Did you know?’ content.
+- name each file for what it contains, not for its file name
+- give every file a format, a size, and a date
+- group related files in one block rather than several
+- keep the block near the content it supports
 
-## Don’t
-- use for primary content, as it may be missed
-- use for quotes in long-form content - use a [Quote](/components/quote/) instead
-- make them the focus of content; they are a supporting tool
-- use for errors and alerts – use an alert or message instead
-- embed form inputs in Callouts
-- use in conditionally revealed checkbox or radio groups
-- mix colour palettes.
+## Don't
+
+- hide a required form behind a download when an online form exists
+- publish a file the reader cannot open without paid software
+- repeat the same file in more than one block on a page
+- mix unrelated files into one block
+
+## Accessibility
+
+- Each file link names the file, its format, and its size. The reader knows what the link does before they follow it (WCAG 2.4.4 Link purpose).
+- The block title takes the heading level that fits the surrounding outline. Set it with `heading_level` (WCAG 1.3.1 Info and Relationships).
+- File type icons carry no meaning on their own. The format also appears as text (WCAG 1.1.1 Non-text Content).
 
 ## Related components
-- Global alert – Global alerts display prominent service or system wide messages at the top of the screen.
-- Message – A message is a colour-coded, non-disruptive notification that provides Success, Error, Warning or Information messages within a page at relevant times during the user journey. They should not be confused with Callouts.
+
+- [Figure](/components/figure/) – use for an image or diagram that needs a caption.
+- [Feature link list](/components/feature-link-list/) – use for links to other pages rather than to files.
+- [Callout](/components/callout/) – use to draw attention to a short piece of static information.
 
 ## Related patterns
-- Messaging – Messaging conveys contextual information to the user, provides information in relation to a service or interaction, and provides feedback in response to their actions or the current system status.
 
+- [Related resources](/patterns/related-resources/) – use to point readers to material beyond the current page.

@@ -4,20 +4,19 @@ description: 'A compact list of navigational links with optional descriptions an
 component-type: Navigation
 ---
 
-
-Use a feature link list to present a group of related navigational links in a sidebar or in-page panel. Each item consists of a link title, an optional short description, and a directional icon that animates on hover. The component is designed to sit alongside primary content, not to replace it.
+Use a feature link list to present a group of related navigational links in a sidebar or in-page panel. Each item carries a link title, an optional short description, and a directional icon that animates on hover. The component sits alongside primary content and never replaces it.
 
 Always accompany a feature link list with a clear heading. Without a heading, the list lacks context and users cannot assess whether the links are relevant to them.
 
-## When to use this component
+## When to use
 
-- the links share a common context and can be grouped under a single heading
+- the links share a common context and sit under a single heading
 - the list supplements the main content area, placed within the page's main region
-- descriptions are available for all or most links – aim to use them consistently across the list
-- descriptions add genuine value by clarifying what the destination contains, not restating the link title
-- the component is the right choice when links to external sites are unavoidable – it renders a different icon for external destinations to signal that a new tab will open
+- you have a description for all or most links, and you can apply them consistently
+- each description says what the destination contains rather than restating the link title
+- links to external sites are unavoidable – the component marks them with a different icon
 
-## When not to use this component
+## When not to use
 
 - outside the main content region
 - for primary navigation
@@ -35,7 +34,7 @@ Always accompany a feature link list with a clear heading. Without a heading, th
 
 ## Without descriptions
 
-Omit descriptions when links are self-explanatory and supporting text would add no new information. 
+Omit descriptions when links are self-explanatory and supporting text would add no new information.
 
 If most links have descriptions, add one to all – a mix of described and bare links looks unfinished and is harder to scan.
 
@@ -49,7 +48,7 @@ Descriptions are not typically used in this variant; the link text should be sel
 
 Each link must have clear, concise, and descriptive link text. Links that share the same label (for example, multiple 'Read more' links) are inaccessible to screen reader users who navigate by link text. Each link should be distinguishable from the others without relying on surrounding context.
 
-Meeting this requirement supports users with cognitive disabilities and users who navigate with a screen reader or keyboard.
+This requirement supports users with cognitive disabilities, and users who navigate with a screen reader or a keyboard.
 
 WCAG success criterion: [2.4.4 Link purpose (in context)](https://www.w3.org/WAI/WCAG21/Understanding/link-purpose-in-context.html)
 

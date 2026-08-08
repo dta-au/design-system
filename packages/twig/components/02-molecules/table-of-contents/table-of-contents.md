@@ -4,7 +4,7 @@ description: 'In-page navigation generated from the headings on a page.'
 component-type: Navigation
 ---
 
-Use a table of contents to help users scan the structure of a long page and jump directly to a section. It generates automatically from the headings on the page: H2 headings sit at the top level, H3 headings nest one step under their parent H2, and H4 headings hold that indent one size smaller. Authors enable it per page, not by building the list manually. It renders as an anchored list at the top of the content area, before the first H2.
+Use a table of contents to help users scan the structure of a long page and jump directly to a section. It generates automatically from the headings on the page. H2 headings sit at the top level. H3 headings nest one step under their parent H2, and H4 headings hold that indent one size smaller. Authors enable it per page, not by building the list manually. It renders as an anchored list at the top of the content area, before the first H2.
 
 ## When to use
 
@@ -18,10 +18,16 @@ Use a table of contents to help users scan the structure of a long page and jump
 - the page is a step-by-step wizard flow where users must progress linearly
 - the section already has page-level navigation provided by [Sub-nav](/components/sub-nav/)
 
+## Accessibility
+
+- The list renders as a navigation landmark, so assistive technology can jump to it or skip past it (WCAG 2.4.1 Bypass Blocks).
+- Every entry points at a real heading on the page. The list mirrors the outline instead of restating it (WCAG 1.3.1 Info and Relationships).
+- An entry moves focus to its section, so a keyboard user lands where a sighted user looks (WCAG 2.4.3 Focus Order).
+
 ## Related components
 
 - [Sub-nav](/components/sub-nav/) – use for navigation between pages in a section, not within a single page.
-- [Accordion](/components/accordion/) – use when optional content should be hidden by default rather than navigated to.
+- [Accordion](/components/accordion/) – use to collapse optional content rather than link to it.
 
 ## Related patterns
 
