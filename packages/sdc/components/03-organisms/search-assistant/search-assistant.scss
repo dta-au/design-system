@@ -126,6 +126,7 @@
     #{$root}__toggle,
     #{$root}__continuation,
     #{$root}__citations,
+    #{$root}__supersession,
     #{$root}__scope,
     #{$root}__explore {
       display: none;
@@ -135,6 +136,10 @@
   &__teaser {
     margin: 0;
     color: var(--ct-color-text, #1c1c1c);
+
+    // Pretty/balanced wrapping re-flows earlier lines as chunks stream in;
+    // plain wrapping only appends.
+    text-wrap: auto;
 
     // Reserve height so the streaming teaser does not jump the layout much.
     min-height: 4.5em;
@@ -180,8 +185,15 @@
     border-top: 1px solid var(--ct-color-neutral-200, #e2e3dc);
 
     p {
+      // Same body size as the follow-on prompt text.
+      @include ct-typography('text-regular');
+
       margin: 0;
       color: var(--ct-color-text, #33342d);
+
+      // Balanced wrapping re-flows every streamed chunk and the whole block
+      // flickers; plain wrapping only appends.
+      text-wrap: auto;
     }
 
     &[hidden] {
@@ -194,6 +206,11 @@
     margin-top: var(--ct-spacing-250, 1.25rem);
     padding-top: var(--ct-spacing-200, 1rem);
     border-top: 1px solid var(--ct-color-neutral-200, #e2e3dc);
+  }
+
+  &__citations--prompt {
+    margin-top: var(--ct-spacing-150, 0.75rem);
+    padding-top: var(--ct-spacing-150, 0.75rem);
   }
 
   &__citations-label {
@@ -247,6 +264,41 @@
   }
 
   // -- Scope disclosure ----------------------------------------------------
+  // Currency disclosure: the scope pattern in a warning tint. Like scope,
+  // an instance of the Message pattern (warning type) to compose when the
+  // component is promoted beyond proof of concept.
+  &__supersession {
+    margin-top: var(--ct-spacing-250, 1.25rem);
+    padding: var(--ct-spacing-150, 0.75rem) var(--ct-spacing-200, 1rem);
+    border-left: 4px solid var(--ct-color-warning, #b3541e);
+    border-radius: 0 3px 3px 0;
+    background: var(--ct-color-warning-light, #fdf3ec);
+  }
+
+  &__supersession-note {
+    @include ct-typography('text-small');
+
+    margin: 0 0 var(--ct-spacing-100, 0.5rem);
+    color: var(--ct-color-text, #33342d);
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__supersession-ref {
+    @include ct-typography('text-small');
+
+    color: var(--ct-color-interactive, #14375f);
+  }
+
+  &__result-status {
+    @include ct-typography('text-small');
+
+    font-weight: 600;
+    color: var(--ct-color-warning, #b3541e);
+  }
+
   // A left-ruled aside that names the boundary of an answer and links the
   // authoritative sources elsewhere. Used both as a footnote under a partial
   // answer and as the whole message in a referral.

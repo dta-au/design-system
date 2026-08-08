@@ -42,6 +42,14 @@ The scope disclosure is displayed under a partial answer, informing the user of 
 
 It fires on *confident* answers, not just uncertain ones. That is deliberate: the well-cited but partial answer is the real risk. An answer drawn accurately from the hosting policy still misleads if it lets the reader assume the certification and security rules live in the same place. The disclosure keeps a true answer from implying more authority than it has.
 
+## Currency – when a strong match is superseded
+
+<Canvas of={Stories.Supersession} />
+
+Retrieval has no sense of time: a retired policy that matches the query wording can outscore its replacement, confidently. The currency disclosure fires when a strong match is a superseded record. The answer is drawn from the current instrument, the disclosure names what was superseded and when, and the retired record stays in the results with a status tag rather than being hidden. Like the scope disclosure, it is an instance of the **Message** pattern (warning type) and should compose the Message component when promoted beyond proof of concept.
+
+The failure this prevents is quiet: an answer assembled from a superseded source is not wrong on its face, it is just no longer true. Suppressing the retired record would hide the risk; disclosing it lets the reader see both what the answer used and what it deliberately did not.
+
 ## Referral – when the answer lives elsewhere
 
 <Canvas of={Stories.Referral} />
@@ -62,11 +70,11 @@ The streamed reveal and the brief **generating** state make it legible that a ma
 
 ## Citations – grounding on display
 
-Every answer declares its evidence: a "Based on N sources" line in the header, and a numbered source list that anchors to the ranked results below the card. Citations point only at results actually on the page, so a reader can check any claim without leaving the search. An answer that cannot cite from its own results should not render – that is what the gating enforces.
+Every answer declares its evidence: a "Based on N sources" line in the header, and a numbered source list that anchors to the ranked results below the card. Citations point only at results actually on the page, so a reader can check any claim without leaving the search. An answer that cannot cite from its own results should not render – that is what the gating enforces. A continuation that introduces claims beyond the teaser declares those sources too: they join the same Sources list and the header count covers both.
 
 ## Explore more – suggested follow-on prompts
 
-An answer should open the corpus up, not close the conversation. The **Explore more** block sits inside the answer card below Sources, with the same divider treatment, and offers follow-on prompts written as properly punctuated questions. Each prompt is a disclosure: activating it expands in place, like the Show more control, and streams that query's answer beneath the prompt without leaving the current answer. Prompts are authored per answer and only ever point at queries the assistant can actually resolve – never suggest a question that would land on the fallback. The rows mirror the Feature link list's Suggested prompts variant, with prompt text styled like query text in the input field – regular weight, body colour – because a prompt is a suggested new search, not a link to a page.
+An answer should open the corpus up, not close the conversation. The **Explore more** block sits inside the answer card below Sources, with the same divider treatment, and offers follow-on prompts written as properly punctuated questions. Each prompt is a disclosure: activating it expands in place, like the Show more control, and streams that query's answer beneath the prompt without leaving the current answer, with the answer's sources linked below it. Prompts are authored per answer and only ever point at queries the assistant can actually resolve – never suggest a question that would land on the fallback. The rows mirror the Feature link list's Suggested prompts variant, with prompt text styled like query text in the input field – regular weight, body colour – because a prompt is a suggested new search, not a link to a page.
 
 ## Accessibility
 

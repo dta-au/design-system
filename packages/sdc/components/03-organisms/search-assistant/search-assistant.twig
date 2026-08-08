@@ -17,9 +17,19 @@
  *     Each item contains:
  *     - items [string]
  *   - continuation: [string] Longer answer streamed when the disclosure is expanded.
+ *   - continuation_citations: [array] Zero-based indexes into results cited by the continuation, not repeating any index in citations. Listed in the answer's Sources and counted in the header total:
+ *     Each item contains:
+ *     - items [number]
  *   - citations: [array] Zero-based indexes into results, linked as sources under the answer. Required for an answer card; an entry without citations renders results only.
  *     Each item contains:
  *     - items [number]
+ *   - supersession: [object] Currency disclosure shown when a strong match for the query is superseded. Names the current instrument instead of silently answering past the retired one:
+ *   Each property contains:
+ *     - note: [string]
+ *     - ref: [object] :
+ *       Each property contains:
+ *       - label: [string]
+ *       - url: [string]
  *   - scope: [object] The boundary of the answer: what this corpus covers, and who owns the rest. Shown under a partial answer, and as the whole message for an external referral.
  *   Each property contains:
  *     - note: [string]
@@ -38,6 +48,7 @@
  *     - url: [string]
  *     - type: [string] Shown as the result tag (e.g. Policy, Standard, Design).
  *     - audience: [string] Mandate line shown beside the tag (e.g. Mandatory for most government agencies).
+ *     - status: [string] Currency line shown beside the tag (e.g. Superseded 1 July 2026).
  * - fallback_results: [array] Shown for any query that does not match a scripted entry. Never make up an answer for an unmatched query:
  *   Each item contains:
  *   - title: [string]
@@ -58,6 +69,7 @@
  * - sources_label: [string]
  * - explore_title: [string] Label for the Explore more disclosure button.
  * - grounded_text: [string] Shown beside the badge. @count is replaced with the citation count.
+ * - grounded_text_singular: [string] Variant shown when there is exactly one citation.
  * - suppressed_text: [string] Status shown when a low-confidence or out-of-scope answer is suppressed.
  * - referral_text: [string] Status shown under an external referral.
  * - fallback_text: [string] Status shown for an unmatched query.
@@ -85,6 +97,7 @@
 {% set show_less_label = show_less_label|default('Show less') %}
 {% set sources_label = sources_label|default('Sources') %}
 {% set grounded_text = grounded_text|default('Based on @count sources') %}
+{% set grounded_text_singular = grounded_text_singular|default('Based on 1 source') %}
 {% set suppressed_text = suppressed_text|default('No confident answer for this search. Showing results only.') %}
 {% set referral_text = referral_text|default('There was no strong match for this, so no answer is shown.') %}
 {% set explore_title = explore_title|default('Explore more') %}
@@ -148,7 +161,8 @@
                   <section class="dga-search-assistant__card" data-dga-search-assistant-card aria-label="Assistant answer">
                     <div class="dga-search-assistant__card-header">
                       <span class="dga-search-assistant__badge">{{ badge_label }}</span>
-                      <span class="dga-search-assistant__grounded">{{ grounded_text|replace({'@count': entry.citations|default([])|length}) }}</span>
+                      {% set citation_count = entry.citations|default([])|length + entry.continuation_citations|default([])|length %}
+                      <span class="dga-search-assistant__grounded">{{ citation_count == 1 ? grounded_text_singular : grounded_text|replace({'@count': citation_count}) }}</span>
                     </div>
 
                     <p class="dga-search-assistant__generating">
@@ -192,11 +206,24 @@
                       </div>
                     {% endif %}
 
-                    {% if entry.citations is not empty %}
+                    {% if entry.supersession %}
+                      {# Currency disclosure: a strong match is superseded; say
+                         so and name the current instrument rather than
+                         silently answering past it. #}
+                      <aside class="dga-search-assistant__supersession" aria-label="Superseded content notice">
+                        <p class="dga-search-assistant__supersession-note">{{ entry.supersession.note }}</p>
+                        {% if entry.supersession.ref %}
+                          <a class="dga-search-assistant__supersession-ref" href="{{ entry.supersession.ref.url }}">{{ entry.supersession.ref.label }}</a>
+                        {% endif %}
+                      </aside>
+                    {% endif %}
+
+                    {% set all_citations = entry.citations|default([])|merge(entry.continuation_citations|default([])) %}
+                    {% if all_citations is not empty %}
                       <div class="dga-search-assistant__citations">
                         <span class="dga-search-assistant__citations-label">{{ sources_label }}</span>
                         <ul class="dga-search-assistant__citations-list">
-                          {% for ci in entry.citations %}
+                          {% for ci in all_citations %}
                             {% set cited = entry.results[ci] %}
                             {% if cited %}
                               <li>
@@ -271,7 +298,32 @@
                                   class="dga-search-assistant__prompt-panel"
                                   data-dga-search-assistant-prompt-panel
                                   hidden
-                                ></div>
+                                >
+                                  <p class="dga-search-assistant__prompt-answer" data-dga-search-assistant-prompt-text></p>
+                                  {# The prompt's sources come from its matched scripted
+                                     entry, linking the real pages because that entry's
+                                     own results list is not on screen. #}
+                                  {% for candidate in entries %}
+                                    {% if candidate.query|lower|trim(' ?!.') == prompt.title|lower|trim(' ?!.') and candidate.citations is not empty %}
+                                      <div class="dga-search-assistant__citations dga-search-assistant__citations--prompt">
+                                        <span class="dga-search-assistant__citations-label">{{ sources_label }}</span>
+                                        <ul class="dga-search-assistant__citations-list">
+                                          {% for ci in candidate.citations %}
+                                            {% set cited = candidate.results[ci] %}
+                                            {% if cited %}
+                                              <li>
+                                                <a class="dga-search-assistant__citation" href="{{ cited.url }}">
+                                                  <span class="dga-search-assistant__citation-num" aria-hidden="true">{{ ci + 1 }}</span>
+                                                  {{ cited.title }}
+                                                </a>
+                                              </li>
+                                            {% endif %}
+                                          {% endfor %}
+                                        </ul>
+                                      </div>
+                                    {% endif %}
+                                  {% endfor %}
+                                </div>
                               {% endif %}
                             </li>
                           {% endfor %}
@@ -317,7 +369,7 @@
                     <ul class="dga-search-assistant__results-list">
                       {% for result in entry.results %}
                         <li class="dga-search-assistant__result" id="{{ '%s-e%d-result-%d'|format(component_id, entry_index, loop.index) }}">
-                          {% if result.type or result.audience %}
+                          {% if result.type or result.audience or result.status %}
                             {% set result_meta %}
                               <div class="dga-search-assistant__result-meta">
                                 {% if result.type %}
@@ -329,6 +381,9 @@
                                 {% endif %}
                                 {% if result.audience %}
                                   <span class="dga-search-assistant__result-audience">{{ result.audience }}</span>
+                                {% endif %}
+                                {% if result.status %}
+                                  <span class="dga-search-assistant__result-status">{{ result.status }}</span>
                                 {% endif %}
                               </div>
                             {% endset %}

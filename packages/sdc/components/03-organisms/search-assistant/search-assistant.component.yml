@@ -69,12 +69,34 @@ props:
             type: string
             title: Continuation
             description: Longer answer streamed when the disclosure is expanded.
+          continuation_citations:
+            type: array
+            title: Continuation citations
+            description: Zero-based indexes into results cited by the continuation, not repeating any index in citations. Listed in the answer's Sources and counted in the header total.
+            items:
+              type: number
           citations:
             type: array
             title: Citations
             description: Zero-based indexes into results, linked as sources under the answer. Required for an answer card; an entry without citations renders results only.
             items:
               type: number
+          supersession:
+            type: object
+            title: Supersession
+            description: 'Currency disclosure shown when a strong match for the query is superseded. Names the current instrument instead of silently answering past the retired one.'
+            properties:
+              note:
+                type: string
+                title: Note
+              ref:
+                type: object
+                title: Current instrument
+                properties:
+                  label:
+                    type: string
+                  url:
+                    type: string
           scope:
             type: object
             title: Scope
@@ -132,6 +154,10 @@ props:
                   type: string
                   title: Audience
                   description: Mandate line shown beside the tag (e.g. Mandatory for most government agencies).
+                status:
+                  type: string
+                  title: Status
+                  description: Currency line shown beside the tag (e.g. Superseded 1 July 2026).
     fallback_results:
       type: array
       title: Fallback results
@@ -195,6 +221,10 @@ props:
       type: string
       title: Grounded text
       description: Shown beside the badge. @count is replaced with the citation count.
+    grounded_text_singular:
+      type: string
+      title: Grounded text singular
+      description: Variant shown when there is exactly one citation.
     suppressed_text:
       type: string
       title: Suppressed text

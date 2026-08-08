@@ -147,12 +147,18 @@
           suppressedMessage: entryEl.querySelector('[data-dga-search-assistant-suppressed]'),
           // Each follow-on prompt is a disclosure: its own toggle, panel and
           // typewriter, so prompts stream independently.
-          prompts: Array.from(entryEl.querySelectorAll('[data-dga-search-assistant-prompt]')).map((toggle) => ({
-            toggle,
-            query: normaliseQuery(toggle.getAttribute('data-prompt-query')),
-            panel: entryEl.querySelector(`#${CSS.escape(toggle.getAttribute('aria-controls'))}`),
-            writer: new Typewriter(),
-          })),
+          prompts: Array.from(entryEl.querySelectorAll('[data-dga-search-assistant-prompt]')).map((toggle) => {
+            const panel = entryEl.querySelector(`#${CSS.escape(toggle.getAttribute('aria-controls'))}`);
+            return {
+              toggle,
+              query: normaliseQuery(toggle.getAttribute('data-prompt-query')),
+              panel,
+              // Text streams into its own node so the server-rendered sources
+              // beside it survive the stream.
+              textEl: panel ? panel.querySelector('[data-dga-search-assistant-prompt-text]') : null,
+              writer: new Typewriter(),
+            };
+          }),
         };
       });
 
@@ -343,10 +349,8 @@
     collapsePrompt(prompt) {
       prompt.writer.stop();
       prompt.toggle.setAttribute('aria-expanded', 'false');
-      if (prompt.panel) {
-        prompt.panel.hidden = true;
-        prompt.panel.textContent = '';
-      }
+      if (prompt.panel) prompt.panel.hidden = true;
+      if (prompt.textEl) prompt.textEl.textContent = '';
     }
 
     // Expanding a prompt streams the matched scripted answer into its panel.
@@ -364,7 +368,7 @@
         ? target.teaserText
         : this.fallbackText;
       this.announce(entry, text);
-      prompt.writer.stream(prompt.panel, text, TEASER_SPEED_MS);
+      prompt.writer.stream(prompt.textEl || prompt.panel, text, TEASER_SPEED_MS);
     }
 
     showAnswer(entry, forcedPhase) {
