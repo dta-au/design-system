@@ -20,6 +20,7 @@ Do not paginate when:
 - the dataset is 25 items or fewer – show all results on one page
 - a filter or search query returns fewer than two pages of results – show all results rather than a single paginated page
 - the content is a continuous feed where item position is not meaningful – consider a 'Load more' button instead
+- the pages form a fixed reading order, such as report chapters or numbered rules – use [chapter nav](/components/chapter-nav/)
 
 ## Load more vs pagination
 
@@ -42,8 +43,10 @@ Place pagination below the listing, above the footer. Do not place it above the 
 
 - [Table](/components/table/) – filterable and sortable table; use pagination alongside when dataset exceeds 25 rows.
 - [Manual list](/components/manual-list/) – manually curated content list.
+- [Chapter nav](/components/chapter-nav/) – use for traversal between pages in a fixed reading order.
 
 ## Related patterns
 
 - [Search filters](/patterns/search-filters/) – combine with pagination on filtered result pages.
 - [Empty state](/patterns/empty-state/) – what to show when filters reduce results to zero.
+- [Chapter navigation](/patterns/chapter-navigation/) – the pattern for pages a reader takes in order.

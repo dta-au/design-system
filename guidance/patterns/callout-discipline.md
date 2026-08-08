@@ -47,7 +47,7 @@ The position of the single callout matters as much as the count.
 
 - **Rule page:** directly under the page header. The reader scrolls and immediately sees the rule.
 - **Guidance:** the 'do this' callout above the body content; the 'avoid this' callout below the relevant section, not at the end.
-- **Step in a framework:** at the bottom, immediately above [pagination](/patterns/pagination/) – the gate is the last thing the reader sees before deciding to move on.
+- **Step in a framework:** at the bottom, immediately above [chapter nav](/components/chapter-nav/) – the gate is the last thing the reader sees before deciding to move on.
 - **Case study:** top of the body, before the narrative – it is the 'is this me?' filter.
 - **Report chapter:** mid-chapter, breaking up long prose with the headline finding.
 

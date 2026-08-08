@@ -176,8 +176,8 @@ Use this variant when a guide page is one step of a numbered procedural framewor
 
 Structure the body of the page with three predictable H2 blocks: **Inputs**, **What to do**, and **Outputs**. The same three headings on every step let a reader who finished step 3 see quickly what changed.
 
-Place a single [callout](/components/callout/) at the bottom of the body, immediately above the pagination control. The callout carries the gate condition – the requirement that must be met before the reader proceeds. See [callout discipline](/patterns/callout-discipline/).
+Place a single [callout](/components/callout/) at the bottom of the body, immediately above the chapter nav. The callout carries the gate condition – the requirement that must be met before the reader proceeds. See [callout discipline](/patterns/callout-discipline/).
 
-Use [pagination](/patterns/pagination/) for sequential traversal, not [next step](/components/next-step/). Pagination is the most important component on a step page – the reader has to advance without finding the side navigation. See [chapter navigation](/patterns/chapter-navigation/).
+Use [chapter nav](/components/chapter-nav/) for sequential traversal, not [next step](/components/next-step/). Chapter nav is the most important component on a step page – the reader has to advance without finding the side navigation. See [chapter navigation](/patterns/chapter-navigation/).
 
 The framework's full step list belongs in side navigation with the active state on the current step. The reader needs to know how far through the framework they are on every step.

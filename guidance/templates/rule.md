@@ -50,7 +50,7 @@ A page that holds one criterion or one statement from a standard.
 | Normative sentence | [Callout](/components/callout/) – verbatim | The single most visually prominent element on the page |
 | Rationale | Rich text body | Plain-English explanation: why the rule exists, how it is typically met |
 | Cross-axis links | Card grid | Sibling guidance pages filtered to this rule – 'how to meet', 'how to measure', 'transitioning' |
-| Sequential navigation | [Pagination](/patterns/pagination/) | Numbered rules are sequential – pagination matches that |
+| Sequential navigation | [Chapter nav](/components/chapter-nav/) | Numbered rules run in order, and chapter nav names the neighbouring rule |
 
 ## Structure rules
 
@@ -58,7 +58,7 @@ A page that holds one criterion or one statement from a standard.
 
 **Never collapse rules into accordions.** Each rule has its own URL and its own deep-link target, and other pages cite it individually. An accordion panel destroys those references and makes the rule set unsearchable. See [accordion](/components/accordion/).
 
-**Do not organise the rule set as a linear chapter sequence.** Numbered rules use [pagination](/patterns/pagination/) for sibling traversal. The rule index on the parent must be a card grid, because readers usually need one rule rather than the whole set. The card grid is a page-layout choice; the rules themselves stay ordered.
+**Do not organise the rule set as a linear chapter sequence.** Numbered rules use [chapter nav](/components/chapter-nav/) for sibling traversal. The rule index on the parent must be a card grid, because readers usually need one rule rather than the whole set. The card grid is a page-layout choice; the rules themselves stay ordered.
 
 **Make the cross-axis visible.** Every rule has at least two axes – its number, and its place in some other taxonomy (lifecycle stage, policy domain, audience). Show the second axis as a tag on the banner and as a card in the body. Readers can then pivot from rule to surrounding context in one click.
 

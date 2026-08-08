@@ -33,11 +33,11 @@ Reports may exist as a single page (summary) or as a multi-page publication with
 
 Long-form reports have two kinds of chapter, and they need different treatment.
 
-**Front-matter chapters** are the entry sleeve to the report: foreword, executive summary, 'at a glance', introduction. Readers usually arrive at these from the report landing page and read them linearly. Treat front-matter chapters as gateway pages. Put a [publication card](/components/promo/) at the top of the body to re-establish the parent report: cover, full title, date, PDF. The chapter prose follows, then [pagination](/patterns/pagination/) to the next chapter.
+**Front-matter chapters** are the entry sleeve to the report: foreword, executive summary, 'at a glance', introduction. Readers usually arrive at these from the report landing page and read them linearly. Treat front-matter chapters as gateway pages. Put a [publication card](/components/promo/) at the top of the body to re-establish the parent report: cover, full title, date, PDF. The chapter prose follows, then [chapter nav](/components/chapter-nav/) to the next chapter.
 
 **Body chapters** are where the findings live. Readers often arrive directly from a search result, so each body chapter must restate context and let readers locate findings quickly. Add an in-page [table of contents](/components/table-of-contents/) generated from the chapter's H2s. Present figures and tables inline, never collapsed. Use one [callout](/components/callout/) for the chapter's headline finding.
 
-The structural difference matters for cross-linking: front-matter chapters use [pagination](/patterns/pagination/) only – they are read in order. Body chapters use pagination *and* may carry a [next step](/components/next-step/) into a related surface (the policy area, the next report in the series).
+The structural difference matters for cross-linking: front-matter chapters use [chapter nav](/components/chapter-nav/) only – they are read in order. Body chapters use chapter nav *and* may carry a [next step](/components/next-step/) into a related surface (the policy area, the next report in the series).
 
 Reports may also publish case studies as body chapters – for example, named-project pages inside a major reporting cycle. Treat these as Evidence body chapters, not as the narrative case study variant of guide. They exist to present the project's findings, not to teach a method.
 
