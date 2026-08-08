@@ -17,17 +17,17 @@
  *     Each item contains:
  *     - items [string]
  *   - continuation: [string] Longer answer streamed when the disclosure is expanded.
- *   - continuation_citations: [array] Zero-based indexes into results cited by the continuation, not repeating any index in citations. Listed in the answer's Sources and counted in the header total:
+ *   - continuation_citations: [array] Zero-based indexes into results cited by the continuation, not repeating any index in citations. Listed in the answer's Sources and counted in the header total.
  *     Each item contains:
  *     - items [number]
  *   - citations: [array] Zero-based indexes into results, linked as sources under the answer. Required for an answer card; an entry without citations renders results only.
  *     Each item contains:
  *     - items [number]
- *   - supersession: [object] Currency disclosure shown when a strong match for the query is superseded. Names the current instrument instead of silently answering past the retired one:
+ *   - supersession: [object] Currency disclosure shown when a strong match for the query is superseded. Names the current instrument instead of silently answering past the retired one.
  *   Each property contains:
  *     - note: [string]
- *     - ref: [object] :
- *       Each property contains:
+ *     - ref: [object]
+ *   Each property contains:
  *       - label: [string]
  *       - url: [string]
  *   - scope: [object] The boundary of the answer: what this corpus covers, and who owns the rest. Shown under a partial answer, and as the whole message for an external referral.
