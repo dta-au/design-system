@@ -37,19 +37,19 @@
   flex: 0 0 auto;
 }
 .ct-chapter-nav .ct-chapter-nav__direction {
+  font-size: var(--ct-typography-label-small-font-size);
+  line-height: var(--ct-typography-label-small-line-height);
+  font-family: var(--ct-typography-label-small-font-name);
+  font-weight: var(--ct-typography-label-small-font-weight);
+  letter-spacing: var(--ct-typography-label-small-letter-spacing);
+  flex: 0 0 auto;
+}
+.ct-chapter-nav .ct-chapter-nav__title {
   font-size: var(--ct-typography-label-regular-font-size);
   line-height: var(--ct-typography-label-regular-line-height);
   font-family: var(--ct-typography-label-regular-font-name);
   font-weight: var(--ct-typography-label-regular-font-weight);
   letter-spacing: var(--ct-typography-label-regular-letter-spacing);
-  flex: 0 0 auto;
-}
-.ct-chapter-nav .ct-chapter-nav__title {
-  font-size: var(--ct-typography-text-regular-font-size);
-  line-height: var(--ct-typography-text-regular-line-height);
-  font-family: var(--ct-typography-text-regular-font-name);
-  font-weight: var(--ct-typography-text-regular-font-weight);
-  letter-spacing: var(--ct-typography-text-regular-letter-spacing);
   text-decoration: underline;
 }
 .ct-chapter-nav.ct-theme-light {

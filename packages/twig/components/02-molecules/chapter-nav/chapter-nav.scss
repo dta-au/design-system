@@ -42,14 +42,16 @@
     flex: 0 0 auto;
   }
 
+  // The title is the content and the direction only qualifies it, so the
+  // title carries the heavier scale.
   #{$root}__direction {
-    @include ct-typography('label-regular');
+    @include ct-typography('label-small');
 
     flex: 0 0 auto;
   }
 
   #{$root}__title {
-    @include ct-typography('text-regular');
+    @include ct-typography('label-regular');
 
     text-decoration: underline;
   }

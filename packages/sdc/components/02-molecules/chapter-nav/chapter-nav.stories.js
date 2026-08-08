@@ -47,6 +47,18 @@ export const ChapterNav = {
   args: ChapterNavData.args('light'),
 };
 
+// The dark theme pairs with the dark canvas; the backgrounds global does not
+// follow the theme arg, so an unpaired dark story reads as failing contrast.
+export const Dark = {
+  parameters: {
+    layout: 'padded',
+  },
+  args: ChapterNavData.args('dark'),
+  globals: {
+    backgrounds: { value: 'dark' },
+  },
+};
+
 // The first page has nothing behind it, so only the next link renders.
 export const FirstInSequence = {
   parameters: {

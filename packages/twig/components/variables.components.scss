@@ -336,11 +336,11 @@ $ct-navigation-dark-drawer-menu-item-active-trail-color: ct-color-dark('interact
 // Chapter nav (digital.gov.au).
 //
 // The direction label is secondary to the chapter title, so it takes body
-// rather than the link colour. The rule above the component follows
-// pagination's border pair.
+// rather than the link colour. The rule takes the shaded token on light and
+// the tinted one on dark; pagination's pair leaves it near-invisible on dark.
 //
-$ct-chapter-nav-light-border-color: ct-color-light('border-light') !default;
-$ct-chapter-nav-dark-border-color: ct-color-dark('border') !default;
+$ct-chapter-nav-light-border-color: ct-color-light('border') !default;
+$ct-chapter-nav-dark-border-color: ct-color-dark('border-light') !default;
 $ct-chapter-nav-light-link-color: ct-color-light('interaction-background') !default;
 $ct-chapter-nav-dark-link-color: ct-color-dark('interaction-background') !default;
 $ct-chapter-nav-light-link-hover-color: ct-color-light('interaction-hover-background') !default;
