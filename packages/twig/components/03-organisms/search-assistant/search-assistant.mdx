@@ -71,6 +71,7 @@ An answer should open the corpus up, not close the conversation. The **Explore m
 ## Accessibility
 
 - the disclosure is a real `<button>` with `aria-expanded` and `aria-controls` over the continuation region
+- the generating status carries `aria-live` only while generating, added and removed by the behaviour, so idle cards hold no live region
 - streamed text is announced once, in full, from a visually-hidden `aria-live="polite"` region per card; the visibly streaming elements are not live regions, so partial chunks never re-announce
 - suppression, referral and fallback notices use `role="status"`
 - the chevron is decorative (`aria-hidden`); the toggle's text label carries the state

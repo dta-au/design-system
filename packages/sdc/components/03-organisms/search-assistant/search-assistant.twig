@@ -17,7 +17,7 @@
  *     Each item contains:
  *     - items [string]
  *   - continuation: [string] Longer answer streamed when the disclosure is expanded.
- *   - citations: [array] Zero-based indexes into results, linked as sources under the answer.
+ *   - citations: [array] Zero-based indexes into results, linked as sources under the answer. Required for an answer card; an entry without citations renders results only.
  *     Each item contains:
  *     - items [number]
  *   - scope: [object] The boundary of the answer: what this corpus covers, and who owns the rest. Shown under a partial answer, and as the whole message for an external referral.
@@ -132,7 +132,7 @@
             {% for entry in entries %}
               {% set owner = entry.owner in ['full', 'partial', 'external', 'none'] ? entry.owner : 'full' %}
               {% set entry_index = loop.index %}
-              {% set has_answer = owner in ['full', 'partial'] and entry.teaser is not empty %}
+              {% set has_answer = owner in ['full', 'partial'] and entry.teaser is not empty and entry.citations is not empty %}
               {% set has_continuation = entry.continuation_worthy|default(false) and entry.continuation is not empty %}
               <div
                 class="dga-search-assistant__entry"
@@ -151,9 +151,9 @@
                       <span class="dga-search-assistant__grounded">{{ grounded_text|replace({'@count': entry.citations|default([])|length}) }}</span>
                     </div>
 
-                    <p class="dga-search-assistant__generating" aria-live="polite">
+                    <p class="dga-search-assistant__generating">
                       <span class="dga-search-assistant__dots" aria-hidden="true"><span></span><span></span><span></span></span>
-                      {{ generating_label }}
+                      <span data-dga-search-assistant-generating>{{ generating_label }}</span>
                     </p>
 
                     {# Streamed text is announced once, in full, from this
@@ -289,7 +289,9 @@
                     <div class="dga-search-assistant__card-header">
                       <span class="dga-search-assistant__badge dga-search-assistant__badge--referral">{{ referral_badge_label }}</span>
                     </div>
-                    <aside class="dga-search-assistant__scope" aria-label="What this covers">
+                    {# The scope IS the referral message here, not a complementary
+                       aside; the section landmark above carries the label. #}
+                    <div class="dga-search-assistant__scope">
                       <p class="dga-search-assistant__scope-note">{{ entry.scope.note }}</p>
                       {% if entry.scope.refs is not empty %}
                         <ul class="dga-search-assistant__scope-refs">
@@ -300,7 +302,7 @@
                           {% endfor %}
                         </ul>
                       {% endif %}
-                    </aside>
+                    </div>
                     <p class="dga-search-assistant__referral-note" role="status">{{ referral_text }}</p>
                   </section>
                 {% endif %}

@@ -6346,7 +6346,7 @@ ${new XMLSerializer().serializeToString(clone)}`;
       const CHUNK_SIZE = 3;
       const PHASE_STATES = ["generating", "teaser", "streaming", "expanded"];
       function normaliseQuery(query) {
-        return (query || "").toLowerCase().trim().replace(/\s+/g, " ").replace(/[?!.]+$/, "").trim();
+        return (query || "").replace(/[\u2018\u2019]/g, "'").replace(/[\u201C\u201D]/g, '"').toLowerCase().trim().replace(/^["']+|["']+$/g, "").replace(/\s+/g, " ").replace(/[?!.,;:]+$/, "").trim();
       }
       function collapseWhitespace(text) {
         return (text || "").trim().replace(/\s+/g, " ");
@@ -6402,14 +6402,18 @@ ${new XMLSerializer().serializeToString(clone)}`;
           const fallbackStatus = this.fallback ? this.fallback.querySelector(".dga-search-assistant__no-answer") : null;
           this.fallbackText = fallbackStatus ? collapseWhitespace(fallbackStatus.textContent) : "";
           this.generatingTimer = null;
+          this.generatingAnnounceTimer = null;
           this.teaserWriter = new Typewriter();
           this.continuationWriter = new Typewriter();
           this.entries = Array.from(el.querySelectorAll("[data-dga-search-assistant-entry]")).map((entryEl) => {
             const teaser = entryEl.querySelector("[data-dga-search-assistant-teaser]");
             const continuationText = entryEl.querySelector("[data-dga-search-assistant-continuation-text]");
+            const generating = entryEl.querySelector("[data-dga-search-assistant-generating]");
             return {
               el: entryEl,
               query: normaliseQuery(entryEl.getAttribute("data-query")),
+              generating,
+              generatingLabel: generating ? collapseWhitespace(generating.textContent) : "",
               owner: entryEl.getAttribute("data-owner") || "full",
               confidence: parseFloat(entryEl.getAttribute("data-confidence")) || 0,
               continuationWorthy: entryEl.getAttribute("data-continuation-worthy") === "true",
@@ -6519,10 +6523,31 @@ ${new XMLSerializer().serializeToString(clone)}`;
         announce(entry, text) {
           if (entry.announce) entry.announce.textContent = text;
         }
+        // aria-live exists only while generating, on the label span so the
+        // dots markup is untouched. The text is cleared and re-injected after
+        // the attribute lands: live regions announce changes, not reveals.
+        startGenerating(entry) {
+          if (!entry.generating || prefersReducedMotion()) return;
+          entry.generating.setAttribute("aria-live", "polite");
+          entry.generating.textContent = "";
+          this.generatingAnnounceTimer = setTimeout(() => {
+            this.generatingAnnounceTimer = null;
+            entry.generating.textContent = entry.generatingLabel;
+          }, 50);
+        }
+        stopGenerating(entry) {
+          if (!entry.generating) return;
+          entry.generating.removeAttribute("aria-live");
+          entry.generating.textContent = entry.generatingLabel;
+        }
         reset() {
           if (this.generatingTimer) {
             clearTimeout(this.generatingTimer);
             this.generatingTimer = null;
+          }
+          if (this.generatingAnnounceTimer) {
+            clearTimeout(this.generatingAnnounceTimer);
+            this.generatingAnnounceTimer = null;
           }
           this.teaserWriter.stop();
           this.continuationWriter.stop();
@@ -6537,6 +6562,7 @@ ${new XMLSerializer().serializeToString(clone)}`;
               entry.card.removeAttribute("data-phase");
             }
             if (entry.teaser) entry.teaser.textContent = entry.teaserText;
+            this.stopGenerating(entry);
             entry.prompts.forEach((prompt) => this.collapsePrompt(prompt));
             this.collapse(entry);
           });
@@ -6599,6 +6625,7 @@ ${new XMLSerializer().serializeToString(clone)}`;
           entry.el.hidden = false;
           if (forcedPhase === "generating") {
             entry.card.setAttribute("data-phase", "generating");
+            this.startGenerating(entry);
             return;
           }
           if (forcedPhase) {
@@ -6610,8 +6637,10 @@ ${new XMLSerializer().serializeToString(clone)}`;
             return;
           }
           entry.card.setAttribute("data-phase", "generating");
+          this.startGenerating(entry);
           this.generatingTimer = setTimeout(() => {
             this.generatingTimer = null;
+            this.stopGenerating(entry);
             entry.card.setAttribute("data-phase", "teaser");
             this.announce(entry, entry.teaserText);
             this.teaserWriter.stream(entry.teaser, entry.teaserText, TEASER_SPEED_MS);

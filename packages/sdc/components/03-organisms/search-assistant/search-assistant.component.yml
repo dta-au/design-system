@@ -72,7 +72,7 @@ props:
           citations:
             type: array
             title: Citations
-            description: Zero-based indexes into results, linked as sources under the answer.
+            description: Zero-based indexes into results, linked as sources under the answer. Required for an answer card; an entry without citations renders results only.
             items:
               type: number
           scope:
