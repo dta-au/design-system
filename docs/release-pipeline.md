@@ -28,7 +28,7 @@ Versioning is plain semver, decoupled from the CivicTheme base. The 1.0 line sta
 
 Versions carry no prerelease suffix. A `-dta.N` suffix would be excluded from range pins (npm does not match `1.0.0-dta.1` against `1.0.x`), so the pins would silently fail to resolve. The `@dta-au` scope and the provenance attestation already mark a build as DTA's.
 
-`LATEST_LINE` (a workflow env var, currently `1.0`) owns the npm `latest` dist-tag, the published Storybook, and the docs dispatch. Keep it in sync with the current minor. If a maintenance line is branched later, its tags publish under `--tag maintenance-<line>` and do not move the live Storybook or the docs pin. No maintenance line exists today.
+`LATEST_LINE` (a workflow env var, currently `1.1`) owns the npm `latest` dist-tag, the published Storybook, and the docs dispatch. Keep it in sync with the current minor. If a maintenance line is branched later, its tags publish under `--tag maintenance-<line>` and do not move the live Storybook or the docs pin. No maintenance line exists today.
 
 ## Tag to publish flow
 

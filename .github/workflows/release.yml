@@ -27,7 +27,7 @@ permissions:
 env:
   # The release line that owns the npm `latest` dist-tag and the live Storybook.
   # Bump this when the current line moves on.
-  LATEST_LINE: '1.0'
+  LATEST_LINE: '1.1'
   NODE_VERSION: '24'
 
 concurrency:
