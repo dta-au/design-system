@@ -1,0 +1,14 @@
+{/* Editorial body is shared with the design library – edit ./chapter-nav.md, not this file. */}
+
+import { Meta, Canvas, Controls, Markdown } from '@storybook/addon-docs/blocks';
+import * as Stories from './chapter-nav.stories';
+import body from './chapter-nav.md?raw';
+
+<Meta of={Stories} />
+
+# Chapter nav
+
+<Canvas of={Stories.ChapterNav} />
+<Controls of={Stories.ChapterNav} />
+
+<Markdown>{body.replace(/^---[\s\S]*?---\s*/, '')}</Markdown>
