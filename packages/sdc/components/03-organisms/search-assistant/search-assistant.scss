@@ -126,6 +126,7 @@
     #{$root}__toggle,
     #{$root}__continuation,
     #{$root}__citations,
+    #{$root}__supersession,
     #{$root}__scope,
     #{$root}__explore {
       display: none;
@@ -247,6 +248,41 @@
   }
 
   // -- Scope disclosure ----------------------------------------------------
+  // Currency disclosure: the scope pattern in a warning tint. Like scope,
+  // an instance of the Message pattern (warning type) to compose when the
+  // component is promoted beyond proof of concept.
+  &__supersession {
+    margin-top: var(--ct-spacing-250, 1.25rem);
+    padding: var(--ct-spacing-150, 0.75rem) var(--ct-spacing-200, 1rem);
+    border-left: 4px solid var(--ct-color-warning, #b3541e);
+    border-radius: 0 3px 3px 0;
+    background: var(--ct-color-warning-light, #fdf3ec);
+  }
+
+  &__supersession-note {
+    @include ct-typography('text-small');
+
+    margin: 0 0 var(--ct-spacing-100, 0.5rem);
+    color: var(--ct-color-text, #33342d);
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__supersession-ref {
+    @include ct-typography('text-small');
+
+    color: var(--ct-color-interactive, #14375f);
+  }
+
+  &__result-status {
+    @include ct-typography('text-small');
+
+    font-weight: 600;
+    color: var(--ct-color-warning, #b3541e);
+  }
+
   // A left-ruled aside that names the boundary of an answer and links the
   // authoritative sources elsewhere. Used both as a footnote under a partial
   // answer and as the whole message in a referral.

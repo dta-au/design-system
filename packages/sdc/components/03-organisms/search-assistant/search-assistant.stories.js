@@ -86,6 +86,56 @@ const DEMO_ENTRIES = [
     citations: [0],
   },
   {
+    // full, with a currency disclosure: the strongest lexical match for this
+    // query is the superseded Cloud computing policy. Measured in the spike:
+    // the retired policy scores 0.740 for "cloud policy", above the 0.6 gate,
+    // while its replacement sits in the same corpus. Answer from the current
+    // instrument; disclose the retired match instead of silently ranking it.
+    query: 'cloud policy',
+    owner: 'full',
+    confidence: 0.82,
+    continuation_worthy: true,
+    results: [
+      {
+        title: 'Cloud policy',
+        snippet: 'The Whole-of-government cloud computing policy provides a unified and practical framework for cloud adoption across the Australian Public Service.',
+        url: 'https://architecture.digital.gov.au/policy/cloud-policy',
+        type: 'Policy',
+        audience: 'Mandatory for most government agencies',
+      },
+      {
+        title: 'Cloud computing policy',
+        snippet: 'Described the requirements for entities planning digital investments involving cloud computing. Superseded by the Cloud policy.',
+        url: 'https://architecture.digital.gov.au/policy/cloud-computing-policy',
+        type: 'Policy',
+        audience: 'Agencies can follow this guidance',
+        status: 'Superseded 1 July 2026',
+      },
+      {
+        title: 'Hosting policy',
+        snippet: 'Requirements for entities planning digital investments involving hosting, on premises or in external cloud.',
+        url: 'https://architecture.digital.gov.au/policy/hosting-policy',
+        type: 'Policy',
+        audience: 'Mandatory for most government agencies',
+      },
+    ],
+    teaser: [
+      'The Cloud policy provides a unified, practical framework for cloud adoption across the APS.',
+      'It helps agencies move from ageing ICT environments to platforms with stronger resilience, scalability and security.',
+      'It is mandatory for most government agencies.',
+      'It replaced the Cloud computing policy on 1 July 2026.',
+    ],
+    continuation: 'The Whole-of-government cloud computing policy, published as the Cloud policy, sets the framework for cloud adoption across the Australian Public Service: moving from ageing ICT environments to platforms that offer stronger resilience, scalability and security for government services. The earlier Cloud computing policy was superseded on 1 July 2026 and remains visible as an archived record, so work built against it should be checked against the current policy. The full policy text is published on digital.gov.au.',
+    citations: [0],
+    supersession: {
+      note: 'A strong match for this search, the Cloud computing policy, was superseded on 1 July 2026. This answer is drawn from the current Cloud policy.',
+      ref: { label: 'Cloud policy - the current instrument', url: 'https://architecture.digital.gov.au/policy/cloud-policy' },
+    },
+    explore: [
+      { title: 'Can we host this in a public cloud?' },
+    ],
+  },
+  {
     // partial: the AGA sets the hosting position, but not the security bar.
     query: 'can we host this in a public cloud',
     owner: 'partial',
@@ -293,6 +343,12 @@ const baseArgs = {
 // generate - teaser - expand flow.
 export const Interactive = {
   args: { ...baseArgs },
+};
+
+// Currency disclosure: the superseded match is named, the answer comes from
+// the current instrument, and the retired record is tagged in the results.
+export const Supersession = {
+  args: { ...baseArgs, force_state: 'expanded', force_query: 'cloud policy' },
 };
 
 export const Generating = {

@@ -42,6 +42,14 @@ The scope disclosure is displayed under a partial answer, informing the user of 
 
 It fires on *confident* answers, not just uncertain ones. That is deliberate: the well-cited but partial answer is the real risk. An answer drawn accurately from the hosting policy still misleads if it lets the reader assume the certification and security rules live in the same place. The disclosure keeps a true answer from implying more authority than it has.
 
+## Currency – when a strong match is superseded
+
+<Canvas of={Stories.Supersession} />
+
+Retrieval has no sense of time: a retired policy that matches the query wording can outscore its replacement, confidently. The currency disclosure fires when a strong match is a superseded record. The answer is drawn from the current instrument, the disclosure names what was superseded and when, and the retired record stays in the results with a status tag rather than being hidden. Like the scope disclosure, it is an instance of the **Message** pattern (warning type) and should compose the Message component when promoted beyond proof of concept.
+
+The failure this prevents is quiet: an answer assembled from a superseded source is not wrong on its face, it is just no longer true. Suppressing the retired record would hide the risk; disclosing it lets the reader see both what the answer used and what it deliberately did not.
+
 ## Referral – when the answer lives elsewhere
 
 <Canvas of={Stories.Referral} />
