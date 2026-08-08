@@ -7274,6 +7274,12 @@ ol {
   }
 }
 @media (min-width: 768px) {
+  .ct-chapter-nav .ct-chapter-nav__item {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+}
+@media (min-width: 768px) {
   .ct-chapter-nav .ct-chapter-nav__item--next {
     margin-left: auto;
     text-align: right;
