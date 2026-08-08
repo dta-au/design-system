@@ -17,6 +17,9 @@
  *     Each item contains:
  *     - items [string]
  *   - continuation: [string] Longer answer streamed when the disclosure is expanded.
+ *   - continuation_citations: [array] Zero-based indexes into results cited by the continuation, not repeating any index in citations. Listed in the answer's Sources and counted in the header total:
+ *     Each item contains:
+ *     - items [number]
  *   - citations: [array] Zero-based indexes into results, linked as sources under the answer. Required for an answer card; an entry without citations renders results only.
  *     Each item contains:
  *     - items [number]
@@ -158,7 +161,7 @@
                   <section class="dga-search-assistant__card" data-dga-search-assistant-card aria-label="Assistant answer">
                     <div class="dga-search-assistant__card-header">
                       <span class="dga-search-assistant__badge">{{ badge_label }}</span>
-                      {% set citation_count = entry.citations|default([])|length %}
+                      {% set citation_count = entry.citations|default([])|length + entry.continuation_citations|default([])|length %}
                       <span class="dga-search-assistant__grounded">{{ citation_count == 1 ? grounded_text_singular : grounded_text|replace({'@count': citation_count}) }}</span>
                     </div>
 
@@ -215,11 +218,12 @@
                       </aside>
                     {% endif %}
 
-                    {% if entry.citations is not empty %}
+                    {% set all_citations = entry.citations|default([])|merge(entry.continuation_citations|default([])) %}
+                    {% if all_citations is not empty %}
                       <div class="dga-search-assistant__citations">
                         <span class="dga-search-assistant__citations-label">{{ sources_label }}</span>
                         <ul class="dga-search-assistant__citations-list">
-                          {% for ci in entry.citations %}
+                          {% for ci in all_citations %}
                             {% set cited = entry.results[ci] %}
                             {% if cited %}
                               <li>

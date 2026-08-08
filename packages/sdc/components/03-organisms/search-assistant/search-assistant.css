@@ -158,6 +158,11 @@
   border-top: 1px solid var(--ct-color-neutral-200, #e2e3dc);
 }
 .dga-search-assistant__continuation p {
+  font-size: var(--ct-typography-text-regular-font-size);
+  line-height: var(--ct-typography-text-regular-line-height);
+  font-family: var(--ct-typography-text-regular-font-name);
+  font-weight: var(--ct-typography-text-regular-font-weight);
+  letter-spacing: var(--ct-typography-text-regular-letter-spacing);
   margin: 0;
   color: var(--ct-color-text, #33342d);
   text-wrap: auto;

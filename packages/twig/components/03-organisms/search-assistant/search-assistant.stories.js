@@ -127,6 +127,7 @@ const DEMO_ENTRIES = [
     ],
     continuation: 'The Whole-of-government cloud computing policy, published as the Cloud policy, sets the framework for cloud adoption across the Australian Public Service: moving from ageing ICT environments to platforms that offer stronger resilience, scalability and security for government services. The earlier Cloud computing policy was superseded on 1 July 2026 and remains visible as an archived record, so work built against it should be checked against the current policy. The full policy text is published on digital.gov.au.',
     citations: [0],
+    continuation_citations: [1],
     supersession: {
       note: 'A strong match for this search, the Cloud computing policy, was superseded on 1 July 2026. This answer is drawn from the current Cloud policy.',
       ref: { label: 'Cloud policy - the current instrument', url: 'https://architecture.digital.gov.au/policy/cloud-policy' },

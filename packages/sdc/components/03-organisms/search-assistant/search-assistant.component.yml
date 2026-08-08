@@ -69,6 +69,12 @@ props:
             type: string
             title: Continuation
             description: Longer answer streamed when the disclosure is expanded.
+          continuation_citations:
+            type: array
+            title: Continuation citations
+            description: Zero-based indexes into results cited by the continuation, not repeating any index in citations. Listed in the answer's Sources and counted in the header total.
+            items:
+              type: number
           citations:
             type: array
             title: Citations
