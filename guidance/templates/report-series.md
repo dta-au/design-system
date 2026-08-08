@@ -28,7 +28,7 @@ Do not use a report series page for a single report with chapters. That is a [re
 
 Choose the variant before you build the page. The two differ in how members relate to each other, which changes the ordering, the currency rules, and what each card must carry.
 
-**Edition series** – the same report, re-issued on a cycle. The Major Digital Projects Report is an edition series. Order members newest first. Exactly one edition is current. Every other edition is superseded but stays published.
+**Edition series** – the same report, re-issued on a cycle. The Major Digital Projects Report is an edition series. Order members newest first. Exactly one edition is current. Every other edition stays published under 'previous editions'.
 
 **Instalment series** – distinct topics published under one banner and numbered in sequence. The Digital project research series is an instalment series. Order members by their series number. All instalments stay current. Each instalment carries its own version, so instalment 01 can reach version 2 while instalment 02 is still at version 1.
 
@@ -45,13 +45,20 @@ Members of a series are not always Evidence. The research series instalments pub
 
 A report series page follows this pattern:
 
-1. **Series purpose** – two to three sentences on what the series covers and who publishes it; name any research or academic partners here rather than on every member card
+1. **Series purpose** – two to three sentences on what the series covers and who publishes it. Name research or academic partners here rather than on every member card
 2. **Current or featured member** – for an edition series, the current edition as a single featured card; omit for an instalment series
 3. **Member index** – one card per member, in the order set by the variant
 4. **Previous editions** – for an edition series, superseded members under their own heading; omit for an instalment series
 5. **Related surfaces** – links to the policy or framework the series informs
 
-Each member card needs four things: the member's identity (year or series number), its publication date, a two to three sentence abstract, and a link to the digital version. Add a PDF link where one exists. A card without a date forces the reader onto the member page to work out which one they want.
+Each member card needs four things:
+
+- the member's identity (year or series number)
+- its publication date
+- a two to three sentence abstract
+- a link to the digital version
+
+Add a PDF link where one exists. A card without a date forces the reader onto the member page to work out which one they want.
 
 ## Currency and archiving
 
@@ -59,7 +66,7 @@ These rules apply to edition series only.
 
 **Never let two editions present as current.** When a new edition publishes, move the previous one under the 'previous editions' heading in the same edit. A reader who cites last year's figures because both editions looked current is a failure of this page, not of theirs.
 
-**Keep superseded editions at their original URLs.** Other agencies, audit reports, and parliamentary submissions cite editions by URL. Redirecting or retiring an old edition breaks those citations.
+**Keep superseded editions at their original URLs.** Other agencies, audit reports, and parliamentary submissions cite editions by URL. Redirect or retire an old edition and those citations break.
 
 **Do not disambiguate editions with a URL suffix.** The site already carries `digital-project-research-series-0` and `digital-project-research-series-old` as separate live URLs for the same series. Neither suffix tells a reader which is current. Name the edition in the URL by year or number instead.
 
@@ -95,7 +102,7 @@ Use the following UI components when building report series pages in the CMS.
 
 - [Digital project research series](https://www.digital.gov.au/digital-project-research-series-0) – instalment series
 
-No edition series page is published. The Major Digital Projects Report has three editions and no front door above them, so readers reach each edition through search or a direct link.
+No edition series page exists. The Major Digital Projects Report has three editions and no front door above them, so readers reach each edition through search or a direct link.
 
 ## Sub-page variants
 

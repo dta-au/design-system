@@ -25,13 +25,13 @@ The [resource](/templates/resource/) template is a standalone deliverable rather
 
 Some pages sit between types. The deciding factor is the reader's job, not the content's surface form.
 
-- A **case study** is Guidance when it teaches a method (one of a set of scenarios under a framework). It is Evidence when it presents the findings of a specific project (a named-project chapter inside a report). See the [guide](/templates/guide/) and [report](/templates/report/) templates for the two variants.
-- A **plan or strategy document** is Evidence when its purpose is to record commitments and direction. Use the [report](/templates/report/) template; flagship documents may carry additional marketing weight in the page header.
-- A **checklist** is Reference content, but it publishes as a [resource](/templates/resource/) page because readers return to it repeatedly to complete a task.
-- A **standard parent** (the umbrella above a set of rules) uses the Rule template rather than the section landing page. Its job is to anchor the rule set. It does not route to unrelated content. See the [rule](/templates/rule/) template.
-- A **report cover** is Evidence, not Navigation. It belongs to the report it introduces and holds only that report's chapters. Use the [report landing page](/templates/report-landing-page/) template. A section landing page covers a content domain that holds unrelated publications.
-- A **foreword** is a front-matter chapter, never a cover. Where a report has no landing page, publish one rather than promoting the foreword. See the [report landing page](/templates/report-landing-page/) template.
-- A **series front door** is Navigation whether its members are reports or guides. The research series publishes its instalments as long guides; the series page above them is still Navigation. See the [report series](/templates/report-series/) template.
+- **Case study** – Create a case study with the Guidance page type when it teaches a method, as one of a set of framework scenarios. Create it with the Evidence page type when it presents the findings of a specific project, as a named-project chapter inside a report. See the [guide](/templates/guide/) and [report](/templates/report/) templates for the two variants.
+- **Plan or strategy document** – Create a plan or strategy document with the Evidence page type when its purpose is to record commitments and direction. Use the [report](/templates/report/) template. Flagship documents may carry additional marketing weight in the page header.
+- **Checklist** – Create a checklist with the Reference page type, then publish it as a [resource](/templates/resource/) page. Readers return to a checklist repeatedly to complete a task.
+- **Standard parent** – Create the umbrella page above a set of rules with the Rule page type (not Navigation). Its job is to anchor the rule set, and it does not route to unrelated content. See the [rule](/templates/rule/) template.
+- **Report cover** – Create a report's cover page with the Evidence page type (not Navigation). The cover belongs to the report it introduces and holds only that report's chapters. Use the [report landing page](/templates/report-landing-page/) template. Typed as Navigation, it publishes with the section landing template, which routes across a content domain of unrelated publications.
+- **Foreword** – Publish a foreword as a front-matter chapter, never as a cover. Where a report has no landing page, create one rather than promoting the foreword. See the [report landing page](/templates/report-landing-page/) template.
+- **Series front door** – Create a series front door with the Navigation page type, whether its members are reports or guides. The research series publishes its instalments as long guides, and the series page above them stays Navigation. See the [report series](/templates/report-series/) template.
 
 ## Sub-pages and variants
 

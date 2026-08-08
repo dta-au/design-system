@@ -6,7 +6,9 @@
  * PR. The rules it mirrors live in guidance/writing-rules.md.
  *
  * Errors are objective defects and fail the run. Warnings need judgment and
- * never fail the run unless --strict promotes them.
+ * never fail the run unless --strict promotes them. Notes are advisory: the
+ * checker cannot tell a real violation from a legitimate exception, so it
+ * reports and moves on.
  *
  * Usage:
  *   node tools/scripts/validate-prose.js [--strict] [file ...]
@@ -88,6 +90,7 @@ const files = fileArgs.length ? allFiles.filter((f) => fileArgs.includes(f)) : a
 
 const errors = [];
 const warnings = [];
+const notes = [];
 
 // Inline code and link targets are exempt from content checks – a URL is not
 // prose. Blank them in place so the line length stays stable.
@@ -154,8 +157,10 @@ for (const file of files) {
       if (/^[A-Z][a-z]+ing$/.test(first) && !ING_ALLOW.has(first) && !properNoun) {
         warnings.push(`${rel}:${paragraphStart}: sentence starts with an -ing form ("${first}")`);
       }
+      // Advisory: the contrast is sometimes the content. A doc separating two
+      // taxonomy types cannot name one without ruling out the other.
       if (/\bis (?:a |an |the )?[\w\s-]{2,30}, not /.test(s)) {
-        warnings.push(`${rel}:${paragraphStart}: "is X, not Y" construction – state what it is`);
+        notes.push(`${rel}:${paragraphStart}: "is X, not Y" – Avoid the this not that construction unless the contrast is necessary`);
       }
     }
     paragraph = [];
@@ -296,6 +301,11 @@ for (const [base, paths] of byBasename) {
 if (warnings.length) {
   console.log(`validate-prose: ${warnings.length} warning(s)\n`);
   for (const w of warnings) console.log(`  ${w}`);
+  console.log('');
+}
+if (notes.length) {
+  console.log(`validate-prose: ${notes.length} note(s) – advisory, never fail the run\n`);
+  for (const n of notes) console.log(`  ${n}`);
   console.log('');
 }
 if (errors.length) {
