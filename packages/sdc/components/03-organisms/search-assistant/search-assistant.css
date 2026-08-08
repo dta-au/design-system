@@ -120,6 +120,7 @@
 .dga-search-assistant__teaser {
   margin: 0;
   color: var(--ct-color-text, #1c1c1c);
+  text-wrap: auto;
   min-height: 4.5em;
 }
 .dga-search-assistant__toggle {
@@ -159,6 +160,7 @@
 .dga-search-assistant__continuation p {
   margin: 0;
   color: var(--ct-color-text, #33342d);
+  text-wrap: auto;
 }
 .dga-search-assistant__continuation[hidden] {
   display: none;
