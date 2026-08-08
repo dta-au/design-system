@@ -208,6 +208,11 @@
     border-top: 1px solid var(--ct-color-neutral-200, #e2e3dc);
   }
 
+  &__citations--prompt {
+    margin-top: var(--ct-spacing-150, 0.75rem);
+    padding-top: var(--ct-spacing-150, 0.75rem);
+  }
+
   &__citations-label {
     @include ct-typography('label-small');
 

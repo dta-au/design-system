@@ -175,6 +175,10 @@
   padding-top: var(--ct-spacing-200, 1rem);
   border-top: 1px solid var(--ct-color-neutral-200, #e2e3dc);
 }
+.dga-search-assistant__citations--prompt {
+  margin-top: var(--ct-spacing-150, 0.75rem);
+  padding-top: var(--ct-spacing-150, 0.75rem);
+}
 .dga-search-assistant__citations-label {
   font-size: var(--ct-typography-label-small-font-size);
   line-height: var(--ct-typography-label-small-line-height);

@@ -298,7 +298,32 @@
                                   class="dga-search-assistant__prompt-panel"
                                   data-dga-search-assistant-prompt-panel
                                   hidden
-                                ></div>
+                                >
+                                  <p class="dga-search-assistant__prompt-answer" data-dga-search-assistant-prompt-text></p>
+                                  {# The prompt's sources come from its matched scripted
+                                     entry, linking the real pages because that entry's
+                                     own results list is not on screen. #}
+                                  {% for candidate in entries %}
+                                    {% if candidate.query|lower|trim(' ?!.') == prompt.title|lower|trim(' ?!.') and candidate.citations is not empty %}
+                                      <div class="dga-search-assistant__citations dga-search-assistant__citations--prompt">
+                                        <span class="dga-search-assistant__citations-label">{{ sources_label }}</span>
+                                        <ul class="dga-search-assistant__citations-list">
+                                          {% for ci in candidate.citations %}
+                                            {% set cited = candidate.results[ci] %}
+                                            {% if cited %}
+                                              <li>
+                                                <a class="dga-search-assistant__citation" href="{{ cited.url }}">
+                                                  <span class="dga-search-assistant__citation-num" aria-hidden="true">{{ ci + 1 }}</span>
+                                                  {{ cited.title }}
+                                                </a>
+                                              </li>
+                                            {% endif %}
+                                          {% endfor %}
+                                        </ul>
+                                      </div>
+                                    {% endif %}
+                                  {% endfor %}
+                                </div>
                               {% endif %}
                             </li>
                           {% endfor %}
