@@ -14,7 +14,6 @@
  *   node tools/scripts/check-release-tag.js v1.1.0
  */
 
-import fs from 'fs';
 import path from 'path';
 import { execFileSync } from 'child_process';
 import { fileURLToPath } from 'url';
