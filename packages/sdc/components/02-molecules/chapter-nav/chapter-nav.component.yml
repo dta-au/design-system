@@ -1,0 +1,81 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
+name: Chapter Nav
+status: stable
+description: Component for moving to the previous or next page in a fixed reading order
+props:
+  type: object
+  properties:
+    theme:
+      type: string
+      title: Theme
+      description: Theme variation (light or dark).
+      enum:
+        - light
+        - dark
+    title:
+      type: string
+      title: Title
+      description: Accessible name for the navigation landmark. Names the unit being traversed, such as Chapter, Criterion or Step.
+    previous:
+      type: object
+      title: Previous
+      description: Link to the preceding page in the sequence. Omit on the first page.
+      properties:
+        text:
+          type: string
+          title: Text
+          description: Title of the preceding page.
+        url:
+          type: string
+          title: URL
+          description: Link URL.
+        is_new_window:
+          type: boolean
+          title: New window
+          description: Whether to open link in a new window.
+        is_external:
+          type: boolean
+          title: External
+          description: Whether the link is external.
+    next:
+      type: object
+      title: Next
+      description: Link to the following page in the sequence. Omit on the last page.
+      properties:
+        text:
+          type: string
+          title: Text
+          description: Title of the following page.
+        url:
+          type: string
+          title: URL
+          description: Link URL.
+        is_new_window:
+          type: boolean
+          title: New window
+          description: Whether to open link in a new window.
+        is_external:
+          type: boolean
+          title: External
+          description: Whether the link is external.
+    previous_label:
+      type: string
+      title: Previous label
+      description: Direction label shown on the previous link.
+    next_label:
+      type: string
+      title: Next label
+      description: Direction label shown on the next link.
+    vertical_spacing:
+      type: string
+      title: Vertical spacing
+      description: Vertical spacing position (top, bottom, both, none).
+      enum:
+        - top
+        - bottom
+        - both
+        - none
+    modifier_class:
+      type: string
+      title: Modifier classes
+      description: Additional CSS classes.

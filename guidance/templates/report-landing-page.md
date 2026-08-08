@@ -40,7 +40,7 @@ Two distinctions carry most of the confusion.
 
 **A report landing page is not a section landing page.** The section landing template covers a content domain that holds unrelated publications, programs, and guides. A report holds its own chapters and nothing else. Tag a report cover as Navigation and you put a publication in the same class as the Policy section.
 
-**A report landing page is not a front-matter chapter.** The foreword, executive summary, and 'at a glance' pages are chapters. They are read in sequence and they use [pagination](/patterns/pagination/). The landing page is read once, at the start, and uses a chapter index. Where a report has no landing page, publish one. Do not promote its foreword to fill the gap, which leaves the report with a cover that paginates into its own second chapter.
+**A report landing page is not a front-matter chapter.** The foreword, executive summary, and 'at a glance' pages are chapters. They are read in sequence and they use [chapter nav](/components/chapter-nav/). The landing page is read once, at the start, and uses a chapter index. Where a report has no landing page, publish one. Do not promote its foreword to fill the gap, which leaves the report with a cover that paginates into its own second chapter.
 
 ## Structure
 

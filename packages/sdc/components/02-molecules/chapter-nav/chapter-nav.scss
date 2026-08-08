@@ -1,0 +1,75 @@
+//
+// CivicTheme Chapter Nav component styles.
+//
+
+.ct-chapter-nav {
+  $root: &;
+
+  border-top: ct-particle(0.125) solid;
+  padding-top: ct-spacing(2);
+
+  #{$root}__items {
+    display: flex;
+    flex-direction: column;
+    gap: ct-spacing(2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    @include ct-breakpoint(m) {
+      flex-direction: row;
+      align-items: flex-start;
+    }
+  }
+
+  // The next link keeps the right edge even when it is the only link.
+  #{$root}__item--next {
+    @include ct-breakpoint(m) {
+      margin-left: auto;
+      text-align: right;
+    }
+  }
+
+  #{$root}__link {
+    display: inline-flex;
+    align-items: center;
+    gap: ct-spacing(0.5);
+    text-decoration: none;
+  }
+
+  #{$root}__icon {
+    display: inline-flex;
+    flex: 0 0 auto;
+  }
+
+  // The title is the content and the direction only qualifies it, so the
+  // title carries the heavier scale.
+  #{$root}__direction {
+    @include ct-typography('label-small');
+
+    flex: 0 0 auto;
+  }
+
+  #{$root}__title {
+    @include ct-typography('label-regular');
+
+    text-decoration: underline;
+  }
+
+  @include ct-component-theme($root) using($root, $theme) {
+    @include ct-component-property($root, $theme, border-color);
+
+    #{$root}__link {
+      @include ct-component-property($root, $theme, link, color);
+
+      &:hover,
+      &:focus {
+        @include ct-component-property($root, $theme, link, hover, color);
+      }
+    }
+
+    #{$root}__direction {
+      @include ct-component-property($root, $theme, direction, color);
+    }
+  }
+}

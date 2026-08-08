@@ -43,7 +43,7 @@ Do not allow users to turn focus mode on or off. The system controls the layout 
 ## Related components
 
 - [Progress indicator](/components/progress-indicator/) – step progress for focus mode forms.
-- [Next step](/components/next-step/) – forward and back controls for navigating between form steps.
+- [Next step](/components/next-step/) – one forward action at the end of a step. The form's own buttons carry the back control.
 
 ## Related patterns
 

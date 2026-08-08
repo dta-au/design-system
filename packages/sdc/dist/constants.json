@@ -1734,6 +1734,14 @@
     "ct-list-space-horizontal": "ct-spacing(3)",
     "ct-list-space-horizontal-desktop": "ct-spacing(7)",
     "ct-navigation-light-drawer-menu-item-active-trail-color": "ct-color-light('interaction-text')",
-    "ct-navigation-dark-drawer-menu-item-active-trail-color": "ct-color-dark('interaction-text')"
+    "ct-navigation-dark-drawer-menu-item-active-trail-color": "ct-color-dark('interaction-text')",
+    "ct-chapter-nav-light-border-color": "ct-color-light('border')",
+    "ct-chapter-nav-dark-border-color": "ct-color-dark('border-light')",
+    "ct-chapter-nav-light-link-color": "ct-color-light('interaction-background')",
+    "ct-chapter-nav-dark-link-color": "ct-color-dark('interaction-background')",
+    "ct-chapter-nav-light-link-hover-color": "ct-color-light('interaction-hover-background')",
+    "ct-chapter-nav-dark-link-hover-color": "ct-color-dark('interaction-hover-background')",
+    "ct-chapter-nav-light-direction-color": "ct-color-light('body')",
+    "ct-chapter-nav-dark-direction-color": "ct-color-dark('body')"
   }
 }

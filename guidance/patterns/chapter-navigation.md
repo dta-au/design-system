@@ -23,7 +23,7 @@ Do not use chapter navigation for:
 
 ## Components
 
-**[Next step](/components/next-step/)** – forward and back buttons at the bottom of a page, linking to the previous and next page in the sequence. Use this component on every page in a chapter sequence.
+**[Chapter nav](/components/chapter-nav/)** – previous and next links at the bottom of a page, each naming the page it leads to. Use this component on every page in a chapter sequence.
 
 **[Progress indicator](/components/progress-indicator/)** – a step counter showing how far through the sequence the user is. Use this component inside [focus mode](/patterns/focus-mode/) multi-step form flows only. Do not add a progress indicator to informational chapter navigation. The component serves form flows rather than content sequences.
 
@@ -35,7 +35,7 @@ Forward and back controls on content that users can read in any order create fal
 
 The end of a chapter page often has two candidate next-page controls. They are editorially distinct. Do not swap one for the other.
 
-**Sequential next** – 'the very next thing in this sequence'. Used between numbered criteria, framework steps, report chapters, and dated communiques. The reader is not making a routing choice; they are continuing to read. This is the role of chapter navigation, implemented with [Next step](/components/next-step/).
+**Sequential next** – 'the very next thing in this sequence'. Used between numbered criteria, framework steps, report chapters, and dated communiques. The reader is not making a routing choice; they are continuing to read. This is the role of chapter navigation, implemented with [chapter nav](/components/chapter-nav/).
 
 **Cross-surface next** – 'the single most likely action after finishing this page'. Used at the end of a guide to point at the form, at the end of a rule page to point at the matching guidance. The page author picks where the link goes, based on what the reader most likely needs next.
 
@@ -45,7 +45,8 @@ Where only one is appropriate, prefer chapter navigation on chapter pages. A rea
 
 ## Related components
 
-- [Next step](/components/next-step/) – forward and back navigation for chapter sequences.
+- [Chapter nav](/components/chapter-nav/) – previous and next links for chapter sequences.
+- [Next step](/components/next-step/) – one cross-surface action at the end of a page.
 - [Progress indicator](/components/progress-indicator/) – step progress for focus mode forms only.
 
 ## Related patterns

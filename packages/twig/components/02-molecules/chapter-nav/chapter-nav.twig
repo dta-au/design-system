@@ -1,0 +1,94 @@
+{#
+/**
+ * @file
+ * CivicTheme Chapter Nav component.
+ *
+ * Props:
+ * - theme: [string] Theme variation (light or dark).
+ * - title: [string] Accessible name for the navigation landmark. Names the unit being traversed, such as Chapter, Criterion or Step.
+ * - previous: [object] Link to the preceding page in the sequence. Omit on the first page.
+ *   Each property contains:
+ *   - text: [string] Title of the preceding page.
+ *   - url: [string] Link URL.
+ *   - is_new_window: [boolean] Whether to open link in a new window.
+ *   - is_external: [boolean] Whether the link is external.
+ * - next: [object] Link to the following page in the sequence. Omit on the last page.
+ *   Each property contains:
+ *   - text: [string] Title of the following page.
+ *   - url: [string] Link URL.
+ *   - is_new_window: [boolean] Whether to open link in a new window.
+ *   - is_external: [boolean] Whether the link is external.
+ * - previous_label: [string] Direction label shown on the previous link.
+ * - next_label: [string] Direction label shown on the next link.
+ * - vertical_spacing: [string] Vertical spacing position (top, bottom, both, none).
+ * - modifier_class: [string] Additional CSS classes.
+ * - attributes: [Drupal\Core\Template\Attribute] Additional HTML attributes.
+ */
+#}
+
+{% set theme = theme in ['light', 'dark'] ? theme : 'light' %}
+{% set theme_class = 'ct-theme-%s'|format(theme) %}
+{% set vertical_spacing_class = vertical_spacing in ['top', 'bottom', 'both'] ? 'ct-vertical-spacing-inset--%s'|format(vertical_spacing) : '' %}
+{% set modifier_class = '%s %s %s'|format(theme_class, vertical_spacing_class, modifier_class|default('')) %}
+
+{% set title = title|default('Chapter') %}
+{% set previous_label = previous_label|default('Previous') %}
+{% set next_label = next_label|default('Next') %}
+
+{% set has_previous = previous.url is defined and previous.url is not empty %}
+{% set has_next = next.url is defined and next.url is not empty %}
+
+{# rel carries the sequence semantics; noopener pairs with target="_blank". #}
+{% set previous_rel = previous.is_new_window ? 'prev noopener noreferrer' : 'prev' %}
+{% set next_rel = next.is_new_window ? 'next noopener noreferrer' : 'next' %}
+
+{% if has_previous or has_next %}
+  <nav class="ct-chapter-nav {{ modifier_class -}}" aria-label="{{ title }}" {% if attributes is defined and attributes is not null %}{{- attributes -}}{% endif %}>
+    <ul class="ct-chapter-nav__items">
+      {% if has_previous %}
+        <li class="ct-chapter-nav__item ct-chapter-nav__item--previous">
+          <a
+            class="ct-chapter-nav__link {{ previous.is_external ? 'ct-chapter-nav__link--external' : '' }}"
+            href="{{ previous.url }}"
+            rel="{{ previous_rel }}"
+            {% if previous.is_new_window %}target="_blank"{% endif %}
+          >
+            {# a11y #C: the arrow repeats the direction label, so hide it from AT. #}
+            <span class="ct-chapter-nav__icon" aria-hidden="true">
+              {%- include '@base/icon/icon.twig' with {
+                symbol: 'left-arrow',
+                modifier_class: 'ct-chapter-nav__icon-symbol',
+              } only -%}
+            </span>
+            <span class="ct-chapter-nav__direction">{{ previous_label }}:</span>
+            <span class="ct-chapter-nav__title">{{ previous.text }}</span>
+            {# a11y #B: append the new-tab notice, never replace the accessible name. #}
+            {% if previous.is_new_window %}<span class="ct-visually-hidden"> (opens in a new tab)</span>{% endif %}
+          </a>
+        </li>
+      {% endif %}
+
+      {% if has_next %}
+        <li class="ct-chapter-nav__item ct-chapter-nav__item--next">
+          <a
+            class="ct-chapter-nav__link {{ next.is_external ? 'ct-chapter-nav__link--external' : '' }}"
+            href="{{ next.url }}"
+            rel="{{ next_rel }}"
+            {% if next.is_new_window %}target="_blank"{% endif %}
+          >
+            <span class="ct-chapter-nav__direction">{{ next_label }}:</span>
+            <span class="ct-chapter-nav__title">{{ next.text }}</span>
+            {% if next.is_new_window %}<span class="ct-visually-hidden"> (opens in a new tab)</span>{% endif %}
+            {# a11y #C: the arrow repeats the direction label, so hide it from AT. #}
+            <span class="ct-chapter-nav__icon" aria-hidden="true">
+              {%- include '@base/icon/icon.twig' with {
+                symbol: 'right-arrow-2',
+                modifier_class: 'ct-chapter-nav__icon-symbol',
+              } only -%}
+            </span>
+          </a>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
+{% endif %}
