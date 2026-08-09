@@ -38,5 +38,5 @@ The collection has no outer margin of its own – set vertical_spacing for space
 
 ## Related components
 
-- Chart – a single figure, and the component behind every panel.
-- Table – when the numbers are the point and no shape needs drawing.
+- [Chart](/components/chart/) – a single figure, and the component behind every panel.
+- [Table](/components/table/) – when the numbers are the point and no shape needs drawing.
