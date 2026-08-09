@@ -16,7 +16,7 @@ Use a table of contents to help users scan the structure of a long page and jump
 
 - the page has fewer than four headings – a short page does not need navigation
 - the page is a step-by-step wizard flow where users must progress linearly
-- the section already has page-level navigation provided by [Sub-nav](/components/sub-nav/)
+- the entries would be section pages rather than headings on the page – between-page navigation belongs to [Sub-nav](/components/sub-nav/)
 
 ## Accessibility
 

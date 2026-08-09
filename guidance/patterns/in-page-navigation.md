@@ -17,11 +17,11 @@ Use this table to decide which approach is appropriate.
 |---|---|
 | Long page with four or more listed headings, single-page content | Table of contents |
 | Page belongs to a multi-page section users navigate between | Sub-nav |
+| Long page in a Sub-nav section with four or more listed headings | Sub-nav and Table of contents |
 | Short page with fewer than four listed headings | Neither |
 | Page is part of a step-by-step form or focus-mode flow | Neither |
-| Section has a persistent sidebar already in use | Sub-nav only |
 
-If a page is part of a section *and* has four or more listed headings, Sub-nav takes priority. A Table of contents inside a Sub-nav layout creates two competing navigation signals on the same page.
+Sub-nav and the Table of contents answer different questions. Sub-nav shows where the page sits in its section. The Table of contents shows what sits on the page. A long chapter page carries both – report body chapters are the main case. Do not repeat the section's page list inside a Table of contents – two lists with the same links compete.
 
 ## Table of contents
 
@@ -36,7 +36,7 @@ Count the headings the list will show, not every heading on the page. By default
 Do not use a Table of contents when:
 
 - the page has fewer than four listed headings – a short page does not need navigation
-- the page already uses Sub-nav – do not show both
+- the entries would be section pages rather than headings on the page – between-page navigation belongs to Sub-nav
 - the page is a section landing page – landing pages use card grids for navigation, not anchor links
 - the page is a step-by-step wizard or focus-mode form – sequential flows should not offer navigation shortcuts
 
@@ -44,12 +44,12 @@ Position the Table of contents directly below the page introduction, before the 
 
 ### The On this page treatment
 
-Long full-width pages – pages with no Sub-nav or persistent sidebar – render the Table of contents with the title 'On this page', below the introduction.
+Long full-width pages render the Table of contents with the title 'On this page', below the introduction.
 
 - Any page can carry the treatment: set `toc: true` in frontmatter. Foundations pages carry it by default; a short foundations page opts out with `toc: false`.
 - Keep the title 'On this page' – the mechanism fixes it, and no page overrides it.
 - The list covers H2s. Where sub-headings are genuine navigation targets rather than reference detail, opt deeper with `toc-max-level` in frontmatter – an integer from 2 to 4, default 2. A page whose H3s name distinct tasks earns 3; choose 4 only where H4s are destinations in their own right. Repeated sub-headings are the signal to stay at 2 – a list of near-identical entries navigates nothing.
-- A page carrying the treatment renders full width. Pages with a section sidebar keep Sub-nav and do not take a Table of contents.
+- A page carrying the treatment renders full width.
 
 ## Sub-nav
 
