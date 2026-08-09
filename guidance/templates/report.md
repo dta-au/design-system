@@ -34,7 +34,7 @@ Reports may exist as a single page (summary) or as a multi-page publication with
 
 Long-form reports have two kinds of chapter, and they need different treatment.
 
-**Front-matter chapters** are the entry sleeve to the report: foreword, executive summary, 'at a glance', introduction. Readers usually arrive at these from the report landing page and read them linearly. Treat front-matter chapters as gateway pages. Put a [publication card](/components/promo/) at the top of the body to re-establish the parent report: cover, full title, date, PDF. The chapter prose follows, then [chapter nav](/components/chapter-nav/) to the next chapter.
+**Front-matter chapters** are the entry sleeve to the report: foreword, executive summary, 'at a glance', introduction. Readers usually arrive at these from the report landing page and read them linearly. Treat front-matter chapters as gateway pages. Put a [publication card](/components/publication-card/) at the top of the body to re-establish the parent report: cover, full title, date, PDF. The chapter prose follows, then [chapter nav](/components/chapter-nav/) to the next chapter.
 
 **Body chapters** are where the findings live. Readers often arrive directly from a search result, so each body chapter must restate context and let readers locate findings quickly. Add an in-page [table of contents](/components/table-of-contents/) generated from the chapter's H2s. Present figures and tables inline, never collapsed. Use one [callout](/components/callout/) for the chapter's headline finding.
 
@@ -60,11 +60,11 @@ Use the following UI components when building report chapters in the CMS. For la
 
 **Sub-nav** – The report's chapters appear in the section's persistent sidebar, with the current chapter marked. Editors configure it at the section level, not per chapter. See the [sub-nav component](/components/sub-nav/).
 
-**Publication card** – Put one at the top of each front-matter chapter to re-establish the report: cover, full title, date, PDF. See the [promo component](/components/promo/).
+**Publication card** – Put one at the top of each front-matter chapter to re-establish the report: cover, full title, date, PDF. See the [publication card component](/components/publication-card/).
 
 **Table of contents** – Enable on every body chapter with four or more H2s. The list generates from the chapter's headings and sits below the introduction. Sub-nav stays on. The sidebar places the chapter in the report. The list shows what the chapter covers. See the [in-page navigation pattern](/patterns/in-page-navigation/).
 
-**Chart** – Build every figure with the chart component, not a static image. Each chart carries its own data table, so the data stays readable without the graphic. Group related figures with the [chart collection](/components/chart-collection/).
+**Chart** – Build every figure with the [chart component](/components/chart/), not a static image. Each chart carries its own data table, so the data stays readable without the graphic. Group related figures with the [chart collection](/components/chart-collection/).
 
 **Callout** – Use one per body chapter for the chapter's headline finding. See the [callout component](/components/callout/).
 

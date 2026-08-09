@@ -17,7 +17,7 @@ This pattern sets the rule for which card to choose in each situation.
 | Surfacing a published report or document inline | Publication card | Cover image, full title, date, attachment in one unit |
 | Listing programs, services, or framework offerings | Service card | Audience-led; designed for 'who can use this and how' |
 
-The DTA design library does not currently catalogue subject card, navigation card, publication card, or service card as separate components. These names refer to CivicTheme card variants. The selection rules in this pattern still apply when implementing card layouts in CivicTheme today.
+The DTA design library does not currently catalogue subject card, navigation card, or service card as separate components. These names refer to CivicTheme card variants. The selection rules in this pattern still apply when implementing card layouts in CivicTheme today.
 
 ## Subject card
 
@@ -45,7 +45,7 @@ Three uses are wrong. Do not present every child of a section as a promo card, b
 
 ## Publication card
 
-Use a publication card to render a single published document inline – cover image, full title, publication date, format and file size. The component is purpose-built for the front-matter chapters of a long-form report. Every chapter must re-establish the parent publication for readers arriving from search.
+Use a [publication card](/components/publication-card/) to render a single published document inline – cover image, full title, publication date, format and file size. The component is purpose-built for the front-matter chapters of a long-form report. Every chapter must re-establish the parent publication for readers arriving from search.
 
 Do not use a publication card outside the report context. A guide, policy, or program page that wants to advertise a single PDF should use an [attachment](/components/attachment/) component instead.
 
@@ -66,6 +66,7 @@ Cards in the same grid must carry the same data shape. A grid where some cards h
 ## Related components
 
 - [Promo](/components/promo/) – the implementation of promo card in the design library.
+- [Publication card](/components/publication-card/) – the implementation of publication card in the design library.
 - [Manual list](/components/manual-list/) – use when descriptions and visual weight are not needed.
 - [Feature link list](/components/feature-link-list/) – use in sidebars or for two-to-eight related links with descriptions.
 - [Attachment](/components/attachment/) – use to show a single downloadable file when a publication card is overkill.

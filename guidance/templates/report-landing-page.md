@@ -80,7 +80,7 @@ Use the following UI components when building report landing pages in the CMS.
 
 **Page header (hero)** – Use the full-width hero with the report title, a one-sentence description, and the publication date. See the [page header pattern](/patterns/page-header/).
 
-**Publication card** – Use for the cover image, full title, date, and PDF. The same component appears at the top of each front-matter chapter, so the report re-establishes itself for readers who arrive mid-document. See the [promo component](/components/promo/).
+**Publication card** – Use for the cover image, full title, date, and PDF. The same component appears at the top of each front-matter chapter, so the report re-establishes itself for readers who arrive mid-document. See the [publication card component](/components/publication-card/).
 
 **Card grid or link list** – The chapter index. Group under H2 headings matching the report's structure.
 
