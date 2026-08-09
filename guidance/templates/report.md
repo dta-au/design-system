@@ -9,6 +9,7 @@ Type
 
 Related
 : [Communique](/templates/communique/) for short, dated Evidence pages.
+: [Report landing page](/templates/report-landing-page/) for the cover page and chapter index.
 
 Reports are formal, structured documents which present findings, evaluation, analysis, oversight or whole-of-government performance. The DTA may publish a report as a full or a summary version. They sometimes take the form of a plan or strategy document.
 
@@ -25,7 +26,7 @@ Reports may exist as a single page (summary) or as a multi-page publication with
 
 ## Sizing your report
 
-**Long-form reports** are comprehensive publications – typically structured as multi-page sites with a foreword, methodology, findings sections, and appendices. They require a dedicated landing page that introduces the report and links to each chapter. Navigation between sections should be explicit and persistent.
+**Long-form reports** are comprehensive publications – typically structured as multi-page sites with a foreword, methodology, findings sections, and appendices. They require a dedicated landing page that introduces the report and links to each chapter. The section's Sub-nav lists every chapter, so readers keep their place from any page. See the [section navigation pattern](/patterns/section-navigation/).
 
 **Short-form reports and summaries** present key findings in a condensed format – typically a single page or two to three short sections. They serve readers who need the headline findings without the full detail. A short-form report should always link to the full report where one exists.
 
@@ -55,23 +56,27 @@ Follow the [Australian Government Style Manual](https://www.stylemanual.gov.au) 
 
 ## Web UI components
 
-Use the following UI components when building report pages in the CMS.
+Use the following UI components when building report chapters in the CMS. For landing page components, see the [report landing page template](/templates/report-landing-page/).
 
-**Page header (hero)** – For the landing page, use the full-width hero with the report title, a one-sentence description, and the publication date. Include a download link to the PDF version if one exists.
+**Sub-nav** – The report's chapters appear in the section's persistent sidebar, with the current chapter marked. Editors configure it at the section level, not per chapter. See the [sub-nav component](/components/sub-nav/).
 
-**In-page navigation** – Essential for long-form reports. Enables readers to jump between sections without scrolling. Enable on all body pages, not just the landing page.
+**Publication card** – Put one at the top of each front-matter chapter to re-establish the report: cover, full title, date, PDF. See the [promo component](/components/promo/).
 
-**Rich text body** – The main content area. Use blockquotes for key findings or important direct quotations. Use tables for structured comparative data.
+**Table of contents** – Enable on every body chapter with four or more H2s. The list generates from the chapter's headings and sits below the introduction. Sub-nav stays on. The sidebar places the chapter in the report. The list shows what the chapter covers. See the [in-page navigation pattern](/patterns/in-page-navigation/).
 
-**Data visualisation** – Insert charts and graphs as images with appropriate alt text. Where interactive data is available, use an embedded iframe or the relevant integration component.
+**Chart** – Build every figure with the chart component, not a static image. Each chart carries its own data table, so the data stays readable without the graphic. Group related figures with the [chart collection](/components/chart-collection/).
 
-**Pull quote** – Use for a single high-impact finding or a key quotation from the report. Position mid-page to break up long sections of text. Limit to one per section.
-
-**File download** – Use the file download component (not a plain hyperlink) for the PDF version of the report. Display the file name, format, and file size.
+**Callout** – Use one per body chapter for the chapter's headline finding. See the [callout component](/components/callout/).
 
 **Accordion** – Use only for supporting reference material that is not part of the main report narrative, such as methodology notes or reference lists. Never use accordions for core findings or recommendations. Never nest accordions. Limit to five to seven items.
 
-**Related content cards** – At the bottom of the landing page, link to related reports and the relevant policy area. Add any program pages tied to the findings. Two to four cards.
+**Attachment** – Use for the PDF version of the report, not a plain hyperlink. The component displays the file name, format and size. See the [attachment component](/components/attachment/).
+
+**Promo** – Feature one related item at the end of a body chapter: the policy area, the series page, or a related program. Use one per chapter at most. See the [promo component](/components/promo/).
+
+**Next step** – Body chapters may carry one next step into a related surface. Place it above the chapter nav. See the [next step component](/components/next-step/).
+
+**Chapter nav** – Use on every chapter, front matter and body alike. Previous and next links sit at the very bottom of the page, after any next step. See the [chapter navigation pattern](/patterns/chapter-navigation/).
 
 **Tags** – Apply tags from the approved taxonomy. Reports typically carry tags for the policy domain, the publication type, and the year of publication.
 
