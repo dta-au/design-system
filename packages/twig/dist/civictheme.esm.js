@@ -3134,6 +3134,16 @@ function init19() {
       const lum = 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
       return lum >= 0.2 ? "#1c1c1c" : "#fff";
     }
+    function zeroAnchoredDomain(lo, hi) {
+      const nLo = Number(lo);
+      const nHi = Number(hi);
+      const min2 = Math.min(0, Number.isFinite(nLo) ? nLo : 0);
+      const max2 = Math.max(0, Number.isFinite(nHi) ? nHi : 0);
+      return [min2, min2 === 0 && max2 === 0 ? 1 : max2];
+    }
+    function appendZeroLine(svg, y, x0, x1) {
+      svg.append("line").attr("class", "bdga-chart__zero-line").attr("x1", x0).attr("x2", x1).attr("y1", y(0)).attr("y2", y(0));
+    }
     Drupal2.behaviors.bdgaChart = {
       attach(context) {
         if (typeof window.d3 === "undefined") {
@@ -4958,7 +4968,7 @@ ${new XMLSerializer().serializeToString(clone)}`;
         const svg = this.svgRoot(w, h);
         const yKey = this.yKeys[0];
         const x = d3.scaleBand().domain(rows.map((r) => r[this.xKey])).range([m.left, w - m.right]).padding(0.15);
-        const y = d3.scaleLinear().domain([0, d3.max(rows, (r) => r[yKey]) || 1]).nice().range([h - m.bottom, m.top]);
+        const y = d3.scaleLinear().domain(zeroAnchoredDomain(d3.min(rows, (r) => r[yKey]), d3.max(rows, (r) => r[yKey]))).nice().range([h - m.bottom, m.top]);
         const xAxis = svg.append("g").attr("transform", `translate(0,${h - m.bottom})`).call(d3.axisBottom(x));
         svg.append("g").attr("transform", `translate(${m.left},0)`).call(d3.axisLeft(y));
         this.rotateXLabels(xAxis, rotation);
@@ -4980,7 +4990,8 @@ ${new XMLSerializer().serializeToString(clone)}`;
         } else {
           barFill = palette.single;
         }
-        const bars = svg.append("g").selectAll("rect").data(rows).join("rect").attr("x", (d) => x(d[this.xKey])).attr("y", (d) => y(d[yKey])).attr("width", x.bandwidth()).attr("height", (d) => y(0) - y(d[yKey])).attr("fill", barFill);
+        const bars = svg.append("g").selectAll("rect").data(rows).join("rect").attr("x", (d) => x(d[this.xKey])).attr("y", (d) => Math.min(y(0), y(d[yKey]))).attr("width", x.bandwidth()).attr("height", (d) => Math.abs(y(0) - y(d[yKey]))).attr("fill", barFill);
+        if (y.domain()[0] < 0) appendZeroLine(svg, y, m.left, w - m.right);
         this.addPoints(
           this.yLabel || yKey,
           bars.nodes().map((el) => {
@@ -5003,15 +5014,17 @@ ${new XMLSerializer().serializeToString(clone)}`;
         const keys = this.visibleKeys();
         const x0 = d3.scaleBand().domain(rows.map((r) => r[this.xKey])).range([m.left, w - m.right]).paddingInner(0.2);
         const x1 = d3.scaleBand().domain(keys).range([0, x0.bandwidth()]).padding(0.05);
-        const yMax = d3.max(rows, (r) => d3.max(keys, (k) => r[k])) || 1;
-        const y = d3.scaleLinear().domain([0, yMax]).nice().range([h - m.bottom, m.top]);
+        const yLo = d3.min(rows, (r) => d3.min(keys, (k) => +r[k] || 0));
+        const yHi = d3.max(rows, (r) => d3.max(keys, (k) => +r[k] || 0));
+        const y = d3.scaleLinear().domain(zeroAnchoredDomain(yLo, yHi)).nice().range([h - m.bottom, m.top]);
         const useSequential = this.yKeys.length > this.palette.categorical.length;
         const palette = this.palette;
         const color = useSequential ? (key) => shadeSequential(palette, this.yKeys.indexOf(key), this.yKeys.length) : d3.scaleOrdinal().domain(this.yKeys).range(palette.categorical);
         const xAxis = svg.append("g").attr("transform", `translate(0,${h - m.bottom})`).call(d3.axisBottom(x0));
         svg.append("g").attr("transform", `translate(${m.left},0)`).call(d3.axisLeft(y));
         this.rotateXLabels(xAxis, rotation);
-        const groupRects = svg.append("g").selectAll("g").data(rows).join("g").attr("transform", (d) => `translate(${x0(d[this.xKey])},0)`).selectAll("rect").data((d) => keys.map((key) => ({ key, value: +d[key] || 0 }))).join("rect").attr("x", (d) => x1(d.key)).attr("y", (d) => y(d.value)).attr("width", x1.bandwidth()).attr("height", (d) => y(0) - y(d.value)).attr("data-bdga-series", (d) => d.key).attr("fill", (d) => this.fillFor(svg, this.yKeys.indexOf(d.key), color(d.key)));
+        const groupRects = svg.append("g").selectAll("g").data(rows).join("g").attr("transform", (d) => `translate(${x0(d[this.xKey])},0)`).selectAll("rect").data((d) => keys.map((key) => ({ key, value: +d[key] || 0 }))).join("rect").attr("x", (d) => x1(d.key)).attr("y", (d) => Math.min(y(0), y(d.value))).attr("width", x1.bandwidth()).attr("height", (d) => Math.abs(y(0) - y(d.value))).attr("data-bdga-series", (d) => d.key).attr("fill", (d) => this.fillFor(svg, this.yKeys.indexOf(d.key), color(d.key)));
+        if (y.domain()[0] < 0) appendZeroLine(svg, y, m.left, w - m.right);
         const groupRectNodes = groupRects.nodes();
         keys.forEach((key) => {
           const entries = groupRectNodes.map((el) => ({ el, d: d3.select(el).datum(), row: d3.select(el.parentNode).datum() })).filter((o) => o.d.key === key).map((o) => ({ el: o.el, xVal: o.row[this.xKey], value: o.d.value }));
@@ -5023,16 +5036,20 @@ ${new XMLSerializer().serializeToString(clone)}`;
         const d3 = window.d3;
         const { w, h, m, rotation } = this.dims(rows);
         const svg = this.svgRoot(w, h);
-        const series = d3.stack().keys(this.visibleKeys())(rows);
+        const series = d3.stack().keys(this.visibleKeys()).offset(d3.stackOffsetDiverging)(rows);
         const x = d3.scaleBand().domain(rows.map((r) => r[this.xKey])).range([m.left, w - m.right]).padding(0.15);
-        const y = d3.scaleLinear().domain([0, d3.max(series, (s) => d3.max(s, (d) => d[1])) || 1]).nice().range([h - m.bottom, m.top]);
+        const y = d3.scaleLinear().domain(zeroAnchoredDomain(
+          d3.min(series, (s) => d3.min(s, (d) => Math.min(d[0], d[1]))),
+          d3.max(series, (s) => d3.max(s, (d) => Math.max(d[0], d[1])))
+        )).nice().range([h - m.bottom, m.top]);
         const useSequential = this.yKeys.length > this.palette.categorical.length;
         const palette = this.palette;
         const color = useSequential ? (key) => shadeSequential(palette, this.yKeys.indexOf(key), this.yKeys.length) : d3.scaleOrdinal().domain(this.yKeys).range(palette.categorical);
         const xAxis = svg.append("g").attr("transform", `translate(0,${h - m.bottom})`).call(d3.axisBottom(x));
         svg.append("g").attr("transform", `translate(${m.left},0)`).call(d3.axisLeft(y));
         this.rotateXLabels(xAxis, rotation);
-        const stackRects = svg.append("g").selectAll("g").data(series).join("g").attr("fill", (s) => this.fillFor(svg, this.yKeys.indexOf(s.key), color(s.key))).attr("data-bdga-series", (s) => s.key).selectAll("rect").data((s) => s).join("rect").attr("x", (d) => x(d.data[this.xKey])).attr("y", (d) => y(d[1])).attr("height", (d) => y(d[0]) - y(d[1])).attr("width", x.bandwidth());
+        const stackRects = svg.append("g").selectAll("g").data(series).join("g").attr("fill", (s) => this.fillFor(svg, this.yKeys.indexOf(s.key), color(s.key))).attr("data-bdga-series", (s) => s.key).selectAll("rect").data((s) => s).join("rect").attr("x", (d) => x(d.data[this.xKey])).attr("y", (d) => Math.min(y(d[0]), y(d[1]))).attr("height", (d) => Math.abs(y(d[0]) - y(d[1]))).attr("width", x.bandwidth());
+        if (y.domain()[0] < 0) appendZeroLine(svg, y, m.left, w - m.right);
         const byKey = /* @__PURE__ */ new Map();
         stackRects.nodes().forEach((el) => {
           const sKey = el.parentNode.getAttribute("data-bdga-series");
@@ -5066,11 +5083,13 @@ ${new XMLSerializer().serializeToString(clone)}`;
         }
         const svg = this.svgRoot(w, h);
         const x = d3.scalePoint().domain(rows.map((r) => r[this.xKey])).range([m.left, w - m.right]);
-        const yMax = d3.max(rows, (r) => d3.max(keys, (k) => +r[k] || 0)) || 1;
-        const y = d3.scaleLinear().domain([0, yMax]).nice().range([h - m.bottom, m.top]);
+        const yLo = d3.min(rows, (r) => d3.min(keys, (k) => +r[k] || 0));
+        const yHi = d3.max(rows, (r) => d3.max(keys, (k) => +r[k] || 0));
+        const y = d3.scaleLinear().domain(zeroAnchoredDomain(yLo, yHi)).nice().range([h - m.bottom, m.top]);
         const xAxis = svg.append("g").attr("transform", `translate(0,${h - m.bottom})`).call(d3.axisBottom(x));
         svg.append("g").attr("transform", `translate(${m.left},0)`).call(d3.axisLeft(y));
         this.rotateXLabels(xAxis, rotation);
+        if (y.domain()[0] < 0) appendZeroLine(svg, y, m.left, w - m.right);
         const palette = this.palette;
         const SYMBOLS = [
           d3.symbolCircle,
@@ -5249,8 +5268,7 @@ ${new XMLSerializer().serializeToString(clone)}`;
         const svg = this.svgRoot(w, h);
         const yKey = this.yKeys[0];
         const x = d3.scalePoint().domain(rows.map((r) => r[this.xKey])).range([m.left, w - m.right]).padding(0.5);
-        const yMax = d3.max(rows, (r) => r[yKey]) || 1;
-        const y = d3.scaleLinear().domain([0, yMax]).nice().range([h - m.bottom, m.top]);
+        const y = d3.scaleLinear().domain(zeroAnchoredDomain(d3.min(rows, (r) => r[yKey]), d3.max(rows, (r) => r[yKey]))).nice().range([h - m.bottom, m.top]);
         const xAxis = svg.append("g").attr("transform", `translate(0,${h - m.bottom})`).call(d3.axisBottom(x));
         svg.append("g").attr("transform", `translate(${m.left},0)`).call(d3.axisLeft(y));
         this.rotateXLabels(xAxis, rotation);
@@ -5277,6 +5295,7 @@ ${new XMLSerializer().serializeToString(clone)}`;
             return { el, xVal: d[this.xKey], value: d[yKey] };
           })
         );
+        if (y.domain()[0] < 0) appendZeroLine(svg, y, m.left, w - m.right);
         if (this.medianValue !== null && this.medianValue > 0) {
           const yPos = y(this.medianValue);
           svg.append("line").attr("class", "bdga-chart__lollipop-median").attr("x1", m.left).attr("x2", w - m.right).attr("y1", yPos).attr("y2", yPos);
@@ -5325,11 +5344,17 @@ ${new XMLSerializer().serializeToString(clone)}`;
         const h = m.top + m.bottom + Math.max(1, rows.length) * rowH;
         const svg = this.svgRoot(w, h);
         const y = d3.scaleBand().domain(labels).range([m.top, h - m.bottom]).padding(0.45);
-        const xMax = d3.max(rows, (r) => Math.max(...keys.map((k) => Number(r[k]) || 0))) || 1;
-        const x = d3.scaleLinear().domain([0, xMax]).nice().range([m.left, w - m.right]);
-        svg.append("g").attr("transform", `translate(0,${h - m.bottom})`).call(d3.axisBottom(x).ticks(Math.min(8, xMax)).tickFormat(d3.format("d")));
+        const [xLo, xHi] = zeroAnchoredDomain(
+          d3.min(rows, (r) => Math.min(...keys.map((k) => Number(r[k]) || 0))),
+          d3.max(rows, (r) => Math.max(...keys.map((k) => Number(r[k]) || 0)))
+        );
+        const x = d3.scaleLinear().domain([xLo, xHi]).nice().range([m.left, w - m.right]);
+        svg.append("g").attr("transform", `translate(0,${h - m.bottom})`).call(d3.axisBottom(x).ticks(Math.min(8, xHi - xLo)).tickFormat(d3.format("d")));
         const yAxis = svg.append("g").attr("transform", `translate(${m.left},0)`).call(d3.axisLeft(y));
         this.truncateTickLabels(yAxis, labelBudget);
+        if (x.domain()[0] < 0) {
+          svg.append("line").attr("class", "bdga-chart__zero-line").attr("x1", x(0)).attr("x2", x(0)).attr("y1", m.top).attr("y2", h - m.bottom);
+        }
         const colorA = palette.categorical[0];
         const colorB = palette.categorical[1];
         const cy = (d) => y(String(d[this.xKey] != null ? d[this.xKey] : "")) + y.bandwidth() / 2;

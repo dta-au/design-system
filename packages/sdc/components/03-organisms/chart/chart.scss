@@ -520,6 +520,10 @@
     .bdga-chart__cleveland-connector {
       stroke: var(--ct-color-neutral-500, #8a8a8a);
     }
+
+    .bdga-chart__zero-line {
+      stroke: var(--ct-color-neutral-400, #a8a8a8);
+    }
   }
 
   // Lollipop + Cleveland connectors are SVG <line> elements, which default to
@@ -534,6 +538,13 @@
     stroke: var(--ct-color-text-light, #525252);
     stroke-width: 1;
     stroke-dasharray: 4 3;
+  }
+
+  // Zero baseline the cartesian renderers add when the y domain goes below
+  // zero; styled like the axis domain line so diverging bars read against it.
+  &__zero-line {
+    stroke: var(--ct-color-neutral-500, #8a8a8a);
+    stroke-width: 1;
   }
 
   &__lollipop-median-label {

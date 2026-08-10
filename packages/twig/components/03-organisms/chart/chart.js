@@ -205,6 +205,32 @@
     return lum >= 0.2 ? '#1c1c1c' : '#fff';
   }
 
+  /**
+   * Cartesian y domain: anchored at zero, extended below zero when the data
+   * goes negative, with the historical [0, 1] fallback for a zero-only extent.
+   */
+  function zeroAnchoredDomain(lo, hi) {
+    const nLo = Number(lo);
+    const nHi = Number(hi);
+    const min = Math.min(0, Number.isFinite(nLo) ? nLo : 0);
+    const max = Math.max(0, Number.isFinite(nHi) ? nHi : 0);
+    return [min, min === 0 && max === 0 ? 1 : max];
+  }
+
+  /**
+   * Baseline rule at y=0, drawn over the marks. Callers add it only when the
+   * domain dips below zero; otherwise the X axis already marks the baseline.
+   */
+  function appendZeroLine(svg, y, x0, x1) {
+    svg
+      .append('line')
+      .attr('class', 'bdga-chart__zero-line')
+      .attr('x1', x0)
+      .attr('x2', x1)
+      .attr('y1', y(0))
+      .attr('y2', y(0));
+  }
+
   Drupal.behaviors.bdgaChart = {
     attach(context) {
       if (typeof window.d3 === 'undefined') {
@@ -1907,7 +1933,7 @@
             // position in the layout.
             continue;
           }
-          const key = `${src  } ${  tgt}`;
+          const key = `${src  }\0${  tgt}`;
           const existing = linkMap.get(key);
           if (existing) {
             existing.value += val;
@@ -2369,7 +2395,7 @@
         .padding(0.15);
       const y = d3
         .scaleLinear()
-        .domain([0, d3.max(rows, (r) => r[yKey]) || 1])
+        .domain(zeroAnchoredDomain(d3.min(rows, (r) => r[yKey]), d3.max(rows, (r) => r[yKey])))
         .nice()
         .range([h - m.bottom, m.top]);
 
@@ -2416,10 +2442,12 @@
         .data(rows)
         .join('rect')
         .attr('x', (d) => x(d[this.xKey]))
-        .attr('y', (d) => y(d[yKey]))
+        .attr('y', (d) => Math.min(y(0), y(d[yKey])))
         .attr('width', x.bandwidth())
-        .attr('height', (d) => y(0) - y(d[yKey]))
+        .attr('height', (d) => Math.abs(y(0) - y(d[yKey])))
         .attr('fill', barFill);
+
+      if (y.domain()[0] < 0) appendZeroLine(svg, y, m.left, w - m.right);
 
       this.addPoints(
         this.yLabel || yKey,
@@ -2458,8 +2486,10 @@
         .range([0, x0.bandwidth()])
         .padding(0.05);
 
-      const yMax = d3.max(rows, (r) => d3.max(keys, (k) => r[k])) || 1;
-      const y = d3.scaleLinear().domain([0, yMax]).nice().range([h - m.bottom, m.top]);
+      // Extent mirrors the rect data below (+r[k] || 0), not the raw cells.
+      const yLo = d3.min(rows, (r) => d3.min(keys, (k) => +r[k] || 0));
+      const yHi = d3.max(rows, (r) => d3.max(keys, (k) => +r[k] || 0));
+      const y = d3.scaleLinear().domain(zeroAnchoredDomain(yLo, yHi)).nice().range([h - m.bottom, m.top]);
 
       // Same palette policy as stacked bar: categorical in order, sequential
       // fallback when series count exceeds the palette.
@@ -2486,11 +2516,13 @@
         .data((d) => keys.map((key) => ({ key, value: +d[key] || 0 })))
         .join('rect')
         .attr('x', (d) => x1(d.key))
-        .attr('y', (d) => y(d.value))
+        .attr('y', (d) => Math.min(y(0), y(d.value)))
         .attr('width', x1.bandwidth())
-        .attr('height', (d) => y(0) - y(d.value))
+        .attr('height', (d) => Math.abs(y(0) - y(d.value)))
         .attr('data-bdga-series', (d) => d.key)
         .attr('fill', (d) => this.fillFor(svg, this.yKeys.indexOf(d.key), color(d.key)));
+
+      if (y.domain()[0] < 0) appendZeroLine(svg, y, m.left, w - m.right);
 
       // Register one navigable group per visible series. The inner rect's datum
       // is { key, value }; its parent <g> holds the row, so the category label
@@ -2512,8 +2544,13 @@
       const { w, h, m, rotation } = this.dims(rows);
       const svg = this.svgRoot(w, h);
       // Stack only the visible series; the stack re-bases from zero so hiding a
-      // series cleanly removes its band.
-      const series = d3.stack().keys(this.visibleKeys())(rows);
+      // series cleanly removes its band. The diverging offset stacks positive
+      // values up from zero and negative values down, so mixed-sign rows render
+      // instead of collapsing into invalid negative rect heights.
+      const series = d3
+        .stack()
+        .keys(this.visibleKeys())
+        .offset(d3.stackOffsetDiverging)(rows);
 
       const x = d3
         .scaleBand()
@@ -2522,7 +2559,10 @@
         .padding(0.15);
       const y = d3
         .scaleLinear()
-        .domain([0, d3.max(series, (s) => d3.max(s, (d) => d[1])) || 1])
+        .domain(zeroAnchoredDomain(
+          d3.min(series, (s) => d3.min(s, (d) => Math.min(d[0], d[1]))),
+          d3.max(series, (s) => d3.max(s, (d) => Math.max(d[0], d[1])))
+        ))
         .nice()
         .range([h - m.bottom, m.top]);
       // Multi-series stacked bar: categorical palette in order. If the chart
@@ -2552,9 +2592,11 @@
         .data((s) => s)
         .join('rect')
         .attr('x', (d) => x(d.data[this.xKey]))
-        .attr('y', (d) => y(d[1]))
-        .attr('height', (d) => y(d[0]) - y(d[1]))
+        .attr('y', (d) => Math.min(y(d[0]), y(d[1])))
+        .attr('height', (d) => Math.abs(y(d[0]) - y(d[1])))
         .attr('width', x.bandwidth());
+
+      if (y.domain()[0] < 0) appendZeroLine(svg, y, m.left, w - m.right);
 
       // Register one navigable group per visible series. The series key is on
       // the parent <g> (data-bdga-series); each rect's datum carries the row in
@@ -2606,8 +2648,9 @@
         .scalePoint()
         .domain(rows.map((r) => r[this.xKey]))
         .range([m.left, w - m.right]);
-      const yMax = d3.max(rows, (r) => d3.max(keys, (k) => +r[k] || 0)) || 1;
-      const y = d3.scaleLinear().domain([0, yMax]).nice().range([h - m.bottom, m.top]);
+      const yLo = d3.min(rows, (r) => d3.min(keys, (k) => +r[k] || 0));
+      const yHi = d3.max(rows, (r) => d3.max(keys, (k) => +r[k] || 0));
+      const y = d3.scaleLinear().domain(zeroAnchoredDomain(yLo, yHi)).nice().range([h - m.bottom, m.top]);
 
       const xAxis = svg
         .append('g')
@@ -2615,6 +2658,9 @@
         .call(d3.axisBottom(x));
       svg.append('g').attr('transform', `translate(${  m.left  },0)`).call(d3.axisLeft(y));
       this.rotateXLabels(xAxis, rotation);
+
+      // Baseline under the series paths so markers and labels stay legible.
+      if (y.domain()[0] < 0) appendZeroLine(svg, y, m.left, w - m.right);
 
       const palette = this.palette;
       const SYMBOLS = [
@@ -2885,10 +2931,9 @@
         .domain(rows.map((r) => r[this.xKey]))
         .range([m.left, w - m.right])
         .padding(0.5);
-      const yMax = d3.max(rows, (r) => r[yKey]) || 1;
       const y = d3
         .scaleLinear()
-        .domain([0, yMax])
+        .domain(zeroAnchoredDomain(d3.min(rows, (r) => r[yKey]), d3.max(rows, (r) => r[yKey])))
         .nice()
         .range([h - m.bottom, m.top]);
 
@@ -2949,6 +2994,8 @@
           return { el, xVal: d[this.xKey], value: d[yKey] };
         })
       );
+
+      if (y.domain()[0] < 0) appendZeroLine(svg, y, m.left, w - m.right);
 
       // Median reference line, drawn last so it sits above the stems.
       if (this.medianValue !== null && this.medianValue > 0) {
@@ -3026,22 +3073,36 @@
         .domain(labels)
         .range([m.top, h - m.bottom])
         .padding(0.45);
-      const xMax = d3.max(rows, (r) => Math.max(...keys.map((k) => Number(r[k]) || 0))) || 1;
+      const [xLo, xHi] = zeroAnchoredDomain(
+        d3.min(rows, (r) => Math.min(...keys.map((k) => Number(r[k]) || 0))),
+        d3.max(rows, (r) => Math.max(...keys.map((k) => Number(r[k]) || 0)))
+      );
       const x = d3
         .scaleLinear()
-        .domain([0, xMax])
+        .domain([xLo, xHi])
         .nice()
         .range([m.left, w - m.right]);
 
       svg
         .append('g')
         .attr('transform', `translate(0,${h - m.bottom})`)
-        .call(d3.axisBottom(x).ticks(Math.min(8, xMax)).tickFormat(d3.format('d')));
+        .call(d3.axisBottom(x).ticks(Math.min(8, xHi - xLo)).tickFormat(d3.format('d')));
       const yAxis = svg
         .append('g')
         .attr('transform', `translate(${m.left},0)`)
         .call(d3.axisLeft(y));
       this.truncateTickLabels(yAxis, labelBudget);
+
+      // Vertical zero rule - cleveland's value axis runs horizontally.
+      if (x.domain()[0] < 0) {
+        svg
+          .append('line')
+          .attr('class', 'bdga-chart__zero-line')
+          .attr('x1', x(0))
+          .attr('x2', x(0))
+          .attr('y1', m.top)
+          .attr('y2', h - m.bottom);
+      }
 
       const colorA = palette.categorical[0];
       const colorB = palette.categorical[1];
