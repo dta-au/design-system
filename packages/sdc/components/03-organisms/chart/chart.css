@@ -360,6 +360,9 @@
 .bdga-chart.ct-theme-dark .bdga-chart__canvas .bdga-chart__cleveland-connector {
   stroke: var(--ct-color-neutral-500, #8a8a8a);
 }
+.bdga-chart.ct-theme-dark .bdga-chart__canvas .bdga-chart__zero-line {
+  stroke: var(--ct-color-neutral-400, #a8a8a8);
+}
 .bdga-chart__lollipop-stem {
   stroke: var(--ct-color-neutral-500, #8a8a8a);
   stroke-width: 2;
@@ -368,6 +371,10 @@
   stroke: var(--ct-color-text-light, #525252);
   stroke-width: 1;
   stroke-dasharray: 4 3;
+}
+.bdga-chart__zero-line {
+  stroke: var(--ct-color-neutral-500, #8a8a8a);
+  stroke-width: 1;
 }
 .bdga-chart__lollipop-median-label {
   font-size: 0.75rem;

@@ -727,6 +727,278 @@ exports[`Chart Component renders donut with legend and standard x/y table 1`] = 
 </div>
 `;
 
+exports[`Chart Component stacked_bar renders the legend container and both series columns 1`] = `
+<div>
+  
+
+
+
+
+
+
+
+  <div
+    class="bdga-chart-block ct-theme-light"
+  >
+    
+
+    <div
+      class="container"
+    >
+      
+
+      <div
+        class="row"
+      >
+        
+
+        <div
+          class="col-xxs-12"
+        >
+          
+
+          <figure
+            aria-describedby="test-stacked__desc"
+            aria-labelledby="test-stacked__title"
+            class="bdga-chart ct-theme-light bdga-chart--stacked_bar"
+            data-bdga-chart="stacked_bar"
+            data-bdga-chart-id="test-stacked"
+            data-bdga-chart-source="json"
+            data-bdga-chart-x="source"
+            data-bdga-chart-y="gains,losses"
+            id="test-stacked"
+            role="figure"
+          >
+            
+  
+            <figcaption
+              class="bdga-chart__caption"
+            >
+              
+          
+              <h3
+                class="bdga-chart__title"
+                id="test-stacked__title"
+              >
+                Test chart
+              </h3>
+              
+              
+              <p
+                class="bdga-chart__description"
+                id="test-stacked__desc"
+              >
+                Chart under test.
+              </p>
+              
+      
+            </figcaption>
+            
+
+  
+  
+  
+  
+      
+            <ul
+              aria-label="Toggle data series"
+              class="bdga-chart__legend"
+              data-bdga-chart-legend=""
+            />
+            
+  
+  
+  
+  
+  
+  
+            <output
+              aria-atomic="true"
+              aria-live="polite"
+              class="bdga-chart__status visually-hidden"
+              data-bdga-chart-status=""
+              id="test-stacked__status"
+              role="status"
+            />
+            
+
+  
+            <div
+              aria-hidden="true"
+              class="bdga-chart__canvas"
+              data-bdga-chart-canvas=""
+            />
+            
+
+  
+            <div
+              class="bdga-chart__error"
+              data-bdga-chart-error=""
+              hidden=""
+              id="test-stacked__error"
+              role="alert"
+            >
+              
+    Chart unavailable. The data source could not be loaded or validated.
+  
+            </div>
+            
+
+  
+            <details
+              class="bdga-chart__data"
+              id="test-stacked__data"
+            >
+              
+    
+              <summary
+                class="bdga-chart__data-toggle"
+              >
+                Show underlying data
+              </summary>
+              
+    
+              <table
+                class="bdga-chart__table"
+                data-bdga-chart-data=""
+              >
+                
+      
+                <caption
+                  class="visually-hidden"
+                >
+                  Test chart - data table
+                </caption>
+                
+              
+                <thead>
+                  
+          
+                  <tr>
+                    
+            
+                    <th
+                      data-bdga-key="source"
+                      scope="col"
+                    >
+                      source
+                    </th>
+                    
+            
+                          
+                    <th
+                      data-bdga-key="gains"
+                      scope="col"
+                    >
+                      gains
+                    </th>
+                    
+                          
+                    <th
+                      data-bdga-key="losses"
+                      scope="col"
+                    >
+                      losses
+                    </th>
+                    
+                      
+                  </tr>
+                  
+        
+                </thead>
+                
+        
+                <tbody>
+                  
+                      
+                  <tr>
+                    
+              
+                    <th
+                      data-bdga-key="source"
+                      scope="row"
+                    >
+                      Q1
+                    </th>
+                    
+                              
+                    <td
+                      data-bdga-key="gains"
+                      data-value="30"
+                    >
+                      30
+                    </td>
+                    
+                              
+                    <td
+                      data-bdga-key="losses"
+                      data-value="-10"
+                    >
+                      -10
+                    </td>
+                    
+                          
+                  </tr>
+                  
+                      
+                  <tr>
+                    
+              
+                    <th
+                      data-bdga-key="source"
+                      scope="row"
+                    >
+                      Q2
+                    </th>
+                    
+                              
+                    <td
+                      data-bdga-key="gains"
+                      data-value="20"
+                    >
+                      20
+                    </td>
+                    
+                              
+                    <td
+                      data-bdga-key="losses"
+                      data-value="-40"
+                    >
+                      -40
+                    </td>
+                    
+                          
+                  </tr>
+                  
+                  
+                </tbody>
+                
+          
+              </table>
+              
+  
+            </details>
+            
+
+  
+          </figure>
+          
+
+        </div>
+        
+
+      </div>
+      
+
+    </div>
+    
+
+  </div>
+  
+
+</div>
+`;
+
 exports[`Chart Component swap variant renders the icon control and drops the toolbar table button 1`] = `
 <div>
   
